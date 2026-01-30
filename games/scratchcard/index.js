@@ -10,6 +10,9 @@ const config = {
             title: 'FRUITPICKER',
             subtitle: 'Win up to $100!!',
             matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
+            maxMatch: 5,
+            gridSize: 25,
+            rate: 0.1,
             footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
         },
         list: []
@@ -37,6 +40,35 @@ function skipScratch() {
     updateProgress();
 }
 
+function onOverlayClick() {
+    config.scratching = event.type == 'mousedown';
+}
+
+function onOverlayClickMove() {
+    event.preventDefault();
+    if(config.scratching) {
+        console.log('click', event.offsetX, event.offsetY);
+        scratch(event.offsetX, event.offsetY);
+    }
+}
+
+function onOverlayTouch() {
+    config.scratching = event.type == 'touchstart';
+}
+
+function onOverlayTouchMove() {
+    event.preventDefault();
+    if(config.scratching && document.querySelector('#overlay')) {
+        let overlay = document.querySelector('#overlay').getBoundingClientRect();
+        let touch = event.touches[0];
+        // position based on screen
+        let currentX = touch.clientX - overlay.x;
+        let currentY = touch.clientY - overlay.y;
+        // console.log('touch', touch, currentX, currentY);
+        scratch(currentX, currentY);
+    }
+}
+
 //--EVENT HANDLERS--//
 
 
@@ -54,21 +86,28 @@ function setDailyCard() {
 }
 
 function renderCard() {
-    // reset card, set dimensions and card odds
+    // reset card
     scratcherSvg.innerHTML = '';
     scratcherSvg.removeAttribute('data-complete');
+    // render by type
+    if(config.card.active.type == 'match')
+        renderMatchCard();
+}
+
+function renderMatchCard() {
+    // set dimensions and card odds
     scratcherSvg.style.setProperty('--width', config.card.active.width + 'px');
-    config.card.active.grid = new Array(25).fill(false).reduce((total, current, idx, arr) => {
-        if(total.filter(a => a).length < 5 && Math.random() < 0.1)
+    config.card.active.grid = new Array(config.card.active.gridSize).fill(false).reduce((total, current, idx, arr) => {
+        if(total.filter(a => a).length < config.card.active.maxMatch && Math.random() < config.card.active.rate)
             total.push(1);
         else
             total.push(0);
         return total;
     }, []);
+    config.scratch.overlay = new Array(config.card.active.width * config.card.active.height).fill(false);
     // set view and overlay for svg
     let viewBox = [0, 0, config.card.active.width, config.card.active.height];
     scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
-    config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(false);
     // header: card logo, name, punchline
     // logo
     let blockPos = viewBox[1];
@@ -188,35 +227,6 @@ function renderCard() {
     footerDiv.classList.add('footer');
     footerArea.appendChild(footerDiv);
     scratcherSvg.appendChild(footerArea);
-}
-
-function onOverlayClick() {
-    config.scratching = event.type == 'mousedown';
-}
-
-function onOverlayClickMove() {
-    event.preventDefault();
-    if(config.scratching) {
-        console.log('click', event.offsetX, event.offsetY);
-        scratch(event.offsetX, event.offsetY);
-    }
-}
-
-function onOverlayTouch() {
-    config.scratching = event.type == 'touchstart';
-}
-
-function onOverlayTouchMove() {
-    event.preventDefault();
-    if(config.scratching && document.querySelector('#overlay')) {
-        let overlay = document.querySelector('#overlay').getBoundingClientRect();
-        let touch = event.touches[0];
-        // position based on screen
-        let currentX = touch.clientX - overlay.x;
-        let currentY = touch.clientY - overlay.y;
-        // console.log('touch', touch, currentX, currentY);
-        scratch(currentX, currentY);
-    }
 }
 
 function scratch(x, y) {
