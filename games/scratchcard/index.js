@@ -24,7 +24,8 @@ const config = {
                 logo: '🧨',
                 title: 'FIRECRACKER',
                 subtitle: 'Win $888!!',
-                matches: ['🧨'],
+                match: '🧨',
+                matches: ['🧨','💥'],
                 minMatch: 3,
                 gridSize: 3,
                 winRate: 0.1,
@@ -143,7 +144,7 @@ function renderMatchCard() {
     scratcherSvg.style.setProperty('--width', activeCard.width + 'px');
     if(!activeCard.match)
         activeCard.match = activeCard.matches[Math.floor(activeCard.matches.length*Math.random())];
-    let mismatches = activeCard.matches.length > 1 ? activeCard.matches.filter(m => m != activeCard.match) : activeCard.match;
+    let mismatches = activeCard.matches.filter(m => m != activeCard.match);
     activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
         if(total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.winRate)
             total.push(activeCard.match);
