@@ -207,7 +207,7 @@ function renderMatchCard() {
     gridArea.setAttribute('height', 0.1 * viewBox[3]);
         let gridAreaDiv = document.createElement('div');
         gridAreaDiv.classList.add('lineup');
-        gridAreaDiv.innerText = match;
+        gridAreaDiv.innerText = activeCard.match;
         gridArea.appendChild(gridAreaDiv);
     scratcherSvg.appendChild(gridArea);
     // scratch overlay (canvas)
