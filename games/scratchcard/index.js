@@ -237,7 +237,7 @@ function renderMatchCard() {
     // update pos
     blockPos += 0.1 * viewBox[3];
     // prizes: 5 by 5 grid (0.1 width, 0.1 height)
-    for(let i = 0; i < 25; i++) {
+    for(let i = 0; i < activeCard.gridSize; i++) {
         if(activeCard.grid.length < i) continue;
         let item = activeCard.grid[i];
         let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
@@ -259,7 +259,7 @@ function renderMatchCard() {
     ctx.fillStyle = config.scratch.color;
     ctx.fillRect(0, 0, 0.9 * viewBox[2], 0.6 * viewBox[3]);
     // update pos
-    blockPos += 0.5 * viewBox[3];
+    blockPos += (Math.floor(activeCard / 5) * 0.1) * viewBox[3];
     // footer: instructions, condition to win
     let footerArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     footerArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
