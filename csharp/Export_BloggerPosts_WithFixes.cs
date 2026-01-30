@@ -28,6 +28,8 @@ public class Program {
 	static string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 	static string HOMEPAGE_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/homepage.html";
 	static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/index.html";
+	static string FEED_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/feed.xml";
+	static string FEED_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/feed.xml";
 	static string POST_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/post.html";
     static string REPLACE_TEXT_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/posts/mapping.txt";
 
@@ -35,6 +37,9 @@ public class Program {
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool HOMEPAGE_ONLY = false;
+	static bool FEED_ONLY = false;
+	static bool FEED_ITEM_SIZE = 10;
+	static string FEED_DOMAIN_URL = "https://knreports.onrender.com/";
 	static bool WRITE_PROGRESS_ON_CONSOLE = true;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
 	static bool WRITE_FIXES_ON_CONSOLE = false;
@@ -108,6 +113,7 @@ public class Program {
 		Console.WriteLine(new String('=', Console.WindowWidth));
 		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
 		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
+		if(FEED_ONLY) Console.WriteLine("> FEED_ONLY is " + FEED_ONLY + "; Set as False to update posts");
 		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as False to update posts");
 		if(DEBUG_MODE) Console.WriteLine("> DEBUG_MODE is " + DEBUG_MODE + "; Set as False to hide debugging");
 		Console.WriteLine(new String('=', Console.WindowWidth));
@@ -117,8 +123,9 @@ public class Program {
 		var xmlElements = INPUT_SEARCH_FILE_FORMAT == ".xml" ? GetBloggerPostsPublishedFromXml(inputFileDirs) : GetBloggerPostsPublishedFromAtom(inputFileDirs);
         var bloggerPosts = GenerateBloggerPosts(xmlElements);
 		var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
-		var homepageString = ProcessBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
-		GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
+		var blogOutput = ProcessBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
+		GenerateHomepage(blogOutput.Homepage, bloggerPosts.ToList().Count);
+		GenerateFeed(blogOutput.Feed);
 		Console.WriteLine();
 		if(WRITE_FIXES_ON_CONSOLE)
 		{
@@ -325,7 +332,7 @@ public class Program {
 		return linkedList;
 	}
 
-	static string ProcessBloggerPosts(List<BloggerPost> blogPosts, List<LinkedListItem> linkedList, string outputFileDir)
+	static BlogOutput ProcessBloggerPosts(List<BloggerPost> blogPosts, List<LinkedListItem> linkedList, string outputFileDir)
 	{
 		// Create output folder if missing
 		if(!Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
@@ -341,6 +348,7 @@ public class Program {
 			Console.WriteLine("=== POSTS_SEARCHTERM is non empty, search mode activated ===");
 		// Process XML content per post
 		var homepageString = new StringBuilder();
+		var feedString = new StringBuilder();
 		for (var p = 0; p < blogPosts.Count(); p++)
 		{
 			var entry = blogPosts[p];
@@ -398,7 +406,7 @@ public class Program {
 			var pageLink = entry.DestinationUrl;
 			var pageIndex = linkedList.FindIndex(l => l.Destination == pageLink);
 			// Process page content
-			if(!HOMEPAGE_ONLY && publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
+			if(!HOMEPAGE_ONLY && !FEED ONLY && publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
 			{
 				// TODO:
 				// Fix post attributes
@@ -453,20 +461,9 @@ public class Program {
 				}
 				var publishDateString = publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz");
 				var updateDateString = updateDate.ToString("yyyy-MM-ddTHH:mm:sszzz");
-				// header.AppendLine("<a class=\"back material-icons\" href=\"../../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
-				// header.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-				// header.AppendLine("<a class=\"share material-icons\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
-				// header.AppendLine("<a class=\"like bordered material-icons\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite_border</a>");
-				// article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-				// header.Append("<div class=\"post-info\">");
 				header.Append("<small tabIndex=\"0\" data-published=\"" + publishDateString + "\"" +
 					(publishDateString == updateDateString ? "" : (" data-updated=\"" + updateDateString + "\"")) +
 					" class=\"post-date\">" + publishDate.ToString("dddd dd MMMM yyyy") + "</small>");
-				// header.Append("<span>");
-				// article.Append("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
-				// article.Append("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
-				// article.Append("</span>");
-				// article.AppendLine("</div>");
 				if(postContent.Contains("id=\""))
 					article.AppendLine("<div class=\"post-hashtags\"></div>");
 				// Actual content to put in post-content class, HTML condensed
@@ -548,11 +545,21 @@ public class Program {
 						"<a onclick=\"processClickLink()\" href=\""+pageLink+"\">" + postTitle + "</a></div>");
 				}
 			}
+			// Add post content to feed
+			if(p < FEED_ITEM_SIZE)
+			{
+				var feedItemTemplate = "<item><title>_TITLE_</title><link>_URL_</link><guid isPermaLink=\"true\">_URL_</guid><pubDate>_DATE_</pubDate><content:encoded><![CDATA[_CONTENT_]]></content:encoded></item>";
+				feedString.AppendLine(feedItemTemplate
+					.Replace("_TITLE_", postTitle)
+					.Replace("_URL_", FEED_DOMAIN_URL + pageLink)
+					.Replace("_DATE_", publishDate.AddHours(-8).ToString("R")) // RFC-1123 date format, GMT timezone
+					.Replace("_CONTENT_", postContent));
+			}
 		}
 		// Show collated label counts
 		if (DEBUG_MODE) Console.WriteLine("Print labels total count");
 		if (SHOW_POST_LABELs_COUNT) Console.WriteLine(labelCounts.OrderByDescending(x => x.Value));
-		return homepageString.ToString();
+		return new BlogOutput(homepageString.ToString(), feedString.ToString());
 	}
 
 	static void GenerateHomepage(string homepageString, int postCount)
@@ -567,6 +574,20 @@ public class Program {
 			.Replace("_COUNT_", postCount.ToString());
 		// Write into homepage file
 		File.WriteAllText(HOMEPAGE_FILENAME, fileString);
+	}
+
+	static void GenerateFeed(string feedString)
+	{
+		if (DEBUG_MODE) Console.WriteLine("Writing feed...");
+		// Write all additions into output home page
+		string fileString = File.ReadAllText(FEED_TEMPLATE_FILENAME)
+			.Replace("_TITLE_", HTML_TITLE)
+			.Replace("_DESCRIPTION_", HTML_DESCRIPTION_DEFAULT)
+			.Replace("_URL_", FEED_DOMAIN_URL)
+			.Replace("_DATE_", DateTime.Now.AddHours(-8)ToString("R")) // RFC-1123 date format, GMT timezone
+			.Replace("_FEED_", feedString.ToString());
+		// Write into feed file
+		File.WriteAllText(FEED_FILENAME, fileString);
 	}
 
 	static string GenerateStyleLinks(string content)
@@ -1243,6 +1264,18 @@ public class BloggerPost
         Tags = pageTags;
         Content = postContent;
     }
+}
+
+public class BlogOutput
+{
+	public string Homepage { get; set; }
+	public string Feed { get; set; }
+
+	public BlogOutput(string home, string feed)
+	{
+		Homepage = home;
+		Feed = feed;
+	}
 }
 
 public class PrintItem
