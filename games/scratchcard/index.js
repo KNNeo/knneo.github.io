@@ -10,12 +10,26 @@ const config = {
             title: 'FRUITPICKER',
             subtitle: 'Win up to $100!!',
             matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
+            minMatch: 3,
             maxMatch: 5,
             gridSize: 25,
-            rate: 0.1,
+            winRate: 0.1,
             footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
         },
-        list: []
+        list: [example, {
+                type: 'match',
+                width: 600,
+                height: 400,
+                background: 'red',
+                logo: '🧨',
+                title: 'FIRECRACKER',
+                subtitle: 'Win up to $888!!',
+                gridSize: 3,
+                minMatch: 3,
+                winRate: 0.1,
+                footer: 'Scratch to find out if you won!'
+            },
+        ]
     },
     scratch: {
         threshold: 70,
@@ -35,8 +49,7 @@ const config = {
 //--DOM NODE REFERENCES--//
 const scratcherSvg = document.querySelector('svg#scratcher');
 
-
-//--DOM FUNCTIONS--//
+//--EVENT HANDLERS--//
 function skipScratch() {
     let viewBox = scratcherSvg.getAttribute('viewBox').split(' ').map(v => parseInt(v));
     config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(true);
@@ -72,14 +85,15 @@ function onOverlayTouchMove() {
     }
 }
 
-//--EVENT HANDLERS--//
-
-
 //--FUNCTIONS--//
 function loadCard() {
     config.card.active = JSON.parse(localStorage.getItem(config.storage.id));
     if(!config.card.active)
         setDailyCard();
+}
+
+function setDailyCard() {
+    config.card.active = copyCard(config.card.example);
 }
 
 function saveCard() {
@@ -88,10 +102,6 @@ function saveCard() {
 
 function copyCard(card) {
     return JSON.parse(JSON.stringify(card));
-}
-
-function setDailyCard() {
-    config.card.active = copyCard(config.card.example);
 }
 
 function renderCard() {
@@ -107,7 +117,7 @@ function renderMatchCard() {
     // set dimensions and card odds
     scratcherSvg.style.setProperty('--width', config.card.active.width + 'px');
     config.card.active.grid = new Array(config.card.active.gridSize).fill(false).reduce((total, current, idx, arr) => {
-        if(total.filter(a => a).length < config.card.active.maxMatch && Math.random() < config.card.active.rate)
+        if(total.filter(a => a).length < config.card.active.maxMatch && Math.random() < config.card.active.winRate)
             total.push(1);
         else
             total.push(0);
@@ -303,7 +313,8 @@ function updateProgress() {
 }
 
 function displayResult() {
-    if(config.card.active.grid.filter(g => g).length >= 3)
+    let matches = config.card.active.grid.filter(g => g).length;
+    if(matches >= config.card.active.minMatch && matches <= config.card.active.maxMatch)
         popupContent(config.message.win);
     else
         popupContent(config.message.lose);
