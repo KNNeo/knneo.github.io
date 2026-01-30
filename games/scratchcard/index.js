@@ -243,7 +243,7 @@ function renderMatchCard() {
             gridAreaDiv.innerText = item;
             if(item) {
                 gridAreaDiv.classList.add('win');
-                gridAreaDiv.innerText = match;
+                gridAreaDiv.innerText = activeCard.match;
             }
             gridArea.appendChild(gridAreaDiv);
         scratcherSvg.appendChild(gridArea);
