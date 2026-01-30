@@ -19,7 +19,7 @@ const config = {
             },{
                 type: 'match',
                 width: 300,
-                height: 300,
+                height: 200,
                 background: 'red',
                 logo: '🧨',
                 title: 'FIRECRACKER',
@@ -222,11 +222,11 @@ function renderMatchCard() {
     overlayArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     overlayArea.setAttribute('y', blockPos);
     overlayArea.setAttribute('width', 0.9 * viewBox[2]);
-    overlayArea.setAttribute('height', 0.6 * viewBox[3]);
+    overlayArea.setAttribute('height', ((Math.ceil(activeCard.gridSize / 5) * 0.1) + 0.1) * viewBox[3]);
     let overlay = document.createElement('canvas');
     overlay.id = 'overlay';
     overlay.setAttribute('width', 0.9 * viewBox[2]);
-    overlay.setAttribute('height', 0.6 * viewBox[3]);
+    overlay.setAttribute('height', ((Math.ceil(activeCard.gridSize / 5) * 0.1) + 0.1) * viewBox[3]);
     overlay.onmousedown = onOverlayClick;
     overlay.onmousemove = onOverlayClickMove;
     overlay.onmouseup = onOverlayClick;
