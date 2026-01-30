@@ -47,7 +47,7 @@ function renderCard() {
     scratcherSvg.removeAttribute('data-complete');
     scratcherSvg.style.setProperty('--width', config.card.width + 'px');
     config.card.grid = new Array(25).fill(false).reduce((total, current, idx, arr) => {
-        if(total.filter(a => a).length < 5 && Math.random() < 0.05)
+        if(total.filter(a => a).length < 5 && Math.random() < 0.1)
             total.push(1);
         else
             total.push(0);
