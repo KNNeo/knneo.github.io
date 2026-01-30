@@ -98,7 +98,7 @@ function selectCard() {
     for(let opt of config.card.list) {
         let option = document.createElement('button');
         option.innerText = opt.title;
-        option.addEventListener('click', onSelectCard);
+        option.setAttribute('onclick', 'onSelectCard()');
         container.appendChild(option);
     }
     popupContent(container);
