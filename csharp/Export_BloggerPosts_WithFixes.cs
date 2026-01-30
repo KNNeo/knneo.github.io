@@ -38,7 +38,7 @@ public class Program {
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool HOMEPAGE_ONLY = false;
 	static bool FEED_ONLY = false;
-	static bool FEED_ITEM_SIZE = 10;
+	static int FEED_ITEM_SIZE = 10;
 	static string FEED_DOMAIN_URL = "https://knreports.onrender.com/";
 	static bool WRITE_PROGRESS_ON_CONSOLE = true;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
@@ -406,7 +406,7 @@ public class Program {
 			var pageLink = entry.DestinationUrl;
 			var pageIndex = linkedList.FindIndex(l => l.Destination == pageLink);
 			// Process page content
-			if(!HOMEPAGE_ONLY && !FEED ONLY && publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
+			if(!HOMEPAGE_ONLY && !FEED_ONLY && publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
 			{
 				// TODO:
 				// Fix post attributes
@@ -584,8 +584,8 @@ public class Program {
 			.Replace("_TITLE_", HTML_TITLE)
 			.Replace("_DESCRIPTION_", HTML_DESCRIPTION_DEFAULT)
 			.Replace("_URL_", FEED_DOMAIN_URL)
-			.Replace("_DATE_", DateTime.Now.AddHours(-8)ToString("R")) // RFC-1123 date format, GMT timezone
-			.Replace("_FEED_", feedString.ToString());
+			.Replace("_DATE_", DateTime.Now.AddHours(-8).ToString("R")) // RFC-1123 date format, GMT timezone
+			.Replace("_FEED_", feedString);
 		// Write into feed file
 		File.WriteAllText(FEED_FILENAME, fileString);
 	}
