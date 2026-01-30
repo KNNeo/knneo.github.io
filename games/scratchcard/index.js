@@ -130,8 +130,10 @@ function renderCard() {
     // render by type
     if(config.card.active.type == 'match')
         renderMatchCard();
-    if(config.card.active.complete)
-        displayResult();
+    if(config.card.active.complete) {
+        config.scratch.overlay = new Array(activeCard.width * activeCard.height).fill(true);
+        updateProgress();
+    }
 }
 
 function renderMatchCard() {
