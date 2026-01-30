@@ -26,6 +26,9 @@ const config = {
     message: {
         win: 'YOU WIN!!',
         lose: 'Better luck next time!'
+    },
+    storage: {
+        id: 'scratchcard-v1'
     }
 };
 
@@ -73,8 +76,17 @@ function onOverlayTouchMove() {
 
 
 //--FUNCTIONS--//
+function loadCard() {
+    try {
+        config.card.active = JSON.parse(localStorage.getItem(config.storage.id));
+    }
+    catch {
+        setDailyCard();
+    }
+}
+
 function saveCard() {
-    localStorage.setItem(, JSON.stringify(config.card.active));
+    localStorage.setItem(config.storage.id, JSON.stringify(config.card.active));
 }
 
 function copyCard(card) {
@@ -295,59 +307,71 @@ function updateProgress() {
 
 function displayResult() {
     if(config.card.active.grid.filter(g => g).length >= 3)
-        popupText(config.message.win);
+        popupContent(config.message.win);
     else
-        popupText(config.message.lose);
+        popupContent(config.message.lose);
     saveCard();
 }
 
 //--DIALOG--//
-function popupText(input) {
-	let dialogDiv = document.querySelector('.dialog');
-	if (dialogDiv == null) {
-		dialogDiv = document.createElement('div');
-		dialogDiv.classList.add('dialog');
-		document.body.appendChild(dialogDiv);
+function popupContent(input) {
+	if (!input) {
+		alert('No content found');
+		return;
 	}
-	let dialog = createDialog(input);
-	dialogDiv.innerHTML = '';
-	dialogDiv.appendChild(dialog);
+	// create dialog component if missing
+	let dialog = document.querySelector('.dialog');
+	if (!dialog) {
+		dialog = document.createElement('dialog');
+		dialog.tabIndex = 0;
+		dialog.addEventListener('click', function () {
+			if (event.target == document.querySelector('dialog'))
+				removeDialog();
+		});
+		dialog.addEventListener('keyup', function () {
+			if (event.key != 'Space' || event.key != 'Enter') return;
+			if (event.target.closest('.content')) return;
+			event.preventDefault();
+			removeDialog();
+		});
+		document.body.appendChild(dialog);
+	}
+	dialog.className = 'dialog';
+
+	let dialogListDiv = createDialog(input);
+	dialog.innerHTML = '';
+	dialog.appendChild(dialogListDiv);
 	dialog.showModal();
+	setTimeout(function () {
+		document.querySelector('.dialog').classList.add('open');
+	}, 0);
 }
 
 function createDialog(node) {
-	// node in dialog will not have events!
-	let dialog = document.createElement('dialog');
-	if (!dialog.classList.contains('box'))
-		dialog.classList.add('box');
-	if (typeof node == 'string')
-		dialog.innerHTML = node;
-	if (typeof node == 'object') {
-		let clonedNode = node.cloneNode(true);
-		dialog.appendChild(clonedNode);
+	// Helper function to create dialog with content
+	// Note: Node in dialog will not have events! Manual add back or write as attribute!
+	let box = document.createElement('div');
+	if (typeof node == 'string') {
+		box.classList.add('box');
+		box.innerHTML = node;
 	}
-	dialog.addEventListener('click', function () {
-		if (event.target.parentElement == document.querySelector('.dialog'))
-			removeDialog();
-	});
-	dialog.addEventListener('keyup', function () {
-		if (event.key === 'Enter')
-			this.remove();
-	});
-	return dialog;
+	if (typeof node == 'object') {
+		box.classList.add('content');
+		let clonedNode = node.cloneNode(true);
+		box.appendChild(clonedNode);
+	}
+	return box;
 }
 
 function removeDialog() {
-	if (event)
-		event.preventDefault(); // Prevent the default form submission
-	let dialogDiv = document.querySelector('.dialog');
-	if (dialogDiv != null) {
-		dialogDiv.remove();
-	}
+	document.querySelector('.dialog')?.classList.remove('open');
+	setTimeout(function () {
+		document.querySelector('.dialog')?.close();
+	}, 250);
 }
 
 //--INITIAL--//
 function startup() {
-    setDailyCard();
+    loadCard();
     renderCard();
 }
