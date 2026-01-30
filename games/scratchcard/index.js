@@ -1,14 +1,18 @@
 //--DEFAULT SETTINGS--//
 const config = {
     card: {
-        width: 400,
-        height: 600,
-        logo: '🍒',
-        title: 'FRUITPICKER',
-        subtitle: 'Win up to $100!!',
-        matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
-        grid: [], // max 25, to override
-        footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
+        active: {},
+        example: {
+            type: 'match',
+            width: 400,
+            height: 600,
+            logo: '🍒',
+            title: 'FRUITPICKER',
+            subtitle: 'Win up to $100!!',
+            matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
+            footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
+        },
+        list: []
     },
     scratch: {
         threshold: 70,
@@ -37,16 +41,24 @@ function skipScratch() {
 
 
 //--FUNCTIONS--//
+function saveCard() {
+    localStorage.setItem(, JSON.stringify(config.card.active));
+}
+
+function copyCard(card) {
+    return JSON.parse(JSON.stringify(card));
+}
+
 function setDailyCard() {
-    config.card = {};
+    config.card.active = copyCard(config.card.example);
 }
 
 function renderCard() {
     // reset card, set dimensions and card odds
     scratcherSvg.innerHTML = '';
     scratcherSvg.removeAttribute('data-complete');
-    scratcherSvg.style.setProperty('--width', config.card.width + 'px');
-    config.card.grid = new Array(25).fill(false).reduce((total, current, idx, arr) => {
+    scratcherSvg.style.setProperty('--width', config.card.active.width + 'px');
+    config.card.active.grid = new Array(25).fill(false).reduce((total, current, idx, arr) => {
         if(total.filter(a => a).length < 5 && Math.random() < 0.1)
             total.push(1);
         else
@@ -54,7 +66,7 @@ function renderCard() {
         return total;
     }, []);
     // set view and overlay for svg
-    let viewBox = [0, 0, config.card.width, config.card.height];
+    let viewBox = [0, 0, config.card.active.width, config.card.active.height];
     scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
     config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(false);
     // header: card logo, name, punchline
@@ -67,7 +79,7 @@ function renderCard() {
     logoArea.setAttribute('height', 0.15 * viewBox[3]);
     let logoDiv = document.createElement('div');
     logoDiv.classList.add('logo');
-    logoDiv.innerText = config.card.logo;
+    logoDiv.innerText = config.card.active.logo;
     logoArea.appendChild(logoDiv);
     scratcherSvg.appendChild(logoArea);
     // update pos
@@ -80,7 +92,7 @@ function renderCard() {
     nameArea.setAttribute('height', 0.1 * viewBox[3]);
     let nameDiv = document.createElement('div');
     nameDiv.classList.add('name');
-    nameDiv.innerText = config.card.title;
+    nameDiv.innerText = config.card.active.title;
     nameArea.appendChild(nameDiv);
     scratcherSvg.appendChild(nameArea);
     // update pos
@@ -92,7 +104,7 @@ function renderCard() {
     punchlineArea.setAttribute('width', 0.9 * viewBox[2]);
     punchlineArea.setAttribute('height', 0.05 * viewBox[3]);
     let punchlineDiv = document.createElement('div');
-    punchlineDiv.innerText = config.card.subtitle;
+    punchlineDiv.innerText = config.card.active.subtitle;
     punchlineArea.appendChild(punchlineDiv);
     scratcherSvg.appendChild(punchlineArea);
     // update pos
@@ -108,7 +120,7 @@ function renderCard() {
     grid.setAttribute('height', 0.6 * viewBox[3]);
     scratcherSvg.appendChild(grid);
     // matches: 1 by 5 grid (0.1 width, 0.1 height)
-    let match = config.card.matches[Math.floor(config.card.matches.length*Math.random())];
+    let match = config.card.active.matches[Math.floor(config.card.active.matches.length*Math.random())];
     let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     gridArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     gridArea.setAttribute('y', blockPos);
@@ -139,10 +151,10 @@ function renderCard() {
     // update pos
     blockPos += 0.1 * viewBox[3];
     // prizes: 5 by 5 grid (0.1 width, 0.1 height)
-    let mismatches = config.card.matches.filter(m => m != match);
+    let mismatches = config.card.active.matches.filter(m => m != match);
     for(let i = 0; i < 25; i++) {
-        if(config.card.grid.length < i) continue;
-        let item = config.card.grid[i];
+        if(config.card.active.grid.length < i) continue;
+        let item = config.card.active.grid[i];
         let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
         gridArea.setAttribute('x', 0.125 * viewBox[2] + (i % 5) * 0.15 * viewBox[2]);
         gridArea.setAttribute('y', blockPos + Math.floor(i / 5) * 0.1 * viewBox[3]);
@@ -172,7 +184,7 @@ function renderCard() {
     footerArea.setAttribute('width', 0.9 * viewBox[2]);
     footerArea.setAttribute('height', 0.1 * viewBox[3]);
     let footerDiv = document.createElement('div');
-    footerDiv.innerText = config.card.footer;
+    footerDiv.innerText = config.card.active.footer;
     footerDiv.classList.add('footer');
     footerArea.appendChild(footerDiv);
     scratcherSvg.appendChild(footerArea);
@@ -272,10 +284,11 @@ function updateProgress() {
 }
 
 function displayResult() {
-    if(config.card.grid.filter(g => g).length >= 3)
+    if(config.card.active.grid.filter(g => g).length >= 3)
         popupText(config.message.win);
     else
         popupText(config.message.lose);
+    saveCard();
 }
 
 //--DIALOG--//
@@ -325,5 +338,6 @@ function removeDialog() {
 
 //--INITIAL--//
 function startup() {
+    setDailyCard();
     renderCard();
 }
