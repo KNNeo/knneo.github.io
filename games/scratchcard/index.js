@@ -2,24 +2,24 @@
 const config = {
     card: {
         active: {},
-        example: {
-            type: 'match',
-            width: 400,
-            height: 600,
-            logo: '🍒',
-            title: 'FRUITPICKER',
-            subtitle: 'Win up to $100!!',
-            matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
-            minMatch: 3,
-            maxMatch: 5,
-            gridSize: 25,
-            winRate: 0.1,
-            footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
-        },
-        list: [example, {
+        example: () => { return config.card.list[0] },
+        list: [{
                 type: 'match',
-                width: 600,
-                height: 400,
+                width: 400,
+                height: 600,
+                logo: '🍒',
+                title: 'FRUITPICKER',
+                subtitle: 'Win up to $100!!',
+                matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
+                minMatch: 3,
+                maxMatch: 5,
+                gridSize: 25,
+                winRate: 0.1,
+                footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
+            },{
+                type: 'match',
+                width: 300,
+                height: 200,
                 background: 'red',
                 logo: '🧨',
                 title: 'FIRECRACKER',
