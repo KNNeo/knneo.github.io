@@ -115,6 +115,7 @@ function setDailyCard() {
 }
 
 function saveCard() {
+    config.card.active.complete = 1;
     localStorage.setItem(config.storage.id, JSON.stringify(config.card.active));
 }
 
@@ -129,6 +130,8 @@ function renderCard() {
     // render by type
     if(config.card.active.type == 'match')
         renderMatchCard();
+    if(config.card.active.complete)
+        displayResult();
 }
 
 function renderMatchCard() {
@@ -241,10 +244,8 @@ function renderMatchCard() {
             let gridAreaDiv = document.createElement('div');
             gridAreaDiv.classList.add('prize');
             gridAreaDiv.innerText = item;
-            if(item) {
+            if(item == activeCard.match)
                 gridAreaDiv.classList.add('win');
-                gridAreaDiv.innerText = activeCard.match;
-            }
             gridArea.appendChild(gridAreaDiv);
         scratcherSvg.appendChild(gridArea);
     }
