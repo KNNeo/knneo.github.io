@@ -98,7 +98,7 @@ function selectCard() {
     for(let opt of config.card.list) {
         let option = document.createElement('button');
         option.innerText = opt.title;
-        option.onclick = onSelectCard;
+        option.addEventListener('click', onSelectCard);
         container.appendChild(option);
     }
     popupContent(container);
@@ -107,6 +107,7 @@ function selectCard() {
 function onSelectCard() {
     let card = config.card.list.find(c => c.title == event.target.innerText);
     config.card.active = copyCard(card);
+    renderCard();
 }
 
 function setDailyCard() {
