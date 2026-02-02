@@ -341,8 +341,8 @@ function displayResult() {
     let matches = config.card.active.grid.filter(g => g == config.card.active.match).length;
     if (!matches)
         return popupContent(config.message.lose);
-    for (let w = 1; w < config.card.active.matchWins.length; w++) {
-        if (matches > w - 1 && config.card.active.matchWins[w - 1] >= 0)
+    for (let w = config.card.active.matchWins.length - 1; w > 0; w--) {
+        if (matches >= w + 1 && config.card.active.matchWins[w] >= 0)
             return popupContent(config.message.win);
     }
     return popupContent(config.message.lose);
