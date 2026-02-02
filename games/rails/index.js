@@ -542,25 +542,25 @@ function chartProgress() {
 function moveCamera() {
 	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
 	switch(event?.target?.getAttribute('data-dir')) {
-		case: 'left':
+		case 'left':
 			let posX = parseInt(attributes[2]) - config.diagram.step;
 			let posY = parseInt(attributes[3]);
 			if (config.debug) console.log('left', x, y);
 			move(posX, posY);
 			break;
-		case: 'right':
+		case 'right':
 			let posX = parseInt(attributes[2]) + config.diagram.step;
 			let posY = parseInt(attributes[3]);
 			if (config.debug) console.log('right', x, y);
 			move(posX, posY);
 			break;
-		case: 'up':
+		case 'up':
 			let posX = parseInt(attributes[2]);
 			let posY = parseInt(attributes[3]) +- config.diagram.step;
 			if (config.debug) console.log('up', x, y);
 			move(posX, posY);
 			break;
-		case: 'down':
+		case 'down':
 			let posX = parseInt(attributes[2]);
 			let posY = parseInt(attributes[3]) + config.diagram.step;
 			if (config.debug) console.log('down', x, y);
