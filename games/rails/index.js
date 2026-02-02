@@ -524,7 +524,9 @@ function chartProgress() {
 		});
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
-		focus(train);
+		setTimeout(function() {
+			focus(train);
+		}, 1000);
 		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
