@@ -4,33 +4,32 @@ const config = {
         active: {},
         example: () => { return config.card.list[0] },
         list: [{
-                type: 'match',
-                width: 400,
-                height: 600,
-                logo: '🍒',
-                title: 'FRUITPICKER',
-                subtitle: 'Win up to $100!!',
-                matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
-                minMatch: 3,
-                maxMatch: 5,
-                gridSize: 25,
-                winRate: 0.1,
-                footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
-            },{
-                type: 'match',
-                width: 300,
-                height: 200,
-                background: 'red',
-                logo: '🧨',
-                title: 'FIRECRACKER',
-                subtitle: 'Win $888!!',
-                match: '🧨',
-                matches: ['🧨','💥'],
-                minMatch: 3,
-                gridSize: 3,
-                winRate: 0.1,
-                footer: 'Scratch to find out if you won!'
-            },
+            type: 'match',
+            width: 400,
+            height: 600,
+            logo: '🍒',
+            title: 'FRUITPICKER',
+            subtitle: 'Win up to $100!!',
+            matches: ['🍒', '🍌', '🥝', '🍇', '🍑', '🍎', '🍋', '🍍', '🍈', '🍊'],
+            matchWins: [0, 0, 1, 10, 100],
+            gridSize: 25,
+            winRate: 0.1,
+            footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
+        }, {
+            type: 'match',
+            width: 300,
+            height: 200,
+            background: 'red',
+            logo: '🧨',
+            title: 'FIRECRACKER',
+            subtitle: 'Win $888!!',
+            match: '🧨',
+            matches: ['🧨', '💥'],
+            matchWins: [0, 0, 888],
+            gridSize: 3,
+            winRate: 0.1,
+            footer: 'Scratch to find out if you won!'
+        },
         ]
     },
     scratch: {
@@ -64,7 +63,7 @@ function onOverlayClick() {
 
 function onOverlayClickMove() {
     event.preventDefault();
-    if(config.scratching) {
+    if (config.scratching) {
         console.log('click', event.offsetX, event.offsetY);
         scratch(event.offsetX, event.offsetY);
     }
@@ -76,7 +75,7 @@ function onOverlayTouch() {
 
 function onOverlayTouchMove() {
     event.preventDefault();
-    if(config.scratching && document.querySelector('#overlay')) {
+    if (config.scratching && document.querySelector('#overlay')) {
         let overlay = document.querySelector('#overlay').getBoundingClientRect();
         let touch = event.touches[0];
         // position based on screen
@@ -90,13 +89,13 @@ function onOverlayTouchMove() {
 //--FUNCTIONS--//
 function loadCard() {
     config.card.active = JSON.parse(localStorage.getItem(config.storage.id));
-    if(!config.card.active)
+    if (!config.card.active)
         setDailyCard();
 }
 
 function selectCard() {
     let container = document.createElement('div');
-    for(let opt of config.card.list) {
+    for (let opt of config.card.list) {
         let option = document.createElement('button');
         option.innerText = opt.title;
         option.setAttribute('onclick', 'onSelectCard()');
@@ -130,9 +129,9 @@ function renderCard() {
     scratcherSvg.innerHTML = '';
     scratcherSvg.removeAttribute('data-complete');
     // render by type
-    if(config.card.active.type == 'match')
+    if (config.card.active.type == 'match')
         renderMatchCard();
-    if(config.card.active.complete) {
+    if (config.card.active.complete) {
         config.scratch.overlay = new Array(config.card.active.width * config.card.active.height).fill(true);
         updateProgress();
     }
@@ -142,14 +141,14 @@ function renderMatchCard() {
     let activeCard = config.card.active;
     // set dimensions and card odds
     scratcherSvg.style.setProperty('--width', activeCard.width + 'px');
-    if(!activeCard.match)
-        activeCard.match = activeCard.matches[Math.floor(activeCard.matches.length*Math.random())];
+    if (!activeCard.match)
+        activeCard.match = activeCard.matches[Math.floor(activeCard.matches.length * Math.random())];
     let mismatches = activeCard.matches.filter(m => m != activeCard.match);
     activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
-        if(total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.winRate)
+        if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.winRate)
             total.push(activeCard.match);
         else
-            total.push(mismatches[Math.floor(mismatches.length*Math.random())]);
+            total.push(mismatches[Math.floor(mismatches.length * Math.random())]);
         return total;
     }, []);
     config.scratch.overlay = new Array(activeCard.width * activeCard.height).fill(false);
@@ -212,10 +211,10 @@ function renderMatchCard() {
     gridArea.setAttribute('y', blockPos);
     gridArea.setAttribute('width', 0.9 * viewBox[2]);
     gridArea.setAttribute('height', 0.1 * viewBox[3]);
-        let gridAreaDiv = document.createElement('div');
-        gridAreaDiv.classList.add('lineup');
-        gridAreaDiv.innerText = activeCard.match;
-        gridArea.appendChild(gridAreaDiv);
+    let gridAreaDiv = document.createElement('div');
+    gridAreaDiv.classList.add('lineup');
+    gridAreaDiv.innerText = activeCard.match;
+    gridArea.appendChild(gridAreaDiv);
     scratcherSvg.appendChild(gridArea);
     // scratch overlay (canvas)
     let overlayArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
@@ -237,20 +236,20 @@ function renderMatchCard() {
     // update pos
     blockPos += 0.1 * viewBox[3];
     // prizes: 5 by 5 grid (0.1 width, 0.1 height)
-    for(let i = 0; i < activeCard.gridSize; i++) {
-        if(activeCard.grid.length < i) continue;
+    for (let i = 0; i < activeCard.gridSize; i++) {
+        if (activeCard.grid.length < i) continue;
         let item = activeCard.grid[i];
         let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
         gridArea.setAttribute('x', 0.125 * viewBox[2] + (i % 5) * 0.15 * viewBox[2]);
         gridArea.setAttribute('y', blockPos + Math.floor(i / 5) * 0.1 * viewBox[3]);
         gridArea.setAttribute('width', 0.15 * viewBox[2]);
         gridArea.setAttribute('height', 0.1 * viewBox[3]);
-            let gridAreaDiv = document.createElement('div');
-            gridAreaDiv.classList.add('prize');
-            gridAreaDiv.innerText = item;
-            if(item == activeCard.match)
-                gridAreaDiv.classList.add('win');
-            gridArea.appendChild(gridAreaDiv);
+        let gridAreaDiv = document.createElement('div');
+        gridAreaDiv.classList.add('prize');
+        gridAreaDiv.innerText = item;
+        if (item == activeCard.match)
+            gridAreaDiv.classList.add('win');
+        gridArea.appendChild(gridAreaDiv);
         scratcherSvg.appendChild(gridArea);
     }
     scratcherSvg.appendChild(overlayArea);
@@ -279,7 +278,7 @@ function scratch(x, y) {
     let ctx = document.querySelector('#overlay')?.getContext('2d');
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    if(config.scratch.height) {
+    if (config.scratch.height) {
         let w = 15; // fixed width
         let h = config.scratch.height;
         ctx.rect(x - w / 2, y - h / 2, w, h);
@@ -297,7 +296,7 @@ function scratch(x, y) {
             }
         }
     }
-    if(config.scratch.radius) {
+    if (config.scratch.radius) {
         ctx.arc(x, y, config.scratch.radius, 0, Math.PI * 2);
         ctx.fill();
         // determine circle of scratch radius
@@ -329,78 +328,81 @@ function updateProgress() {
         // more than the threshold, clear the scratch layer completely
         scratcherSvg.setAttribute('data-complete', '');
         overlay?.getContext('2d').clearRect(0, 0, overlay.width, overlay.height);
-        if(document.querySelector('#overlay'))
+        if (document.querySelector('#overlay'))
             document.querySelector('#overlay').classList.add('hidden');
         // console.log('scratch complete!');
         config.scratching = false;
         displayResult();
+        saveCard();
     }
 }
 
 function displayResult() {
     let matches = config.card.active.grid.filter(g => g == config.card.active.match).length;
-    if(matches >= config.card.active.minMatch && matches <= config.card.active.maxMatch)
-        popupContent(config.message.win);
-    else
-        popupContent(config.message.lose);
-    saveCard();
+    if (!matches)
+        return popupContent(config.message.lose);
+    for (let w = 1; w < config.card.active.matchWins.length; w++) {
+        if (matches > w - 1 && config.card.active.matchWins[w - 1] >= 0)
+            return popupContent(config.message.win);
+    }
+    return popupContent(config.message.lose);
 }
 
 //--DIALOG--//
 function popupContent(input) {
-	if (!input) {
-		alert('No content found');
-		return;
-	}
-	// create dialog component if missing
-	let dialog = document.querySelector('.dialog');
-	if (!dialog) {
-		dialog = document.createElement('dialog');
-		dialog.tabIndex = 0;
-		dialog.addEventListener('click', function () {
-			if (event.target == document.querySelector('dialog'))
-				removeDialog();
-		});
-		dialog.addEventListener('keyup', function () {
-			if (event.key != 'Space' || event.key != 'Enter') return;
-			if (event.target.closest('.content')) return;
-			event.preventDefault();
-			removeDialog();
-		});
-		document.body.appendChild(dialog);
-	}
-	dialog.className = 'dialog';
+    if (!input) {
+        alert('No content found');
+        return;
+    }
+    // create dialog component if missing
+    let dialog = document.querySelector('.dialog');
+    if (!dialog) {
+        dialog = document.createElement('dialog');
+        dialog.tabIndex = 0;
+        dialog.addEventListener('click', function () {
+            if (event.target == document.querySelector('dialog'))
+                removeDialog();
+        });
+        dialog.addEventListener('keyup', function () {
+            if (event.key != 'Space' || event.key != 'Enter') return;
+            if (event.target.closest('.content')) return;
+            event.preventDefault();
+            removeDialog();
+        });
+        document.body.appendChild(dialog);
+    }
+    dialog.className = 'dialog';
 
-	let dialogListDiv = createDialog(input);
-	dialog.innerHTML = '';
-	dialog.appendChild(dialogListDiv);
-	dialog.showModal();
-	setTimeout(function () {
-		document.querySelector('.dialog').classList.add('open');
-	}, 0);
+    let dialogListDiv = createDialog(input);
+    dialog.innerHTML = '';
+    dialog.appendChild(dialogListDiv);
+    dialog.showModal();
+    setTimeout(function () {
+        document.querySelector('.dialog').classList.add('open');
+    }, 0);
 }
 
 function createDialog(node) {
-	// Helper function to create dialog with content
-	// Note: Node in dialog will not have events! Manual add back or write as attribute!
-	let box = document.createElement('div');
-	if (typeof node == 'string') {
-		box.classList.add('box');
-		box.innerHTML = node;
-	}
-	if (typeof node == 'object') {
-		box.classList.add('content');
-		let clonedNode = node.cloneNode(true);
-		box.appendChild(clonedNode);
-	}
-	return box;
+    // Helper function to create dialog with content
+    // Note: Node in dialog will not have events! Manual add back or write as attribute!
+    let box = document.createElement('div');
+    if (typeof node == 'string') {
+        box.classList.add('box');
+        box.innerHTML = node;
+    }
+    if (typeof node == 'object') {
+        box.classList.add('content');
+        let clonedNode = node.cloneNode(true);
+        box.appendChild(clonedNode);
+    }
+    return box;
 }
 
 function removeDialog() {
-	document.querySelector('.dialog')?.classList.remove('open');
-	setTimeout(function () {
-		document.querySelector('.dialog')?.close();
-	}, 250);
+    document.querySelector('.dialog')?.classList.remove('open');
+    setTimeout(function () {
+        document.querySelector('.dialog')?.close();
+    }, 250);
 }
 
 //--INITIAL--//
