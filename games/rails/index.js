@@ -545,20 +545,20 @@ function moveCamera() {
 	let posY = 0;
 	switch(event?.target?.getAttribute('data-dir')) {
 		case 'left':
-			posX = parseInt(attributes[2]) - config.diagram.step;
-			posY = parseInt(attributes[3]);
+			posX = parseInt(attributes[0]) - config.diagram.step;
+			posY = parseInt(attributes[1]);
 			break;
 		case 'right':
-			posX = parseInt(attributes[2]) + config.diagram.step;
-			posY = parseInt(attributes[3]);
+			posX = parseInt(attributes[0]) + config.diagram.step;
+			posY = parseInt(attributes[1]);
 			break;
 		case 'up':
-			posX = parseInt(attributes[2]);
-			posY = parseInt(attributes[3]) +- config.diagram.step;
+			posX = parseInt(attributes[0]);
+			posY = parseInt(attributes[1]) +- config.diagram.step;
 			break;
 		case 'down':
-			posX = parseInt(attributes[2]);
-			posY = parseInt(attributes[3]) + config.diagram.step;
+			posX = parseInt(attributes[0]);
+			posY = parseInt(attributes[1]) + config.diagram.step;
 			break;
 		default:
 			break;
