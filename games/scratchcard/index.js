@@ -144,13 +144,14 @@ function renderMatchCard() {
     if (!activeCard.match)
         activeCard.match = activeCard.matches[Math.floor(activeCard.matches.length * Math.random())];
     let mismatches = activeCard.matches.filter(m => m != activeCard.match);
-    activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
-        if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.winRate)
-            total.push(activeCard.match);
-        else
-            total.push(mismatches[Math.floor(mismatches.length * Math.random())]);
-        return total;
-    }, []);
+    if (!activeCard.grid || !activeCard.grid.length)
+        activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
+            if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.winRate)
+                total.push(activeCard.match);
+            else
+                total.push(mismatches[Math.floor(mismatches.length * Math.random())]);
+            return total;
+        }, []);
     config.scratch.overlay = new Array(activeCard.width * activeCard.height).fill(false);
     // set view and overlay for svg
     let viewBox = [0, 0, activeCard.width, activeCard.height];
