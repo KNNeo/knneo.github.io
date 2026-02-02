@@ -342,7 +342,8 @@ function displayResult() {
     if (!matches)
         return popupContent(config.message.lose);
     for (let w = config.card.active.matchWins.length - 1; w > 0; w--) {
-        if (matches >= w + 1 && config.card.active.matchWins[w] >= 0)
+        // find in array, value based on highest no of wins (so if array length = 5, but 6 wins (> 5), is value on array[4])
+        if (matches >= w + 1 && config.card.active.matchWins[w] > 0)
             return popupContent(config.message.win);
     }
     return popupContent(config.message.lose);
