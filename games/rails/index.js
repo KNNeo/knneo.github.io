@@ -545,25 +545,25 @@ function moveCamera() {
 		case 'left':
 			let posX = parseInt(attributes[2]) - config.diagram.step;
 			let posY = parseInt(attributes[3]);
-			if (config.debug) console.log('left', x, y);
+			if (config.debug) console.log('left', posX, posY);
 			move(posX, posY);
 			break;
 		case 'right':
 			let posX = parseInt(attributes[2]) + config.diagram.step;
 			let posY = parseInt(attributes[3]);
-			if (config.debug) console.log('right', x, y);
+			if (config.debug) console.log('right', posX, posY);
 			move(posX, posY);
 			break;
 		case 'up':
 			let posX = parseInt(attributes[2]);
 			let posY = parseInt(attributes[3]) +- config.diagram.step;
-			if (config.debug) console.log('up', x, y);
+			if (config.debug) console.log('up', posX, posY);
 			move(posX, posY);
 			break;
 		case 'down':
 			let posX = parseInt(attributes[2]);
 			let posY = parseInt(attributes[3]) + config.diagram.step;
-			if (config.debug) console.log('down', x, y);
+			if (config.debug) console.log('down', posX, posY);
 			move(posX, posY);
 			break;
 		default:
