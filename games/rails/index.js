@@ -577,6 +577,7 @@ function focus(element) {
 }
 
 function move(x, y) {
+	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
 	//reset
 	attributes[0] = 0;
 	attributes[1] = 0;
