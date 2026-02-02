@@ -572,7 +572,7 @@ function focus(element) {
 	//set based on params
 	let posX = (element.getBoundingClientRect()?.x || 0) - (parseInt(attributes[2]) / 2);
 	let posY = (element.getBoundingClientRect()?.y || 0) - (parseInt(attributes[3]) / 2);
-	if (config.debug) console.log('focus', x, y);
+	if (config.debug) console.log('focus', posX, posY);
 	move(posX, posY);
 }
 
