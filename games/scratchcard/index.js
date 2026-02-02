@@ -18,7 +18,7 @@ const config = {
         }, {
             type: 'match',
             width: 300,
-            height: 200,
+            height: 300,
             background: 'red',
             logo: '🧨',
             title: 'FIRECRACKER',
