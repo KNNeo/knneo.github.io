@@ -541,34 +541,30 @@ function chartProgress() {
 
 function moveCamera() {
 	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
+	let posX = 0;
+	let posY = 0;
 	switch(event?.target?.getAttribute('data-dir')) {
 		case 'left':
-			let posX = parseInt(attributes[2]) - config.diagram.step;
-			let posY = parseInt(attributes[3]);
-			if (config.debug) console.log('left', posX, posY);
-			move(posX, posY);
+			posX = parseInt(attributes[2]) - config.diagram.step;
+			posY = parseInt(attributes[3]);
 			break;
 		case 'right':
-			let posX = parseInt(attributes[2]) + config.diagram.step;
-			let posY = parseInt(attributes[3]);
-			if (config.debug) console.log('right', posX, posY);
-			move(posX, posY);
+			posX = parseInt(attributes[2]) + config.diagram.step;
+			posY = parseInt(attributes[3]);
 			break;
 		case 'up':
-			let posX = parseInt(attributes[2]);
-			let posY = parseInt(attributes[3]) +- config.diagram.step;
-			if (config.debug) console.log('up', posX, posY);
-			move(posX, posY);
+			posX = parseInt(attributes[2]);
+			posY = parseInt(attributes[3]) +- config.diagram.step;
 			break;
 		case 'down':
-			let posX = parseInt(attributes[2]);
-			let posY = parseInt(attributes[3]) + config.diagram.step;
-			if (config.debug) console.log('down', posX, posY);
-			move(posX, posY);
+			posX = parseInt(attributes[2]);
+			posY = parseInt(attributes[3]) + config.diagram.step;
 			break;
 		default:
 			break;
 	}
+	if (config.debug) console.log(event?.target?.getAttribute('data-dir'), posX, posY);
+	move(posX, posY);
 }
 
 function focus(element) {
