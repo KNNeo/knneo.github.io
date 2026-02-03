@@ -568,10 +568,9 @@ function moveCamera() {
 function focus(element) {
 	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
 	//set based on params
-	let posX = (element.getBoundingClientRect()?.x || 0) - (parseInt(attributes[2]) / 2);
-	let posY = (element.getBoundingClientRect()?.y || 0) - (parseInt(attributes[3]) / 2);
+	let posX = parseInt(attributes[0]) + (element.getBoundingClientRect()?.x || 0);
+	let posY = parseInt(attributes[1]) + (element.getBoundingClientRect()?.y || 0);
 	if (config.debug) console.log('focus', posX, posY);
-	if(posX < 0 || posY < 0) return;
 	move(posX, posY);
 }
 
@@ -586,7 +585,6 @@ function move(x, y) {
 	attributes[1] = y;
 	if (config.debug) console.log('moveCamera', ...attributes);
 	diagramSvg.setAttribute("viewBox", attributes.join(" "));
-
 }
 
 function nearestPoint(points, ref) {
