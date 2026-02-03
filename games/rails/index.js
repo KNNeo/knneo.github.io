@@ -525,9 +525,7 @@ function chartProgress() {
 		});
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
-		setTimeout(function() {
-			focus(train);
-		}, 1000);
+		focus(train);
 		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
@@ -573,6 +571,7 @@ function focus(element) {
 	let posX = (element.getBoundingClientRect()?.x || 0) - (parseInt(attributes[2]) / 2);
 	let posY = (element.getBoundingClientRect()?.y || 0) - (parseInt(attributes[3]) / 2);
 	if (config.debug) console.log('focus', posX, posY);
+	if(posX < 0 || posY < 0) return;
 	move(posX, posY);
 }
 
