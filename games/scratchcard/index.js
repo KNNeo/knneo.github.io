@@ -178,12 +178,13 @@ function renderCard() {
 
 function renderMatchCard() {
     let activeCard = config.card.active;
+    let viewBox = [0, 0, config.card.maxWidth, config.card.maxHeight];
     // header: card logo, name, punchline
     // logo
     let blockPos = viewBox[1];
     let logoArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     logoArea.setAttribute('x', 0.5 * viewBox[2] - 0.15 * viewBox[2]);
-    logoArea.setAttribute('y', viewBox[1]);
+    logoArea.setAttribute('y', blockPos);
     logoArea.setAttribute('width', 0.3 * viewBox[2]);
     logoArea.setAttribute('height', 0.15 * viewBox[3]);
     let logoDiv = document.createElement('div');
@@ -259,11 +260,14 @@ function renderMatchCard() {
     // update pos
     blockPos += 0.1 * viewBox[3];
     // prizes: 5 by 5 grid (0.1 width, 0.1 height)
+    let gridRowCount = 5;
+    if(activeCard.gridSize < gridRowCount)
+        gridRowCount = activeCard.gridSize;
     for (let i = 0; i < activeCard.gridSize; i++) {
         if (activeCard.grid.length < i) continue;
         let item = activeCard.grid[i];
         let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-        gridArea.setAttribute('x', 0.125 * viewBox[2] + (i % 5) * 0.15 * viewBox[2]);
+        gridArea.setAttribute('x', 0.125 * viewBox[2] + (i % gridRowCount) * 0.15 * viewBox[2]);
         gridArea.setAttribute('y', blockPos + Math.floor(i / 5) * 0.1 * viewBox[3]);
         gridArea.setAttribute('width', 0.15 * viewBox[2]);
         gridArea.setAttribute('height', 0.1 * viewBox[3]);
@@ -301,7 +305,7 @@ function renderMatchCard() {
     // set dimensions and card odds
     scratcherSvg.style.setProperty('--width', config.card.maxWidth + 'px');
     // set view and overlay for svg
-    let viewBox = [0, 0, config.card.maxWidth, blockPos];
+    viewBox = [0, 0, config.card.maxWidth, blockPos];
     scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
 }
 
