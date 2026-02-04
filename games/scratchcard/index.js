@@ -13,7 +13,7 @@ const config = {
                 matches: ['🐟','🐠','🐡'],
                 matchWins: [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500],
                 gridSize: 25,
-                matchRate: 0.2,
+                matchRate: 0.1,
                 prizeRate: 0.5,
                 footer: 'Match fish shown above to win prize listed\n(Prizes range from $1 to $2500)'
             }, {
