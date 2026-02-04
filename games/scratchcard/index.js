@@ -166,6 +166,7 @@ function renderCard() {
                     total.push(randomize(mismatches) + '\n$' + randomizeRate(activeCard.matchWins, activeCard.prizeRate));
                 return total;
             }, []);
+        }
         renderMatchCard();
     }
     // if load from save, show completed status
