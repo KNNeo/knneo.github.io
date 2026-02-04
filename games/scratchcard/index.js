@@ -171,7 +171,7 @@ function renderCard() {
     }
     // if load from save, show completed status
     if (config.card.active.complete) {
-        config.scratch.overlay = new Array(config.card.active.width * config.card.active.height).fill(true);
+        config.scratch.overlay = new Array(config.card.maxWidth * config.card.maxHeight).fill(true);
         updateProgress();
     }
 }
