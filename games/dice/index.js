@@ -124,7 +124,7 @@ function end() { // from trigger, end game
 	let opponentCells = Array.from(document.querySelectorAll('.opponent.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
 	let playerCels = Array.from(document.querySelectorAll('.player.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
 
-	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins, layout: [ opponent: opponentCells, player: playerCells ] });
+	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins, layout: { opponent: opponentCells, player: playerCells } });
 
 	localStorage.setItem(config.storage.wins, JSON.stringify([playerWins, opponentWins]));
 	localStorage.setItem(config.storage.scores, JSON.stringify(scores));
