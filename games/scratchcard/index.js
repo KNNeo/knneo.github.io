@@ -1,35 +1,44 @@
 //--DEFAULT SETTINGS--//
 const config = {
     card: {
+        maxWidth: 400,
+        maxHeight: 600,
         active: {},
         example: () => { return config.card.list[0] },
         list: [{
-            type: 'match',
-            width: 400,
-            height: 600,
-            logo: '🍒',
-            title: 'FRUITPICKER',
-            subtitle: 'Win up to $100!!',
-            matches: ['🍒', '🍌', '🥝', '🍇', '🍑', '🍎', '🍋', '🍍', '🍈', '🍊'],
-            matchWins: [0, 0, 1, 10, 100],
-            gridSize: 25,
-            winRate: 0.1,
-            footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
-        }, {
-            type: 'match',
-            width: 300,
-            height: 300,
-            background: 'red',
-            logo: '🧨',
-            title: 'FIRECRACKER',
-            subtitle: 'Win $888!!',
-            match: '🧨',
-            matches: ['🧨', '💥'],
-            matchWins: [0, 0, 888],
-            gridSize: 3,
-            winRate: 0.1,
-            footer: 'Scratch to find out if you won!'
-        },
+                type: 'prize',
+                logo: '🐟',
+                title: 'FISHING MANIA',
+                subtitle: 'Win up to $2500!!',
+                matches: ['🐟','🐠','🐡'],
+                matchWins: [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500],
+                gridSize: 25,
+                matchRate: 0.2,
+                prizeRate: 0.5,
+                footer: 'Match fishshown above to win\n(Prizes range from $1 to $2500)'
+            }, {
+                type: 'match',
+                logo: '🍒',
+                title: 'FRUITPICKER',
+                subtitle: 'Win up to $100!!',
+                matches: ['🍒', '🍌', '🥝', '🍇', '🍑', '🍎', '🍋', '🍍', '🍈', '🍊'],
+                matchWins: [0, 0, 1, 10, 100],
+                gridSize: 25,
+                matchRate: 0.1,
+                footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
+            }, {
+                type: 'match',
+                background: 'red',
+                logo: '🧨',
+                title: 'FIRECRACKER',
+                subtitle: 'Win $888!!',
+                match: '🧨',
+                matches: ['🧨', '💥'],
+                matchWins: [0, 0, 888],
+                gridSize: 3,
+                matchRate: 0.1,
+                footer: 'Scratch to find out if you won!'
+            },
         ]
     },
     scratch: {
@@ -128,9 +137,38 @@ function renderCard() {
     // reset card
     scratcherSvg.innerHTML = '';
     scratcherSvg.removeAttribute('data-complete');
-    // render by type
-    if (config.card.active.type == 'match')
+    let activeCard = config.card.active;
+    // calculate odds by type and render
+    if (config.card.active.type == 'match') {   
+        if (!activeCard.match)
+            activeCard.match = randomize(activeCard.matches);
+        let mismatches = activeCard.matches.filter(m => m != activeCard.match);
+        if (!activeCard.grid || !activeCard.grid.length) {
+            activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
+                if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.matchRate)
+                    total.push(activeCard.match);
+                else
+                    total.push(randomize(mismatches));
+                return total;
+            }, []);
+        }
         renderMatchCard();
+    }
+    if (config.card.active.type == 'prize') {
+        if (!activeCard.match)
+            activeCard.match = randomize(activeCard.matches);
+        let mismatches = activeCard.matches.filter(m => m != activeCard.match);
+        if (!activeCard.grid || !activeCard.grid.length) {
+            activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
+                if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.matchRate)
+                    total.push(activeCard.match + '\n$' + randomizeRate(activeCard.matchWins, activeCard.prizeRate));
+                else
+                    total.push(randomize(mismatches) + '\n$' + randomizeRate(activeCard.matchWins, activeCard.prizeRate));
+                return total;
+            }, []);
+        renderMatchCard();
+    }
+    // if load from save, show completed status
     if (config.card.active.complete) {
         config.scratch.overlay = new Array(config.card.active.width * config.card.active.height).fill(true);
         updateProgress();
@@ -139,22 +177,11 @@ function renderCard() {
 
 function renderMatchCard() {
     let activeCard = config.card.active;
+    config.scratch.overlay = new Array(config.card.maxWidth * config.card.maxHeight).fill(false);
     // set dimensions and card odds
-    scratcherSvg.style.setProperty('--width', activeCard.width + 'px');
-    if (!activeCard.match)
-        activeCard.match = activeCard.matches[Math.floor(activeCard.matches.length * Math.random())];
-    let mismatches = activeCard.matches.filter(m => m != activeCard.match);
-    if (!activeCard.grid || !activeCard.grid.length)
-        activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
-            if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.winRate)
-                total.push(activeCard.match);
-            else
-                total.push(mismatches[Math.floor(mismatches.length * Math.random())]);
-            return total;
-        }, []);
-    config.scratch.overlay = new Array(activeCard.width * activeCard.height).fill(false);
+    scratcherSvg.style.setProperty('--width', config.card.maxWidth + 'px');
     // set view and overlay for svg
-    let viewBox = [0, 0, activeCard.width, activeCard.height];
+    let viewBox = [0, 0, config.card.maxWidth, config.card.maxHeight];
     scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
     // header: card logo, name, punchline
     // logo
@@ -259,7 +286,7 @@ function renderMatchCard() {
     ctx.fillStyle = config.scratch.color;
     ctx.fillRect(0, 0, 0.9 * viewBox[2], 0.6 * viewBox[3]);
     // update pos
-    blockPos += ((Math.ceil(activeCard.gridSize / 5) * 0.1) + 0.1) * viewBox[3];
+    blockPos += (Math.ceil(activeCard.gridSize / 5) * 0.1) * viewBox[3];
     // footer: instructions, condition to win
     let footerArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     footerArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
@@ -271,6 +298,28 @@ function renderMatchCard() {
     footerDiv.classList.add('footer');
     footerArea.appendChild(footerDiv);
     scratcherSvg.appendChild(footerArea);
+}
+
+function randomize(list) {
+    if(!list) return console.error('list is empty');
+    return list[Math.floor(list.length * Math.random())];
+}
+
+function randomizeRate(list, rate) {
+    if(!list) return console.error('list is empty');
+    if(rate < 0 || rate > 1)
+        return console.error('rate is not in range, ensure is 0 to 1');
+    let idx = list.length - 1;
+    let value = list[idx];
+    while(value > list[0]) {
+        if(Math.random() < Math.pow(rate, idx))
+            return value;
+        else {
+            idx -= 1;
+            value = list[idx];
+        }
+    }
+    return value;
 }
 
 function scratch(x, y) {
@@ -339,13 +388,19 @@ function updateProgress() {
 }
 
 function displayResult() {
-    let matches = config.card.active.grid.filter(g => g == config.card.active.match).length;
+    let matches = config.card.active.grid.filter(g => g.includes(config.card.active.match)).length;
     if (!matches)
         return popupContent(config.message.lose);
-    for (let w = config.card.active.matchWins.length - 1; w > 0; w--) {
-        // find in array, value based on highest no of wins (so if array length = 5, but 6 wins (> 5), is value on array[4])
-        if (matches >= w + 1 && config.card.active.matchWins[w] > 0)
+    if(config.card.active.type == 'prize') {
+        if(!config.card.active.grid.filter(g => g == config.card.active.match + '\n$0').length)
             return popupContent(config.message.win);
+    }
+    if(config.card.active.type == 'match') {
+        for (let w = config.card.active.matchWins.length - 1; w > 0; w--) {
+            // find in array, value based on highest no of wins (so if array length = 5, but 6 wins (> 5), is value on array[4])
+            if (matches >= w + 1 && config.card.active.matchWins[w] > 0)
+                return popupContent(config.message.win);
+        }
     }
     return popupContent(config.message.lose);
 }
