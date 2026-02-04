@@ -13,7 +13,7 @@ const config = {
                 matches: ['🐟','🐠','🐡'],
                 matchWins: [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500],
                 gridSize: 25,
-                matchRate: 0.4,
+                matchRate: 0.2,
                 prizeRate: 0.5,
                 footer: 'Match fish shown above to win prize listed\n(Prizes range from $1 to $2500)'
             }, {
@@ -24,7 +24,7 @@ const config = {
                 matches: ['🍒', '🍌', '🥝', '🍇', '🍑', '🍎', '🍋', '🍍', '🍈', '🍊'],
                 matchWins: [0, 0, 1, 10, 100],
                 gridSize: 25,
-                matchRate: 0.1,
+                matchRate: 0.2,
                 footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
             }, {
                 type: 'match',
@@ -178,12 +178,6 @@ function renderCard() {
 
 function renderMatchCard() {
     let activeCard = config.card.active;
-    config.scratch.overlay = new Array(config.card.maxWidth * config.card.maxHeight).fill(false);
-    // set dimensions and card odds
-    scratcherSvg.style.setProperty('--width', config.card.maxWidth + 'px');
-    // set view and overlay for svg
-    let viewBox = [0, 0, config.card.maxWidth, config.card.maxHeight];
-    scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
     // header: card logo, name, punchline
     // logo
     let blockPos = viewBox[1];
@@ -299,6 +293,16 @@ function renderMatchCard() {
     footerDiv.classList.add('footer');
     footerArea.appendChild(footerDiv);
     scratcherSvg.appendChild(footerArea);
+    // update pos for viewBox
+    blockPos += 0.1 * viewBox[3];
+    if(blockPos > config.card.maxHeight)
+        blockPos = config.card.maxHeight;
+    config.scratch.overlay = new Array(config.card.maxWidth * blockPos).fill(false);
+    // set dimensions and card odds
+    scratcherSvg.style.setProperty('--width', config.card.maxWidth + 'px');
+    // set view and overlay for svg
+    let viewBox = [0, 0, config.card.maxWidth, blockPos];
+    scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
 }
 
 function randomize(list) {
