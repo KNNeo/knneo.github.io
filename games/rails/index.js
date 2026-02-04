@@ -568,8 +568,8 @@ function moveCamera() {
 function focus(element) {
 	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
 	//set based on params
-	let posX = parseInt(attributes[0]) + (element.getBoundingClientRect()?.x || 0);
-	let posY = parseInt(attributes[1]) + (element.getBoundingClientRect()?.y || 0);
+	let posX = parseInt(attributes[0]) + (element.getBoundingClientRect()?.x || 0) + (parseInt(attributes[2]) / 2);
+	let posY = parseInt(attributes[1]) + (element.getBoundingClientRect()?.y || 0) + (parseInt(attributes[3]) / 2);
 	if (config.debug) console.log('focus', posX, posY);
 	move(posX, posY);
 }
