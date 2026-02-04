@@ -15,7 +15,7 @@ const config = {
                 gridSize: 25,
                 matchRate: 0.2,
                 prizeRate: 0.5,
-                footer: 'Match fishshown above to win\n(Prizes range from $1 to $2500)'
+                footer: 'Match fish shown above to win prize listed\n(Prizes range from $1 to $2500)'
             }, {
                 type: 'match',
                 logo: '🍒',
