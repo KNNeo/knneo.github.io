@@ -145,7 +145,7 @@ function renderCard() {
         let mismatches = activeCard.matches.filter(m => m != activeCard.match);
         if (!activeCard.grid || !activeCard.grid.length) {
             activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
-                if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.matchRate)
+                if (total.filter(a => activeCard.match).length < activeCard.maxMatch && Math.random() < activeCard.matchRate)
                     total.push(activeCard.match);
                 else
                     total.push(randomize(mismatches));
@@ -160,7 +160,7 @@ function renderCard() {
         let mismatches = activeCard.matches.filter(m => m != activeCard.match);
         if (!activeCard.grid || !activeCard.grid.length) {
             activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
-                if (total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.matchRate)
+                if (total.filter(a => a.startsWith(activeCard.match)).length < activeCard.maxMatch && Math.random() < activeCard.matchRate)
                     total.push(activeCard.match + '\n$' + randomizeRate(activeCard.matchWins, activeCard.prizeRate));
                 else
                     total.push(randomize(mismatches) + '\n$' + randomizeRate(activeCard.matchWins, activeCard.prizeRate));
