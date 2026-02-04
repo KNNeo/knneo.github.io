@@ -171,7 +171,8 @@ function renderCard() {
     }
     // if load from save, show completed status
     if (config.card.active.complete) {
-        config.scratch.overlay = new Array(config.card.maxWidth * config.card.maxHeight).fill(true);
+        let viewBox = scratcherSvg.getAttribute('viewBox').split(' ').map(v => parseInt(v));
+        config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(true);
         updateProgress();
     }
 }
