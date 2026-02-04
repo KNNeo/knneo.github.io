@@ -275,7 +275,7 @@ function renderMatchCard() {
         let gridAreaDiv = document.createElement('div');
         gridAreaDiv.classList.add('prize');
         gridAreaDiv.innerText = item;
-        if (item == activeCard.match)
+        if (item.startsWith(activeCard.match))
             gridAreaDiv.classList.add('win');
         gridArea.appendChild(gridAreaDiv);
         scratcherSvg.appendChild(gridArea);
