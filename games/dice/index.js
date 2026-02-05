@@ -334,7 +334,6 @@ function showRules() {
 
 	let board = document.createElement('div');
 	board.classList.add('board');
-	board.classList.add('rotated');
 	board.innerText = config.rules;
 
 	let settings = document.createElement('div');
@@ -371,7 +370,6 @@ function showRules() {
 function showScores() {
 	let board = document.createElement('div');
 	board.classList.add('board');
-	board.classList.add('rotated');
 	board.style.fontSize = '2em';
 
 	// show matches score, show list of scores
@@ -382,7 +380,6 @@ function showScores() {
 	if(config.debug) console.log('showScores', wins, scores);
 
 	let header = document.createElement('h5');
-	header.style.textAlign = 'center';
 	header.innerText = config.scoreboard.title.matches;
 	board.appendChild(header);
 
@@ -402,13 +399,7 @@ function showScores() {
 
 	board.appendChild(winsDiv);
 
-	separator = document.createElement('div');
-	separator.classList.add('separator');
-	separator.style.height = '5vh';
-	board.appendChild(separator);
-
 	header = document.createElement('h5');
-	header.style.textAlign = 'center';
 	header.innerText = config.scoreboard.title.history;
 	board.appendChild(header);
 

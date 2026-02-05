@@ -38,6 +38,10 @@ button {
 	all: unset;
 }
 
+h5 {
+	text-align: center;
+}
+
 .title {
 	margin-bottom: 0;
 }
