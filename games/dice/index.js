@@ -328,12 +328,39 @@ function updateTotalScores() {
 }
 
 function showRules() {
+	let container = document.createElement('div');
+
 	let board = document.createElement('div');
 	board.classList.add('board');
 	board.classList.add('rotated');
 	board.innerText = config.rules;
 
-	openItemInViewer(board);
+	let settings = document.createElement('div');
+
+	let difficulty = document.createElement('div');
+	difficulty.classList.add('difficulty');
+	for(let dif of ['aggressive', 'balanced', 'defensive']) {
+		let difDiv = document.createElement('button');
+		difDiv.setAttribute('data-id', dif);
+		if(dif == window['ai'])
+			difDiv.classList.add('highlight');
+		difDiv.innerText = dif[0].toUpperCase() + dif.slice(1);
+		difDiv.addEventListener('click', function() {
+			window['ai'] = event.target.getAttribute('data-id');
+			for(let d of document.querySelectorAll('.diffifulty div')) {
+				if(d.getAttribute('data-id') == window['ai'])
+					d.classList.add('highlight');
+				else
+					d.classList.remove('highlight');
+			}
+		});
+		difficulty.appendChild(difDiv);
+	}
+	settings.appendChild(difficulty);
+
+	container.appendChild(board);
+	container.appendChild(settings);
+	openItemInViewer(container);
 }
 
 function showScores() {
