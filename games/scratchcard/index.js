@@ -398,8 +398,8 @@ function updateProgress() {
 }
 
 function displayResult() {
-    let matches = config.card.active.grid.filter(g => g.startsWith(config.card.active.match)).length;
-    if (!matches)
+    let matches = config.card.active.grid.filter(g => g.startsWith(config.card.active.match));
+    if (!matches.length)
         return popupContent(config.message.lose);
     if(config.card.active.type == 'prize') {
         let amount = matches.reduce((total, current) => {
@@ -415,7 +415,7 @@ function displayResult() {
     if(config.card.active.type == 'match') {
         for (let w = config.card.active.matchWins.length - 1; w > 0; w--) {
             // find in array, value based on highest no of wins (so if array length = 5, but 6 wins (> 5), is value on array[4])
-            if (matches >= w + 1 && config.card.active.matchWins[w] > 0)
+            if (matches.length >= w + 1 && config.card.active.matchWins[w] > 0)
                 return popupContent(config.message.win);
         }
     }
