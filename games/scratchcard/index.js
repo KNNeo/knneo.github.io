@@ -42,7 +42,7 @@ const config = {
         ]
     },
     scratch: {
-        threshold: 70,
+        threshold: 60,
         overlay: [],
         height: 50,
         color: 'gray'
