@@ -404,9 +404,8 @@ function displayResult() {
     if(config.card.active.type == 'prize') {
         let amount = matches.reduce((total, current) => {
             let item = current.split('\n');
-            if(item.length == 2) {
-                total.push(parseInt(item[1]) || 0);
-            }
+            if(item.length == 2)
+                total += parseInt(item[1]) || 0;
             return total;
         }, 0);
         if(prizes.length && amount)
