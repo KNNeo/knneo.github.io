@@ -511,6 +511,8 @@ function chooseCell() {
 
 	if(config.debug) console.log('behaviour:', window['ai']);
 	let method = window['ai'];
+	if(method == 'balanced')
+		method = 'aggressive';
 	if(method == 'aggressive') {
 		// objective: to kill combo when present
 		if(config.debug) console.log('method ' + method);
