@@ -17,7 +17,8 @@ const config = {
 		"wins": "dice-game-wins",
 		"scores": "dice-game-scores",
 	},
-	"rules": `[Adapted from video game "Cult of the Lamb"]
+	"rules": `
+[Adapted from video game "Cult of the Lamb"]
 
 * The game consists of two 3x3 boards, each belonging to their respective player.
 * The players take turns. On a player's turn, they roll a single 6-sided die, and place it in a cell on their board. A filled cell does not accept any more dice.
@@ -349,7 +350,6 @@ function showRules() {
 			difDiv.setAttribute('disabled', '');
 		difDiv.innerText = dif[0].toUpperCase() + dif.slice(1);
 		difDiv.addEventListener('click', function() {
-			event.preventDefault();
 			window['ai'] = event.target.getAttribute('data-id');
 			for(let d of document.querySelectorAll('.diffifulty div')) {
 				if(d.getAttribute('data-id') == window['ai'])
