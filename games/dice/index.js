@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
+	"debug": false,
 	"com": {
 		"enable": true,
 		"mode": "balanced",
@@ -106,7 +107,7 @@ function end() { // from trigger, end game
 
 	let playerScore = parseInt(document.querySelector('.player.total').innerText);
 	let opponentScore = parseInt(document.querySelector('.opponent.total').innerText);
-	console.log('game ended: ' + opponentScore + ' / ' + playerScore);
+	if(config.debug) console.log('game ended: ' + opponentScore + ' / ' + playerScore);
 
 	let whoWins = 'draw';
 	if (playerScore > opponentScore) {
@@ -378,7 +379,7 @@ function showScores() {
 	// scores object: { player: x, opponent: y, win: player }
 	let wins = JSON.parse(localStorage.getItem(config.storage.wins) ?? '[]');
 	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
-	// console.log(wins, scores);
+	if(config.debug) console.log('showScores', wins, scores);
 
 	let header = document.createElement('h5');
 	header.style.textAlign = 'center';
@@ -507,124 +508,123 @@ function chooseCell() {
 	let counts1 = [], counts2 = [], counts3 = [];
 	let selectCol1 = false, selectCol2 = false, selectCol3 = false;
 	let emptyCols1 = 3, emptyCols2 = 3, emptyCols3 = 3;
-	let method = window['ai'];
-	if (method == 'balanced') // to kill combo when present, else get highest score possible
-	{
-		if (Math.random() > 0.35)
-			method = 'aggressive';
-		else
-			method = 'defensive';
-	}
-	console.log('AI approach:', method);
 
-	switch (method.toLowerCase()) {
-		case 'aggressive': // to kill combo when present
-			// compile player values
-			col1 = Array.from(document.querySelectorAll('.player.cell.col1'))
-				.map(c => parseInt(c.getAttribute('data-id')) || 0);
-			col2 = Array.from(document.querySelectorAll('.player.cell.col2'))
-				.map(c => parseInt(c.getAttribute('data-id')) || 0);
-			col3 = Array.from(document.querySelectorAll('.player.cell.col3'))
-				.map(c => parseInt(c.getAttribute('data-id')) || 0);
-			// console.log(col1, col2, col3);
-			counts1 = [
-				null,
-				col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
-			];
-			// console.log('left', counts1);
-			counts2 = [
-				null,
-				col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
-			];
-			// console.log('middle', counts2);
-			counts3 = [
-				null,
-				col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
-			];
-			// console.log('right', counts3);
-			// priority checks
-			// check if column has current
-			selectCol1 = counts1.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col1.includes(current);
-			selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col2.includes(current);
-			selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col3.includes(current);
-			// console.log('select', selectCol1, selectCol2, selectCol3);
-			// check for empty columns
-			emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
-			emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
-			emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
-			// console.log('empty', emptyCols1, emptyCols2, emptyCols3);	
-			// make choice, fallback random available column
+	if(config.debug) console.log('behaviour:', window['ai']);
+	let method = window['ai'];
+	if(method == 'aggressive') {
+		// objective: to kill combo when present
+		if(config.debug) console.log('method ' + method);
+		// compile values
+		col1 = Array.from(document.querySelectorAll('.player.cell.col1'))
+			.map(c => parseInt(c.getAttribute('data-id')) || 0);
+		col2 = Array.from(document.querySelectorAll('.player.cell.col2'))
+			.map(c => parseInt(c.getAttribute('data-id')) || 0);
+		col3 = Array.from(document.querySelectorAll('.player.cell.col3'))
+			.map(c => parseInt(c.getAttribute('data-id')) || 0);
+		if(config.debug) console.log(col1, col2, col3);
+		counts1 = [
+			null,
+			col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+		];
+		if(config.debug) console.log('left', counts1);
+		counts2 = [
+			null,
+			col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+		];
+		if(config.debug) console.log('middle', counts2);
+		counts3 = [
+			null,
+			col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+		];
+		if(config.debug) console.log('right', counts3);
+		// priority checks
+		// check if column has current
+		selectCol1 = counts1.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col1.includes(current);
+		selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col2.includes(current);
+		selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col3.includes(current);
+		if(config.debug) console.log('select', selectCol1, selectCol2, selectCol3);
+		// check for empty columns
+		emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
+		emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
+		emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
+		if(config.debug) console.log('empty', emptyCols1, emptyCols2, emptyCols3);	
+		// make choice, fallback random available column
+		if(window['ai'] == 'balanced')
+			method = 'defensive';
+		else
 			choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
-			break;
-		case 'defensive': // to get highest score possible
-			// compile self values
-			col1 = Array.from(document.querySelectorAll('.opponent.cell.col1'))
-				.map(c => parseInt(c.getAttribute('data-id')) || 0);
-			col2 = Array.from(document.querySelectorAll('.opponent.cell.col2'))
-				.map(c => parseInt(c.getAttribute('data-id')) || 0);
-			col3 = Array.from(document.querySelectorAll('.opponent.cell.col3'))
-				.map(c => parseInt(c.getAttribute('data-id')) || 0);
-			// console.log(col1, col2, col3);
-			counts1 = [
-				null,
-				col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
-				col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
-			];
-			// console.log('left', counts1);
-			counts2 = [
-				null,
-				col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
-				col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
-			];
-			// console.log('middle', counts2);
-			counts3 = [
-				null,
-				col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
-				col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
-			];
-			// console.log('right', counts3);
-			// priority checks
-			// check columns with similar as current
-			selectCol1 = counts1[current] > 0 || col1.includes(current) || col1.filter(x => x && x > 0).length == 0;
-			selectCol2 = counts2[current] > 0 || col2.includes(current) || col2.filter(x => x && x > 0).length == 0;
-			selectCol3 = counts3[current] > 0 || col3.includes(current) || col3.filter(x => x && x > 0).length == 0;
-			// console.log('select', selectCol1, selectCol2, selectCol3);
-			// check for empty columns		
-			emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
-			emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
-			emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
-			// console.log('empty', emptyCols1, emptyCols2, emptyCols3);
-			// make choice, fallback random available column
-			choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
-			break;
 	}
+	if(method == 'defensive') {
+		// objective: to get highest score possible by adding to columns with similar values
+		if(config.debug) console.log('method ' + method);
+		// compile values
+		col1 = Array.from(document.querySelectorAll('.opponent.cell.col1'))
+			.map(c => parseInt(c.getAttribute('data-id')) || 0);
+		col2 = Array.from(document.querySelectorAll('.opponent.cell.col2'))
+			.map(c => parseInt(c.getAttribute('data-id')) || 0);
+		col3 = Array.from(document.querySelectorAll('.opponent.cell.col3'))
+			.map(c => parseInt(c.getAttribute('data-id')) || 0);
+		if(config.debug) console.log(col1, col2, col3);
+		counts1 = [
+			null,
+			col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+			col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+		];
+		if(config.debug) console.log('left', counts1);
+		counts2 = [
+			null,
+			col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+			col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+		];
+		if(config.debug) console.log('middle', counts2);
+		counts3 = [
+			null,
+			col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+			col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+		];
+		if(config.debug) console.log('right', counts3);
+		// priority checks
+		// check columns with similar as current
+		selectCol1 = counts1[current] > 0 || col1.includes(current) || col1.filter(x => x && x > 0).length == 0;
+		selectCol2 = counts2[current] > 0 || col2.includes(current) || col2.filter(x => x && x > 0).length == 0;
+		selectCol3 = counts3[current] > 0 || col3.includes(current) || col3.filter(x => x && x > 0).length == 0;
+		if(config.debug) console.log('select', selectCol1, selectCol2, selectCol3);
+		// check for empty columns
+		emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
+		emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
+		emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
+		if(config.debug) console.log('empty', emptyCols1, emptyCols2, emptyCols3);
+		// make choice, fallback random available column
+		choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
+	}
+	
 	return choice;
 }
 
