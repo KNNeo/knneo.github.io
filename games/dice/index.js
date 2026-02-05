@@ -337,21 +337,25 @@ function showRules() {
 
 	let settings = document.createElement('div');
 
+	let difHeader = document.createElement('h5');
+	difHeader.innerText = 'Behaviour';
+	settings.appendChild(difHeader);
 	let difficulty = document.createElement('div');
 	difficulty.classList.add('difficulty');
 	for(let dif of ['aggressive', 'balanced', 'defensive']) {
 		let difDiv = document.createElement('button');
 		difDiv.setAttribute('data-id', dif);
 		if(dif == window['ai'])
-			difDiv.classList.add('highlight');
+			difDiv.setAttribute('disabled', '');
 		difDiv.innerText = dif[0].toUpperCase() + dif.slice(1);
 		difDiv.addEventListener('click', function() {
+			event.preventDefault();
 			window['ai'] = event.target.getAttribute('data-id');
 			for(let d of document.querySelectorAll('.diffifulty div')) {
 				if(d.getAttribute('data-id') == window['ai'])
-					d.classList.add('highlight');
+					difDiv.setAttribute('disabled', '');
 				else
-					d.classList.remove('highlight');
+					difDiv.removeAttribute('disabled');
 			}
 		});
 		difficulty.appendChild(difDiv);
