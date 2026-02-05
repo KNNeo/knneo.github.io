@@ -626,7 +626,7 @@ function chooseCell() {
 		// make choice, fallback random available column
 		choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
 	}
-	
+	if(config.debug) console.log('choice', choice); // zero-based column no
 	return choice;
 }
 
