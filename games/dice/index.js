@@ -566,7 +566,7 @@ function chooseCell() {
 		emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
 		if(config.debug) console.log('empty', emptyCols1, emptyCols2, emptyCols3);	
 		// make choice, fallback random available column
-		if(window['ai'] == 'balanced')
+		if(window['ai'] == 'balanced' && !selectCol1 && !selectCol2 && !selectCol3)
 			method = 'defensive';
 		else
 			choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
