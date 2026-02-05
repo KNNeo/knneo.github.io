@@ -443,9 +443,9 @@ function showScores() {
 }
 
 function showMatchLayout() {
-	if(!event.target.getAttribute('data-id')) return;
+	if(!event.target.closest('[data-id]')) return;
 	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
-	let score = scores[parseInt(event.target.getAttribute('data-id'))];
+	let score = scores[parseInt(event.target.closest('[data-id]').getAttribute('data-id'))];
 	if(!score.layout || !score.layout.opponent || !score.layout.player) return;
 	let opponentCells = document.querySelectorAll('.opponent.cell');
 	let playerCells = document.querySelectorAll('.player.cell');
