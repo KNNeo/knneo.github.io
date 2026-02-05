@@ -398,12 +398,19 @@ function updateProgress() {
 }
 
 function displayResult() {
-    let matches = config.card.active.grid.filter(g => g.includes(config.card.active.match)).length;
+    let matches = config.card.active.grid.filter(g => g.startsWith(config.card.active.match)).length;
     if (!matches)
         return popupContent(config.message.lose);
     if(config.card.active.type == 'prize') {
-        if(!config.card.active.grid.filter(g => g == config.card.active.match + '\n$0').length)
-            return popupContent(config.message.win);
+        let amount = matches.reduce((total, current) => {
+            let item = current.split('\n');
+            if(item.length == 2) {
+                total.push(parseInt(item[1]) || 0);
+            }
+            return total;
+        }, 0);
+        if(prizes.length && amount)
+            return popupContent(config.message.win + ' $' + amount);
     }
     if(config.card.active.type == 'match') {
         for (let w = config.card.active.matchWins.length - 1; w > 0; w--) {
