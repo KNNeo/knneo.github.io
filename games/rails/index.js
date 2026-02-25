@@ -534,7 +534,7 @@ function chartProgress() {
 		idle();
 	}
 	else
-		window.data.game.diff = timeDiffSec;
+		window.data.game.diff = Math.floor(timeDiffSec);
 }
 
 function moveCamera() {
