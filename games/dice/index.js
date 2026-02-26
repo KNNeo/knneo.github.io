@@ -229,6 +229,9 @@ function roll(elem, number) {
 }
 
 function onCellSelect(number) {
+	// vs com, disable select opponent cells
+	if (config.com.enable && number == 2 && event.isTrusted)
+		return;
 	if (window['roll-' + number] && event.target.getAttribute('data-id') == null) {
 		// update cell
 		event.target.setAttribute('data-id', window['roll-' + number]);
