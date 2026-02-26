@@ -532,9 +532,12 @@ function chartProgress() {
 		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
-	if (timeDiffSec <= 0)
+	if (timeDiffSec <= 0) {
 		window.data.game.diff = 0;
-	idle();
+		idle();
+	}
+	else
+		window.data.game.diff = Math.floor(timeDiffSec);
 }
 
 function moveCamera() {
