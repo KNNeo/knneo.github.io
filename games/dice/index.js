@@ -113,13 +113,13 @@ function preRoll() {
 				for (let dice of document.querySelectorAll('.dice'))
 					dice.setAttribute('data-status', 'disabled');
 				document.querySelector('.' + whoWins + '.dice').removeAttribute('data-status');
+				clearInterval(config.check);
 				// AI action
 				if (config.com.enable && document.querySelector('.opponent.dice .bi')) {
 					setTimeout(function () {
 						document.querySelector('.opponent.dice .bi').dispatchEvent(new Event('click'));
 					}, window['delay']);
 				}
-				clearInterval(config.check);
 			}
 			else {
 				alert('draw! roll again');
