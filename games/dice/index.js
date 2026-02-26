@@ -114,6 +114,7 @@ function preRoll() {
 					dice.setAttribute('data-status', 'disabled');
 				document.querySelector('.' + whoWins + '.dice').removeAttribute('data-status');
 				clearInterval(config.check);
+				config.check = null;
 				// clear all cells of dice
 				for (let content of document.querySelectorAll('.content.bi')) {
 					content.className = 'content bi bi-dice-';
@@ -204,7 +205,7 @@ function shaking(target, number) {
 	// set value
 	target.parentElement.setAttribute('data-id', rand);
 	// pre-roll, stop board action
-	if(document.querySelectorAll('.dice[data-status="pre-roll"]').length) return;
+	if(config.check) return;
 	// light up board
 	let classes = '.' + Array.from(target.parentElement.classList).join('.');
 	for (let cell of document.querySelectorAll(classes.replace('dice', 'cell').replace('.flipped', ''))) {
