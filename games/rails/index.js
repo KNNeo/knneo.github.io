@@ -76,7 +76,7 @@ const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 
 //--EVENT HANDLERS--//
 function resetProgress() {
-	window.data.game.diff = 100;
+	window.data.game.diff = 60;
 	window.data.last = { x: 0, y: 0, id: 'station-1' };
 }
 
@@ -452,8 +452,8 @@ function chartProgress() {
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	console.log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = window.data.game.diff > 0 ? window.data.game.diff : Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
-	if (timeDiffSec > 600) // max 10min
-		timeDiffSec = 600;
+	if (timeDiffSec > 60) // max 1min
+		timeDiffSec = 60;
 	let trainMoved = false;
 	let travelRate = window.data.game.cost.travel || 1;
 	let waitRate = window.data.game.cost.wait || 0;
