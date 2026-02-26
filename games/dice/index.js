@@ -22,6 +22,7 @@ const config = {
 [Adapted from video game "Cult of the Lamb"]
 
 * The game consists of two 3x3 boards, each belonging to their respective player.
+* Each player rolls a dice to start. Whoever wins starts first.
 * The players take turns. On a player's turn, they roll a single 6-sided die, and place it in a cell on their board. A filled cell does not accept any more dice.
 * Each player has a score, which is the sum of all the dice values on their board, which is deterined by the score awarded by each column, which is also displayed.
 * Calculation applies to number of dice in each column eg. if a column is 4-4-4, then the score is 4x3 + 4x3 + 4x3 = 36.
@@ -72,8 +73,8 @@ function start() { // from trigger, start game
 	// all scores to reset
 	for (let score of document.querySelectorAll('.score'))
 		score.innerText = 0;
-	// remove disabled from dice (player first)
-	for (let dice of document.querySelectorAll('.player.dice[data-status="disabled"]'))
+	// remove disabled from dice
+	for (let dice of document.querySelectorAll('.dice[data-status="disabled"]'))
 		dice.removeAttribute('data-status');
 	// reset column scores
 	renderTotalScores();
@@ -81,6 +82,52 @@ function start() { // from trigger, start game
 	let actionPlay = document.querySelector('.action.bi.bi-play-fill');
 	actionPlay.onclick = reload;
 	actionPlay.className = 'action bi bi-arrow-clockwise';
+	// decide who starts first
+	preRoll();
+}
+
+function preRoll() {
+	alert('roll for who starts first, click on ok to start');
+	// set dice status
+	for (let dice of document.querySelectorAll('.dice'))
+		dice.setAttribute('data-status', 'pre-roll');
+	// AI action
+	if (config.com.enable && document.querySelector('.opponent.dice .bi')) {
+		setTimeout(function () {
+			document.querySelector('.opponent.dice .bi').dispatchEvent(new Event('click'));
+		}, window['delay']);
+	}
+	// check if dices rolled status, determine who won
+	config.check = setInterval(function() {
+		let playerDice = 0;
+		let opponentDice = 0;
+		for(let i = 1; i <= 6; i++) {
+			if(document.querySelector('.player.dice .bi.bi-dice-' + i)) playerDice = i;
+			if(document.querySelector('.opponent.dice .bi.bi-dice-' + i)) opponentDice = i;
+		}
+		if(playerDice && opponentDice && !document.querySelectorAll('.dice[data-status="pre-roll"]').length) {
+			if(playerDice != opponentDice) {
+				let whoWins = playerDice > opponentDice ? 'player' : 'opponent';
+				alert(whoWins + ' wins, ' + whoWins + ' starts first');
+				// re-enable dice for winner
+				for (let dice of document.querySelectorAll('.dice'))
+					dice.setAttribute('data-status', 'disabled');
+				document.querySelector('.' + whoWins + '.dice').removeAttribute('data-status');
+				// AI action
+				if (config.com.enable && document.querySelector('.opponent.dice .bi')) {
+					setTimeout(function () {
+						document.querySelector('.opponent.dice .bi').dispatchEvent(new Event('click'));
+					}, window['delay']);
+				}
+				clearInterval(config.check);
+			}
+			else {
+				alert('draw! roll again');
+				clearInterval(config.check);
+				preRoll();
+			}
+		}
+	}, 500);
 }
 
 function end() { // from trigger, end game
@@ -151,6 +198,8 @@ function shaking(target, number) {
 	target.parentElement.setAttribute('data-status', 'rolled');
 	// set value
 	target.parentElement.setAttribute('data-id', rand);
+	// pre-roll, stop board action
+	if(config.check) return;
 	// light up board
 	let classes = '.' + Array.from(target.parentElement.classList).join('.');
 	for (let cell of document.querySelectorAll(classes.replace('dice', 'cell').replace('.flipped', ''))) {
