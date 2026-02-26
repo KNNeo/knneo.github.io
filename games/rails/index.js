@@ -468,7 +468,7 @@ function chartProgress() {
 					delete window.data.next;
 				}
 				else {
-					let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
+					let links = window.data.map.stations.find(s => s.id == window.data.last.id)?.links.filter(l => l != window.data.last.id);
 					if (config.debug) console.log(links);
 					let nextStation = links[Math.floor(Math.random() * links.length)];
 					station = window.data.map.stations.find(s => s.id == nextStation);
