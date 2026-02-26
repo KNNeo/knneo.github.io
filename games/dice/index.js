@@ -59,24 +59,20 @@ function updateDisplay() {
 
 function start() { // from trigger, start game	
 	// remove headers
-	for (let header of document.querySelectorAll('.header')) {
+	for (let header of document.querySelectorAll('.header'))
 		header.classList.add('hidden');
-	}
-
 	// clear all cells of dice
 	for (let content of document.querySelectorAll('.content.bi')) {
 		content.className = 'content bi bi-dice-';
 		content.removeAttribute('data-id');
 	}
 	// all scores to reset
-	for (let score of document.querySelectorAll('.score')) {
+	for (let score of document.querySelectorAll('.score'))
 		score.innerText = 0;
-	}
 	// remove disabled from dice (player first)
-	for (let dice of document.querySelectorAll('.player.dice[data-status="disabled"]')) {
+	for (let dice of document.querySelectorAll('.player.dice[data-status="disabled"]'))
 		dice.removeAttribute('data-status');
-	}
-
+	// reset column scores
 	let actionScore = document.querySelector('.action.bi.bi-table');
 	actionScore.innerHTML = '';
 	actionScore.className = 'action score';
@@ -89,7 +85,7 @@ function start() { // from trigger, start game
 	score.className = 'player total';
 	score.innerText = 0;
 	actionScore.appendChild(score);
-
+	// set action to restart
 	let actionPlay = document.querySelector('.action.bi.bi-play-fill');
 	actionPlay.onclick = reload;
 	actionPlay.className = 'action bi bi-arrow-clockwise';
@@ -97,18 +93,15 @@ function start() { // from trigger, start game
 
 function end() { // from trigger, end game
 	// disable dice
-	for (let dice of document.querySelectorAll('.dice')) {
+	for (let dice of document.querySelectorAll('.dice'))
 		dice.setAttribute('data-status', 'disabled');
-	}
-
-	// record score
+	// get scores
 	let wins = JSON.parse(localStorage.getItem(config.storage.wins) ?? '[]');
 	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
-
 	let playerScore = parseInt(document.querySelector('.player.total').innerText);
 	let opponentScore = parseInt(document.querySelector('.opponent.total').innerText);
-	if(config.debug) console.log('game ended: ' + opponentScore + ' / ' + playerScore);
-
+	if (config.debug) console.log('game ended: ' + opponentScore + ' / ' + playerScore);
+	// decide who wins based on final layout
 	let whoWins = 'draw';
 	if (playerScore > opponentScore) {
 		whoWins = 'player';
@@ -118,16 +111,13 @@ function end() { // from trigger, end game
 		whoWins = 'opponent';
 		document.querySelector('.opponent.dice').innerText = config.icon.win;
 	}
-
 	let playerWins = (wins[0] ?? 0) + (whoWins == 'player' ? 1 : 0);
 	let opponentWins = (wins[1] ?? 0) + (whoWins == 'opponent' ? 1 : 0);
-
 	// record layout
 	let opponentCells = Array.from(document.querySelectorAll('.opponent.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
 	let playerCells = Array.from(document.querySelectorAll('.player.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
-
 	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins, layout: { opponent: opponentCells, player: playerCells } });
-
+	// save to storage
 	localStorage.setItem(config.storage.wins, JSON.stringify([playerWins, opponentWins]));
 	localStorage.setItem(config.storage.scores, JSON.stringify(scores));
 }
@@ -142,7 +132,6 @@ function shake(number) {
 		event.target.parentElement.getAttribute('data-status') == 'rolled') return;
 	window['shake-' + number] = 0;
 	shaking(number);
-
 	// AI action
 	if (config.com.enable && number == 2) {
 		setTimeout(function () {
@@ -343,16 +332,16 @@ function showRules() {
 	settings.appendChild(difHeader);
 	let difficulty = document.createElement('div');
 	difficulty.classList.add('difficulty');
-	for(let dif of ['aggressive', 'balanced', 'defensive']) {
+	for (let dif of ['aggressive', 'balanced', 'defensive']) {
 		let difDiv = document.createElement('button');
 		difDiv.setAttribute('data-id', dif);
-		if(dif == window['ai'])
+		if (dif == window['ai'])
 			difDiv.setAttribute('disabled', '');
 		difDiv.innerText = dif[0].toUpperCase() + dif.slice(1);
-		difDiv.addEventListener('click', function() {
+		difDiv.addEventListener('click', function () {
 			window['ai'] = event.target.getAttribute('data-id');
-			for(let d of document.querySelectorAll('.diffifulty div')) {
-				if(d.getAttribute('data-id') == window['ai'])
+			for (let d of document.querySelectorAll('.diffifulty div')) {
+				if (d.getAttribute('data-id') == window['ai'])
 					difDiv.setAttribute('disabled', '');
 				else
 					difDiv.removeAttribute('disabled');
@@ -377,7 +366,7 @@ function showScores() {
 	// scores object: { player: x, opponent: y, win: player }
 	let wins = JSON.parse(localStorage.getItem(config.storage.wins) ?? '[]');
 	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
-	if(config.debug) console.log('showScores', wins, scores);
+	if (config.debug) console.log('showScores', wins, scores);
 
 	let header = document.createElement('h5');
 	header.innerText = config.scoreboard.title.matches;
@@ -466,23 +455,34 @@ function showScores() {
 }
 
 function showMatchLayout() {
-	if(!event.target.closest('[data-id]')) return;
+	if (!event.target.closest('[data-id]')) return;
 	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
 	let score = scores[parseInt(event.target.closest('[data-id]').getAttribute('data-id'))];
-	if(!score.layout || !score.layout.opponent || !score.layout.player) return;
+	if (!score.layout || !score.layout.opponent || !score.layout.player) return;
 	let opponentCells = document.querySelectorAll('.opponent.cell');
 	let playerCells = document.querySelectorAll('.player.cell');
-	for(let i = 0; i < 9; i++) {
+	for (let i = 0; i < 9; i++) {
 		let opponentCell = opponentCells[i];
 		opponentCell.setAttribute('data-id', score.layout.opponent[i]);
-		if(opponentCell.querySelector('.content'))
+		if (opponentCell.querySelector('.content'))
 			opponentCell.querySelector('.content').className = 'content bi bi-dice-' + score.layout.opponent[i];
 		let playerCell = playerCells[i];
 		playerCell.setAttribute('data-id', score.layout.player[i]);
-		if(playerCell.querySelector('.content'))
+		if (playerCell.querySelector('.content'))
 			playerCell.querySelector('.content').className = 'content bi bi-dice-' + score.layout.player[i];
 	}
 	updateColumnScores();
+	updateTotalScores();
+	// decide who wins based on final layout
+	let whoWins = 'draw';
+	if (playerScore > opponentScore) {
+		whoWins = 'player';
+		document.querySelector('.player.dice').innerText = config.icon.win;
+	}
+	if (opponentScore > playerScore) {
+		whoWins = 'opponent';
+		document.querySelector('.opponent.dice').innerText = config.icon.win;
+	}
 	closeViewer();
 }
 
@@ -500,13 +500,13 @@ function chooseCell() {
 	let selectCol1 = false, selectCol2 = false, selectCol3 = false;
 	let emptyCols1 = 3, emptyCols2 = 3, emptyCols3 = 3;
 
-	if(config.debug) console.log('behaviour:', window['ai']);
+	if (config.debug) console.log('behaviour:', window['ai']);
 	let method = window['ai'];
-	if(method == 'balanced')
+	if (method == 'balanced')
 		method = 'aggressive';
-	if(method == 'aggressive') {
+	if (method == 'aggressive') {
 		// objective: to kill combo when present
-		if(config.debug) console.log('method ' + method);
+		if (config.debug) console.log('method ' + method);
 		// compile values
 		col1 = Array.from(document.querySelectorAll('.player.cell.col1'))
 			.map(c => parseInt(c.getAttribute('data-id')) || 0);
@@ -514,7 +514,7 @@ function chooseCell() {
 			.map(c => parseInt(c.getAttribute('data-id')) || 0);
 		col3 = Array.from(document.querySelectorAll('.player.cell.col3'))
 			.map(c => parseInt(c.getAttribute('data-id')) || 0);
-		if(config.debug) console.log(col1, col2, col3);
+		if (config.debug) console.log(col1, col2, col3);
 		counts1 = [
 			null,
 			col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
@@ -524,7 +524,7 @@ function chooseCell() {
 			col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
 			col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 		];
-		if(config.debug) console.log('left', counts1);
+		if (config.debug) console.log('left', counts1);
 		counts2 = [
 			null,
 			col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
@@ -534,7 +534,7 @@ function chooseCell() {
 			col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
 			col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 		];
-		if(config.debug) console.log('middle', counts2);
+		if (config.debug) console.log('middle', counts2);
 		counts3 = [
 			null,
 			col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
@@ -544,27 +544,27 @@ function chooseCell() {
 			col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
 			col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 		];
-		if(config.debug) console.log('right', counts3);
+		if (config.debug) console.log('right', counts3);
 		// priority checks
 		// check if column has current
 		selectCol1 = counts1.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col1.includes(current);
 		selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col2.includes(current);
 		selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col3.includes(current);
-		if(config.debug) console.log('select', selectCol1, selectCol2, selectCol3);
+		if (config.debug) console.log('select', selectCol1, selectCol2, selectCol3);
 		// check for empty columns
 		emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
 		emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
 		emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
-		if(config.debug) console.log('empty', emptyCols1, emptyCols2, emptyCols3);	
+		if (config.debug) console.log('empty', emptyCols1, emptyCols2, emptyCols3);
 		// make choice, fallback random available column
-		if(window['ai'] == 'balanced' && !selectCol1 && !selectCol2 && !selectCol3)
+		if (window['ai'] == 'balanced' && !selectCol1 && !selectCol2 && !selectCol3)
 			method = 'defensive';
 		else
 			choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
 	}
-	if(method == 'defensive') {
+	if (method == 'defensive') {
 		// objective: to get highest score possible by adding to columns with similar values
-		if(config.debug) console.log('method ' + method);
+		if (config.debug) console.log('method ' + method);
 		// compile values
 		col1 = Array.from(document.querySelectorAll('.opponent.cell.col1'))
 			.map(c => parseInt(c.getAttribute('data-id')) || 0);
@@ -572,7 +572,7 @@ function chooseCell() {
 			.map(c => parseInt(c.getAttribute('data-id')) || 0);
 		col3 = Array.from(document.querySelectorAll('.opponent.cell.col3'))
 			.map(c => parseInt(c.getAttribute('data-id')) || 0);
-		if(config.debug) console.log(col1, col2, col3);
+		if (config.debug) console.log(col1, col2, col3);
 		counts1 = [
 			null,
 			col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
@@ -582,7 +582,7 @@ function chooseCell() {
 			col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
 			col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 		];
-		if(config.debug) console.log('left', counts1);
+		if (config.debug) console.log('left', counts1);
 		counts2 = [
 			null,
 			col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
@@ -592,7 +592,7 @@ function chooseCell() {
 			col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
 			col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 		];
-		if(config.debug) console.log('middle', counts2);
+		if (config.debug) console.log('middle', counts2);
 		counts3 = [
 			null,
 			col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
@@ -602,22 +602,22 @@ function chooseCell() {
 			col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
 			col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 		];
-		if(config.debug) console.log('right', counts3);
+		if (config.debug) console.log('right', counts3);
 		// priority checks
 		// check columns with similar as current
 		selectCol1 = counts1[current] > 0 || col1.includes(current) || col1.filter(x => x && x > 0).length == 0;
 		selectCol2 = counts2[current] > 0 || col2.includes(current) || col2.filter(x => x && x > 0).length == 0;
 		selectCol3 = counts3[current] > 0 || col3.includes(current) || col3.filter(x => x && x > 0).length == 0;
-		if(config.debug) console.log('select', selectCol1, selectCol2, selectCol3);
+		if (config.debug) console.log('select', selectCol1, selectCol2, selectCol3);
 		// check for empty columns
 		emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
 		emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
 		emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
-		if(config.debug) console.log('empty', emptyCols1, emptyCols2, emptyCols3);
+		if (config.debug) console.log('empty', emptyCols1, emptyCols2, emptyCols3);
 		// make choice, fallback random available column
 		choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
 	}
-	if(config.debug) console.log('choice', choice); // zero-based column no
+	if (config.debug) console.log('choice', choice); // zero-based column no
 	return choice;
 }
 
