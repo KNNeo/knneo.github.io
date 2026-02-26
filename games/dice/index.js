@@ -488,6 +488,10 @@ function showMatchLayout() {
 	renderTotalScores(score.player, score.opponent);
 	updateColumnScores();
 	updateTotalScores();
+	// set action to restart
+	let actionPlay = document.querySelector('.action.bi');
+	actionPlay.onclick = reload;
+	actionPlay.className = 'action bi bi-arrow-clockwise';
 	// decide who wins based on final layout
 	let whoWins = score.win;
 	if (whoWins == 'player')
