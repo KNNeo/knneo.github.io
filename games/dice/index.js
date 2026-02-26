@@ -489,7 +489,7 @@ function showMatchLayout() {
 	updateColumnScores();
 	updateTotalScores();
 	// set action to restart
-	let actionPlay = document.querySelector('.action.bi');
+	let actionPlay = document.querySelector('.action.bi.bi-play-fill, .action.bi.bi-arrow-clockwise');
 	actionPlay.onclick = reload;
 	actionPlay.className = 'action bi bi-arrow-clockwise';
 	// decide who wins based on memory
