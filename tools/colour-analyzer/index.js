@@ -61,7 +61,7 @@ function processImage(img) {
         let r = Math.round(data[i] / 32) * 32;
         let g = Math.round(data[i + 1] / 32) * 32;
         let b = Math.round(data[i + 2] / 32) * 32;
-        let name = config.debug ? rgbToHsl(r, g, b) : classifyColor(r, g, b);
+        let name = config.debug ? rgbToHsl(r, g, b).join(' | ') : classifyColor(r, g, b);
         if (!config.exclude?.length || !config.exclude?.includes(name))
             colorCounts[name] = (colorCounts[name] || 0) + 1;
     }
@@ -108,7 +108,7 @@ function rgbToHsl(r, g, b) {
         }
         h /= 6;
     }
-    return [parseFloat(h * 360).toFixed(2), parseFloat(s).toFixed(2), parseFloat(l).toFixed(2)];
+    return [parseFloat(h * 360).toFixed(2).padStart(5, '0'), parseFloat(s).toFixed(2).padStart(5, '0'), parseFloat(l).toFixed(2).padStart(5, '0')];
 }
 
 function classifyColor(r, g, b) {
