@@ -120,9 +120,9 @@ function classifyColor(r, g, b) {
         return "black";
     }
     if (l < 0.08) return "black";
-    if (h < 5 && s > 0.3 && l > 0.1 && l < 0.2) return "brown";
     // beige (light yellow range) for skin tones
     if (h >= 35 && h <= 55 && l > 0.6) return "beige";
+    if (h < 5 && s > 0.3 && l > 0.1 && l < 0.2) return "brown";
     // set as neutral lightness max saturation to get pure hue
     s = 1;
     l = 0.5;
