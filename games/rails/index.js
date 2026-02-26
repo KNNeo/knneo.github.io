@@ -479,7 +479,7 @@ function chartProgress() {
 			}
 			else {
 				// wait at station (do not reduce time) and skip all processing
-				return log("train waiting at station " + station.name);
+				log("train waiting at station " + station.name);
 			}
 		}
 		// can reach station, new position at station, calc again
@@ -532,12 +532,9 @@ function chartProgress() {
 		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
-	if (timeDiffSec <= 0) {
+	if (timeDiffSec <= 0)
 		window.data.game.diff = 0;
-		idle();
-	}
-	else
-		window.data.game.diff = Math.floor(timeDiffSec);
+	idle();
 }
 
 function moveCamera() {
