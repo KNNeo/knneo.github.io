@@ -485,11 +485,11 @@ function showMatchLayout() {
 		if (playerCell.querySelector('.content'))
 			playerCell.querySelector('.content').className = 'content bi bi-dice-' + score.layout.player[i];
 	}
-	renderTotalScores(scores.player, scores.opponent);
+	renderTotalScores(score.player, score.opponent);
 	updateColumnScores();
 	updateTotalScores();
 	// decide who wins based on final layout
-	let whoWins = scores.win;
+	let whoWins = score.win;
 	if (whoWins == 'player')
 		document.querySelector('.player.dice').innerText = config.icon.win;
 	if (whoWins = 'opponent')
