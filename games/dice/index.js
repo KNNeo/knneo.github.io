@@ -199,7 +199,7 @@ function shaking(target, number) {
 	// set value
 	target.parentElement.setAttribute('data-id', rand);
 	// pre-roll, stop board action
-	if(config.check) return;
+	if(document.querySelectorAll('.dice[data-status="pre-roll"]').length) return;
 	// light up board
 	let classes = '.' + Array.from(target.parentElement.classList).join('.');
 	for (let cell of document.querySelectorAll(classes.replace('dice', 'cell').replace('.flipped', ''))) {
