@@ -76,18 +76,7 @@ function start() { // from trigger, start game
 	for (let dice of document.querySelectorAll('.player.dice[data-status="disabled"]'))
 		dice.removeAttribute('data-status');
 	// reset column scores
-	let actionScore = document.querySelector('.action.bi.bi-table');
-	actionScore.innerHTML = '';
-	actionScore.className = 'action score';
-	let score = document.createElement('strong');
-	score.className = 'opponent total ' + (!config.com.enable && isMobile() ? 'flipped' : '');
-	score.innerText = 0;
-	actionScore.appendChild(score);
-	actionScore.appendChild(document.createElement('hr'));
-	score = document.createElement('strong');
-	score.className = 'player total';
-	score.innerText = 0;
-	actionScore.appendChild(score);
+	renderTotalScores();
 	// set action to restart
 	let actionPlay = document.querySelector('.action.bi.bi-play-fill');
 	actionPlay.onclick = reload;
@@ -291,6 +280,21 @@ function resetCell() {
 
 }
 
+function renderTotalScores(player, opponent) {
+	let actionScore = document.querySelector('.action.bi.bi-table');
+	actionScore.innerHTML = '';
+	actionScore.className = 'action score';
+	let score = document.createElement('strong');
+	score.className = 'opponent total ' + (!config.com.enable && isMobile() ? 'flipped' : '');
+	score.innerText = opponent || 0;
+	actionScore.appendChild(score);
+	actionScore.appendChild(document.createElement('hr'));
+	score = document.createElement('strong');
+	score.className = 'player total';
+	score.innerText = player || 0;
+	actionScore.appendChild(score);
+}
+
 function updateColumnScores() {
 	for (let player = 1; player < 3; player++) {
 		for (let col = 1; col < 4; col++) {
@@ -481,18 +485,15 @@ function showMatchLayout() {
 		if (playerCell.querySelector('.content'))
 			playerCell.querySelector('.content').className = 'content bi bi-dice-' + score.layout.player[i];
 	}
+	renderTotalScores(scores.player, scores.opponent);
 	updateColumnScores();
 	updateTotalScores();
 	// decide who wins based on final layout
-	let whoWins = 'draw';
-	if (playerScore > opponentScore) {
-		whoWins = 'player';
+	let whoWins = scores.win;
+	if (whoWins == 'player')
 		document.querySelector('.player.dice').innerText = config.icon.win;
-	}
-	if (opponentScore > playerScore) {
-		whoWins = 'opponent';
+	if (whoWins = 'opponent')
 		document.querySelector('.opponent.dice').innerText = config.icon.win;
-	}
 	closeViewer();
 }
 
