@@ -41,6 +41,9 @@ window.onresize = adjustViewerMargin();
 
 //--FUNCTIONS--//
 function startup() {
+	// show rules on first time load
+	if(!localStorage.getItem(config.storage.wins))
+		showRules();
 	window['shake-1'] = false; // player
 	window['shake-2'] = false; // opponent
 	window['delay'] = 500; // AI
