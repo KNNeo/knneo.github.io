@@ -68,7 +68,7 @@ function processImage(img) {
 
     let values = Array.from(Object.values(colorCounts));
     let threshold = typeof parseInt(thresholdInput.value) == 'number' ? parseInt(thresholdInput.value) : 0;
-    //console.log(Math.max(...values));
+    if(config.debug) console.log(Math.max(...values));
     let sortedColors = Object.entries(colorCounts)
         .filter(f => config.mode == 'capped' ? f[1] > threshold / 100 * Math.max(...values) : true)
         .sort((a, b) => b[1] - a[1])
