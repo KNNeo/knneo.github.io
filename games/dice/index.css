@@ -142,7 +142,7 @@ h5 {
 	font-size: 1em;
 }
 
-.difficulty button {
+.settings button {
 	font-size: 1em;
 	text-transform: uppercase;
 	text-align: center;
@@ -151,7 +151,11 @@ h5 {
 	cursor: pointer;
 }
 
-.difficulty button[disabled] {
+.settings button:hover {
+	background-color: var(--primary);
+}
+
+.settings button[disabled] {
 	background-color: var(--accent);
 	border: 1px solid var(--accent);
 	filter: contrast(0.5);

@@ -340,6 +340,7 @@ function showRules() {
 	board.innerText = config.rules;
 
 	let settings = document.createElement('div');
+	settings.classList.add('settings');
 
 	let difHeader = document.createElement('h5');
 	difHeader.innerText = 'Behaviour';
@@ -354,16 +355,37 @@ function showRules() {
 		difDiv.innerText = dif[0].toUpperCase() + dif.slice(1);
 		difDiv.addEventListener('click', function () {
 			window['ai'] = event.target.getAttribute('data-id');
-			for (let d of document.querySelectorAll('.diffifulty div')) {
-				if (d.getAttribute('data-id') == window['ai'])
-					difDiv.setAttribute('disabled', '');
-				else
-					difDiv.removeAttribute('disabled');
-			}
+			// update ui
+			for (let d of event.target.parentElement.querySelectorAll('div'))
+				d.removeAttribute('disabled');
+			event.target.setAttribute('disabled', '');
 		});
 		difficulty.appendChild(difDiv);
 	}
 	settings.appendChild(difficulty);
+	let modeHeader = document.createElement('h5');
+	modeHeader.innerText = 'Mode';
+	settings.appendChild(modeHeader);
+	let mode = document.createElement('div');
+	mode.classList.add('mode');
+	let modes = ['player vs player', 'player vs com'];
+	for (let opt of modes) {
+		let modeDiv = document.createElement('button');
+		modeDiv.setAttribute('data-id', modes.indexOf(opt));
+		if ((config.com.enable && modes.indexOf(opt)) ||
+			(!config.com.enable && !modes.indexOf(opt)))
+			modeDiv.setAttribute('disabled', '');
+		modeDiv.innerText = opt.toUpperCase();
+		modeDiv.addEventListener('click', function () {
+			config.com.enable = event.target.getAttribute('data-id') == '1' ? true : false;
+			// update ui
+			for (let d of event.target.parentElement.querySelectorAll('div'))
+				d.removeAttribute('disabled');
+			event.target.setAttribute('disabled', '');
+		});
+		mode.appendChild(modeDiv);
+	}
+	settings.appendChild(mode);
 
 	container.appendChild(board);
 	container.appendChild(settings);
