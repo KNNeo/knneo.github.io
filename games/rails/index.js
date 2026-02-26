@@ -581,7 +581,7 @@ function focus(element) {
 	//set based on params
 	let posX = parseInt(attributes[0]) + (element.getBoundingClientRect()?.x || 0) - (parseInt(attributes[2]) / 2);
 	let posY = parseInt(attributes[1]) + (element.getBoundingClientRect()?.y || 0) - (parseInt(attributes[3]) / 2);
-	if (config.debug) console.log('focus', posX, posY);
+	if (config.debug) console.log('focus', Math.floor(posX).toString(), Math.floor(posY).toString());
 	move(posX, posY);
 }
 
@@ -592,9 +592,9 @@ function move(x, y) {
 	attributes[1] = 0;
 	diagramSvg.setAttribute("viewBox", attributes.join(" "));
 	//set viewbox
-	attributes[0] = x;
-	attributes[1] = y;
-	if (config.debug) console.log('moveCamera', ...attributes);
+	attributes[0] = Math.floor(x).toString();
+	attributes[1] = Math.floor(y).toString();
+	if (config.debug) console.log('move viewBox', ...attributes);
 	diagramSvg.setAttribute("viewBox", attributes.join(" "));
 }
 
