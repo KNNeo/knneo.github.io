@@ -114,6 +114,11 @@ function preRoll() {
 					dice.setAttribute('data-status', 'disabled');
 				document.querySelector('.' + whoWins + '.dice').removeAttribute('data-status');
 				clearInterval(config.check);
+				// clear all cells of dice
+				for (let content of document.querySelectorAll('.content.bi')) {
+					content.className = 'content bi bi-dice-';
+					content.removeAttribute('data-id');
+				}
 				// AI action
 				if (config.com.enable && document.querySelector('.opponent.dice .bi')) {
 					setTimeout(function () {
