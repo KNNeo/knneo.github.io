@@ -460,7 +460,7 @@ function chartProgress() {
 		if (config.debug) console.log('distance', distance);
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
-			if (!station.wait || timeDiffSec - station.wait * waitRate > 0) {
+			if (!station.wait || timeDiffSec - ((station.wait || 0) * waitRate) > 0) {
 				timeDiffSec -= (station.wait || 0) * waitRate;
 				// set new station based on config, or random
 				if (window.data.next) {
@@ -477,8 +477,8 @@ function chartProgress() {
 				log("train destination set to " + station.name);
 			}
 			else {
-				// wait at station (do not reduce time)
-				log("train waiting at station " + station.name);
+				// wait at station (do not reduce time) and skip all
+				return log("train waiting at station " + station.name);
 			}
 		}
 		// can reach station, new position at station, calc again
