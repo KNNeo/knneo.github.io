@@ -75,6 +75,11 @@ const settingsDiv = document.querySelector("div.settings");
 const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 
 //--EVENT HANDLERS--//
+function resetProgress() {
+	window.data.game.diff = 100;
+	window.data.last = { x: 0, y: 0, id: 'station-1' };
+}
+
 function toggleProgress() {
 	let toPause = event.target.classList.contains('bi-play-circle');
 	event.target.classList.toggle('bi-play-circle');
