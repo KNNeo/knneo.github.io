@@ -281,7 +281,7 @@ function resetCell() {
 }
 
 function renderTotalScores(player, opponent) {
-	let actionScore = document.querySelector('.action.bi.bi-table');
+	let actionScore = document.querySelector('.action.score, .action.bi.bi-table');
 	actionScore.innerHTML = '';
 	actionScore.className = 'action score';
 	let score = document.createElement('strong');
