@@ -464,20 +464,21 @@ function chartProgress() {
 				timeDiffSec -= (station.wait || 0) * waitRate;
 				// set new station based on config, or random
 				if (window.data.next) {
+					// follow selected by user
 					station = window.data.map.stations.find(s => s.id == window.data.next.id);
 					delete window.data.next;
 				}
 				else {
-					let links = window.data.map.stations.find(s => s.id == window.data.last.id)?.links.filter(l => l != window.data.last.id);
-					if (config.debug) console.log(links);
-					let nextStation = links[Math.floor(Math.random() * links.length)];
+					// find links through station id (assume was on station)
+					if (config.debug) console.log(station.links);
+					let nextStation = station.links[Math.floor(Math.random() * station.links.length)];
 					station = window.data.map.stations.find(s => s.id == nextStation);
 				}
 				window.data.last.id = station.id;
 				log("train destination set to " + station.name);
 			}
 			else {
-				// wait at station (do not reduce time) and skip all
+				// wait at station (do not reduce time) and skip all processing
 				return log("train waiting at station " + station.name);
 			}
 		}
