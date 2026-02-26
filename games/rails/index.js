@@ -479,7 +479,7 @@ function chartProgress() {
 			}
 			else {
 				// wait at station (do not reduce time) and skip all processing
-				log("train waiting at station " + station.name);
+				return log("train waiting at station " + station.name);
 			}
 		}
 		// can reach station, new position at station, calc again
