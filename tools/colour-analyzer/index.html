@@ -15,11 +15,11 @@
 	<h2>Colour Analyzer</h2>
 	<h6>Using HTML5 Canvas API, mapped to a list of defined colours, see js</h6>
     <label>Select File: <input type="file" id="upload" accept="image/*"><button id="input">UPLOAD</button></label>
-    <label>Threshold: <input type="number" id="threshold" value="80"> %</label>
+    <label>Coverage: <input type="number" id="threshold" value="80" min="10" max="100"> % pixels</label>
     <hr>
 	<div class="page">
-        <canvas id="output"></canvas>
-        <div id="message"></div>
+        <canvas id="output" width="0"></canvas>
+        <div id="message">Select an image or upload an image file to begin</div>
 	</div>
     <br>
     <div id="examples">

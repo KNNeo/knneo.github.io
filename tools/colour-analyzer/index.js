@@ -74,20 +74,20 @@ function processImage(img) {
         .sort((a, b) => b[1] - a[1])
         .slice(0, config.results);
     if (sortedColors.length < 3) {
-        console.log('remove max results');
+        if(config.debug) console.log('remove max results');
         sortedColors = Object.entries(colorCounts)
             .filter(f => config.mode == 'capped' ? f[1] > threshold / 100 * Math.max(...values) : true)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 3);
     }
     if (config.results >= 3 && sortedColors.length < 3) {
-        console.log('remove threshold');
+        if(config.debug) console.log('remove threshold');
         sortedColors = Object.entries(colorCounts)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 3);
     }
 
-    messageDiv.innerText = 'Top Colors:\n\n' + sortedColors.map(c => c[0][0].toUpperCase() + c[0].slice(1) + (config.values ? ' (' + c[1] + ')' : '')).join('\n');
+    messageDiv.innerText = 'Colors:\n\n' + sortedColors.map(c => c[0][0].toUpperCase() + c[0].slice(1) + (config.values ? ' (' + c[1] + ')' : '')).join('\n');
 }
 
 //---HSL CLASSIFIER---//
@@ -114,8 +114,13 @@ function rgbToHsl(r, g, b) {
 function classifyColor(r, g, b) {
     let [h, s, l] = rgbToHsl(r, g, b);
     // achromatic or low saturation: treat as black
-    if (l < 0.08 || s < 0.08) return "black";
-    if (l > 0.92 && s < 0.1) return "white";
+    if(s < 0.15) {
+        if (l > 0.90) return "white";
+        if (l > 0.20) return "gray";
+        return "black";
+    }
+    if (l < 0.08) return "black";
+    if (h < 5 && s > 0.3 && l > 0.1 && l < 0.2) return "brown";
     // beige (light yellow range) for skin tones
     if (h >= 35 && h <= 55 && l > 0.6) return "beige";
     // set as neutral lightness max saturation to get pure hue
@@ -127,8 +132,8 @@ function classifyColor(r, g, b) {
     if (h < 65) return "yellow";
     if (h < 160) return "green";
     if (h < 180) return "cyan";
-    if (h < 260) return "blue";
-    if (h < 290) return "purple";
+    if (h < 245) return "blue";
+    if (h < 280) return "purple";
     if (h < 345) return "pink";
     return "unknown";
 }
