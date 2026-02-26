@@ -459,14 +459,14 @@ function chartProgress() {
 	let waitRate = window.data.game.cost.wait || 0;
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if (station && timeDiffSec > 0) {
-		log("train moving towards " + station.name);
 		if (config.debug) console.log('delta: ' + timeDiffSec);
 		let distance = findDistance(window.data.last, station);
 		if (config.debug) console.log('distance', distance);
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
-			if (!station.wait || timeDiffSec - ((station.wait || 0) * waitRate) > 0) {
-				timeDiffSec -= (station.wait || 0) * waitRate;
+			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
+			if (!station.wait || waitDiff > 0) {
+				timeDiffSec -= waitDiff;
 				// set new station based on config, or random
 				if (window.data.next) {
 					// follow selected by user
@@ -484,11 +484,13 @@ function chartProgress() {
 			}
 			else {
 				// wait at station (do not reduce time) and skip all processing
-				return log("train waiting at station " + station.name);
+				log("train waiting at station " + station.name);
+				return log("time before departure: " + (-1*waitDiff) + "s");
 			}
 		}
 		// can reach station, new position at station, calc again
 		else if (timeDiffSec - distance / travelRate > 0) {
+			log("train moving towards " + station.name);
 			// set new position
 			window.data.last = { x: station.x, y: station.y, id: station.id };
 			timeDiffSec -= distance / travelRate;
@@ -496,6 +498,7 @@ function chartProgress() {
 		}
 		// en route, calculate newest position
 		else {
+			log("train moving towards " + station.name);
 			let distance = Math.floor(timeDiffSec * travelRate);
 			timeDiffSec = 0;
 			if (distance > 0) {
