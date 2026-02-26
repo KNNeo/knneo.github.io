@@ -492,12 +492,9 @@ function showMatchLayout() {
 	let actionPlay = document.querySelector('.action.bi');
 	actionPlay.onclick = reload;
 	actionPlay.className = 'action bi bi-arrow-clockwise';
-	// decide who wins based on final layout
-	let whoWins = score.win;
-	if (whoWins == 'player')
-		document.querySelector('.player.dice').innerText = config.icon.win;
-	if (whoWins = 'opponent')
-		document.querySelector('.opponent.dice').innerText = config.icon.win;
+	// decide who wins based on memory
+	document.querySelector('.player.dice').innerText = score.win == 'player' ? config.icon.win : '';
+	document.querySelector('.opponent.dice').innerText = score.win == 'opponent' ? config.icon.win : '';
 	closeViewer();
 }
 
