@@ -450,7 +450,7 @@ function drawTrain() {
 function chartProgress() {
 	if (config.debug) console.log('chartProgress');
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+	console.log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = window.data.game.diff > 0 ? window.data.game.diff : Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	if (timeDiffSec > 600) // max 10min
 		timeDiffSec = 600;
