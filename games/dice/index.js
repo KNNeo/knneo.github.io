@@ -46,7 +46,7 @@ function startup() {
 		showRules();
 	window['shake-1'] = false; // player
 	window['shake-2'] = false; // opponent
-	window['delay'] = 500; // AI
+	window['delay'] = 1000; // AI
 	window['ai'] = config.com.mode ?? 'balanced';
 	generateViewer();
 }
@@ -131,10 +131,43 @@ function reload() {
 }
 
 function shake(number) {
-	if (event.target.parentElement.getAttribute('data-status') == 'disabled' ||
-		event.target.parentElement.getAttribute('data-status') == 'rolled') return;
+	let target = event.target;
+	if (target && (target.parentElement.getAttribute('data-status') == 'disabled' ||
+		target.parentElement.getAttribute('data-status') == 'rolled'))
+		return;
 	window['shake-' + number] = 0;
-	shaking(number);
+	config.rolling = setInterval(function() {
+		let rand = Math.floor(Math.random() * 6) + 1;
+		if (number == 1)
+			document.querySelector('.player.dice').querySelector('.bi').className = 'bi bi-dice-' + rand;
+		if (number == 2)
+			document.querySelector('.opponent.dice').querySelector('.bi').className = 'bi bi-dice-' + rand;
+	}, 100);
+	setTimeout(function() {
+		shaking(target, number);
+	}, window['delay']);
+}
+
+function shaking(target, number) {
+	let rand = Math.floor(Math.random() * 6) + 1;
+	window['shake-' + number] = window['shake-' + number] + 1;
+	// assign dice element
+	if (number == 1)
+		document.querySelector('.player.dice').querySelector('.bi').className = 'bi bi-dice-' + rand;
+	if (number == 2)
+		document.querySelector('.opponent.dice').querySelector('.bi').className = 'bi bi-dice-' + rand;
+	// how to show rolling simulation? maybe on hover?
+	roll(number, rand);
+	// show dice as rolled
+	target.parentElement.setAttribute('data-status', 'rolled');
+	// set value
+	target.parentElement.setAttribute('data-id', rand);
+	// light up board
+	let classes = '.' + Array.from(target.parentElement.classList).join('.');
+	for (let cell of document.querySelectorAll(classes.replace('dice', 'cell').replace('.flipped', ''))) {
+		if (cell.getAttribute('data-id') == null)
+			cell.classList.add('highlight');
+	}
 	// AI action
 	if (config.com.enable && number == 2) {
 		setTimeout(function () {
@@ -142,39 +175,13 @@ function shake(number) {
 			let colNo = chooseCell();
 			if (colNo)
 				document.querySelector('.opponent.cell.col' + colNo + ':not([data-id])').dispatchEvent(new Event('click'));
-		}, window['delay'] * 2);
-	}
-}
-
-function shaking(number) {
-	let rand = Math.floor(Math.random() * 6) + 1;
-	window['shake-' + number] = window['shake-' + number] + 1;
-	if (number == 1)
-		document.querySelector('.player.dice').querySelector('.bi').className = 'bi bi-dice-' + rand;
-	if (number == 2)
-		document.querySelector('.opponent.dice').querySelector('.bi').className = 'bi bi-dice-' + rand;
-
-	// how to show rolling simulation? maybe on hover?
-	roll(number, rand);
-	// prevent rolling
-	// event.target.onclick = null;
-
-	// show dice as rolled
-	event.target.parentElement.setAttribute('data-status', 'rolled');
-
-	// set value
-	event.target.parentElement.setAttribute('data-id', rand);
-
-	// light up board
-	let classes = '.' + Array.from(event.target.parentElement.classList).join('.');
-	for (let cell of document.querySelectorAll(classes.replace('dice', 'cell').replace('.flipped', ''))) {
-		if (cell.getAttribute('data-id') == null)
-			cell.classList.add('highlight');
+		}, window['delay']);
 	}
 }
 
 function roll(elem, number) {
 	window['roll-' + elem] = number;
+	clearInterval(config.rolling);
 }
 
 function onCellSelect(number) {
