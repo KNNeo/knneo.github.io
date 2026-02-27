@@ -244,6 +244,7 @@ function drawNodes() {
 		rect.setAttribute("stroke-width", window.data.node.border);
 		if (item.id != "RESERVED") diagramSvg.appendChild(rect);
 		if (item.image) {
+			rect.setAttribute("fill-opacity", 0);
 			let textArea = document.createElementNS(
 				"http://www.w3.org/2000/svg",
 				"foreignObject"
