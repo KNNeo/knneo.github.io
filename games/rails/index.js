@@ -521,7 +521,7 @@ function chartProgress() {
 				// wait at station (do not reduce time) and skip all processing
 				log("train waiting at station " + station.name);
 				focus(document.querySelector('#train'));
-				return log("time before departure: " + (-1*waitDiff) + "s");
+				return log("time before departure: " + (-1 * waitDiff) + "s");
 			}
 		}
 		// can reach station, new position at station, calc again
@@ -587,7 +587,7 @@ function moveCamera() {
 	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
 	let posX = 0;
 	let posY = 0;
-	switch(event?.target?.getAttribute('data-dir')) {
+	switch (event?.target?.getAttribute('data-dir')) {
 		case 'left':
 			posX = parseInt(attributes[0]) - config.diagram.step;
 			posY = parseInt(attributes[1]);
@@ -598,7 +598,7 @@ function moveCamera() {
 			break;
 		case 'up':
 			posX = parseInt(attributes[0]);
-			posY = parseInt(attributes[1]) +- config.diagram.step;
+			posY = parseInt(attributes[1]) - config.diagram.step;
 			break;
 		case 'down':
 			posX = parseInt(attributes[0]);
@@ -760,7 +760,7 @@ function clear() {
 //--HTML DOM FUNCTIONS--//
 function idle() {
 	// when not running chartProgress
-	if(!window.data.game.diff) {
+	if (!window.data.game.diff) {
 		// record time in order to calculate time passed when load in
 		window.data.game.time = new Date();
 		save();
