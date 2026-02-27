@@ -74,6 +74,15 @@ ul {
 	text-align: start;
 }
 
+.log::after {
+	content: var(--message);
+    display: inline-block;
+    width: 80vw;
+    white-space: nowrap;
+    overflow: hidden;
+	font-size: var(--sml);
+}
+
 .log-list {
 	width: min(100%, 70vw);
 	height: 30vh;
@@ -148,7 +157,7 @@ ul {
 .dest-label {
 	padding-top: 8px;
 	font-weight: normal;
-	font-size: 0.7em;
+	font-size: var(--sml);
 }
 
 .viewer {
