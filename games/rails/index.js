@@ -465,7 +465,7 @@ function chartProgress() {
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
 			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
-			if (!station.wait || waitDiff > 0) {
+			if (!station.wait || waitDiff > 1) {
 				timeDiffSec -= waitDiff;
 				// set new station based on config, or random
 				if (window.data.next) {
