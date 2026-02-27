@@ -83,6 +83,10 @@ ul {
 	font-size: var(--sml);
 }
 
+.log:not(:has(.log-list.hidden))::after {
+	content: "";
+}
+
 .log-list {
 	width: min(100%, 70vw);
 	height: 30vh;
