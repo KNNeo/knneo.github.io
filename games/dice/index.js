@@ -70,7 +70,6 @@ function start() { // from trigger, start game
 		content.className = 'content bi bi-dice-';
 		content.removeAttribute('data-id');
 	}
-	// all scores to reset
 	for (let score of document.querySelectorAll('.score'))
 		score.innerText = 0;
 	// remove disabled from dice
@@ -87,7 +86,6 @@ function start() { // from trigger, start game
 }
 
 function preRoll() {
-	alert('roll for who starts first, click on ok to start');
 	// set dice status
 	for (let dice of document.querySelectorAll('.dice'))
 		dice.setAttribute('data-status', 'pre-roll');
@@ -107,14 +105,17 @@ function preRoll() {
 		}
 		if(playerDice && opponentDice && !document.querySelectorAll('.dice[data-status="pre-roll"]').length) {
 			if(playerDice != opponentDice) {
+				// clear timer
+				clearInterval(config.check);
+				config.check = null;
 				let whoWins = playerDice > opponentDice ? 'player' : 'opponent';
 				alert(whoWins + ' wins, ' + whoWins + ' starts first');
 				// re-enable dice for winner
 				for (let dice of document.querySelectorAll('.dice'))
 					dice.setAttribute('data-status', 'disabled');
 				document.querySelector('.' + whoWins + '.dice').removeAttribute('data-status');
-				clearInterval(config.check);
-				config.check = null;
+				for (let total of document.querySelectorAll('.total'))
+					total.innerText = 0;
 				// clear all cells of dice
 				for (let content of document.querySelectorAll('.content.bi')) {
 					content.className = 'content bi bi-dice-';
@@ -173,6 +174,8 @@ function reload() {
 }
 
 function shake(number) {
+	// pre-roll, stop board action
+	if(config.check) return;
 	let target = event.target;
 	if (target && (target.parentElement.getAttribute('data-status') == 'disabled' ||
 		target.parentElement.getAttribute('data-status') == 'rolled'))
@@ -339,6 +342,9 @@ function resetCell() {
 }
 
 function renderTotalScores(player, opponent) {
+	// pre-roll stage
+	if(!player) player = 'ROLL';
+	if(!opponent) opponent = 'ROLL';
 	let actionScore = document.querySelector('.action.score, .action.bi.bi-table');
 	actionScore.innerHTML = '';
 	actionScore.className = 'action score';
