@@ -59,6 +59,7 @@ const config = {
 		]
 	},
 	game: {
+		refresh: 1000,
 		time: new Date(),
 		cost: {
 			travel: 5,
@@ -87,7 +88,7 @@ function toggleProgress() {
 	if (toPause)
 		clearInterval(config.interval);
 	else
-		config.interval = setInterval(chartProgress, 1000);
+		config.interval = setInterval(chartProgress, window.data.game.refresh);
 }
 
 function toggleSettings() {
@@ -467,6 +468,7 @@ function chartProgress() {
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if (station && timeDiffSec > 0) {
 		if (config.debug) console.log('delta: ' + timeDiffSec);
+		// distance to station
 		let distance = findDistance(window.data.last, station);
 		if (config.debug) console.log('distance', distance);
 		// at station
@@ -508,6 +510,7 @@ function chartProgress() {
 		// en route, calculate newest position
 		else {
 			log("train moving towards " + station.name);
+			// distance with remaining time
 			let distance = Math.floor(timeDiffSec * travelRate);
 			timeDiffSec = 0;
 			if (distance > 0) {
@@ -536,7 +539,7 @@ function chartProgress() {
 			{ x: afterX, y: afterY }
 		], {
 			// Timing options
-			duration: 1000,
+			duration: window.data.game.refresh,
 			iterations: 1,
 			fill: 'forwards', // Keeps the object at dest
 			easing: 'ease-in-out'
@@ -744,7 +747,7 @@ function startup() {
 	sizeDiagram();
 	updateConfig();
 	drawBoard();
-	config.interval = setInterval(chartProgress, 1000);
+	config.interval = setInterval(chartProgress, window.data.game.refresh);
 }
 
 function resize() {
