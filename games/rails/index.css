@@ -144,6 +144,12 @@ ul {
 	background-color: var(--secondary);
 }
 
+.dest-label {
+	padding-top: 8px;
+	font-weight: normal;
+	font-size: 0.7em;
+}
+
 .viewer {
 	z-index: 9;
 	position: fixed;

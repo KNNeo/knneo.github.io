@@ -135,6 +135,12 @@ function onSelectDestination() {
 	}
 	save();
 	removeDialog();
+	updateDestination();
+}
+
+function updateDestination() {
+	let station = window.data.map.stations.find(s => s.id == window.data.next?.id || '');
+	document.querySelector('.dest-label').innerText = station ? 'Selected: ' + station.name : 'No Destination Selected';
 }
 
 //--FUNCTIONS--//
@@ -160,6 +166,7 @@ function drawBoard() {
 	drawLines();
 	drawNodes();
 	drawTrain();
+	updateDestination();
 }
 
 function drawResources() {
