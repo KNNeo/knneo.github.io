@@ -564,7 +564,7 @@ function chartProgress() {
 			{ x: afterX, y: afterY }
 		], {
 			// Timing options
-			duration: window.data.game.refresh,
+			duration: window.data.game.refresh || 1000,
 			iterations: 1,
 			fill: 'forwards', // Keeps the object at dest
 			easing: 'ease-in-out'
@@ -772,7 +772,7 @@ function startup() {
 	sizeDiagram();
 	updateConfig();
 	drawBoard();
-	config.interval = setInterval(chartProgress, window.data.game.refresh);
+	config.interval = setInterval(chartProgress, window.data.game.refresh || 1000);
 }
 
 function resize() {
