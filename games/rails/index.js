@@ -228,8 +228,8 @@ function drawNodes() {
 	for (let item of window.data.map.stations) {
 		// 1st rect is center, else based on coordinates
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
-		let rect1X = 0.5 * diagWidth + item.x - window.data.node.width;
-		let rect1Y = 0.5 * diagHeight + item.y - window.data.node.height;
+		let rect1X = 0.5 * diagWidth + item.x - (item.width || window.data.node.width);
+		let rect1Y = 0.5 * diagHeight + item.y - (item.height || window.data.node.height);
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
