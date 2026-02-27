@@ -465,8 +465,8 @@ function chartProgress() {
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
 			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
-			if (!station.wait || waitDiff > 1) {
-				timeDiffSec -= waitDiff;
+			if (!station.wait || waitDiff >= 0) {
+				timeDiffSec -= ((station.wait || 0) * waitRate);
 				// set new station based on config, or random
 				if (window.data.next) {
 					// follow selected by user
@@ -485,6 +485,7 @@ function chartProgress() {
 			else {
 				// wait at station (do not reduce time) and skip all processing
 				log("train waiting at station " + station.name);
+				focus(document.querySelector('#train'));
 				return log("time before departure: " + (-1*waitDiff) + "s");
 			}
 		}
@@ -534,9 +535,7 @@ function chartProgress() {
 		});
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
-		setTimeout(function() {
-			focus(train);
-		}, 1000);
+		focus(train);
 		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
