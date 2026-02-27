@@ -156,11 +156,11 @@ function selectDestination() {
 function onSelectDestination() {
 	if (window.data.next && window.data.next?.id == event.target.getAttribute('data-id')) {
 		delete window.data.next;
-		log(event.target.getAttribute('data-name') + ' removed as destination');
+		log('Removed destination: ' + event.target.getAttribute('data-name'));
 	}
 	else {
 		window.data.next = { id: event.target.getAttribute('data-id') };
-		log(event.target.getAttribute('data-name') + ' set as destination');
+		log('Set as destination: ' + event.target.getAttribute('data-name'));
 	}
 	save();
 	removeDialog();
@@ -490,7 +490,7 @@ function drawTrain() {
 function chartProgress() {
 	if (window.data.debug) console.log('chartProgress');
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	if (window.data.debug) console.log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+	if (window.data.debug) console.log("at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = window.data.game.diff > 0 ? window.data.game.diff : Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	if (timeDiffSec > 60) // max 1min
 		timeDiffSec = 60;
@@ -522,18 +522,18 @@ function chartProgress() {
 				}
 				window.data.last.id = station.id;
 				updateDestination();
-				log("train destination set to " + station.name);
+				log("Train destination set: " + station.name);
 			}
 			else {
 				// wait at station (do not reduce time) and skip all processing
-				log("train waiting at station " + station.name);
+				log("Train waiting at station: " + station.name);
 				focus(document.querySelector('#train'));
-				return log("time before departure: " + (-1 * waitDiff) + "s");
+				return log("Time before departure: " + (-1 * waitDiff) + "s");
 			}
 		}
 		// can reach station, new position at station, calc again
 		else if (timeDiffSec - distance / travelRate > 0) {
-			log("train moving towards " + station.name);
+			log("Train moving to station: " + station.name);
 			// set new position
 			window.data.last = { x: station.x, y: station.y, id: station.id };
 			timeDiffSec -= distance / travelRate;
@@ -541,7 +541,7 @@ function chartProgress() {
 		}
 		// en route, calculate newest position
 		else {
-			log("train moving towards " + station.name);
+			log("Train moving to station: " + station.name);
 			// distance with remaining time
 			let distance = Math.floor(timeDiffSec * travelRate);
 			timeDiffSec = 0;
@@ -579,7 +579,7 @@ function chartProgress() {
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
 		focus(train);
-		if (window.data.debug) console.log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+		if (window.data.debug) console.log("moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
 	if (timeDiffSec <= 0) {
@@ -817,6 +817,6 @@ function sizeDiagram() {
 		diagramSvg.setAttribute("data-width", diagWidth);
 		diagramSvg.setAttribute("data-height", diagHeight);
 		diagramSvg.setAttribute("viewBox", "0 0 " + document.body.getBoundingClientRect().width + " " + document.body.getBoundingClientRect().height);
-		console.log("autosize svg", diagWidth, diagHeight);
+		if(window.data.debug) console.log("autosize svg", diagWidth, diagHeight);
 	}
 }
