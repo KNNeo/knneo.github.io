@@ -2,7 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
-	date: '20260227_4',
+	date: '20260227_5',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -86,6 +86,7 @@ const config = {
 		]
 	},
 	game: {
+		focus: true,
 		refresh: 1000,
 		time: new Date(),
 		cost: {
@@ -554,7 +555,7 @@ function chartProgress() {
 	}
 	// update train position
 	let train = document.querySelector("#train");
-	if (trainMoved && train) {
+	if (window.data.game.focus && trainMoved && train) {
 		let trainSize = Math.min(window.data.node.width, window.data.node.height);
 		let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
 		let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
@@ -594,19 +595,29 @@ function moveCamera() {
 	let posX = 0;
 	let posY = 0;
 	switch (event?.target?.getAttribute('data-dir')) {
+		case 'focus':
+			window.data.game.focus = true;
+			let train = document.querySelector("#train");
+			posX = parseInt(train.getAttribute("x"));
+			posY = parseInt(train.getAttribute("y"));
+			break;
 		case 'left':
+			window.data.game.focus = false;
 			posX = parseInt(attributes[0]) - config.diagram.step;
 			posY = parseInt(attributes[1]);
 			break;
 		case 'right':
+			window.data.game.focus = false;
 			posX = parseInt(attributes[0]) + config.diagram.step;
 			posY = parseInt(attributes[1]);
 			break;
 		case 'up':
+			window.data.game.focus = false;
 			posX = parseInt(attributes[0]);
 			posY = parseInt(attributes[1]) - config.diagram.step;
 			break;
 		case 'down':
+			window.data.game.focus = false;
 			posX = parseInt(attributes[0]);
 			posY = parseInt(attributes[1]) + config.diagram.step;
 			break;
