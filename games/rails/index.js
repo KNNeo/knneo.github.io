@@ -182,6 +182,7 @@ function log(input) {
 function updateConfig() {
 	// window.data vs config
 	if (!window.data.date || window.data.date != config.date) {
+		window.data.debug = false;
 		window.data.date = config.date;
 		window.data.node = config.node;
 		window.data.map = config.map;
@@ -486,9 +487,9 @@ function drawTrain() {
 }
 
 function chartProgress() {
-	if (config.debug) console.log('chartProgress');
+	if (window.data.debug) console.log('chartProgress');
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	console.log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+	if (window.data.debug) console.log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = window.data.game.diff > 0 ? window.data.game.diff : Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	if (timeDiffSec > 60) // max 1min
 		timeDiffSec = 60;
@@ -497,10 +498,10 @@ function chartProgress() {
 	let waitRate = window.data.game.cost.wait || 0;
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if (station && timeDiffSec > 0) {
-		if (config.debug) console.log('delta: ' + timeDiffSec);
+		if (window.data.debug) console.log('delta: ' + timeDiffSec);
 		// distance to station
 		let distance = findDistance(window.data.last, station);
-		if (config.debug) console.log('distance', distance);
+		if (window.data.debug) console.log('distance', distance);
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
 			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
@@ -514,7 +515,7 @@ function chartProgress() {
 				}
 				else {
 					// find links through station id (assume was on station)
-					if (config.debug) console.log(station.links);
+					if (window.data.debug) console.log(station.links);
 					let nextStation = station.links[Math.floor(Math.random() * station.links.length)];
 					station = window.data.map.stations.find(s => s.id == nextStation);
 				}
@@ -612,7 +613,7 @@ function moveCamera() {
 		default:
 			break;
 	}
-	if (config.debug) console.log(event?.target?.getAttribute('data-dir'), posX, posY);
+	if (window.data.debug) console.log(event?.target?.getAttribute('data-dir'), posX, posY);
 	move(posX, posY);
 }
 
@@ -621,7 +622,7 @@ function focus(element) {
 	//set based on params
 	let posX = parseInt(attributes[0]) + (element.getBoundingClientRect()?.x || 0) - (parseInt(attributes[2]) / 2);
 	let posY = parseInt(attributes[1]) + (element.getBoundingClientRect()?.y || 0) - (parseInt(attributes[3]) / 2);
-	if (config.debug) console.log('focus', Math.floor(posX).toString(), Math.floor(posY).toString());
+	if (window.data.debug) console.log('focus', Math.floor(posX).toString(), Math.floor(posY).toString());
 	move(posX, posY);
 }
 
@@ -634,7 +635,7 @@ function move(x, y) {
 	//set viewbox
 	attributes[0] = Math.floor(x).toString();
 	attributes[1] = Math.floor(y).toString();
-	if (config.debug) console.log('move viewBox', ...attributes);
+	if (window.data.debug) console.log('move viewBox', ...attributes);
 	diagramSvg.setAttribute("viewBox", attributes.join(" "));
 }
 
