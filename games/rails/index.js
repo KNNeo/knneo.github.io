@@ -536,7 +536,7 @@ function chartProgress() {
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
 		focus(train);
-		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+		console.log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
 	if (timeDiffSec <= 0) {
