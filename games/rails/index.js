@@ -284,7 +284,7 @@ function drawNodes() {
 				"foreignObject"
 			);
 			textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
-			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
+			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border + (item.image ? 20 : 0));
 			textArea.setAttribute(
 				"width",
 				(item.width || window.data.node.width) - window.data.node.border
