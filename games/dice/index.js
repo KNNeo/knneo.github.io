@@ -1,6 +1,10 @@
 //--DEFAULT SETTINGS--//
 const config = {
 	"debug": false,
+	"mobile": function () {
+		const match = window.matchMedia('(orientation: portrait) and (pointer:coarse)');
+		return match && match.matches;
+	},
 	"com": {
 		"enable": true,
 		"mode": "balanced",
@@ -31,14 +35,13 @@ const config = {
 * The game ends when either player completely fills up their 3x3 board. The player with the higher score wins.
 `
 };
-const isMobile = function () {
-	const match = window.matchMedia('(pointer:coarse)');
-	return (match && match.matches && window.innerWidth <= 480);
-};
 
 //--COMMON EVENTS--//
-window.onload = startup();
-window.onresize = adjustViewerMargin();
+window.addEventListener('load', startup);
+window.addEventListener('resize', function() {
+	adjustViewerMargin();
+	updateDisplay();
+});
 
 //--FUNCTIONS--//
 function startup() {
@@ -53,7 +56,7 @@ function startup() {
 }
 
 function updateDisplay() {
-	if (!config.com.enable && isMobile()) {
+	if (!config.com.enable && config.mobile()) {
 		document.querySelector('.opponent.dice').classList.add('flipped');
 		document.querySelector('.opponent.score.col1').classList.add('flipped');
 		document.querySelector('.opponent.score.col2').classList.add('flipped');
@@ -349,7 +352,7 @@ function renderTotalScores(player, opponent) {
 	actionScore.innerHTML = '';
 	actionScore.className = 'action score';
 	let score = document.createElement('strong');
-	score.className = 'opponent total ' + (!config.com.enable && isMobile() ? 'flipped' : '');
+	score.className = 'opponent total ' + (!config.com.enable && config.mobile() ? 'flipped' : '');
 	score.innerText = opponent || 0;
 	actionScore.appendChild(score);
 	actionScore.appendChild(document.createElement('hr'));
