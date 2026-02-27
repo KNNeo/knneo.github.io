@@ -2,7 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
-	date: '20260227',
+	date: '20260227_1',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -11,8 +11,8 @@ const config = {
 	node: {
 		curve: 8,
 		width: 100,
-		height: 60,
-		border: 5
+		height: 80,
+		border: 0
 	},
 	map: {
 		train: {
@@ -180,6 +180,7 @@ function updateConfig() {
 	// window.data vs config
 	if (!window.data.date || window.data.date != config.date) {
 		window.data.date = config.date;
+		window.data.node = config.node;
 		window.data.map = config.map;
 		window.data.game = config.game;
 		save();
