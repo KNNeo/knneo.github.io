@@ -174,7 +174,7 @@ function updateDestination() {
 //--FUNCTIONS--//
 function log(input) {
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
-	logDiv.style.setProperty('--message', input);
+	logDiv.style.setProperty('--message', '"' + input + '"');
 	if (!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
