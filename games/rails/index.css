@@ -80,6 +80,7 @@ ul {
 	font-size: 0.8em;
     overflow: auto;
 	background-color: var(--background);
+    resize: vertical;
 }
 
 .settings {

@@ -487,6 +487,7 @@ function chartProgress() {
 					station = window.data.map.stations.find(s => s.id == nextStation);
 				}
 				window.data.last.id = station.id;
+				updateDestination();
 				log("train destination set to " + station.name);
 			}
 			else {
