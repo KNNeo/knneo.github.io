@@ -555,7 +555,7 @@ function chartProgress() {
 	}
 	// update train position
 	let train = document.querySelector("#train");
-	if (window.data.game.focus && trainMoved && train) {
+	if (trainMoved && train) {
 		let trainSize = Math.min(window.data.node.width, window.data.node.height);
 		let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
 		let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
@@ -578,7 +578,7 @@ function chartProgress() {
 		});
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
-		focus(train);
+		if(window.data.game.focus) focus(train);
 		if (window.data.debug) console.log("moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
