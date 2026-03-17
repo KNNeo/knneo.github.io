@@ -257,6 +257,8 @@ function clearWantedList() {
 	config.multi = false;
 	loadSources();
 	generateWantedList();
+	config.view = 2;
+	toggleView();
 }
 
 function selectRandomProfile() {
