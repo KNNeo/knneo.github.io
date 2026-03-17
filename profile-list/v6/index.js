@@ -1,5 +1,6 @@
 //--SETTINGS--//
 const config = {
+	debug: false,
 	title: '推し図鑑',
 	buttons: {
 		random: true,
@@ -112,17 +113,17 @@ function startup() {
 }
 
 function initializeVariables() {
-	config.debug = false;
-	config.loading = true;
-	config.data = [];
-	config.list = {};
-	config.list.profiles = [];
-	config.list.friends = [];
-	config.list.timeline = [];
-	config.list.calendar = [];
-	config.search = '';
-	config.profiles = [];
-	config.multi = false;
+	config.loading = true; // loader
+	config.data = []; // initial load data
+	config.list = {
+		profiles: [],
+		friends: [],
+		timeline: [],
+		calendar: []
+	}; // for various views
+	config.profiles = []; // for history and detection of friends
+	config.multi = false; // toggle friend mode, show multiple profiles
+	config.view = 2; // as listed in view children, not zero-based
 }
 
 function ititializePageEvents() {
@@ -161,7 +162,7 @@ function renderPage() {
 	loadTimeline();
 	loadCalendar();
 	updateTime();
-	toggleView(2);
+	toggleView();
 }
 
 function loadData() {
@@ -174,11 +175,12 @@ function loadData() {
 	config.list.calendar = createDOBlist(calendarList, config.calendar.minAge, config.calendar.maxAge);
 }
 
-function toggleView(id) {
+function toggleView() {
 	//change page
 	for (let page of pageDivs)
 		page.classList.add('hidden');
-	pageDivs[id - 1].classList.remove('hidden');
+	pageDivs[config.view - 1].classList.remove('hidden');
+	
 	if(event?.target) {
 		for(let btn of document.querySelectorAll('.view-button')) {
 			if(event.target == btn) btn.classList.add('selected');
@@ -223,7 +225,7 @@ function updateTime() {
 //--EVENTS--//
 function onSearch() {
 	// console.log(event.target.value);
-	config.search = event.target.value.toLowerCase();
+	config.search = event.target.value.toLowerCase() || '';
 	filterWantedListBySearch();
 	if (event.key === 'Enter') // select first result
 		wantedListDiv.querySelector('.item')?.click();
@@ -232,13 +234,15 @@ function onSearch() {
 function filterWantedListBySearch() {
 	// no inactive flag, has rating, has no other profile selected or filter by that, then filter by name or nickname
 	// if no search term show default order
-	config.list.profiles = config.search ? config.data
-		.filter(n => config.profile.include && config.profile.include(n) &&
-			(config.profiles.length == 0 || config.profiles.filter(p => p.id != n.id).length > 0) &&
-			(n.name.toLowerCase().includes(config.search) || (n.nickname?.toLowerCase().includes(config.search) ?? false)))
-		.sort(function (a, b) {
-			return a.name.localeCompare(b.name);
-		}) : config.data
+	config.list.profiles = config.search 
+		? config.data
+			.filter(n => config.profile.include && config.profile.include(n) &&
+				(config.profiles.length == 0 || config.profiles.filter(p => p.id != n.id).length > 0) &&
+				(n.name.toLowerCase().includes(config.search) || (n.nickname?.toLowerCase().includes(config.search) ?? false)))
+			.sort(function (a, b) {
+				return a.name.localeCompare(b.name);
+			})
+		: config.data
 		.filter(n => config.profile.include && config.profile.include(n))
 		.sort((a,b) => config.profile.sort && config.profile.sort(a,b));
 	generateWantedList(true);
@@ -257,40 +261,6 @@ function clearWantedList() {
 function selectRandomProfile() {
 	let items = wantedListDiv.querySelectorAll('.item');
 	generateProfileFromJSON(items[Math.floor(items.length * Math.random())]);
-}
-
-function onTouchStart(e) {
-	window['touchY'] = e.touches[0].clientY;
-	window['touchX'] = e.touches[0].clientX;
-}
-
-function onTouchMove(e) {
-	let swipeDown = e.touches[0].clientY - window['touchY'];
-	let swipeUp = window['touchY'] - e.touches[0].clientY;
-	let swipeLeft = window['touchX'] - e.touches[0].clientX;
-	let swipeRight = e.touches[0].clientX - window['touchX'];
-	// if(config.debug)
-	// console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
-	//--SWIPE LEFT IE. FROM RIGHT OF SCREEN--//
-	if (swipeLeft > swipeUp && swipeLeft > swipeDown) {
-		console.log('swipeLeft');
-		return;
-	}
-	//--SWIPE RIGHT IE. FROM LEFT OF SCREEN--//
-	if (swipeRight > swipeUp && swipeRight > swipeDown) {
-		console.log('swipeRight');
-		return;
-	}
-	//--SWIPE DOWN IE. FROM TOP OF SCREEN--//
-	if (swipeDown > swipeLeft && swipeDown > swipeRight) {
-		console.log('swipeDown');
-		return;
-	}
-	//--SWIPE UP IE. FROM BOTTOM OF SCREEN--//
-	if (swipeUp > swipeLeft && swipeUp > swipeRight) {
-		console.log('swipeUp');
-		return;
-	}
 }
 
 function onKeyUpWantedListEntry() {
@@ -319,6 +289,58 @@ function onClickShowAll() {
 		});
 		wanted.addEventListener('keyup', onKeyUpWantedListEntry);
 	}
+}
+
+function onTouchStart(e) {
+	window['touchY'] = e.touches[0].clientY;
+	window['touchX'] = e.touches[0].clientX;
+}
+
+function onTouchMove(e) {
+	let swipeDown = e.touches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - e.touches[0].clientY;
+	let swipeLeft = window['touchX'] - e.touches[0].clientX;
+	let swipeRight = e.touches[0].clientX - window['touchX'];
+	if(config.debug)
+		console.log('up ' + swipeUp, 'down ' + swipeDown, 'left ' + swipeLeft, 'right ' + swipeRight);
+	//--SWIPE LEFT IE. FROM RIGHT OF SCREEN--//
+	if (swipeLeft > swipeUp && swipeLeft > swipeDown) {
+		if(config.debug) console.log('swipeLeft');
+		if(typeof onSwipeLeft == 'function')
+			return onSwipeLeft();
+	}
+	//--SWIPE RIGHT IE. FROM LEFT OF SCREEN--//
+	if (swipeRight > swipeUp && swipeRight > swipeDown) {
+		if(config.debug) console.log('swipeRight');
+		if(typeof onSwipeRight == 'function')
+			return onSwipeRight();
+	}
+	//--SWIPE DOWN IE. FROM TOP OF SCREEN--//
+	if (swipeDown > swipeLeft && swipeDown > swipeRight) {
+		if(config.debug) console.log('swipeDown');
+		if(typeof onSwipeDown == 'function')
+			return onSwipeDown();
+	}
+	//--SWIPE UP IE. FROM BOTTOM OF SCREEN--//
+	if (swipeUp > swipeLeft && swipeUp > swipeRight) {
+		if(config.debug) console.log('swipeUp');
+		if(typeof onSwipeUp == 'function')
+			return onSwipeUp();
+	}
+}
+
+function onSwipeLeft() {
+	if(config.view == 4)
+		config.view == 2;
+	if(config.view == 2)
+		config.view == 3;
+}
+
+function onSwipeRight() {
+	if(config.view == 3)
+		config.view == 2;
+	if(config.view == 2)
+		config.view == 4;
 }
 
 ////WANTED LIST////
@@ -660,7 +682,8 @@ function generateProfileFromJSON(profileName) {
 	//update search results and display
 	searchDiv.value = '';
 	updateWantedList(config.profiles.slice(0, 3));
-	toggleView(4);
+	config.view = 4;
+	toggleView();
 }
 
 function getProfileImage() {
