@@ -142,6 +142,7 @@ function selectDestination() {
 	destDiv.classList.add('destinations');
 	for (let station of destinations) {
 		let dest = document.createElement('button');
+		dest.style.setProperty('--icon', 'url("' + station.image + '")');
 		dest.setAttribute('data-id', station.id);
 		dest.setAttribute('data-name', station.name);
 		if (window.data.next && station.id == window.data.next?.id)
