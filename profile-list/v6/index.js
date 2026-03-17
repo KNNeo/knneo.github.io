@@ -728,7 +728,7 @@ function generateProfileName(profile) {
 	let span = document.createElement(config.multi ? 'a' : 'span');
 	span.classList.add('profile-name');
 	span.title = profile.nickname && profile.nickname.length > 0 ? profile.nickname.removeNumberPrefix() : '';
-	span.innerText = profile.name;
+	span.innerText = profile.name + (profile.alt ? '\n' + profile.alt : '');
 	if (config.multi) {
 		span.href = 'javascript:void(0)';
 		span.addEventListener('click', function () {
