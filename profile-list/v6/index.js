@@ -175,7 +175,8 @@ function loadData() {
 	config.list.calendar = createDOBlist(calendarList, config.calendar.minAge, config.calendar.maxAge);
 }
 
-function toggleView() {
+function toggleView(id) {
+	if(id) config.view = id;
 	//change page
 	for (let page of pageDivs)
 		page.classList.add('hidden');
