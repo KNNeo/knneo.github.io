@@ -78,12 +78,12 @@ const config = {
 			name: 'Twitch',
 			template: 'https://www.twitch.tv/{id}'
 		}
+	},
+	landscape: function () {
+		// follow css conditions
+		return window.matchMedia('(orientation:landscape) and (max-height : 640px)')?.matches;
 	}
 };
-const isLandscape = function () {
-	// follow css conditions
-	return window.matchMedia('(orientation:landscape) and (max-height : 640px)')?.matches;
-}
 const loaderStates = ['bi-hourglass-top', 'bi-hourglass-split', 'bi-hourglass-bottom'];
 
 //--STARTUP--//
@@ -530,24 +530,9 @@ function generateWantedListCard(id) {
 }
 
 ////TIMELINE////
-function loadTimeline(width = 2500) {
+function loadTimeline() {
 	let list = config.list.timeline.filter(prof => !prof.date.startsWith('????'));
 	generateVerticalTimeline(timelineVerticalDiv, list, null, 'auto');
-}
-
-function addTimelineEvents() {
-	//on timeline wheel scroll adjust timeline length ie. redraw
-	document.querySelector('#timeline .grid-horiz')?.addEventListener('wheel', function (e) {
-		e.preventDefault();
-		if (!e.shiftKey) {
-			this.scrollLeft -= e.wheelDelta / 2;
-			return;
-		}
-		let newWidth = this.querySelector('svg').width.baseVal.value + e.wheelDelta;
-		if (newWidth < 1000) newWidth = 1000;
-		else if (newWidth > 10000) newWidth > 10000;
-		else loadTimeline(newWidth);
-	});
 }
 
 ////CALENDAR////
@@ -720,7 +705,7 @@ function getNextProfileImage(id, current) {
 	let profile = config.data.find(function (n) {
 		return n.id == id;
 	});
-	let allImages = ((isLandscape() ? (profile.landscapes ?? profile.portraits) : (profile.portraits ?? profile.landscapes)) ?? []) ?? [profile.image];
+	let allImages = ((config.landscape() ? (profile.landscapes ?? profile.portraits) : (profile.portraits ?? profile.landscapes)) ?? []) ?? [profile.image];
 	let nextIndex = allImages.indexOf(current) + 1;
 	return allImages[current && nextIndex < allImages.length ? nextIndex : 0];
 }
