@@ -257,8 +257,7 @@ function clearWantedList() {
 	config.multi = false;
 	loadSources();
 	generateWantedList();
-	config.view = 2;
-	toggleView();
+	toggleView(2);
 }
 
 function selectRandomProfile() {
@@ -334,18 +333,16 @@ function onTouchMove(e) {
 
 function onSwipeLeft() {
 	if(config.view == 4)
-		config.view == 2;
+		return toggleView(2);
 	if(config.view == 2)
-		config.view == 3;
-	toggleView();
+		return toggleView(3);
 }
 
 function onSwipeRight() {
 	if(config.view == 3)
-		config.view == 2;
+		return toggleView(2);
 	if(config.view == 2)
-		config.view == 4;
-	toggleView();
+		return toggleView(4);
 }
 
 ////WANTED LIST////
@@ -672,8 +669,7 @@ function generateProfileFromJSON(profileName) {
 	//update search results and display
 	searchDiv.value = '';
 	updateWantedList(config.profiles.slice(0, 3));
-	config.view = 4;
-	toggleView();
+	toggleView(4);
 }
 
 function getProfileImage() {
