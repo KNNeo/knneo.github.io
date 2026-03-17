@@ -737,7 +737,7 @@ function generateProfileName(profile) {
 	span.classList.add('profile-name');
 	span.title = profile.nickname && profile.nickname.length > 0 ? profile.nickname.removeNumberPrefix() : '';
 	span.setAttribute('data-name', profile.name);
-	span.innerText = profile.name + (profile.alt ? '\n' + profile.alt : '');
+	span.innerText = profile.name;
 	if (config.multi) {
 		span.href = 'javascript:void(0)';
 		span.addEventListener('click', function () {
@@ -745,11 +745,18 @@ function generateProfileName(profile) {
 		});
 		span.addEventListener('keyup', onKeyUpWantedListEntry);
 	}
-	else if (profile.nickname && profile.nickname.length > 0) {
-		span.classList.add('points');
-		span.addEventListener('click', function () {
-			popupContent(this.title);
-		});
+	else {
+		if(profile.alt) {
+			let span = document.createElement('span');
+			span.classList.add('profile-alt');
+			span.innerText = profile.alt;
+		}
+		if (profile.nickname) {
+			span.classList.add('points');
+			span.addEventListener('click', function () {
+				popupContent(this.title);
+			});
+		}
 	}
 
 	cellDiv.appendChild(span);
