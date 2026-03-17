@@ -334,6 +334,7 @@ function onSwipeLeft() {
 		config.view == 2;
 	if(config.view == 2)
 		config.view == 3;
+	toggleView();
 }
 
 function onSwipeRight() {
@@ -341,6 +342,7 @@ function onSwipeRight() {
 		config.view == 2;
 	if(config.view == 2)
 		config.view == 4;
+	toggleView();
 }
 
 ////WANTED LIST////
