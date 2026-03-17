@@ -527,7 +527,7 @@ function chartProgress() {
 			else {
 				// wait at station (do not reduce time) and skip all processing
 				log("Train waiting at station: " + station.name);
-				focus(document.querySelector('#train'));
+				if(window.data.game.focus) focus(document.querySelector('#train'));
 				return log("Time before departure: " + (-1 * waitDiff) + "s");
 			}
 		}
