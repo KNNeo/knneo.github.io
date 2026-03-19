@@ -137,7 +137,7 @@ function preRoll() {
 				preRoll();
 			}
 		}
-	}, 500);
+	}, window['delay'] + 500);
 }
 
 function end() { // from trigger, end game
