@@ -37,6 +37,10 @@ body {
 	overflow: hidden;
 }
 
+button, input {
+	all: unset;
+}
+
 a {
 	color: var(--foreground);
 	text-decoration: none;
@@ -183,7 +187,39 @@ ul {
 .mission {
 	display: grid;
 	grid-template-columns: 1fr 3fr 1fr;
-	grid-template-rows: 1fr 1fr 2fr;
+    grid-template-rows: 1fr 1fr auto;
+    justify-content: center;
+    align-items: center;
+	padding: 8px;
+	border-radius: 8px;
+}
+
+.mission:hover {
+	background-color: var(--accent);
+}
+
+.name:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.desc {
+	/* row-start, col-start, row-end, col-end */
+    grid-area: 2 / 1 / 4 / 3;
+    place-self: center;
+}
+
+.status {
+	/* row-start, col-start, row-end, col-end */
+    grid-area: 3 / 3 / auto / auto;
+	border-radius: 99px;
+	border: 4px solid var(--foreground);
+	cursor: pointer;
+}
+
+.status:hover {
+	background-color: var(--foreground);
+	color: var(--background);
 }
 
 .viewer {

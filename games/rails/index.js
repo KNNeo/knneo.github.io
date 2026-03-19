@@ -2,7 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
-	date: '20260319_3',
+	date: '20260319_4',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -79,7 +79,7 @@ const config = {
 						name: 'Dead Bodies x4',
 						desc: 'These need to be buried as soon as possible, do not ask why. Do this quick and you will be rewarded.',
 						// https://www.svgrepo.com/svg/200373/coffin
-						image: 'data:image/svg+xml,%3Csvg%20height%3D%22800px%22%20width%3D%22800px%22%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20%0A%09%20viewBox%3D%220%200%20512%20512%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cpolygon%20style%3D%22fill%3A%234D3926%3B%22%20points%3D%22366.086%2C9.164%20425.202%2C188.23%20346.742%2C502.836%20165.258%2C502.836%2086.798%2C188.23%20145.914%2C9.164%20%0A%09%22%2F%3E%0A%3Cpolygon%20style%3D%22fill%3A%23664B33%3B%22%20points%3D%22198.669%2C460.071%20131.286%2C189.887%20176.831%2C51.929%20335.168%2C51.929%20380.714%2C189.887%20%0A%09313.331%2C460.071%20%22%2F%3E%0A%3Cpath%20style%3D%22fill%3A%2300C279%3B%22%20d%3D%22M294.77%2C156.419h-29.606v-27.945c0-5.062-4.102-9.164-9.164-9.164c-5.062%2C0-9.164%2C4.102-9.164%2C9.164%0A%09v27.945h-29.606c-5.062%2C0-9.164%2C4.102-9.164%2C9.164s4.102%2C9.164%2C9.164%2C9.164h29.606v86.593c0%2C5.062%2C4.102%2C9.164%2C9.164%2C9.164%0A%09c5.062%2C0%2C9.164-4.102%2C9.164-9.164v-86.593h29.606c5.062%2C0%2C9.164-4.102%2C9.164-9.164S299.832%2C156.419%2C294.77%2C156.419z%22%2F%3E%0A%3Cg%3E%0A%09%3Cpolygon%20style%3D%22opacity%3A0.3%3Bfill%3A%2320272E%3Benable-background%3Anew%20%20%20%20%3B%22%20points%3D%22366.086%2C9.164%20255.999%2C9.164%20255.999%2C502.836%20%0A%09%09346.742%2C502.836%20425.202%2C188.23%20%09%22%2F%3E%0A%09%3Cpath%20style%3D%22fill%3A%2320272E%3B%22%20d%3D%22M346.742%2C512H165.258c-4.207%2C0-7.874-2.865-8.891-6.947l-78.46-314.606%0A%09%09c-0.419-1.68-0.353-3.444%2C0.189-5.09L137.212%2C6.29c1.239-3.754%2C4.747-6.29%2C8.702-6.29h220.173c3.954%2C0%2C7.462%2C2.537%2C8.702%2C6.29%0A%09%09l59.115%2C179.066c0.542%2C1.646%2C0.608%2C3.41%2C0.189%2C5.09l-78.459%2C314.607C354.615%2C509.135%2C350.95%2C512%2C346.742%2C512z%20M172.417%2C493.672%0A%09%09h167.166l76.086-305.087L359.461%2C18.328H152.539L96.332%2C188.585L172.417%2C493.672z%22%2F%3E%0A%09%3Cpath%20style%3D%22fill%3A%2320272E%3B%22%20d%3D%22M313.331%2C469.235H198.667c-4.207%2C0-7.874-2.865-8.891-6.947l-67.382-270.184%0A%09%09c-0.419-1.68-0.353-3.444%2C0.189-5.09l45.545-137.958c1.24-3.754%2C4.748-6.29%2C8.702-6.29h158.338c3.954%2C0%2C7.462%2C2.537%2C8.702%2C6.29%0A%09%09l45.545%2C137.958c0.543%2C1.646%2C0.608%2C3.41%2C0.189%2C5.09l-67.38%2C270.185C321.205%2C466.37%2C317.539%2C469.235%2C313.331%2C469.235z%0A%09%09%20M205.828%2C450.907h100.345l65.008-260.664l-42.637-129.15H183.457l-42.638%2C129.15L205.828%2C450.907z%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20style%3D%22fill%3A%23EEE5DD%3B%22%20d%3D%22M294.77%2C156.419h-29.606v-27.945c0-5.062-4.102-9.164-9.164-9.164c-5.062%2C0-9.164%2C4.102-9.164%2C9.164%0A%09v27.945h-29.606c-5.062%2C0-9.164%2C4.102-9.164%2C9.164s4.102%2C9.164%2C9.164%2C9.164h29.606v86.593c0%2C5.062%2C4.102%2C9.164%2C9.164%2C9.164%0A%09c5.062%2C0%2C9.164-4.102%2C9.164-9.164v-86.593h29.606c5.062%2C0%2C9.164-4.102%2C9.164-9.164S299.832%2C156.419%2C294.77%2C156.419z%22%2F%3E%0A%3C%2Fsvg%3E',
+						image: 'data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20%0A%09%20viewBox%3D%220%200%20512%20512%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cpolygon%20style%3D%22fill%3A%234D3926%3B%22%20points%3D%22366.086%2C9.164%20425.202%2C188.23%20346.742%2C502.836%20165.258%2C502.836%2086.798%2C188.23%20145.914%2C9.164%20%0A%09%22%2F%3E%0A%3Cpolygon%20style%3D%22fill%3A%23664B33%3B%22%20points%3D%22198.669%2C460.071%20131.286%2C189.887%20176.831%2C51.929%20335.168%2C51.929%20380.714%2C189.887%20%0A%09313.331%2C460.071%20%22%2F%3E%0A%3Cpath%20style%3D%22fill%3A%2300C279%3B%22%20d%3D%22M294.77%2C156.419h-29.606v-27.945c0-5.062-4.102-9.164-9.164-9.164c-5.062%2C0-9.164%2C4.102-9.164%2C9.164%0A%09v27.945h-29.606c-5.062%2C0-9.164%2C4.102-9.164%2C9.164s4.102%2C9.164%2C9.164%2C9.164h29.606v86.593c0%2C5.062%2C4.102%2C9.164%2C9.164%2C9.164%0A%09c5.062%2C0%2C9.164-4.102%2C9.164-9.164v-86.593h29.606c5.062%2C0%2C9.164-4.102%2C9.164-9.164S299.832%2C156.419%2C294.77%2C156.419z%22%2F%3E%0A%3Cg%3E%0A%09%3Cpolygon%20style%3D%22opacity%3A0.3%3Bfill%3A%2320272E%3Benable-background%3Anew%20%20%20%20%3B%22%20points%3D%22366.086%2C9.164%20255.999%2C9.164%20255.999%2C502.836%20%0A%09%09346.742%2C502.836%20425.202%2C188.23%20%09%22%2F%3E%0A%09%3Cpath%20style%3D%22fill%3A%2320272E%3B%22%20d%3D%22M346.742%2C512H165.258c-4.207%2C0-7.874-2.865-8.891-6.947l-78.46-314.606%0A%09%09c-0.419-1.68-0.353-3.444%2C0.189-5.09L137.212%2C6.29c1.239-3.754%2C4.747-6.29%2C8.702-6.29h220.173c3.954%2C0%2C7.462%2C2.537%2C8.702%2C6.29%0A%09%09l59.115%2C179.066c0.542%2C1.646%2C0.608%2C3.41%2C0.189%2C5.09l-78.459%2C314.607C354.615%2C509.135%2C350.95%2C512%2C346.742%2C512z%20M172.417%2C493.672%0A%09%09h167.166l76.086-305.087L359.461%2C18.328H152.539L96.332%2C188.585L172.417%2C493.672z%22%2F%3E%0A%09%3Cpath%20style%3D%22fill%3A%2320272E%3B%22%20d%3D%22M313.331%2C469.235H198.667c-4.207%2C0-7.874-2.865-8.891-6.947l-67.382-270.184%0A%09%09c-0.419-1.68-0.353-3.444%2C0.189-5.09l45.545-137.958c1.24-3.754%2C4.748-6.29%2C8.702-6.29h158.338c3.954%2C0%2C7.462%2C2.537%2C8.702%2C6.29%0A%09%09l45.545%2C137.958c0.543%2C1.646%2C0.608%2C3.41%2C0.189%2C5.09l-67.38%2C270.185C321.205%2C466.37%2C317.539%2C469.235%2C313.331%2C469.235z%0A%09%09%20M205.828%2C450.907h100.345l65.008-260.664l-42.637-129.15H183.457l-42.638%2C129.15L205.828%2C450.907z%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20style%3D%22fill%3A%23EEE5DD%3B%22%20d%3D%22M294.77%2C156.419h-29.606v-27.945c0-5.062-4.102-9.164-9.164-9.164c-5.062%2C0-9.164%2C4.102-9.164%2C9.164%0A%09v27.945h-29.606c-5.062%2C0-9.164%2C4.102-9.164%2C9.164s4.102%2C9.164%2C9.164%2C9.164h29.606v86.593c0%2C5.062%2C4.102%2C9.164%2C9.164%2C9.164%0A%09c5.062%2C0%2C9.164-4.102%2C9.164-9.164v-86.593h29.606c5.062%2C0%2C9.164-4.102%2C9.164-9.164S299.832%2C156.419%2C294.77%2C156.419z%22%2F%3E%0A%3C%2Fsvg%3E',
 						dest: 'station-5',
 						price: 240,
 						reward: 2000
@@ -153,6 +153,7 @@ const config = {
 //--HTML DOM NODE REFERENCES--//
 const logDiv = document.querySelector("div.log");
 const logListDiv = document.querySelector("div.log-list");
+const missionListDiv = document.querySelector("div.mission-list");
 const diagramSvg = document.querySelector("svg.diagram");
 const settingsDiv = document.querySelector("div.settings");
 const settingsMenuDiv = settingsDiv.querySelector("div.menu");
@@ -160,7 +161,7 @@ const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 //--EVENT HANDLERS--//
 function resetProgress() {
 	window.data.game.diff = 60;
-	window.data.last = { x: -350, y: 100, id: 'station-4' };
+	window.data.last = { x: 0, y: 0, id: 'station-1' };
 	log('Train reset to origin');
 }
 
@@ -185,6 +186,7 @@ function toggleProgress() {
 
 function toggleSettings() {
 	settingsMenuDiv.classList.toggle('hidden');
+	missionListDiv.classList.remove('hidden');
 }
 
 function toggleDisplay() {
@@ -215,6 +217,20 @@ function toggleLog() {
 	logListDiv.classList.toggle('hidden');
 	if (!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
+}
+
+function toggleMissions() {
+	settingsMenuDiv.classList.remove('hidden');
+	missionListDiv.classList.toggle('hidden');
+	let allMissions = window.data.map.stations.reduce(function(total, current) {
+		if(current.goods)
+			return total.concat(current.goods);
+		else return total;
+	}, []);
+	let runningMissions = allMissions.filter(m => window.data.game.missions.includes(m.id));
+	if(!window.data.map.stations || !runningMissions.length)
+		return popupContent('No missions running');
+	renderMissions(runningMissions);
 }
 
 function selectDestination() {
@@ -358,7 +374,6 @@ function drawNodes() {
 				img.setAttribute("type", pieces[0].replace("data:", ""));
 				img.setAttribute("data", item.image);
 			}
-			img.setAttribute("onclick", "onClickNode()");
 			img.setAttribute("x", rect1X);
 			img.setAttribute("y", rect1Y);
 			img.setAttribute("width", item.width || window.data.node.width);
@@ -383,6 +398,7 @@ function drawNodes() {
 				(item.height || window.data.node.height) - window.data.node.border
 			);
 			let textDiv = document.createElement("div");
+			textDiv.classList.add('name');
 			textDiv.title = item.name;
 			textDiv.innerText = item.name;
 			textDiv.style.color = "var(--foreground)";
@@ -404,47 +420,54 @@ function drawNodes() {
 
 function onClickNode() {
 	// show missions
-	let node = event.target.closest('.node');
-	if(node) {
+	let node = event.target.parentElement.previousElementSibling.previousElementSibling;
+	if(node && node.classList.contains('node')) {
 		let id = node.getAttribute('data-id');
 		if(window.data.last.id != id)
 			return log('Train not in station to access missions!');
 		let station = window.data.map.stations.find(s => s.id == id);
 		if(station && station.goods) {
 			if(!station.goods.length) return popupContent('No missions available');
-			let container = document.createElement('div');
-			for(let mission of station.goods) {
-				let grid = document.createElement('div');
-				grid.classList.add('mission');
-
-				let image = document.createElement('img');
-				img.src = mission.image;
-				let title = document.createElement('div');
-				title.innerText = mission.name;
-				let price = document.createElement('div');
-				price.innerText = mission.price + '💵';
-				
-				let description = document.createElement('div');
-				description.innerText = mission.desc;
-				let reward = document.createElement('div');
-				reward.innerText = mission.reward + '💵';
-
-				let action = document.createElement('div');
-				action.innerText = window.data.game.missions.includes(mission.id) ? 'Cancel' : 'Accept';
-				action.setAttribute('data-id', mission.id);
-				action.setAttribute('onclick', 'onMissionAction()');
-				
-				grid.appendChild(image);
-				grid.appendChild(title);
-				grid.appendChild(price);
-				grid.appendChild(description);
-				grid.appendChild(reward);
-				grid.appendChild(action);
-				container.appendChild(grid);
-			}
-			return popupContent(container);
+			renderMissions(station.goods);
 		}
 	}
+}
+
+function renderMissions(list) {
+	let container = document.createElement('div');
+	for(let mission of list) {
+		let grid = document.createElement('div');
+		grid.classList.add('mission');
+
+		let img = document.createElement('img');
+		img.src = mission.image;
+		let title = document.createElement('div');
+		title.innerText = mission.name;
+		let price = document.createElement('div');
+		price.innerText = mission.price + '💵';
+		
+		let description = document.createElement('div');
+		description.classList.add('desc');
+		description.innerText = mission.desc;
+		let reward = document.createElement('div');
+		reward.innerText = mission.reward + '💵';
+
+		let action = document.createElement('button');
+		action.classList.add('status');
+		action.innerText = window.data.game.missions.includes(mission.id) ? 'Cancel' : 'Accept';
+		action.setAttribute('data-id', mission.id);
+		action.setAttribute('onclick', 'onMissionAction()');
+		
+		grid.appendChild(img);
+		grid.appendChild(title);
+		grid.appendChild(reward);
+		grid.appendChild(description);
+		grid.appendChild(price);
+		grid.appendChild(action);
+		container.appendChild(grid);
+	}
+	return popupContent(container);
+
 }
 
 function onMissionAction() {
@@ -457,7 +480,10 @@ function onMissionAction() {
 			removeDialog();
 			break;
 		case 'Cancel':
-			window.data.game.missions = window.data.game.missions.filter(m => m.id != event.target.getAttribute('data-id'));
+			event.target.innerText = 'Confirm';
+			break;
+		case 'Confirm':
+			window.data.game.missions.splice(event.target.getAttribute('data-id'), 1);
 			removeDialog();
 			break;
 	}
@@ -679,13 +705,14 @@ function chartProgress() {
 				// wait at station (do not reduce time) and skip all processing
 				log("Train waiting at station: " + station.name);
 				// missions with destination at station to remove
-				let missions = window.data.game.missions.filter(m => m.id == event.target.getAttribute('data-id'));
+				let missions = window.data.game.missions.filter(m => m.id == mission.id);
 				if(missions.length) {
 					removeDialog();
-					for(let mission of missions)
+					for(let mission of missions) {
 						log("Mission \"" + mission.name + "\" completed");
+						window.data.game.missions.splice(mission.id, 1);
+					}
 				}
-				window.data.game.missions = window.data.game.missions.filter(m => m.id != event.target.getAttribute('data-id'));
 				if(window.data.game.focus) focus(document.querySelector('#train'));
 				return log("Time before departure: " + (-1 * waitDiff) + "s");
 			}
@@ -877,30 +904,11 @@ function popupContent(input) {
 		document.body.appendChild(dialog);
 	}
 	dialog.className = 'dialog';
-
-	let dialogListDiv = createDialog(input);
-	dialog.innerHTML = '';
-	dialog.appendChild(dialogListDiv);
+	dialog.replaceChildren(input);
 	dialog.showModal();
 	setTimeout(function () {
 		document.querySelector('.dialog').classList.add('open');
 	}, 0);
-}
-
-function createDialog(node) {
-	// Helper function to create dialog with content
-	// Note: Node in dialog will not have events! Manual add back or write as attribute!
-	let box = document.createElement('div');
-	if (typeof node == 'string') {
-		box.classList.add('box');
-		box.innerHTML = node;
-	}
-	if (typeof node == 'object') {
-		box.classList.add('content');
-		let clonedNode = node.cloneNode(true);
-		box.appendChild(clonedNode);
-	}
-	return box;
 }
 
 function removeDialog() {
