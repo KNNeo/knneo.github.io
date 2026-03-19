@@ -138,6 +138,7 @@ const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 function resetProgress() {
 	window.data.game.diff = 60;
 	window.data.last = { x: 0, y: 0, id: 'station-1' };
+	log('Train reset to origin');
 }
 
 function toggleProgress() {
@@ -146,12 +147,16 @@ function toggleProgress() {
 	event.target.classList.toggle('bi-pause-circle');
 	let elem = document.querySelector('.bi-layers-half, .bi-layers-fill');
 	if (elem && config.debug) elem.classList.toggle('hidden');
-	if (pausing) // stop interval
+	if (pausing) {
+		// stop interval
 		clearInterval(config.interval);
+		log('Train paused');
+	}
 	else {
 		// reset time and run interval
 		idle();
 		config.interval = setInterval(chartProgress, window.data.game.refresh);
+		log('Train resume');
 	}
 }
 
