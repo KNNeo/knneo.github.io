@@ -17,11 +17,13 @@
 	<body onload="startup()" onpagehide="idle()" onresize="resize()">
 		<svg class="diagram"></svg>
 		<div class="log">
-			<a class="bi bi-list-columns-reverse" href="javascript:void(0);" title="Toggle Log" onclick="toggleLog()" oncontextmenu="false"></a>
+			<a class="bi bi-list-columns-reverse" href="javascript:void(0);" title="Toggle Log Panel" onclick="toggleLog()" oncontextmenu="false"></a>
 			<div class="log-list hidden"></div>
 		</div>
 		<div class="settings">
+			<a class="bi bi-briefcase-fill" href="javascript:void(0);" title="Toggle Missions Panel" onclick="toggleMissions()" oncontextmenu="false"></a>
 			<a class="bi bi-gear-fill" href="javascript:void(0);" title="Toggle Settings" onclick="toggleSettings()" oncontextmenu="false"></a>
+			<div class="missions hidden"></div>
 			<div class="menu hidden">
 				<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="customSetTheme()" oncontextmenu="false"></a>
 				<a class="bi bi-play-circle" href="javascript:void(0);" title="Update Position" onclick="toggleProgress()" oncontextmenu="false"></a>

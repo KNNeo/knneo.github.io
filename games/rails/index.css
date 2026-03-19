@@ -180,6 +180,12 @@ ul {
 	font-size: var(--sml);
 }
 
+.mission {
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+	grid-template-rows: 1fr 1fr 2fr;
+}
+
 .viewer {
 	z-index: 9;
 	position: fixed;
