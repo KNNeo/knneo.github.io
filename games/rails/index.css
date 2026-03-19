@@ -232,7 +232,7 @@ ul {
 .node + foreignObject + foreignObject::before {
     content: attr(data-content);
     color: var(--background);
-    background: var(--background);
+    background: var(--foreground);
 	white-space: pre-wrap;
 }
 
