@@ -558,13 +558,13 @@ function chartProgress() {
 	// update train position
 	let train = document.querySelector("#train");
 	if (trainMoved && train) {
-		let trainSize = Math.min(window.data.node.width, window.data.node.height);
+		let trainSize = Math.min(window.data.map.train.width, window.data.map.train.height);
 		let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
 		let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
 		let beforeX = train.getAttribute("x");
 		let beforeY = train.getAttribute("y");
-		let afterX = 0.5 * diagWidth + window.data.last.x - 0.5 * window.data.node.width;
-		let afterY = 0.5 * diagHeight + window.data.last.y - 0.5 * window.data.node.height;
+		let afterX = 0.5 * diagWidth + window.data.last.x - 0.5 * trainSize - 0.5 * window.data.node.width;
+		let afterY = 0.5 * diagHeight + window.data.last.y - 0.5 * trainSize - 0.5 * window.data.node.height;
 		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.animate([
