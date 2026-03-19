@@ -358,7 +358,7 @@ function drawNodes() {
 				img.setAttribute("type", pieces[0].replace("data:", ""));
 				img.setAttribute("data", item.image);
 			}
-			img.setAttribute("onclick", onClickNode);
+			img.setAttribute("onclick", "onClickNode()");
 			img.setAttribute("x", rect1X);
 			img.setAttribute("y", rect1Y);
 			img.setAttribute("width", item.width || window.data.node.width);
@@ -395,7 +395,7 @@ function drawNodes() {
 				textDiv.style.background = item.color.bg;
 				textDiv.style.color = item.color.text;
 			}
-			textDiv.setAttribute("onclick", onClickNode);
+			textDiv.setAttribute("onclick", "onClickNode()");
 			textArea.appendChild(textDiv);
 			diagramSvg.appendChild(textArea);
 		}
