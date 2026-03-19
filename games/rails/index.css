@@ -230,7 +230,7 @@ ul {
 	overflow: auto;
 }
 
-.node[data-content] + foreignObject + foreignObject::before {
+.node + foreignObject + foreignObject[data-content]::before {
     content: attr(data-content);
     color: var(--background);
     background: var(--foreground);
