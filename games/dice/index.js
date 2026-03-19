@@ -137,7 +137,7 @@ function preRoll() {
 				preRoll();
 			}
 		}
-	}, window['delay'] + 500);
+	}, 500);
 }
 
 function end() { // from trigger, end game
@@ -178,7 +178,6 @@ function reload() {
 
 function shake(number) {
 	// pre-roll, stop board action
-	if(config.check) return;
 	let target = event.target;
 	if (target && (target.parentElement.getAttribute('data-status') == 'disabled' ||
 		target.parentElement.getAttribute('data-status') == 'rolled'))
