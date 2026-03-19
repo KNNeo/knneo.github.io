@@ -110,13 +110,16 @@ function resetProgress() {
 }
 
 function toggleProgress() {
-	let toPause = event.target.classList.contains('bi-play-circle');
+	let pausing = event.target.classList.contains('bi-play-circle');
 	event.target.classList.toggle('bi-play-circle');
 	event.target.classList.toggle('bi-pause-circle');
-	if (toPause)
+	if (pausing) // stop interval
 		clearInterval(config.interval);
-	else
+	else {
+		// reset time and run interval
+		idle();
 		config.interval = setInterval(chartProgress, window.data.game.refresh);
+	}
 }
 
 function toggleSettings() {
