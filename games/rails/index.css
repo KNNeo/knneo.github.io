@@ -247,9 +247,13 @@ ul {
 }
 
 .node+foreignObject:has(object)+foreignObject div {
-	height: auto;
 	position: absolute;
+	left: 0;
 	bottom: 0;
+	height: 1.2lh;
+	white-space: nowrap;
+	display: inline-block;
+	text-overflow: ellipsis;
 }
 
 .node+foreignObject object {
