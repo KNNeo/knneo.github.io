@@ -228,6 +228,13 @@ ul {
 	overflow: auto;
 }
 
+.node + foreignObject + foreignObject::before {
+    content: attr(data-content);
+    color: var(--background);
+    background: var(--background);
+	white-space: pre-wrap;
+}
+
 .node+foreignObject div,
 .node+foreignObject+foreignObject div {
 	width: 100%;

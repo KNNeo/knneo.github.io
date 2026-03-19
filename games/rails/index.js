@@ -126,6 +126,27 @@ function toggleSettings() {
 	settingsMenuDiv.classList.toggle('hidden');
 }
 
+function toggleDisplay() {
+	let showLayers = event.target.classList.contains('bi-layers-half');
+	event.target.classList.toggle('bi-layers-half');
+	event.target.classList.toggle('bi-layers-fill');
+	let newline = '&#xa;';
+	let allNodes = Array.from(document.querySelector('.node')).concat(document.querySelector('#train'));
+	// find base of all stations (rect, image, text)
+	for(let node of allNodes) {
+		let topElem = node.id == 'train' ? node : node.nextElementSibling.nextElementSibling;
+		if(topElem) {
+			if (showLayers)
+				topElem.setAttribute('data-content', 
+					'id: ' + node.getAttribute('data-id') + newline + 
+					'x: ' + node.getAttribute('x') + newline + 
+					'y: ' + node.getAttribute('y'));
+			else
+				topElem.removeAttribute('data-content');
+		}
+	}
+}
+
 function toggleLog() {
 	let icon = logDiv.querySelector('.bi');
 	icon.classList.toggle('bi-list');
@@ -176,6 +197,11 @@ function updateDestination() {
 	document.querySelector('.dest-label').innerText = station ? 'Selected: ' + station.name : 'No Destination Selected';
 }
 
+function updateSettings() {
+	let debug = settingsMenuDiv.querySelector('.bi-layers-half');
+	if(!config.debug) debug.classList.add('hidden');
+}
+
 //--FUNCTIONS--//
 function log(input) {
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
@@ -203,6 +229,7 @@ function drawBoard() {
 	drawNodes();
 	drawTrain();
 	updateDestination();
+	updateSettings();
 }
 
 function drawResources() {
