@@ -6,7 +6,7 @@ const config = {
 	diagram: {
 		// width: 1400,
 		// height: 840,
-		step: 20
+		step: 100
 	},
 	node: {
 		curve: 8,
