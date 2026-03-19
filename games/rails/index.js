@@ -501,6 +501,7 @@ function drawTrain() {
 		"foreignObject"
 	);
 	textArea.id = train.id;
+	textArea.setAttribute("data-id", train.id);
 	textArea.setAttribute("x", rect1X);
 	textArea.setAttribute("y", rect1Y);
 	textArea.setAttribute("width", trainSize);
