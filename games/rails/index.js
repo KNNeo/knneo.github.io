@@ -131,7 +131,7 @@ function toggleDisplay() {
 	event.target.classList.toggle('bi-layers-half');
 	event.target.classList.toggle('bi-layers-fill');
 	let newline = '&#xa;';
-	let allNodes = Array.from(document.querySelector('.node')).concat(document.querySelector('#train'));
+	let allNodes = Array.from(document.querySelectorAll('.node')).concat(document.querySelector('#train'));
 	// find base of all stations (rect, image, text)
 	for(let node of allNodes) {
 		let topElem = node.id == 'train' ? node : node.nextElementSibling.nextElementSibling;
