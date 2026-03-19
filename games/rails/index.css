@@ -162,6 +162,7 @@ ul {
     width: 4em;
     height: 4em;
 	display: block;
+    margin: auto;
 
 	background-image: var(--icon);
 	background-size: contain;
