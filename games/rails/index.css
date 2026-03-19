@@ -34,7 +34,7 @@ body {
 	user-select: none;
 	width: 100%;
 	height: 100%;
-    overflow: hidden;
+	overflow: hidden;
 }
 
 a {
@@ -159,10 +159,10 @@ ul {
 
 .destinations button::before {
 	content: "";
-    width: 4em;
-    height: 4em;
+	width: 4em;
+	height: 4em;
 	display: block;
-    margin: auto;
+	margin: auto;
 
 	background-image: var(--icon);
 	background-size: contain;
@@ -230,12 +230,12 @@ ul {
 	overflow: auto;
 }
 
-.node + foreignObject + foreignObject[data-content]::before {
-    content: attr(data-content);
-    color: var(--background);
-    background: var(--foreground);
+.node+foreignObject+foreignObject[data-content]::before {
+	content: attr(data-content);
+	color: var(--background);
+	background: var(--foreground);
 	white-space: pre-wrap;
-    display: inline-block;
+	display: inline-block;
 }
 
 .node+foreignObject div,
@@ -251,11 +251,9 @@ ul {
 .node+foreignObject:has(object)+foreignObject div {
 	position: absolute;
 	left: 0;
-	bottom: 0;
-	height: 1.2lh;
-	white-space: nowrap;
-	display: inline-block;
-	text-overflow: ellipsis;
+	bottom: 2px;
+	height: auto;
+	font-size: 0.8em;
 }
 
 .node+foreignObject object {
@@ -263,14 +261,14 @@ ul {
 }
 
 #train[data-content]::before {
-    content: attr(data-content);
-    color: var(--background);
-    background: var(--foreground);
+	content: attr(data-content);
+	color: var(--background);
+	background: var(--foreground);
 	white-space: pre-wrap;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    font-size: 0.7em;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	font-size: 0.7em;
 }
 
 /*DIALOG*/
