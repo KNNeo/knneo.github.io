@@ -144,6 +144,8 @@ function toggleProgress() {
 	let pausing = event.target.classList.contains('bi-play-circle');
 	event.target.classList.toggle('bi-play-circle');
 	event.target.classList.toggle('bi-pause-circle');
+	let elem = document.querySelector('.bi-layers-half, .bi-layers');
+	if (elem && config.debug) elem.classList.toggle('hidden');
 	if (pausing) // stop interval
 		clearInterval(config.interval);
 	else {
@@ -228,11 +230,6 @@ function updateDestination() {
 	document.querySelector('.dest-label').innerText = station ? 'Selected: ' + station.name : 'No Destination Selected';
 }
 
-function updateSettings() {
-	let debug = settingsMenuDiv.querySelector('.bi-layers-half');
-	if(!config.debug) debug.classList.add('hidden');
-}
-
 //--FUNCTIONS--//
 function log(input) {
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
@@ -260,7 +257,6 @@ function drawBoard() {
 	drawNodes();
 	drawTrain();
 	updateDestination();
-	updateSettings();
 }
 
 function drawResources() {
