@@ -523,6 +523,7 @@ function chartProgress() {
 				}
 				window.data.last.id = station.id;
 				updateDestination();
+				removeDialog();
 				log("Train destination set: " + station.name);
 			}
 			else {
@@ -562,8 +563,8 @@ function chartProgress() {
 		let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
 		let beforeX = train.getAttribute("x");
 		let beforeY = train.getAttribute("y");
-		let afterX = 0.5 * diagWidth + window.data.last.x - 0.5 * trainSize - 0.5 * window.data.node.width;
-		let afterY = 0.5 * diagHeight + window.data.last.y - 0.5 * trainSize - 0.5 * window.data.node.height;
+		let afterX = 0.5 * diagWidth + window.data.last.x - 0.5 * trainSize;
+		let afterY = 0.5 * diagHeight + window.data.last.y - 0.5 * trainSize;
 		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.animate([
