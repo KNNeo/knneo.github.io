@@ -234,6 +234,7 @@ ul {
     color: var(--background);
     background: var(--foreground);
 	white-space: pre-wrap;
+    display: inline-block;
 }
 
 .node+foreignObject div,
@@ -258,6 +259,17 @@ ul {
 
 .node+foreignObject object {
 	object-fit: cover;
+}
+
+#train::before {
+    content: attr(data-content);
+    color: var(--background);
+    background: var(--foreground);
+	white-space: pre-wrap;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    font-size: 0.7em;
 }
 
 /*DIALOG*/
