@@ -728,10 +728,11 @@ function chartProgress() {
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
 			// auto accept missions at station
 			if (window.data.game.missions.auto && station.goods) {
-				if (!station.goods?.length) log('No missions to add');
 				for (let mission of station.goods) {
-					log("Mission \"" + mission.name + "\" automatically added");
-					window.data.game.missions.list.splice(mission.id, 1);
+					if(!window.data.game.missions.list.includes(mission.id)) {
+						window.data.game.missions.list.push(mission.id);
+						log("Mission \"" + mission.name + "\" automatically added");
+					}
 				}
 			}
 			// missions with destination at station to remove
@@ -739,8 +740,8 @@ function chartProgress() {
 			if (missions.length) {
 				removeDialog();
 				for (let mission of missions) {
-					log("Mission \"" + mission.name + "\" completed");
 					window.data.game.missions.list.splice(mission.id, 1);
+					log("Mission \"" + mission.name + "\" completed");
 				}
 			}
 			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
@@ -764,7 +765,7 @@ function chartProgress() {
 				log("Train destination set: " + station.name);
 			}
 			else {
-				// wait at station (do not reduce time) and skip all processing
+				// wait at station, do not reduce time, skip all processing until cover wait time
 				log("Train waiting at station: " + station.name);
 				if (window.data.game.focus) focus(document.querySelector('#train'));
 				return log("Time before departure: " + (-1 * waitDiff) + "s");
