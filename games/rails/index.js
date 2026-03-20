@@ -731,8 +731,6 @@ function chartProgress() {
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	if (window.data.debug) console.log("at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
-	// set time advancement limit
-	if (timeDiffSec > 30) timeDiffSec = 30;
 	let trainMoved = false;
 	let travelRate = window.data.game.travel.cost || 1;
 	let waitRate = window.data.game.wait.cost || 0;
@@ -790,6 +788,8 @@ function chartProgress() {
 		}
 		// en route, calculate newest position
 		else {
+			// set time advancement limit
+			if (timeDiffSec > 30) timeDiffSec = 30;
 			// distance with remaining time
 			let distance = Math.floor(timeDiffSec * travelRate);
 			timeDiffSec = 0;
