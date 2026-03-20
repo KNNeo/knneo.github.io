@@ -51,6 +51,7 @@ function startup() {
 	window['shake-1'] = false; // player
 	window['shake-2'] = false; // opponent
 	window['delay'] = 1000; // AI
+	window['turns'] = 0;
 	window['ai'] = config.com.mode ?? 'balanced';
 	generateViewer();
 }
@@ -165,7 +166,7 @@ function end() { // from trigger, end game
 	// record layout
 	let opponentCells = Array.from(document.querySelectorAll('.opponent.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
 	let playerCells = Array.from(document.querySelectorAll('.player.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
-	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins, layout: { opponent: opponentCells, player: playerCells } });
+	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins, turns: window['turns'], layout: { opponent: opponentCells, player: playerCells } });
 	// save to storage
 	localStorage.setItem(config.storage.wins, JSON.stringify([playerWins, opponentWins]));
 	localStorage.setItem(config.storage.scores, JSON.stringify(scores));
@@ -302,8 +303,8 @@ function onCellSelect(number) {
 		// update scores
 		updateColumnScores();	// for each column
 		updateTotalScores();	// for each player
-
-		// empty roll
+		// update variables
+		window['turns'] += 1;
 		window['roll-' + number] = null;
 
 		// allow rolling
@@ -500,6 +501,7 @@ function showScores() {
 	for (let score of scores) {
 		let scoreTr = document.createElement('tr');
 		scoreTr.setAttribute('data-id', scores.indexOf(score));
+		scotrTr.title = score.turns ? score.turns + ' turns' : '';
 		scoreTr.onclick = showMatchLayout;
 
 		let scoreTd = document.createElement('td');
