@@ -493,15 +493,15 @@ function renderMissions(list) {
 		let title = document.createElement('div');
 		let station = window.data.map.stations.find(s => s.id == mission.dest);
 		title.innerText = (mission.name || '(No title)') + '\n' + '[' + station.name + ']';
-		let price = document.createElement('div');
-		price.innerText = mission.price ? (mission.price + '🔻') : '';
+		let price = document.createElement('em');
+		price.innerText = mission.price ? (mission.price + '💵') : '';
 		price.title = 'Amount to Pay';
 
 		let description = document.createElement('div');
 		description.classList.add('desc');
 		description.innerText = mission.desc || '(No description)';
 		let reward = document.createElement('div');
-		reward.innerText = mission.reward ? (mission.reward + '🔺') : '';
+		reward.innerText = 'Reward\n' mission.reward ? (mission.reward + '💵') : '';
 		price.title = 'Completion Reward';
 
 		let action = document.createElement('button');
