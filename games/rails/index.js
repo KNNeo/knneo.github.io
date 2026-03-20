@@ -189,7 +189,7 @@ const config = {
 		refresh: 1000,
 		time: new Date(),
 		missions: {
-			auto: true,
+			auto: false,
 			list: []
 		},
 		travel: {
