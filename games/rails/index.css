@@ -116,6 +116,12 @@ ul {
 	background-color: rgb(var(--background));
 }
 
+.nav {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+}
+
 .home {
 	position: fixed;
 	left: 0;
