@@ -220,7 +220,7 @@ function toggleProgress() {
 	event.target.classList.toggle('bi-play-circle');
 	event.target.classList.toggle('bi-pause-circle');
 	let elem = document.querySelector('.bi-layers-half, .bi-layers-fill');
-	if (elem && config.debug) elem.classList.toggle('hidden');
+	if (elem && window.data.debug) elem.classList.toggle('hidden');
 	if (pausing) {
 		// stop interval
 		clearInterval(config.interval);
@@ -832,8 +832,11 @@ function chartProgress() {
 	// advance last logged time
 	if (timeDiffSec <= 0)
 		idle();
-	else
+	else {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
+		if(window.data.debug) console.log(window.data.game.time);
+		popupContent('Progressing time...');
+	}
 }
 
 function updateMissions() {
@@ -1027,6 +1030,7 @@ function clear() {
 function idle() {
 	// record time in order to calculate time passed when load in
 	window.data.game.time = new Date();
+	if(window.data.debug) console.log(window.data.game.time);
 	save();
 }
 
