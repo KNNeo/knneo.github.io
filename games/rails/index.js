@@ -776,7 +776,7 @@ function chartProgress() {
 			else {
 				// wait at station, do not reduce time, skip all processing until cover wait time
 				if (window.data.game.focus) focus(document.querySelector('#train'));
-				return log("Train waiting at \"" + station.name "\" (leaving in " + (-1 * waitDiff) + "s)");
+				return log("Train waiting at \"" + station.name + "\" (leaving in " + (-1 * waitDiff) + "s)");
 			}
 		}
 		// can reach station
