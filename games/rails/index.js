@@ -255,12 +255,7 @@ function toggleLog() {
 }
 
 function toggleMissions() {
-	let allMissions = window.data.map.stations.reduce(function (total, current) {
-		if (current.goods)
-			return total.concat(current.goods);
-		else return total;
-	}, []);
-	let runningMissions = allMissions.filter(m => window.data.game.missions.list.includes(m.id));
+	let runningMissions = window.data.game.missions.all.filter(m => window.data.game.missions.list.includes(m.id));
 	if (!window.data.map.stations || !runningMissions.length)
 		return popupContent('No missions running');
 	renderMissions(runningMissions);
@@ -334,6 +329,7 @@ function drawBoard() {
 	drawNodes();
 	drawTrain();
 	updateDestination();
+	updateAllMissions();
 }
 
 function drawResources() {
@@ -432,7 +428,7 @@ function drawNodes() {
 			);
 			let textDiv = document.createElement("div");
 			textDiv.classList.add('name');
-			textDiv.title = item.name;
+			textDiv.title = item.goods ? 'Check Missions' : item.name;
 			textDiv.innerText = item.name;
 			textDiv.style.color = "rgn(var(--foreground))";
 			textDiv.style.background = "rgb(var(--background))";
@@ -468,6 +464,9 @@ function onClickNode() {
 
 function renderMissions(list) {
 	let container = document.createElement('div');
+	let header = document.createElement('h3');
+	header.innerText = 'Missions';
+	grid.appendChild(header);
 	for (let mission of list) {
 		let grid = document.createElement('div');
 		grid.classList.add('mission');
@@ -524,6 +523,14 @@ function onMissionAction() {
 			removeDialog();
 			break;
 	}
+}
+
+function updateAllMissions() {
+	window.data.game.missions.all = window.data.map.stations.reduce(function (total, current) {
+		if (current.goods)
+			return total.concat(current.goods);
+		else return total;
+	}, []);
 }
 
 function drawLines() {
@@ -727,7 +734,7 @@ function chartProgress() {
 				}
 			}
 			// missions with destination at station to remove
-			let missions = window.data.game.missions.list.filter(m => m.dest == station.id);
+			let missions = window.data.game.missions.all.filter(m => m.dest == station.id);
 			if (missions.length) {
 				removeDialog();
 				for (let mission of missions) {
