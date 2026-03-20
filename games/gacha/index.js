@@ -1,5 +1,8 @@
 //--DEFAULT SETTINGS--//
 const config = {};
+const DB_NAME = "SqliteStore";
+const STORE_NAME = "databases";
+const FILE_KEY = "my_app_db";
 
 //--DOM NODE REFERENCES--//
 
@@ -11,6 +14,15 @@ const config = {};
 
 
 //--FUNCTIONS--//
+function getIDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = () => request.result.createObjectStore(STORE_NAME);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
 function createDb(SQL) {
   console.log("Creating a fresh database...");
   return new SQL.Database();
