@@ -737,7 +737,7 @@ function chartProgress() {
 				}
 			}
 			// missions with destination at station to remove
-			let missions = window.data.game.missions.all.filter(m => window.data.game.missions.list.includes(m.id));
+			let missions = window.data.game.missions.all.filter(m => m.dest == station.id && window.data.game.missions.list.includes(m.id));
 			if (missions.length) {
 				removeDialog();
 				for (let mission of missions) {
