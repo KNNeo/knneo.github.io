@@ -318,6 +318,7 @@ function updateDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
+	if(!input) return;
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
 	logDiv.style.setProperty('--message', '"' + input + '"');
 	if (!logListDiv.classList.contains('hidden'))
@@ -774,22 +775,20 @@ function chartProgress() {
 			}
 			else {
 				// wait at station, do not reduce time, skip all processing until cover wait time
-				log("Train waiting at station: " + station.name);
 				if (window.data.game.focus) focus(document.querySelector('#train'));
-				return log("Time before departure: " + (-1 * waitDiff) + "s");
+				return log("Train waiting at \"" + station.name "\" (leaving in " + (-1 * waitDiff) + "s)");
 			}
 		}
 		// can reach station, new position at station, calc again
 		else if (timeDiffSec - distance / travelRate > 0) {
-			log("Train moving to station: " + station.name);
 			// set new position
 			window.data.last = { x: station.x, y: station.y, id: station.id };
 			timeDiffSec -= distance / travelRate;
 			trainMoved = true;
+			log("Train moving to station: " + station.name);
 		}
 		// en route, calculate newest position
 		else {
-			log("Train moving to station: " + station.name);
 			// distance with remaining time
 			let distance = Math.floor(timeDiffSec * travelRate);
 			timeDiffSec = 0;
@@ -798,6 +797,7 @@ function chartProgress() {
 				// set new position
 				window.data.last = { ...newPos, id: station.id };
 				trainMoved = true;
+				log("Train moving to station: " + station.name);
 			}
 		}
 	}
