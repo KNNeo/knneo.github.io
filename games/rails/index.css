@@ -197,6 +197,10 @@ ul {
 	border-radius: 8px;
 }
 
+.mission > div {
+	overflow: auto;
+}
+
 .mission div {
 	white-space: pre-wrap;
 }
@@ -326,7 +330,7 @@ dialog.dialog {
 	color: rgb(var(--foreground));
 	padding: 10px;
 	max-width: 360px;
-	max-height: 100dvh;
+	max-height: 80dvh;
 	overflow: auto;
 	margin: auto;
 

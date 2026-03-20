@@ -261,9 +261,10 @@ function toggleDisplay() {
 
 function toggleLog() {
 	let icon = logDiv.querySelector('.bi');
-	icon.classList.toggle('bi-list');
+	icon.classList.toggle('bi-x-square');
 	icon.classList.toggle('bi-list-columns-reverse');
 	logListDiv.classList.toggle('hidden');
+	// if show, scroll to latest message
 	if (!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
