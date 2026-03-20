@@ -29,7 +29,7 @@ const config = {
 				name: 'Depot',
 				x: 0,
 				y: 0,
-				links: ['station-2', 'station-3', 'station-4','station-7'],
+				links: ['station-2', 'station-3', 'station-4', 'station-7'],
 				// https://www.svgrepo.com/svg/286276/school-university
 				image: 'data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20%20viewBox%3D%220%200%20512%20512%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpath%20style%3D%22fill%3A%234281CD%3B%22%20d%3D%22M61.569%2C123.82h88.881c0-17.523-14.219-31.777-31.698-31.777c-1.091%2C0-2.181%2C0.061-3.263%2C0.169c-5.496-14.399-19.342-24.125-35.04-24.125S50.907%2C77.814%2C45.41%2C92.212c-1.084-0.109-2.172-0.169-3.265-0.169c-17.477%2C0-31.696%2C14.255-31.696%2C31.777H61.569z%22%2F%3E%3Cpolygon%20style%3D%22fill%3A%23DEDDE1%3B%22%20points%3D%22140.931%2C303.543%2010.449%2C303.543%2040.986%2C235.188%20184.424%2C235.188%20327.053%2C235.188%20462.949%2C235.188%20501.551%2C303.543%20369.894%2C303.543%20%22%2F%3E%3Cpolygon%20style%3D%22fill%3A%23CE1128%3B%22%20points%3D%22368.718%2C303.543%20475.429%2C303.543%20475.429%2C479.086%2036.571%2C479.086%2036.571%2C303.543%20143.151%2C303.543%20%22%2F%3E%3Cg%3E%3Cpolygon%20style%3D%22fill%3A%23FF3131%3B%22%20points%3D%22360.239%2C337.618%20256%2C270.609%20151.761%2C337.618%20151.761%2C479.086%20360.239%2C479.086%20%22%2F%3E%3Cpolygon%20style%3D%22fill%3A%23FF3131%3B%22%20points%3D%22326.158%2C274.808%20326.158%2C154.014%20256%2C89.514%20185.842%2C154.014%20185.842%2C274.808%20%22%2F%3E%3C%2Fg%3E%3Cpath%20style%3D%22fill%3A%234281CD%3B%22%20d%3D%22M224.653%2C249.208v-34.715c0-17.176%2C14.033-31.098%2C31.347-31.098l0%2C0c17.314%2C0%2C31.347%2C13.922%2C31.347%2C31.098v34.715H224.653z%22%2F%3E%3Cg%3E%3Cpolygon%20style%3D%22fill%3A%23DEDDE1%3B%22%20points%3D%22326.158%2C154.014%20256%2C89.514%20185.842%2C154.014%20%22%2F%3E%3Cpath%20style%3D%22fill%3A%23DEDDE1%3B%22%20d%3D%22M376.373%2C347.979L256%2C270.598L135.627%2C347.98l-17.786-27.666l129.266-83.099c5.418-3.478%2C12.368-3.478%2C17.786%2C0l129.266%2C83.099L376.373%2C347.979z%22%2F%3E%3C%2Fg%3E%3Cg%3E%3Crect%20x%3D%22221.257%22%20y%3D%22374.847%22%20style%3D%22fill%3A%234281CD%3B%22%20width%3D%2269.496%22%20height%3D%22104.239%22%2F%3E%3Crect%20x%3D%2274.313%22%20y%3D%22371.461%22%20style%3D%22fill%3A%234281CD%3B%22%20width%3D%2239.706%22%20height%3D%2239.706%22%2F%3E%3C%2Fg%3E%3Cpolygon%20style%3D%22fill%3A%23FF772C%3B%22%20points%3D%22318.694%2C68.419%20256%2C68.419%20256%2C32.914%20318.694%2C32.914%20304%2C50.667%20%22%2F%3E%3Crect%20x%3D%22397.981%22%20y%3D%22371.461%22%20style%3D%22fill%3A%234281CD%3B%22%20width%3D%2239.706%22%20height%3D%2239.706%22%2F%3E%3Cpath%20d%3D%22M114.019%2C421.616H74.313c-5.77%2C0-10.449-4.679-10.449-10.449v-39.706c0-5.77%2C4.679-10.449%2C10.449-10.449h39.706c5.77%2C0%2C10.449%2C4.679%2C10.449%2C10.449v39.706C124.468%2C416.938%2C119.79%2C421.616%2C114.019%2C421.616z%20M84.762%2C400.718h18.808V381.91H84.762V400.718z%22%2F%3E%3Cpath%20d%3D%22M141.246%2C278.432h-0.137c-5.77%2C0-10.449-4.679-10.449-10.449c0-5.77%2C4.679-10.449%2C10.449-10.449h0.137c5.77%2C0%2C10.449%2C4.679%2C10.449%2C10.449C151.695%2C273.753%2C147.016%2C278.432%2C141.246%2C278.432z%22%2F%3E%3Cpath%20d%3D%22M366.64%2C278.433h-0.138c-5.77%2C0-10.449-4.679-10.449-10.449s4.679-10.449%2C10.449-10.449h0.138c5.77%2C0%2C10.449%2C4.679%2C10.449%2C10.449S372.41%2C278.433%2C366.64%2C278.433z%22%2F%3E%3Cpath%20d%3D%22M437.687%2C421.616h-39.706c-5.77%2C0-10.449-4.679-10.449-10.449v-39.706c0-5.77%2C4.679-10.449%2C10.449-10.449h39.706c5.77%2C0%2C10.449%2C4.679%2C10.449%2C10.449v39.706C448.136%2C416.938%2C443.457%2C421.616%2C437.687%2C421.616z%20M408.43%2C400.718h18.808V381.91H408.43V400.718z%22%2F%3E%3Cpath%20d%3D%22M150.45%2C134.269H61.569c-5.77%2C0-10.449-4.679-10.449-10.449s4.679-10.449%2C10.449-10.449h75.703c-3.648-6.489-10.583-10.879-18.521-10.879c-0.695%2C0-1.443%2C0.04-2.225%2C0.117c-4.687%2C0.484-9.119-2.264-10.801-6.671c-3.973-10.409-14.13-17.402-25.277-17.402c-11.145%2C0-21.303%2C6.993-25.276%2C17.402c-1.682%2C4.406-6.104%2C7.15-10.8%2C6.671c-0.794-0.078-1.522-0.117-2.228-0.117c-11.715%2C0-21.246%2C9.568-21.246%2C21.328c0%2C5.77-4.679%2C10.449-10.449%2C10.449C4.678%2C134.269%2C0%2C129.59%2C0%2C123.82c0-22.18%2C17.153-40.421%2C38.866-42.1c8.456-14.652%2C24.353-24.082%2C41.582-24.082c17.229%2C0%2C33.127%2C9.429%2C41.583%2C24.082c21.713%2C1.682%2C38.867%2C19.921%2C38.867%2C42.1C160.899%2C129.591%2C156.22%2C134.269%2C150.45%2C134.269z%22%2F%3E%3Cpath%20d%3D%22M255.999%2C418.109c-5.77%2C0-10.449-4.679-10.449-10.449v-0.138c0-5.77%2C4.679-10.449%2C10.449-10.449s10.449%2C4.679%2C10.449%2C10.449v0.138C266.448%2C413.43%2C261.77%2C418.109%2C255.999%2C418.109z%22%2F%3E%3Cpath%20d%3D%22M501.551%2C468.637h-15.673V313.992h15.673c3.716%2C0%2C7.151-1.973%2C9.025-5.182c1.872-3.208%2C1.901-7.17%2C0.073-10.405l-38.602-68.355c-1.853-3.282-5.33-5.311-9.098-5.311H336.607v-70.726c0-2.924-1.225-5.714-3.377-7.691l-66.78-61.394v-6.058h52.245c4.048%2C0%2C7.731-2.337%2C9.455-6.001c1.724-3.663%2C1.176-7.991-1.406-11.11l-9.178-11.091l9.178-11.09c2.582-3.118%2C3.129-7.447%2C1.406-11.11s-5.407-6.002-9.455-6.002H256c-5.77%2C0-10.449%2C4.679-10.449%2C10.449v52.013l-66.779%2C61.394c-2.154%2C1.979-3.377%2C4.768-3.377%2C7.691v70.726H40.986c-4.122%2C0-7.859%2C2.423-9.54%2C6.187L0.909%2C299.281c-1.444%2C3.233-1.154%2C6.978%2C0.773%2C9.948c1.927%2C2.971%2C5.226%2C4.763%2C8.767%2C4.763h15.673v154.645H10.449C4.678%2C468.637%2C0%2C473.316%2C0%2C479.086s4.678%2C10.449%2C10.449%2C10.449h491.102c5.77%2C0%2C10.449-4.679%2C10.449-10.449S507.322%2C468.637%2C501.551%2C468.637z%20M266.449%2C43.363h30.031l-0.53%2C0.641c-3.201%2C3.865-3.201%2C9.459%2C0%2C13.325l0.531%2C0.642h-30.032V43.363z%20M256%2C103.708l43.353%2C39.857h-86.705L256%2C103.708z%20M196.292%2C164.463h119.416v92.997l-17.913-11.516v-31.451c0-22.909-18.75-41.547-41.796-41.547s-41.796%2C18.638-41.796%2C41.547v31.451l-17.913%2C11.515v-92.996H196.292z%20M276.898%2C214.493v18.017l-6.36-4.089c-8.83-5.67-20.244-5.67-29.081%2C0.003l-6.355%2C4.086v-18.017c0-11.385%2C9.375-20.649%2C20.898-20.649C267.523%2C193.844%2C276.898%2C203.107%2C276.898%2C214.493z%20M252.752%2C246.008c1.972-1.265%2C4.521-1.267%2C6.491-0.003l120.477%2C77.448l-6.485%2C10.087l-111.585-71.731c-1.72-1.107-3.685-1.659-5.65-1.659c-1.964%2C0-3.93%2C0.553-5.65%2C1.659L138.767%2C333.54l-6.485-10.087L252.752%2C246.008z%20M26.561%2C293.094l6.549-14.661h74.194c5.77%2C0%2C10.449-4.679%2C10.449-10.449s-4.679-10.449-10.449-10.449H42.447l5.315-11.898h127.631v25.256l-34.534%2C22.201H36.571H26.561z%20M141.312%2C468.637H47.02V313.992h62.516c-0.916%2C1.204-1.579%2C2.596-1.906%2C4.102c-0.588%2C2.708-0.077%2C5.539%2C1.42%2C7.869l17.785%2C27.667c3.121%2C4.855%2C9.587%2C6.26%2C14.439%2C3.14l0.036-0.023v111.89H141.312z%20M280.297%2C468.637h-13.848v-27.174c0-5.77-4.679-10.449-10.449-10.449c-5.77%2C0-10.449%2C4.679-10.449%2C10.449v27.174h-13.848v-83.341h48.594V468.637z%20M349.79%2C468.637h-48.595v-93.79c0-5.77-4.679-10.449-10.449-10.449h-69.492c-5.77%2C0-10.449%2C4.679-10.449%2C10.449v93.79H162.21V343.323L256%2C283.029l93.79%2C60.294V468.637z%20M464.98%2C468.637h-94.292v-111.89l0.036%2C0.023c1.748%2C1.123%2C3.705%2C1.66%2C5.639%2C1.66c3.437%2C0%2C6.803-1.694%2C8.8-4.8l17.785-27.667c1.498-2.33%2C2.009-5.161%2C1.42-7.869c-0.327-1.507-0.99-2.899-1.906-4.102h62.517V468.637z%20M475.429%2C293.094H371.14l-34.535-22.201v-25.256H456.85l6.719%2C11.897h-63.124c-5.77%2C0-10.449%2C4.679-10.449%2C10.449c0%2C5.77%2C4.679%2C10.449%2C10.449%2C10.449h74.927l8.28%2C14.662H475.429z%22%2F%3E%3C%2Fsvg%3E',
 				wait: 60
@@ -194,13 +194,13 @@ function toggleDisplay() {
 	let newline = '\u000A';
 	let allNodes = Array.from(document.querySelectorAll('.node')).concat(document.querySelector('#train'));
 	// find base of all stations (rect, image, text)
-	for(let node of allNodes) {
+	for (let node of allNodes) {
 		let topElem = node.id == 'train' ? node : node.nextElementSibling.nextElementSibling;
-		if(topElem) {
+		if (topElem) {
 			if (showLayers)
-				topElem.setAttribute('data-content', 
-					'id: ' + node.getAttribute('data-id') + newline + 
-					'x: ' + node.getAttribute('x') + newline + 
+				topElem.setAttribute('data-content',
+					'id: ' + node.getAttribute('data-id') + newline +
+					'x: ' + node.getAttribute('x') + newline +
 					'y: ' + node.getAttribute('y'));
 			else
 				topElem.removeAttribute('data-content');
@@ -218,14 +218,13 @@ function toggleLog() {
 }
 
 function toggleMissions() {
-	settingsMenuDiv.classList.remove('hidden');
-	let allMissions = window.data.map.stations.reduce(function(total, current) {
-		if(current.goods)
+	let allMissions = window.data.map.stations.reduce(function (total, current) {
+		if (current.goods)
 			return total.concat(current.goods);
 		else return total;
 	}, []);
 	let runningMissions = allMissions.filter(m => window.data.game.missions.includes(m.id));
-	if(!window.data.map.stations || !runningMissions.length)
+	if (!window.data.map.stations || !runningMissions.length)
 		return popupContent('No missions running');
 	renderMissions(runningMissions);
 }
@@ -418,13 +417,13 @@ function drawNodes() {
 function onClickNode() {
 	// show missions
 	let node = event.target.parentElement.previousElementSibling.previousElementSibling;
-	if(node && node.classList.contains('node')) {
+	if (node && node.classList.contains('node')) {
 		let id = node.getAttribute('data-id');
-		if(window.data.last.id != id)
+		if (window.data.last.id != id)
 			return log('Train not in station to access missions!');
 		let station = window.data.map.stations.find(s => s.id == id);
-		if(station && station.goods) {
-			if(!station.goods.length) return popupContent('No missions available');
+		if (station && station.goods) {
+			if (!station.goods.length) return popupContent('No missions available');
 			renderMissions(station.goods);
 		}
 	}
@@ -432,7 +431,7 @@ function onClickNode() {
 
 function renderMissions(list) {
 	let container = document.createElement('div');
-	for(let mission of list) {
+	for (let mission of list) {
 		let grid = document.createElement('div');
 		grid.classList.add('mission');
 
@@ -441,20 +440,20 @@ function renderMissions(list) {
 		let title = document.createElement('div');
 		title.innerText = mission.name;
 		let price = document.createElement('div');
-		price.innerText = mission.price + '💵';
-		
+		price.innerText = mission.price + '🔻';
+
 		let description = document.createElement('div');
 		description.classList.add('desc');
 		description.innerText = mission.desc;
 		let reward = document.createElement('div');
-		reward.innerText = mission.reward + '💵';
+		reward.innerText = mission.reward + '🔺';
 
 		let action = document.createElement('button');
 		action.classList.add('status');
 		action.innerText = window.data.game.missions.includes(mission.id) ? 'Cancel' : 'Accept';
 		action.setAttribute('data-id', mission.id);
 		action.setAttribute('onclick', 'onMissionAction()');
-		
+
 		grid.appendChild(img);
 		grid.appendChild(title);
 		grid.appendChild(reward);
@@ -469,9 +468,9 @@ function renderMissions(list) {
 
 function onMissionAction() {
 	// add to missions list
-	if(!window.data.game.missions)
+	if (!window.data.game.missions)
 		window.data.game.missions = [];
-	switch(event.target.innerText) {
+	switch (event.target.innerText) {
 		case 'Accept':
 			window.data.game.missions.push(event.target.getAttribute('data-id'));
 			removeDialog();
@@ -678,6 +677,15 @@ function chartProgress() {
 		if (window.data.debug) console.log('distance', distance);
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
+			// missions with destination at station to remove
+			let missions = window.data.game.missions.filter(m => m.dest == station.id);
+			if (missions.length) {
+				removeDialog();
+				for (let mission of missions) {
+					log("Mission \"" + mission.name + "\" completed");
+					window.data.game.missions.splice(mission.id, 1);
+				}
+			}
 			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
 			if (!station.wait || waitDiff >= 0) {
 				timeDiffSec -= ((station.wait || 0) * waitRate);
@@ -701,16 +709,7 @@ function chartProgress() {
 			else {
 				// wait at station (do not reduce time) and skip all processing
 				log("Train waiting at station: " + station.name);
-				// missions with destination at station to remove
-				let missions = window.data.game.missions.filter(m => m.id == mission.id);
-				if(missions.length) {
-					removeDialog();
-					for(let mission of missions) {
-						log("Mission \"" + mission.name + "\" completed");
-						window.data.game.missions.splice(mission.id, 1);
-					}
-				}
-				if(window.data.game.focus) focus(document.querySelector('#train'));
+				if (window.data.game.focus) focus(document.querySelector('#train'));
 				return log("Time before departure: " + (-1 * waitDiff) + "s");
 			}
 		}
@@ -761,7 +760,7 @@ function chartProgress() {
 		});
 		train.setAttribute("x", Math.floor(afterX));
 		train.setAttribute("y", Math.floor(afterY));
-		if(window.data.game.focus) focus(train);
+		if (window.data.game.focus) focus(train);
 		if (window.data.debug) console.log("moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time, and diff for temp storage
@@ -981,6 +980,6 @@ function sizeDiagram() {
 		diagramSvg.setAttribute("data-width", diagWidth);
 		diagramSvg.setAttribute("data-height", diagHeight);
 		diagramSvg.setAttribute("viewBox", "0 0 " + document.body.getBoundingClientRect().width + " " + document.body.getBoundingClientRect().height);
-		if(window.data.debug) console.log("autosize svg", diagWidth, diagHeight);
+		if (window.data.debug) console.log("autosize svg", diagWidth, diagHeight);
 	}
 }
