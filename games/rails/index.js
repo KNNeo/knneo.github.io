@@ -153,7 +153,6 @@ const config = {
 //--HTML DOM NODE REFERENCES--//
 const logDiv = document.querySelector("div.log");
 const logListDiv = document.querySelector("div.log-list");
-const missionListDiv = document.querySelector("div.mission-list");
 const diagramSvg = document.querySelector("svg.diagram");
 const settingsDiv = document.querySelector("div.settings");
 const settingsMenuDiv = settingsDiv.querySelector("div.menu");
@@ -186,7 +185,6 @@ function toggleProgress() {
 
 function toggleSettings() {
 	settingsMenuDiv.classList.toggle('hidden');
-	missionListDiv.classList.remove('hidden');
 }
 
 function toggleDisplay() {
@@ -221,7 +219,6 @@ function toggleLog() {
 
 function toggleMissions() {
 	settingsMenuDiv.classList.remove('hidden');
-	missionListDiv.classList.toggle('hidden');
 	let allMissions = window.data.map.stations.reduce(function(total, current) {
 		if(current.goods)
 			return total.concat(current.goods);
@@ -315,7 +312,7 @@ function drawResources() {
 	arrow.setAttribute("markerWidth", 6);
 	arrow.setAttribute("markerHeight", 4);
 	arrow.setAttribute("orient", "auto");
-	arrow.setAttribute("fill", "var(--foreground)");
+	arrow.setAttribute("fill", "rgb(var(--foreground))");
 	// arrow path (fixed)
 	let arrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
 	// move to (0,0), draw to (10,5), draw to (0,10), close shape
@@ -343,11 +340,11 @@ function drawNodes() {
 		rect.setAttribute("width", item.width || window.data.node.width);
 		rect.setAttribute("height", item.height || window.data.node.height);
 		rect.setAttribute("rx", window.data.node.curve);
-		rect.setAttribute("fill", "var(--background)");
+		rect.setAttribute("fill", "rgb(var(--background))");
 		if (window.data.palette)
 			rect.setAttribute("fill", window.data.palette[0]);
 		if (item.color && item.color.bg) rect.setAttribute("fill", item.color.bg);
-		rect.setAttribute("stroke", "var(--foreground)");
+		rect.setAttribute("stroke", "rgb(var(--foreground))");
 		rect.setAttribute("stroke-width", window.data.node.border);
 		if (item.id != "RESERVED") diagramSvg.appendChild(rect);
 		if (item.image) {
@@ -401,8 +398,8 @@ function drawNodes() {
 			textDiv.classList.add('name');
 			textDiv.title = item.name;
 			textDiv.innerText = item.name;
-			textDiv.style.color = "var(--foreground)";
-			textDiv.style.background = "var(--background)";
+			textDiv.style.color = "rgn(var(--foreground))";
+			textDiv.style.background = "rgb(var(--background))";
 			textDiv.style.borderRadius =
 				window.data.curve - 0.5 * window.data.node.border + "px";
 			if (window.data.palette)
@@ -571,7 +568,7 @@ function drawLines() {
 		line.setAttribute("y1", sourceY);
 		line.setAttribute("x2", destX);
 		line.setAttribute("y2", destY);
-		line.setAttribute("stroke", "var(--foreground)");
+		line.setAttribute("stroke", "rgb(var(--foreground))");
 		line.setAttribute("stroke-width", 5);
 		// line.setAttribute("marker-end", "url(#triangle)");
 		diagramSvg.appendChild(line);
@@ -579,7 +576,7 @@ function drawLines() {
 		if (label) {
 			let textBox = document.createElementNS("http://www.w3.org/2000/svg", "text");
 			textBox.setAttribute("font-size", "0.8em");
-			textBox.setAttribute("fill", "var(--background)");
+			textBox.setAttribute("fill", "rgb(var(--background))");
 			textBox.innerHTML = label;
 			diagramSvg.appendChild(textBox);
 			// position textBox from bottom left corner
@@ -601,7 +598,7 @@ function drawLines() {
 			let padding = 10;
 			let wrapper = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 			wrapper.classList.add("label");
-			wrapper.setAttribute("fill", "var(--foreground)");
+			wrapper.setAttribute("fill", "rgb(var(--foreground))");
 			wrapper.setAttribute("x", textBox.getAttribute("x") - 0.5 * padding);
 			wrapper.setAttribute(
 				"y",

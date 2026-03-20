@@ -1,25 +1,26 @@
 /*Variables*/
 :root {
-	--primary: #1b00ff;
-	--secondary: #609fff;
-	--background: #fff;
-	--foreground: #000;
-	--accent: lightgray;
-	--sml: 0.8em;
+	--primary: 27, 63, 255;
+	--secondary: 59, 102, 222;
+	--tertiary: 221, 221, 255;
+	--background: 255, 255, 255;
+	--foreground: 0, 20, 20;
+	--accent: 221, 221, 221;
 }
 
 .darked:root {
-	--primary: #00e4ff;
-	--secondary: #00abbf;
-	--background: #000;
-	--foreground: #fff;
-	--accent: gray;
+	--primary: 50, 228, 255;
+	--secondary: 36, 159, 179;
+	--tertiary: 22, 98, 100;
+	--background: 0, 0, 0;
+	--foreground: 245, 245, 255;
+	--accent: 69, 69, 69;
 }
 
 html {
 	font-family: Noto Sans;
-	background-color: var(--background);
-	color: var(--foreground);
+	background-color: rgb(var(--background));
+	color: rgb(var(--foreground));
 	width: 100%;
 	height: 100%;
 }
@@ -37,23 +38,24 @@ body {
 	overflow: hidden;
 }
 
-button, input {
+button,
+input {
 	all: unset;
 }
 
 a {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	text-decoration: none;
 }
 
 a:hover {
-	color: var(--primary);
+	color: rgb(var(--primary));
 }
 
 label {
 	width: 300px;
 	text-align: start;
-	font-size: var(--sml);
+	font-size: 0.8em;
 }
 
 input[type="range"] {
@@ -64,7 +66,7 @@ ul {
 	width: 80%;
 	text-align: start;
 	text-wrap-style: pretty;
-	font-size: var(--sml);
+	font-size: 0.8em;
 }
 
 .bi {
@@ -78,6 +80,7 @@ ul {
 	top: 0;
 	text-decoration: none;
 	text-align: start;
+	background-color: rgba(var(--background), 0.6);
 }
 
 .log::after {
@@ -86,7 +89,7 @@ ul {
 	width: 80vw;
 	white-space: nowrap;
 	overflow: hidden;
-	font-size: var(--sml);
+	font-size: 0.8em;
 }
 
 .log:not(:has(.log-list.hidden))::after {
@@ -98,7 +101,6 @@ ul {
 	height: 30vh;
 	font-size: 0.8em;
 	overflow: auto;
-	background-color: var(--background);
 	resize: vertical;
 }
 
@@ -109,6 +111,7 @@ ul {
 	text-decoration: none;
 	font-weight: bold;
 	text-align: end;
+	background-color: rgb(var(--background));
 }
 
 .home {
@@ -133,8 +136,8 @@ ul {
 	font-weight: bold;
 	text-decoration: none;
 	font-size: 1em;
-	border: 2px solid var(--foreground);
-	background-color: var(--background);
+	border: 2px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
 	border-radius: 99px;
 	padding: 4px 12px;
 }
@@ -144,7 +147,7 @@ ul {
 }
 
 .action a:hover {
-	border: 2px solid var(--primary);
+	border: 2px solid rgb(var(--primary));
 }
 
 .destinations {
@@ -175,27 +178,27 @@ ul {
 
 .destinations button:hover,
 .destinations button[data-active] {
-	background-color: var(--secondary);
+	background-color: rgb(var(--secondary));
 }
 
 .dest-label {
 	padding-top: 8px;
 	font-weight: normal;
-	font-size: var(--sml);
+	font-size: 0.8em;
 }
 
 .mission {
 	display: grid;
 	grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: 1fr 1fr auto;
-    justify-content: center;
-    align-items: center;
+	grid-template-rows: 1fr 1fr auto;
+	justify-content: center;
+	align-items: center;
 	padding: 8px;
 	border-radius: 8px;
 }
 
 .mission:hover {
-	background-color: var(--accent);
+	background-color: rgb(var(--accent));
 }
 
 .name:hover {
@@ -205,27 +208,27 @@ ul {
 
 .desc {
 	/* row-start, col-start, row-end, col-end */
-    grid-area: 2 / 1 / 4 / 3;
-    place-self: center;
+	grid-area: 2 / 1 / 4 / 3;
+	place-self: center;
 }
 
 .status {
 	/* row-start, col-start, row-end, col-end */
-    grid-area: 3 / 3 / auto / auto;
+	grid-area: 3 / 3 / auto / auto;
 	border-radius: 99px;
-	border: 4px solid var(--foreground);
+	border: 2px solid rgb(var(--foreground));
 	cursor: pointer;
 }
 
 .status:hover {
-	background-color: var(--foreground);
-	color: var(--background);
+	background-color: rgb(var(--foreground));
+	color: rgb(var(--background));
 }
 
 .viewer {
 	z-index: 9;
 	position: fixed;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	width: 100%;
 	height: 100%;
 	padding-top: 0;
@@ -258,8 +261,8 @@ ul {
 .viewer .preview:focus,
 .viewer .close:hover,
 .viewer .close:focus {
-	background: var(--accent);
-	color: var(--foreground);
+	background-color: rgb(var(--accent));
+	color: rgb(var(--foreground));
 }
 
 .hidden {
@@ -274,8 +277,8 @@ ul {
 
 .node+foreignObject+foreignObject[data-content]::before {
 	content: attr(data-content);
-	color: var(--background);
-	background: var(--foreground);
+	color: rgb(var(--background));
+	background-color: rgb(var(--foreground));
 	white-space: pre-wrap;
 	display: inline-block;
 }
@@ -304,8 +307,8 @@ ul {
 
 #train[data-content]::before {
 	content: attr(data-content);
-	color: var(--background);
-	background: var(--foreground);
+	color: rgb(var(--background));
+	background-color: rgb(var(--foreground));
 	white-space: pre-wrap;
 	display: inline-block;
 	width: 100%;
@@ -315,8 +318,8 @@ ul {
 
 /*DIALOG*/
 dialog.dialog {
-	background-color: var(--background);
-	color: var(--foreground);
+	background-color: rgb(var(--background));
+	color: rgb(var(--foreground));
 	padding: 10px;
 	max-width: 360px;
 	max-height: 100dvh;
@@ -331,6 +334,6 @@ dialog.dialog {
 }
 
 dialog.dialog a {
-	background-color: var(--background);
-	color: var(--primary);
+	background-color: rgb(var(--background));
+	color: rgb(var(--primary));
 }
