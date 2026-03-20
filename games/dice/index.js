@@ -501,7 +501,7 @@ function showScores() {
 	for (let score of scores) {
 		let scoreTr = document.createElement('tr');
 		scoreTr.setAttribute('data-id', scores.indexOf(score));
-		scotrTr.title = score.turns ? score.turns + ' turns' : '';
+		scoreTr.title = score.turns ? score.turns + ' turns' : '';
 		scoreTr.onclick = showMatchLayout;
 
 		let scoreTd = document.createElement('td');
