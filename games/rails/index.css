@@ -86,7 +86,7 @@ ul {
 .log::after {
 	content: var(--message);
 	display: inline-block;
-	width: calc(100dvw - 3rem);
+	width: calc(100dvw - 9rem);
 	white-space: nowrap;
 	overflow: hidden;
 	font-size: 0.8em;
