@@ -756,8 +756,10 @@ function chartProgress() {
 					removeDialog();
 					log("Train destination set: " + station.name);
 				}
-				else
+				else { // do not accumulate time
+					idle();
 					log("Train waiting for new destination");
+				}
 			}
 			else {
 				// wait at station, do not reduce time, skip all processing until cover wait time
