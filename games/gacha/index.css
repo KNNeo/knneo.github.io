@@ -1,0 +1,71 @@
+/*Variables*/
+:root {
+	--primary: 27, 63, 255;
+	--secondary: 59, 102, 222;
+	--tertiary: 221, 221, 255;
+	--background: 255, 255, 255;
+	--foreground: 0, 20, 20;
+	--accent: 221, 221, 221;
+}
+
+.darked:root {
+	--primary: 50, 228, 255;
+	--secondary: 36, 159, 179;
+	--tertiary: 22, 98, 100;
+	--background: 0, 0, 0;
+	--foreground: 245, 245, 255;
+	--accent: 69, 69, 69;
+}
+
+html {
+	font-family: Noto Sans;
+	background-color: rgb(var(--background));
+	color: rgb(var(--foreground));
+}
+
+body {
+  margin: 0;
+  text-align: center;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+a,
+a:visited {
+  color: rgb(var(--foreground));
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(var(--primary));
+}
+
+.hidden {
+	display: none;
+}
+
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
