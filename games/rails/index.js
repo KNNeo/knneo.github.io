@@ -530,7 +530,7 @@ function onMissionAction() {
 	switch (event.target.innerText) {
 		case 'Accept':
 			window.data.game.missions.list.push(event.target.getAttribute('data-id'));
-			log("Mission \"" + event.target.getAttribute('data-name') + "\" added");
+			log("Mission [" + event.target.getAttribute('data-name') + "] added");
 			removeDialog();
 			break;
 		case 'Cancel':
@@ -538,7 +538,7 @@ function onMissionAction() {
 			break;
 		case 'Confirm':
 			window.data.game.missions.list.splice(event.target.getAttribute('data-id'), 1);
-			log("Mission \"" + event.target.getAttribute('data-name') + "\" cancelled");
+			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
 			removeDialog();
 			break;
 	}
@@ -777,7 +777,7 @@ function chartProgress() {
 			else {
 				// wait at station, do not reduce time, skip all processing until cover wait time
 				if (window.data.game.focus) focus(document.querySelector('#train'));
-				return log("Train waiting at \"" + station.name + "\" (leaving in " + (-1 * waitDiff) + "s)");
+				return log("Train waiting at " + station.name + " (leaving in " + (-1 * waitDiff) + "s)");
 			}
 		}
 		// can reach station
@@ -848,7 +848,7 @@ function updateMissions() {
 		let goods = station.goods.filter(s => !window.data.game.missions.list.includes(s.id));
 		for (let good of goods) {
 			window.data.game.missions.list.push(good.id);
-			log("Mission \"" + good.name + "\" automatically added");
+			log("Mission [" + good.name + "] automatically added");
 		}
 	}
 	// missions with destination at station to remove
@@ -857,7 +857,7 @@ function updateMissions() {
 		removeDialog();
 		for (let mission of missions) {
 			window.data.game.missions.list.splice(mission.id, 1);
-			log("Mission \"" + mission.name + "\" completed");
+			log("Mission [" + mission.name + "] completed");
 		}
 	}
 }
