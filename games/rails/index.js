@@ -211,7 +211,6 @@ const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 
 //--EVENT HANDLERS--//
 function resetProgress() {
-	window.data.game.diff = 60;
 	window.data.last = { x: 0, y: 0, id: 'station-1' };
 	log('Train reset to origin');
 }
@@ -729,7 +728,7 @@ function chartProgress() {
 	if (window.data.debug) console.log('chartProgress');
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	if (window.data.debug) console.log("at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
-	let timeDiffSec = window.data.game.diff > 0 ? window.data.game.diff : Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
+	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	if (timeDiffSec > 60) // max 1min
 		timeDiffSec = 60;
 	let trainMoved = false;
@@ -830,13 +829,9 @@ function chartProgress() {
 		if (window.data.game.focus) focus(train);
 		if (window.data.debug) console.log("moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
-	// update last run time, and diff for temp storage
-	if (timeDiffSec <= 0) {
-		window.data.game.diff = 0;
+	// update last run time
+	if (timeDiffSec <= 0)
 		idle();
-	}
-	else
-		window.data.game.diff = Math.floor(timeDiffSec);
 }
 
 function updateMissions() {
@@ -1028,12 +1023,9 @@ function clear() {
 
 //--HTML DOM FUNCTIONS--//
 function idle() {
-	// when not running chartProgress
-	if (!window.data.game.diff) {
-		// record time in order to calculate time passed when load in
-		window.data.game.time = new Date();
-		save();
-	}
+	// record time in order to calculate time passed when load in
+	window.data.game.time = new Date();
+	save();
 }
 
 function startup() {
