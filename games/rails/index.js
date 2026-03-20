@@ -728,23 +728,9 @@ function chartProgress() {
 		if (window.data.debug) console.log('distance', distance);
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
-			// auto accept missions at station
-			if (window.data.game.missions.auto && station.goods) {
-				let goods = station.goods.filter(s => !window.data.game.missions.list.includes(s.id));
-				for (let good of goods) {
-					window.data.game.missions.list.push(good.id);
-					log("Mission \"" + mission.name + "\" automatically added");
-				}
-			}
-			// missions with destination at station to remove
-			let missions = window.data.game.missions.all.filter(m => m.dest == station.id && window.data.game.missions.list.includes(m.id));
-			if (missions.length) {
-				removeDialog();
-				for (let mission of missions) {
-					window.data.game.missions.list.splice(mission.id, 1);
-					log("Mission \"" + mission.name + "\" completed");
-				}
-			}
+			// update missions at station
+			setTimeout(updateMissions, 0);
+			// calculate time passed
 			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
 			if (!station.wait || waitDiff >= 0) {
 				timeDiffSec -= ((station.wait || 0) * waitRate);
@@ -829,6 +815,27 @@ function chartProgress() {
 	}
 	else
 		window.data.game.diff = Math.floor(timeDiffSec);
+}
+
+function updateMissions() {
+	let station = window.data.last;
+	// auto accept missions at station
+	if (window.data.game.missions.auto && station.goods) {
+		let goods = station.goods.filter(s => !window.data.game.missions.list.includes(s.id));
+		for (let good of goods) {
+			window.data.game.missions.list.push(good.id);
+			log("Mission \"" + good.name + "\" automatically added");
+		}
+	}
+	// missions with destination at station to remove
+	let missions = window.data.game.missions.all.filter(m => m.dest == station.id && window.data.game.missions.list.includes(m.id));
+	if (missions.length) {
+		removeDialog();
+		for (let mission of missions) {
+			window.data.game.missions.list.splice(mission.id, 1);
+			log("Mission \"" + mission.name + "\" completed");
+		}
+	}
 }
 
 function moveCamera() {
