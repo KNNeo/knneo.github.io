@@ -818,7 +818,7 @@ function chartProgress() {
 }
 
 function updateMissions() {
-	let station = window.data.last?.id;
+	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if(!station) return;
 	// auto accept missions at station
 	if (window.data.game.missions.auto && station.goods) {
