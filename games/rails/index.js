@@ -2,7 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
-	date: '20260320_1',
+	date: '20260320_2',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -180,9 +180,12 @@ const config = {
 			auto: true,
 			list: []
 		},
-		cost: {
-			travel: 5,
-			wait: 1,
+		travel: {
+			auto: true,
+			cost: 5
+		},
+		wait: {
+			cost: 1
 		}
 	}
 };
@@ -718,8 +721,8 @@ function chartProgress() {
 	if (timeDiffSec > 60) // max 1min
 		timeDiffSec = 60;
 	let trainMoved = false;
-	let travelRate = window.data.game.cost.travel || 1;
-	let waitRate = window.data.game.cost.wait || 0;
+	let travelRate = window.data.game.travel.cost || 1;
+	let waitRate = window.data.game.wait.cost || 0;
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if (station && timeDiffSec > 0) {
 		if (window.data.debug) console.log('delta: ' + timeDiffSec);
@@ -740,16 +743,21 @@ function chartProgress() {
 					station = window.data.map.stations.find(s => s.id == window.data.next.id);
 					delete window.data.next;
 				}
-				else {
+				else if (window.data.game.travel.auto) {
 					// find links through station id (assume was on station)
 					if (window.data.debug) console.log(station.links);
 					let nextStation = station.links[Math.floor(Math.random() * station.links.length)];
 					station = window.data.map.stations.find(s => s.id == nextStation);
 				}
-				window.data.last.id = station.id;
-				updateDestination();
-				removeDialog();
-				log("Train destination set: " + station.name);
+				// update new station
+				if(station) {
+					window.data.last.id = station.id;
+					updateDestination();
+					removeDialog();
+					log("Train destination set: " + station.name);
+				}
+				else
+					log("Train waiting for new destination");
 			}
 			else {
 				// wait at station, do not reduce time, skip all processing until cover wait time
