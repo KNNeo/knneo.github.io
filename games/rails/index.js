@@ -466,7 +466,7 @@ function renderMissions(list) {
 	let container = document.createElement('div');
 	let header = document.createElement('h3');
 	header.innerText = 'Missions';
-	grid.appendChild(header);
+	container.appendChild(header);
 	for (let mission of list) {
 		let grid = document.createElement('div');
 		grid.classList.add('mission');
