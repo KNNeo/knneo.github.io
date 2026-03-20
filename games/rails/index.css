@@ -84,13 +84,11 @@ ul {
 }
 
 .log::after {
-	content: var(--message);
-	display: inline-block;
-	width: calc(100dvw - 9rem);
-	white-space: nowrap;
-	overflow: hidden;
-	font-size: 0.8em;
-    line-height: 2em;
+    content: var(--message);
+    display: inline-block;
+    width: calc(100dvw - 9rem);
+    white-space: pre-wrap;
+    font-size: 0.8em;
 }
 
 .log:not(:has(.log-list.hidden))::after {
