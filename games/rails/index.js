@@ -742,8 +742,6 @@ function chartProgress() {
 		if (window.data.debug) console.log('distance', distance);
 		// at station
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
-			// update missions at station
-			setTimeout(updateMissions, 0);
 			// calculate time passed
 			let waitDiff = timeDiffSec - ((station.wait || 0) * waitRate);
 			if (!station.wait || waitDiff >= 0) {
@@ -773,6 +771,8 @@ function chartProgress() {
 				}
 			}
 			else {
+				// update missions at station
+				setTimeout(updateMissions, 0);
 				// wait at station, do not reduce time, skip all processing until cover wait time
 				if (window.data.game.focus) focus(document.querySelector('#train'));
 				return log("Train waiting at " + station.name + " (leaving in " + (-1 * waitDiff) + "s)");
@@ -863,34 +863,54 @@ function updateMissions() {
 }
 
 function moveCamera() {
-	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
+	let attributes = diagramSvg.getAttribute('viewBox').split(' ');
 	let posX = 0;
 	let posY = 0;
 	switch (event?.target?.getAttribute('data-dir')) {
-		case 'focus':
-			window.data.game.focus = true;
-			let train = document.querySelector("#train");
-			posX = parseInt(train.getAttribute("x"));
-			posY = parseInt(train.getAttribute("y"));
-			break;
-		case 'left':
+		case 'up-left':
 			window.data.game.focus = false;
 			posX = parseInt(attributes[0]) - config.diagram.step;
-			posY = parseInt(attributes[1]);
-			break;
-		case 'right':
-			window.data.game.focus = false;
-			posX = parseInt(attributes[0]) + config.diagram.step;
-			posY = parseInt(attributes[1]);
+			posY = parseInt(attributes[1]) - config.diagram.step;
 			break;
 		case 'up':
 			window.data.game.focus = false;
 			posX = parseInt(attributes[0]);
 			posY = parseInt(attributes[1]) - config.diagram.step;
 			break;
+		case 'up-right':
+			window.data.game.focus = false;
+			posX = parseInt(attributes[0]) + config.diagram.step;
+			posY = parseInt(attributes[1]) - config.diagram.step;
+			break;
+		case 'left':
+			window.data.game.focus = false;
+			posX = parseInt(attributes[0]) - config.diagram.step;
+			posY = parseInt(attributes[1]);
+			break;
+		case 'focus':
+			window.data.game.focus = true;
+			let train = document.querySelector('#train');
+			posX = parseInt(train.getAttribute('x'));
+			posY = parseInt(train.getAttribute('y'));
+			break;
+		case 'right':
+			window.data.game.focus = false;
+			posX = parseInt(attributes[0]) + config.diagram.step;
+			posY = parseInt(attributes[1]);
+			break;
+		case 'down-left':
+			window.data.game.focus = false;
+			posX = parseInt(attributes[0]) - config.diagram.step;
+			posY = parseInt(attributes[1]) + config.diagram.step;
+			break;
 		case 'down':
 			window.data.game.focus = false;
 			posX = parseInt(attributes[0]);
+			posY = parseInt(attributes[1]) + config.diagram.step;
+			break;
+		case 'down-right':
+			window.data.game.focus = false;
+			posX = parseInt(attributes[0]) + config.diagram.step;
 			posY = parseInt(attributes[1]) + config.diagram.step;
 			break;
 		default:
@@ -901,8 +921,8 @@ function moveCamera() {
 }
 
 function focus(element) {
-	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
-	//set based on params
+	let attributes = diagramSvg.getAttribute('viewBox').split(' ');
+	// set based on params
 	let posX = parseInt(attributes[0]) + (element.getBoundingClientRect()?.x || 0) - (parseInt(attributes[2]) / 2);
 	let posY = parseInt(attributes[1]) + (element.getBoundingClientRect()?.y || 0) - (parseInt(attributes[3]) / 2);
 	if (window.data.debug) console.log('focus', Math.floor(posX).toString(), Math.floor(posY).toString());
@@ -910,16 +930,16 @@ function focus(element) {
 }
 
 function move(x, y) {
-	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
-	//reset
+	let attributes = diagramSvg.getAttribute('viewBox').split(' ');
+	// reset
 	attributes[0] = 0;
 	attributes[1] = 0;
-	diagramSvg.setAttribute("viewBox", attributes.join(" "));
-	//set viewbox
+	diagramSvg.setAttribute('viewBox', attributes.join(' '));
+	// set viewbox
 	attributes[0] = Math.floor(x).toString();
 	attributes[1] = Math.floor(y).toString();
 	if (window.data.debug) console.log('move viewBox', ...attributes);
-	diagramSvg.setAttribute("viewBox", attributes.join(" "));
+	diagramSvg.setAttribute('viewBox', attributes.join(' '));
 }
 
 function nearestPoint(points, ref) {
