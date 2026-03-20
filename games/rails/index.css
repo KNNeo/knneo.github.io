@@ -86,10 +86,11 @@ ul {
 .log::after {
 	content: var(--message);
 	display: inline-block;
-	width: 80vw;
+	width: calc(100dvw - 3rem);
 	white-space: nowrap;
 	overflow: hidden;
 	font-size: 0.8em;
+    line-height: 2em;
 }
 
 .log:not(:has(.log-list.hidden))::after {
@@ -97,7 +98,8 @@ ul {
 }
 
 .log-list {
-	width: min(100%, 70vw);
+	width: 100%;
+	max-width: 720px;
 	height: 30vh;
 	font-size: 0.8em;
 	overflow: auto;
