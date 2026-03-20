@@ -730,11 +730,10 @@ function chartProgress() {
 		if (window.data.last.x == station.x && window.data.last.y == station.y) {
 			// auto accept missions at station
 			if (window.data.game.missions.auto && station.goods) {
-				for (let mission of station.goods) {
-					if(!window.data.game.missions.list.includes(mission.id)) {
-						window.data.game.missions.list.push(mission.id);
-						log("Mission \"" + mission.name + "\" automatically added");
-					}
+				let goods = station.goods.filter(s => !window.data.game.missions.list.includes(s.id));
+				for (let good of goods) {
+					window.data.game.missions.list.push(good.id);
+					log("Mission \"" + mission.name + "\" automatically added");
 				}
 			}
 			// missions with destination at station to remove
