@@ -455,8 +455,9 @@ function onClickNode() {
 		if (window.data.last.id != id)
 			return log('Train not in station to access missions!');
 		let station = window.data.map.stations.find(s => s.id == id);
-		if (station && station.goods) {
-			if (!station.goods.length) return popupContent('No missions available');
+		if (station) {
+			if (!station.goods || !station.goods.length)
+				return popupContent('No missions available');
 			renderMissions(station.goods);
 		}
 	}
@@ -474,7 +475,8 @@ function renderMissions(list) {
 		let img = document.createElement('img');
 		img.src = mission.image;
 		let title = document.createElement('div');
-		title.innerText = mission.name || '(No title)';
+		let station = window.data.map.stations.find(s => s.id == mission.dest);
+		title.innerText = (mission.name || '(No title)') + '\n' + '[' + station.name + ']';
 		let price = document.createElement('div');
 		price.innerText = mission.price ? (mission.price + '🔻') : '';
 		price.title = 'Amount to Pay';

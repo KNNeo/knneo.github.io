@@ -197,6 +197,10 @@ ul {
 	border-radius: 8px;
 }
 
+.mission div {
+	white-space: pre-wrap;
+}
+
 .mission:hover {
 	background-color: rgb(var(--accent));
 }
