@@ -730,8 +730,8 @@ function chartProgress() {
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	if (window.data.debug) console.log("at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
-	if (timeDiffSec > 60) // max 1min
-		timeDiffSec = 60;
+	// set time advancement limit
+	if (timeDiffSec > 30) timeDiffSec = 30;
 	let trainMoved = false;
 	let travelRate = window.data.game.travel.cost || 1;
 	let waitRate = window.data.game.wait.cost || 0;
@@ -779,13 +779,13 @@ function chartProgress() {
 				return log("Train waiting at \"" + station.name "\" (leaving in " + (-1 * waitDiff) + "s)");
 			}
 		}
-		// can reach station, new position at station, calc again
+		// can reach station
 		else if (timeDiffSec - distance / travelRate > 0) {
-			// set new position
+			// set new position at station
 			window.data.last = { x: station.x, y: station.y, id: station.id };
 			timeDiffSec -= distance / travelRate;
 			trainMoved = true;
-			log("Train moving to station: " + station.name);
+			log("Train reaching station: " + station.name);
 		}
 		// en route, calculate newest position
 		else {
@@ -797,7 +797,7 @@ function chartProgress() {
 				// set new position
 				window.data.last = { ...newPos, id: station.id };
 				trainMoved = true;
-				log("Train moving to station: " + station.name);
+				log("Train en route to station: " + station.name);
 			}
 		}
 	}
@@ -829,9 +829,11 @@ function chartProgress() {
 		if (window.data.game.focus) focus(train);
 		if (window.data.debug) console.log("moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
-	// update last run time
+	// advance last logged time
 	if (timeDiffSec <= 0)
 		idle();
+	else
+		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
 }
 
 function updateMissions() {
