@@ -501,7 +501,7 @@ function renderMissions(list) {
 		description.classList.add('desc');
 		description.innerText = mission.desc || '(No description)';
 		let reward = document.createElement('div');
-		reward.innerText = 'Reward\n' mission.reward ? (mission.reward + '💵') : '';
+		reward.innerText = 'Reward\n' + (mission.reward ? (mission.reward + '💵') : '');
 		price.title = 'Completion Reward';
 
 		let action = document.createElement('button');
