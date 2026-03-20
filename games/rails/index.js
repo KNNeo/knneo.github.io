@@ -489,6 +489,7 @@ function renderMissions(list) {
 		let action = document.createElement('button');
 		action.classList.add('status');
 		action.innerText = window.data.game.missions.list.includes(mission.id) ? 'Cancel' : 'Accept';
+		action.setAttribute('data-name', mission.name);
 		action.setAttribute('data-id', mission.id);
 		action.setAttribute('onclick', 'onMissionAction()');
 
@@ -511,7 +512,7 @@ function onMissionAction() {
 	switch (event.target.innerText) {
 		case 'Accept':
 			window.data.game.missions.list.push(event.target.getAttribute('data-id'));
-			log("Mission \"" + mission.name + "\" added");
+			log("Mission \"" + event.target.getAttribute('data-name') + "\" added");
 			removeDialog();
 			break;
 		case 'Cancel':
@@ -519,7 +520,7 @@ function onMissionAction() {
 			break;
 		case 'Confirm':
 			window.data.game.missions.list.splice(event.target.getAttribute('data-id'), 1);
-			log("Mission \"" + mission.name + "\" cancelled");
+			log("Mission \"" + event.target.getAttribute('data-name') + "\" cancelled");
 			removeDialog();
 			break;
 	}
