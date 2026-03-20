@@ -836,7 +836,6 @@ function chartProgress() {
 	else {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
 		if(window.data.debug) console.log(window.data.game.time);
-		popupContent('Progressing time...');
 	}
 }
 
