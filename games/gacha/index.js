@@ -33,8 +33,6 @@ async function createDb(SQL) {
 			//initialize db
 			const result = await response.arrayBuffer();
 			const uInt8Array = new Uint8Array(result);
-			if (config.debug)
-				console.log('createDb took', Date.now() - time, 'ms');
 			config.db = new SQL.Database(uInt8Array);
 		}
 		else
