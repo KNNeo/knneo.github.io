@@ -1,5 +1,7 @@
 //--DEFAULT SETTINGS--//
-const config = {};
+const config = {
+	debug: true
+};
 const DB_NAME = "gacha";
 const STORE_NAME = "surugacha";
 const FILE_KEY = "app_db";
@@ -23,9 +25,29 @@ function getIDB() {
 	});
 }
 
-function createDb(SQL) {
+async function createDb(SQL) {
 	console.log("Creating a fresh database...");
-	return new SQL.Database();
+	try
+	{
+		const response = await fetch(databaseFilename);
+		if(response.ok && response.status == 200)
+		{
+			//initialize db
+			const result = await response.arrayBuffer();
+			const uInt8Array = new Uint8Array(result);
+			if(config.debug)
+				console.log('createDb took', Date.now() - time, 'ms');
+			return new SQL.Database(uInt8Array);			
+		}
+		else
+		{
+			console.error('callDb: ' + response);
+		}
+	}
+	catch(e)
+	{
+		console.error('callDb: ' + e.message);
+	}
 }
 
 async function saveDb() {
