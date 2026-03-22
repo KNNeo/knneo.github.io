@@ -34,17 +34,20 @@ async function createDb(SQL) {
 			const result = await response.arrayBuffer();
 			const uInt8Array = new Uint8Array(result);
 			config.db = new SQL.Database(uInt8Array);
+			console.log("Fresh database loaded.");
 		}
 		else
-			console.error('createDb: ' + response);
+			console.error('Failed to find base database:' + response);
 	}
 	catch (err) {
-		console.error('createDb: ' + err);
+		console.error('Failed to create database:' + err);
 	}
 }
 
 async function saveDb() {
 	try {
+		if (!config.db)
+			return console.error('Database not found.');
 		const binaryData = config.db.export();
 		const idb = await getIDB();
 		const tx = idb.transaction(STORE_NAME, "readwrite");
@@ -95,8 +98,8 @@ window.addEventListener('load', async function () {
 	let SQL = await initSqlJs({
 		locateFile: file => `https://knneo.github.io/games/gacha/sql-wasm.wasm`
 	});
-	loadDb(SQL);
-	saveDb();
+	await loadDb(SQL);
+	await saveDb();
 	startup();
 });
 
