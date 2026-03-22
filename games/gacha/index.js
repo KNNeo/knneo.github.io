@@ -3,9 +3,6 @@ const config = {};
 const DB_NAME = "gacha";
 const STORE_NAME = "surugacha";
 const FILE_KEY = "app_db";
-const SQL = await initSqlJs({
-	locateFile: file => `https://knneo.github.io/games/gacha/sql-wasm.wasm`
-});
 
 //--DOM NODE REFERENCES--//
 
@@ -79,7 +76,10 @@ async function writeDb(statement) {
 }
 
 //--INITIAL--//
-window.addEventListener('load', function () {
+window.addEventListener('load', async function () {
+	let SQL = await initSqlJs({
+		locateFile: file => `https://knneo.github.io/games/gacha/sql-wasm.wasm`
+	});
 	loadDb(SQL);
 	startup();
 });
