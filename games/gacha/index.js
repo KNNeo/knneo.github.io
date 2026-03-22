@@ -1,10 +1,13 @@
 //--DEFAULT SETTINGS--//
 const config = {
-	debug: true
+	debug: true,
+	id: '20260322',
+	idb: {
+		name: 'gacha',
+		store: 'surugacha',
+		key: 'app_db'
+	}
 };
-const DB_NAME = "gacha";
-const STORE_NAME = "surugacha";
-const FILE_KEY = "app_db";
 
 //--DOM NODE REFERENCES--//
 
@@ -18,8 +21,8 @@ const FILE_KEY = "app_db";
 //--FUNCTIONS--//
 function getIDB() {
 	return new Promise((resolve, reject) => {
-		const request = indexedDB.open(DB_NAME, 1);
-		request.onupgradeneeded = () => request.result.createObjectStore(STORE_NAME);
+		const request = indexedDB.open(config.idb.name, 1);
+		request.onupgradeneeded = () => request.result.createObjectStore(config.idb.store);
 		request.onsuccess = () => resolve(request.result);
 		request.onerror = () => reject(request.error);
 	});
@@ -33,8 +36,8 @@ async function createDb(SQL) {
 			//initialize db
 			const result = await response.arrayBuffer();
 			const uInt8Array = new Uint8Array(result);
-			config.db = new SQL.Database(uInt8Array);
 			console.log("Fresh database loaded.");
+			return new SQL.Database(uInt8Array);
 		}
 		else
 			console.error('Failed to find base database:' + response);
@@ -50,8 +53,8 @@ async function saveDb() {
 			return console.error('Database not found.');
 		const binaryData = config.db.export();
 		const idb = await getIDB();
-		const tx = idb.transaction(STORE_NAME, "readwrite");
-		tx.objectStore(STORE_NAME).put(binaryData, FILE_KEY);
+		const tx = idb.transaction(config.idb.store, "readwrite");
+		tx.objectStore(config.idb.store).put(binaryData, config.idb.key);
 
 		return new Promise((res) => {
 			tx.oncomplete = () => {
@@ -67,8 +70,8 @@ async function saveDb() {
 async function loadDb(SQL) {
 	try {
 		const idb = await getIDB();
-		const tx = idb.transaction(STORE_NAME, "readonly");
-		const request = tx.objectStore(STORE_NAME).get(FILE_KEY);
+		const tx = idb.transaction(config.idb.store, "readonly");
+		const request = tx.objectStore(config.idb.store).get(config.idb.key);
 
 		request.onsuccess = () => {
 			const data = request.result;
@@ -77,7 +80,7 @@ async function loadDb(SQL) {
 				config.db = new SQL.Database(data);
 			} else {
 				console.log("No saved database found. Creating new.");
-				createDb(SQL);
+				config.db = createDb(SQL);
 			}
 		};
 	} catch (err) {
@@ -93,6 +96,48 @@ async function writeDb(statement) {
 
 }
 
+async function migrateDb(SQL) {
+	console.log('Version change detected! Updating database...');
+
+	try {
+		let newDb = createDb(SQL);
+		let newDbCards = newDb.exec("SELECT * FROM card");
+
+		if (newDbCards.length === 0 || !newDbCards[0].values.length)
+			return console.error("No data found in the card table.");
+
+		let columns = newDbCards[0].columns;
+		let rows = newDbCards[0].values;
+		let colNames = columns.join(", ");
+		let placeholders = columns.map(() => "?").join(", ");
+		let updateExclusion = columns
+			.filter(col => col !== 'id') // 'id' is primary key
+			.map(col => `${col} = excluded.${col}`)
+			.join(", ");
+		let upsertSql = `
+				INSERT INTO card (${colNames}) 
+				VALUES (${placeholders})
+				ON CONFLICT(id) DO UPDATE SET ${updateExclusion}
+				`;
+
+		let stmt = config.db.prepare(upsertSql);
+		config.db.run("BEGIN TRANSACTION");
+
+		for (let row of rows)
+			stmt.run(row);
+
+		config.db.run("COMMIT");
+		stmt.free();
+		newDb.close();
+
+		await saveDb();
+		console.log(`Successfully migrated ${rows.length} cards.`);
+	} catch (err) {
+		config.db.run("ROLLBACK");
+		console.error("Database migration failed:", err);
+	}
+}
+
 //--INITIAL--//
 window.addEventListener('load', async function () {
 	let SQL = await initSqlJs({
@@ -100,9 +145,13 @@ window.addEventListener('load', async function () {
 	});
 	await loadDb(SQL);
 	await saveDb();
+	if(config.id != localStorage.getItem('gacha_ver_id')) {
+		migrateDb(SQL);
+		localStorage.setItem('gacha_ver_id', config.id);
+	}
 	startup();
 });
 
 function startup() {
-	console.log('Load complete.');
+	console.log('Initialization complete.');
 }
