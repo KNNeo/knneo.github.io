@@ -81,9 +81,10 @@ window.addEventListener('load', async function () {
 		locateFile: file => `https://knneo.github.io/games/gacha/sql-wasm.wasm`
 	});
 	loadDb(SQL);
+	saveDb();
 	startup();
 });
 
 function startup() {
-	console.log('complete');
+	console.log('Load complete.');
 }
