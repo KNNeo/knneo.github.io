@@ -27,26 +27,21 @@ function getIDB() {
 
 async function createDb(SQL) {
 	console.log("Creating a fresh database...");
-	try
-	{
-		const response = await fetch(databaseFilename);
-		if(response.ok && response.status == 200)
-		{
+	try {
+		const response = await fetch('https://knneo.github.io/games/gacha/gacha.db');
+		if (response.ok && response.status == 200) {
 			//initialize db
 			const result = await response.arrayBuffer();
 			const uInt8Array = new Uint8Array(result);
-			if(config.debug)
+			if (config.debug)
 				console.log('createDb took', Date.now() - time, 'ms');
-			return new SQL.Database(uInt8Array);			
+			config.db = new SQL.Database(uInt8Array);
 		}
 		else
-		{
-			console.error('callDb: ' + response);
-		}
+			console.error('createDb: ' + response);
 	}
-	catch(e)
-	{
-		console.error('callDb: ' + e.message);
+	catch (err) {
+		console.error('createDb: ' + err);
 	}
 }
 
@@ -81,7 +76,7 @@ async function loadDb(SQL) {
 				config.db = new SQL.Database(data);
 			} else {
 				console.log("No saved database found. Creating new.");
-				config.db = createDb(SQL);
+				createDb(SQL);
 			}
 		};
 	} catch (err) {
