@@ -50,7 +50,7 @@ async function createDb(SQL) {
 async function saveDb() {
 	try {
 		if (!config.db)
-			return console.error('Database not found.');
+			return console.error('saveDb: Database not found.');
 		const binaryData = config.db.export();
 		const idb = await getIDB();
 		const tx = idb.transaction(config.idb.store, "readwrite");
@@ -97,6 +97,8 @@ async function writeDb(statement) {
 }
 
 async function migrateDb(SQL) {
+	if (!config.db)
+		return console.error('migrateDb: Database not found.');
 	console.log('Version change detected! Updating database...');
 
 	try {
@@ -145,8 +147,8 @@ window.addEventListener('load', async function () {
 	});
 	await loadDb(SQL);
 	await saveDb();
-	if(config.id != localStorage.getItem('gacha_ver_id')) {
-		migrateDb(SQL);
+	if (config.id != localStorage.getItem('gacha_ver_id')) {
+		await migrateDb(SQL);
 		localStorage.setItem('gacha_ver_id', config.id);
 	}
 	startup();
