@@ -48,8 +48,8 @@ async function createDb(SQL) {
 
 async function loadDb(SQL) {
 	if (!config.db)
-		return console.error('saveDb: Database not found.');
-
+		console.error('loadDb: Database not found.');
+	
 	try {
 		const idb = await getIDB();
 		const tx = idb.transaction(config.idb.store, "readonly");
@@ -94,7 +94,7 @@ async function saveDb() {
 
 async function queryDb(query, callback) {
 	if (!config.db)
-		return console.error('saveDb: Database not found.');
+		return console.error('queryDb: Database not found.');
 
 	try {
 		let content = config.db.run(query);
@@ -106,7 +106,7 @@ async function queryDb(query, callback) {
 
 async function writeDb(statement) {
 	if (!config.db)
-		return console.error('saveDb: Database not found.');
+		return console.error('writeDb: Database not found.');
 
 	try {
 		config.db.run("BEGIN TRANSACTION");
