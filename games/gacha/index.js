@@ -46,7 +46,7 @@ async function createDb(SQL) {
 	}
 }
 
-async function loadDb(SQL) {
+async function loadDb(SQL, callback) {
 	if (!config.db)
 		console.error('loadDb: Database not found.');
 
@@ -65,6 +65,7 @@ async function loadDb(SQL) {
 				config.db = await createDb(SQL);
 				console.log("Fresh database loaded.");
 			}
+			if(callback) callback();
 		};
 	} catch (err) {
 		console.error("Error loading database:", err);
@@ -167,13 +168,13 @@ window.addEventListener('load', async function () {
 	let SQL = await initSqlJs({
 		locateFile: file => `https://knneo.github.io/games/gacha/sql-wasm.wasm`
 	});
-	await loadDb(SQL);
+	await loadDb(SQL, startup);
 	await saveDb();
 	if (config.id != localStorage.getItem('gacha_ver_id')) {
 		await migrateDb(SQL);
 		localStorage.setItem('gacha_ver_id', config.id);
+		startup();
 	}
-	startup();
 });
 
 function startup() {
