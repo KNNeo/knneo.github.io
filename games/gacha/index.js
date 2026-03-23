@@ -55,7 +55,7 @@ async function loadDb(SQL) {
 		const tx = idb.transaction(config.idb.store, "readonly");
 		const request = tx.objectStore(config.idb.store).get(config.idb.key);
 
-		request.onsuccess = () => {
+		request.onsuccess = async () => {
 			const data = request.result;
 			if (data) {
 				console.log("Existing database found and loaded.");
