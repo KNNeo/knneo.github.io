@@ -92,19 +92,19 @@ async function saveDb() {
 	}
 }
 
-async function queryDb(query, callback) {
+function queryDb(query, callback) {
 	if (!config.db)
 		return console.error('queryDb: Database not found.');
 
 	try {
-		let content = config.db.execute(query);
+		let content = config.db.exec(query);
 		if (callback) callback(content);
 	} catch (err) {
 		console.error("Query database failed:", err);
 	}
 }
 
-async function writeDb(statement) {
+function writeDb(statement) {
 	if (!config.db)
 		return console.error('writeDb: Database not found.');
 
