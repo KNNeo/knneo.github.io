@@ -156,6 +156,20 @@ ul {
 	border: 2px solid rgb(var(--primary));
 }
 
+.missions {
+    position: relative;
+}
+
+.missions::after {
+	content: attr(data-count);
+    background-color: rgb(var(--background));
+	position: absolute;
+	bottom: 0;
+	right: 0;
+    font-size: 0.7em;
+    line-height: 1;
+}
+
 .destinations {
 	display: flex;
 	flex-wrap: wrap;

@@ -531,6 +531,7 @@ function onMissionAction() {
 		case 'Accept':
 			window.data.game.missions.list.push(event.target.getAttribute('data-id'));
 			log("Mission [" + event.target.getAttribute('data-name') + "] added");
+			updateMissionCount();
 			removeDialog();
 			break;
 		case 'Cancel':
@@ -539,6 +540,7 @@ function onMissionAction() {
 		case 'Confirm':
 			window.data.game.missions.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
+			updateMissionCount();
 			removeDialog();
 			break;
 	}
@@ -859,6 +861,13 @@ function updateMissions() {
 			log("Mission [" + mission.name + "] completed");
 		}
 	}
+	updateMissionCount();
+}
+
+function updateMissionCount() {
+	let button = document.querySelector('.missions');
+	if(button)
+		button.dataset.count = window.data.game.missions.list.length || '';
 }
 
 function moveCamera() {
