@@ -29,14 +29,13 @@ function getIDB() {
 }
 
 async function createDb(SQL) {
-	console.log("Creating a fresh database...");
 	try {
+		console.log("Creating a fresh database...");
 		const response = await fetch('https://knneo.github.io/games/gacha/gacha.db');
 		if (response.ok && response.status == 200) {
 			//initialize db
 			const result = await response.arrayBuffer();
 			const uInt8Array = new Uint8Array(result);
-			console.log("Fresh database loaded.");
 			return new SQL.Database(uInt8Array);
 		}
 		else
@@ -47,10 +46,36 @@ async function createDb(SQL) {
 	}
 }
 
-async function saveDb() {
+async function loadDb(SQL) {
+	if (!config.db)
+		return console.error('saveDb: Database not found.');
+
 	try {
-		if (!config.db)
-			return console.error('saveDb: Database not found.');
+		const idb = await getIDB();
+		const tx = idb.transaction(config.idb.store, "readonly");
+		const request = tx.objectStore(config.idb.store).get(config.idb.key);
+
+		request.onsuccess = () => {
+			const data = request.result;
+			if (data) {
+				console.log("Existing database found and loaded.");
+				config.db = new SQL.Database(data);
+			} else {
+				console.log("No saved database found. Creating new.");
+				config.db = createDb(SQL);
+				console.log("Fresh database loaded.");
+			}
+		};
+	} catch (err) {
+		console.error("Error loading database:", err);
+	}
+}
+
+async function saveDb() {
+	if (!config.db)
+		return console.error('saveDb: Database not found.');
+
+	try {
 		const binaryData = config.db.export();
 		const idb = await getIDB();
 		const tx = idb.transaction(config.idb.store, "readwrite");
@@ -67,37 +92,22 @@ async function saveDb() {
 	}
 }
 
-async function loadDb(SQL) {
-	try {
-		const idb = await getIDB();
-		const tx = idb.transaction(config.idb.store, "readonly");
-		const request = tx.objectStore(config.idb.store).get(config.idb.key);
-
-		request.onsuccess = () => {
-			const data = request.result;
-			if (data) {
-				console.log("Existing database found and loaded.");
-				config.db = new SQL.Database(data);
-			} else {
-				console.log("No saved database found. Creating new.");
-				config.db = createDb(SQL);
-			}
-		};
-	} catch (err) {
-		console.error("Error loading database:", err);
-	}
-}
-
 async function queryDb(query, callback) {
+	if (!config.db)
+		return console.error('saveDb: Database not found.');
+
 	try {
 		let content = config.db.run(query);
-		if(callback) callback(content);
+		if (callback) callback(content);
 	} catch (err) {
 		console.error("Query database failed:", err);
 	}
 }
 
 async function writeDb(statement) {
+	if (!config.db)
+		return console.error('saveDb: Database not found.');
+
 	try {
 		config.db.run("BEGIN TRANSACTION");
 		config.db.run(statement);
@@ -111,9 +121,9 @@ async function writeDb(statement) {
 async function migrateDb(SQL) {
 	if (!config.db)
 		return console.error('migrateDb: Database not found.');
-	console.log('Version change detected! Updating database...');
 
 	try {
+		console.log('Version change detected! Updating database...');
 		let newDb = createDb(SQL);
 		let newDbCards = newDb.exec("SELECT * FROM card");
 
@@ -168,7 +178,7 @@ window.addEventListener('load', async function () {
 
 function startup() {
 	console.log('Initialization complete.');
-	queryDb('SELECT * FROM card', function(content) {
+	queryDb('SELECT * FROM card', function (content) {
 		config.cards = processQueryResult(content);
 	});
 }
@@ -177,7 +187,7 @@ function processQueryResult(content) {
 	let columns = content[0].columns;
 	let rows = content[0].values;
 	let list = [];
-	for(let col of columns) {
+	for (let col of columns) {
 		let colIndex = columns.indexOf(col);
 		for (let row of rows)
 			list[col] = row[colIndex];
