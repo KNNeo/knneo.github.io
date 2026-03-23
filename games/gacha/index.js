@@ -88,12 +88,24 @@ async function loadDb(SQL) {
 	}
 }
 
-async function queryDb(query) {
-
+async function queryDb(query, callback) {
+	try {
+		let content = config.db.run(query);
+		if(callback) callback(content);
+	} catch (err) {
+		console.error("Query database failed:", err);
+	}
 }
 
 async function writeDb(statement) {
-
+	try {
+		config.db.run("BEGIN TRANSACTION");
+		config.db.run(statement);
+		config.db.run("COMMIT");
+	} catch (err) {
+		config.db.run("ROLLBACK");
+		console.error("Write to database failed:", err);
+	}
 }
 
 async function migrateDb(SQL) {
@@ -156,4 +168,19 @@ window.addEventListener('load', async function () {
 
 function startup() {
 	console.log('Initialization complete.');
+	queryDb('SELECT * FROM card', function(content) {
+		config.cards = processQueryResult(content);
+	});
+}
+
+function processQueryResult(content) {
+	let columns = content[0].columns;
+	let rows = content[0].values;
+	let list = [];
+	for(let col of columns) {
+		let colIndex = columns.indexOf(col);
+		for (let row of rows)
+			list[col] = row[colIndex];
+	}
+	return list;
 }
