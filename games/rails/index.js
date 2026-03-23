@@ -506,7 +506,9 @@ function renderMissions(list) {
 
 		let action = document.createElement('button');
 		action.classList.add('status');
-		action.innerText = window.data.game.missions.list.includes(mission.id) ? 'Cancel' : 'Accept';
+		action.innerText = 'Accept';
+		if(window.data.game.missions.list.includes(mission.id))
+			action.innerText = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
 		action.setAttribute('data-name', mission.name);
 		action.setAttribute('data-id', mission.id);
 		action.setAttribute('onclick', 'onMissionAction()');
@@ -540,6 +542,11 @@ function onMissionAction() {
 		case 'Confirm':
 			window.data.game.missions.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
+			updateMissionCount();
+			removeDialog();
+		case 'Complete':
+			window.data.game.missions.list.splice(event.target.getAttribute('data-id'), 1);
+			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
 			updateMissionCount();
 			removeDialog();
 			break;
@@ -854,7 +861,7 @@ function updateMissions() {
 	}
 	// missions with destination at station to remove
 	let missions = window.data.game.missions.all.filter(m => m.dest == station.id && window.data.game.missions.list.includes(m.id));
-	if (missions.length) {
+	if (window.data.game.missions.auto && missions.length) {
 		removeDialog();
 		for (let mission of missions) {
 			window.data.game.missions.list.splice(mission.id, 1);
