@@ -49,7 +49,7 @@ async function createDb(SQL) {
 async function loadDb(SQL) {
 	if (!config.db)
 		console.error('loadDb: Database not found.');
-	
+
 	try {
 		const idb = await getIDB();
 		const tx = idb.transaction(config.idb.store, "readonly");
@@ -62,7 +62,7 @@ async function loadDb(SQL) {
 				config.db = new SQL.Database(data);
 			} else {
 				console.log("No saved database found. Creating new.");
-				config.db = createDb(SQL);
+				config.db = await createDb(SQL);
 				console.log("Fresh database loaded.");
 			}
 		};
