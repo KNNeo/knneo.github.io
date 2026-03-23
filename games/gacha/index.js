@@ -97,7 +97,7 @@ async function queryDb(query, callback) {
 		return console.error('queryDb: Database not found.');
 
 	try {
-		let content = config.db.run(query);
+		let content = config.db.execute(query);
 		if (callback) callback(content);
 	} catch (err) {
 		console.error("Query database failed:", err);
