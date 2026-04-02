@@ -292,19 +292,18 @@ function generateTimeline(timelineList, querySelector) {
 		}, []);
 		let filterBlock = document.createElement('select');
 		filterBlock.title = 'Filter Timeline';
+		filterBlock.setAttribute('onchange', 'config.filter=this.value;startup();');
 		filterBlock.classList.add('filter');
 
 		let filterDefault = document.createElement('option');
 		filterDefault.value = 'Default';
 		filterDefault.innerText = filterDefault.value;
-		filterDefault.onclick = 'config.filter="";startup();';
 		filterBlock.appendChild(filterDefault);
 
 		for(let group of groups) {
 			let option = document.createElement('option');
 			option.value = group;
 			option.innerText = option.value;
-			option.onclick = 'config.filter=this.value;startup();';
 			filterBlock.appendChild(option);
 		}
 
