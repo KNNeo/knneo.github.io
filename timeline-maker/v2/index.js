@@ -11,7 +11,7 @@ const config = {
 		data: "timeline-data-v2",		// json data
 		edit: "timeline-edit-data-v2"	// instructions
 	},
-	filter: "",		// All|data.group initial value
+	filter: "",		// All|Interval|data.group initial value
 	sort: "sort",	// left|right|txt|img|sort
 	layout: "rtl"	// alternate|start|end|rtl|ltr
 };
@@ -317,8 +317,9 @@ function generateTimeline(timelineList, querySelector) {
 	}
 
 	let spacing = calculateSpacing();
+	let phase = 1;
 	let displayList = timelineList
-		.filter(function(f) { return config.filter ? (f.group == 'All' || f.group == config.filter) : true; })
+		.filter(function(f) { return config.filter ? (f.group == 'All' || f.group == 'Interval' || f.group == config.filter) : true; })
 		.sort(function (a, b) { return config.sort && a[config.sort] && b[config.sort] ? a[config.sort].localeCompare(b[config.sort]) : 0; }) // asc only
 		.reduce(function (total, current, index, _) {
 			if (current.skip) {
@@ -329,12 +330,19 @@ function generateTimeline(timelineList, querySelector) {
 				for (s = 0; s < spacing; s++)
 					total.push({});
 			}
-			total.push({
+			// if any group has interval value, phase cannot be 1
+			if(current.group == 'Interval')
+				phase++;
+			let item = {
 				...current,
 				sort: index,
-			});
+			};
+			if(phase) item.phase = phase;
+			total.push(item);
 			return total;
-		}, []);
+		}, [])
+		// filter out all non-phase groups
+		.filter(function(f, i, a) { return a.filter(x => x.phase == 1).length || a.filter(x => x.phase == f.phase).length > 1; });
 	
 	// pad empty spaces at end so timeline can be within view
 	// if(displayList.length && config.orientation == 'horizontal') {
