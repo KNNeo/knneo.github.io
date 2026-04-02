@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
+const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 const config = {
 	dimmed: true,
 	orientation: window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
@@ -7,12 +8,11 @@ const config = {
 	scroll: 0.1,
 	formats: ".jpg|.webp",
 	storage: {
-		data: "timeline-data-v2",
-		edit: "timeline-edit-data-v2"
+		data: "timeline-data-v2",		// json data
+		edit: "timeline-edit-data-v2"	// instructions
 	},
 	layout: "rtl" /*alternate|start|end|rtl|ltr*/
 };
-const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
 //--DOM NODE REFERENCES--//
 let timelineDiv = document.querySelector('.timeline');
@@ -466,7 +466,7 @@ function createDialog(node) {
 		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function () {
-		if (event.target == document.querySelector('.dialog'))
+		if (event.target == document.querySelector('dialog'))
 			removeDialog();
 	});
 	return dialog;
