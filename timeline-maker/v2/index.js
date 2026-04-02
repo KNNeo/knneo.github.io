@@ -316,7 +316,7 @@ function generateTimeline(timelineList, querySelector) {
 	let spacing = calculateSpacing();
 	let displayList = timelineList
 		.filter(function(f) { return config.filter ? (f.group == 'All' || f.group == config.filter) : true; })
-		.sort(function (a, b) { return config.sort ? a[config.sort].localeCompare(b[config.sort]) : 0; }) // asc only
+		.sort(function (a, b) { return config.sort && a[config.sort] && b[config.sort] ? a[config.sort].localeCompare(b[config.sort]) : 0; }) // asc only
 		.reduce(function (total, current, index, _) {
 			if (current.skip) {
 				for (s = 0; s < current.skip * spacing; s++)
