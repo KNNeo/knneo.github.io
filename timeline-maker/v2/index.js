@@ -2,6 +2,7 @@
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 const config = {
+	debug: false,
 	dimmed: true,
 	orientation: window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	size: 40,
@@ -140,7 +141,7 @@ function loadEdit(content) {
 				markup += (elem.pos == 'left' ? 'LEFT ' : '') + (elem.pos == 'right' ? 'RIGHT ' : '') + elem.img + ',' + (elem.url || '') + '\n';
 		}
 	}
-	// console.log(markup);
+	if(config.debug) console.log('parsing json', markup);
 
 	/*
 	Example of output:
@@ -215,7 +216,7 @@ function saveEdit() {
 	}
 	// push last value if any
 	if (obj.data) json.push(obj);
-	// console.log(json);
+	if(config.debug) console.log('parse instructions', json);
 	document.querySelector("#data").textContent = JSON.stringify(json);
 	saveData();
 	startup();
@@ -256,7 +257,7 @@ function initialize() {
 function loadData() {
 	// if empty, create
 	if (document.querySelector('#data') == null) {
-		console.log('no data found, creating')
+		if(config.debug) console.log('no data found, creating');
 		let data = document.createElement('script');
 		data.id = 'data';
 		data.setAttribute('type', 'application/json');
@@ -343,7 +344,6 @@ function generateTimeline(timelineList, querySelector) {
 		}, [])
 		// filter out all non-phase groups
 		.filter(function(f, i, a) { return a.filter(x => x.phase == 1).length || a.filter(x => x.phase == f.phase).length > 1; });
-	
 	// pad empty spaces at end so timeline can be within view
 	// if(displayList.length && config.orientation == 'horizontal') {
 	// 	for(s = 0; s < Math.floor((timelineDiv.clientWidth / 100) / config.size); s++)
@@ -354,6 +354,7 @@ function generateTimeline(timelineList, querySelector) {
 	let textPos = ['start', 'alternate', 'ltr'].includes(config.layout) ? 'left' : 'right';
 	if (config.layout == 'alternate' && displayList.length > 1 && displayList[0]?.data && displayList[0]?.data.find(d => d.txt)?.pos)
 		textPos = displayList[0]?.data?.txt?.pos;
+	if(config.debug) console.log('filter list', displayList);
 	for (let item of displayList) {
 		count++;
 
