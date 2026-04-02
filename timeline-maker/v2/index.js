@@ -11,9 +11,9 @@ const config = {
 		data: "timeline-data-v2",		// json data
 		edit: "timeline-edit-data-v2"	// instructions
 	},
-	filter: "",
-	sort: "sort",
-	layout: "rtl" // alternate|start|end|rtl|ltr
+	filter: "",		// All|data.group initial value
+	sort: "sort",	// left|right|txt|img|sort
+	layout: "rtl"	// alternate|start|end|rtl|ltr
 };
 
 //--DOM NODE REFERENCES--//
