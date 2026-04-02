@@ -290,16 +290,15 @@ function generateTimeline(timelineList, querySelector) {
 			}
 			return total;
 		}, []);
-		let filterBlock = document.createElement('select');
-		filterBlock.title = 'Filter Timeline';
-		filterBlock.classList.add('filter');
-		filterBlock.setAttribute('onchange', 'config.filter=this.value;startup();');
+		let filterSelect = document.createElement('select');
+		filterSelect.title = 'Filter Timeline';
+		filterSelect.classList.add('filter');
+		filterSelect.setAttribute('onchange', 'config.filter=this.value;startup();');
 
 		let filterDefault = document.createElement('option');
 		filterDefault.value = 'Default';
 		filterDefault.innerText = filterDefault.value;
-		if(!config.filter) filterDefault.setAttribute('selected', '');
-		filterBlock.appendChild(filterDefault);
+		filterSelect.appendChild(filterDefault);
 
 		for(let group of groups.sort(function (a, b) { return a.localeCompare(b); })) {
 			let option = document.createElement('option');
@@ -307,10 +306,12 @@ function generateTimeline(timelineList, querySelector) {
 			option.innerText = option.value;
 			if(config.filter == group)
 				option.setAttribute('selected', '');
-			filterBlock.appendChild(option);
+			filterSelect.appendChild(option);
 		}
-
-		list.appendChild(filterBlock);
+		// reset default if no value or first group selected
+		if(!config.filter)
+			filterDefault.setAttribute('selected', '');
+		list.appendChild(filterSelect);
 	}
 
 	let spacing = calculateSpacing();
