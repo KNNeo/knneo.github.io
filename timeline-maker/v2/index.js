@@ -309,7 +309,7 @@ function generateTimeline(timelineList, querySelector) {
 			filterSelect.appendChild(option);
 		}
 		// reset default if no value or first group selected
-		if(!config.filter)
+		if(!config.filter || config.filter == 'Default')
 			filterDefault.setAttribute('selected', '');
 		list.appendChild(filterSelect);
 	}
