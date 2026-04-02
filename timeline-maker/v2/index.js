@@ -313,7 +313,7 @@ function generateTimeline(timelineList, querySelector) {
 
 	let spacing = calculateSpacing();
 	let displayList = timelineList
-		.filter(function(f) { return config.filter ? f.group == config.filter : true; })
+		.filter(function(f) { return config.filter ? (f.group == 'All' || f.group == config.filter) : true; })
 		.sort(function (a, b) { return config.sort ? a[config.sort] - b[config.sort] : 0; })
 		.reduce(function (total, current, index, _) {
 			if (current.skip) {
