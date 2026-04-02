@@ -296,7 +296,7 @@ function generateTimeline(timelineList, querySelector) {
 
 		let filterDefault = document.createElement('option');
 		filterDefault.value = 'Default';
-		filterDefault.innerText = option.value;
+		filterDefault.innerText = filterDefault.value;
 		filterDefault.onclick = 'config.filter="";startup();';
 		filterBlock.appendChild(filterDefault);
 
