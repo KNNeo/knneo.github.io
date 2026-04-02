@@ -292,8 +292,9 @@ function generateTimeline(timelineList, querySelector) {
 		}, []);
 		let filterBlock = document.createElement('select');
 		filterBlock.title = 'Filter Timeline';
-		filterBlock.setAttribute('onchange', 'config.filter=this.value;startup();');
 		filterBlock.classList.add('filter');
+		filterBlock.setAttribute('onchange', 'config.filter=this.value;startup();');
+		if(config.filter) filterBlock.value = config.filter;
 
 		let filterDefault = document.createElement('option');
 		filterDefault.value = 'Default';
