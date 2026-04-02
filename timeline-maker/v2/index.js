@@ -133,7 +133,7 @@ function loadEdit(content) {
 		markup += 'SKIP ' + (item.skip ?? 0) + '\n';  // find skip if any
 		for (let elem of item.data) {
 			if (elem.group)
-				markup += 'GROUP ' + elem.group + '"\n';
+				markup += 'GROUP "' + elem.group + '"\n';
 			if (elem.txt)
 				markup += (elem.pos == 'left' ? 'LEFT ' : '') + (elem.pos == 'right' ? 'RIGHT ' : '') + '"' + elem.txt + '"\n';
 			if (elem.img)
@@ -183,6 +183,8 @@ function saveEdit() {
 		}
 		if(line.startsWith('GROUP')) {
 			let groupVal = line.replace('GROUP', '').trim();
+			if (groupVal.startsWith('"') && groupVal.endsWith('"') && groupVal.length > 0)
+				groupVal = groupVal.slice(1, groupVal.length - 1);
 			if (groupVal)
 				obj.group = groupVal;
 			continue;
