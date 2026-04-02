@@ -11,7 +11,9 @@ const config = {
 		data: "timeline-data-v2",		// json data
 		edit: "timeline-edit-data-v2"	// instructions
 	},
-	layout: "rtl" /*alternate|start|end|rtl|ltr*/
+	filter: "",
+	sort: "sort",
+	layout: "rtl" // alternate|start|end|rtl|ltr
 };
 
 //--DOM NODE REFERENCES--//
@@ -130,21 +132,23 @@ function loadEdit(content) {
 	for (let item of json) {
 		markup += 'SKIP ' + (item.skip ?? 0) + '\n';  // find skip if any
 		for (let elem of item.data) {
+			if (elem.group)
+				markup += 'GROUP ' + elem.group + '"\n';
 			if (elem.txt)
 				markup += (elem.pos == 'left' ? 'LEFT ' : '') + (elem.pos == 'right' ? 'RIGHT ' : '') + '"' + elem.txt + '"\n';
 			if (elem.img)
 				markup += (elem.pos == 'left' ? 'LEFT ' : '') + (elem.pos == 'right' ? 'RIGHT ' : '') + elem.img + ',' + (elem.url || '') + '\n';
 		}
 	}
-
 	// console.log(markup);
 
 	/*
 	Example of output:
 	================================
 	SKIP 4
-	"text"
-	xxx.jpg,https://knneo.github.io/
+	LEFT "Description"
+	RIGHT image.jpg,https://knneo.github.io/
+	GROUP "Name"
 	================================
 	*/
 
@@ -165,6 +169,7 @@ function saveEdit() {
 	let newObj = { "id": 0 };
 	let obj = JSON.parse(JSON.stringify(newObj));
 	for (let line of markup) {
+		// interaction instructions
 		if (line.startsWith('SKIP')) {
 			if (obj.data) {
 				json.push(obj);
@@ -176,13 +181,19 @@ function saveEdit() {
 				obj.skip = skipVal;
 			continue;
 		}
-
+		if(line.startsWith('GROUP')) {
+			let groupVal = line.replace('GROUP', '').trim();
+			if (groupVal)
+				obj.group = groupVal;
+			continue;
+		}
+		// data instructions
 		let dataObj = {};
 		if (line.startsWith('LEFT'))
 			dataObj.pos = 'left';
 		if (line.startsWith('RIGHT'))
 			dataObj.pos = 'right';
-
+		// read value
 		let val = line.replace('LEFT', '').replace('RIGHT', '').trim();
 		if (val.startsWith('"') && val.endsWith('"') && val.length > 0) {
 			// text value
@@ -270,9 +281,38 @@ function generateTimeline(timelineList, querySelector) {
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('grid');
 
+	if(timelineList.filter(x => x.group).length) {
+		let groups = timelineList.reduce(function (total, current, index, _) {
+			if(current.group && !total.includes(current.group)) {
+				total.push(current.group);
+			}
+			return total;
+		}, []);
+		let filterBlock = document.createElement('select');
+		filterBlock.title = 'Filter Timeline';
+		filterBlock.classList.add('filter');
+
+		let filterDefault = document.createElement('option');
+		filterDefault.value = 'Default';
+		filterDefault.innerText = option.value;
+		filterDefault.onclick = 'config.filter="";startup();';
+		filterBlock.appendChild(filterDefault);
+
+		for(let group of groups) {
+			let option = document.createElement('option');
+			option.value = group;
+			option.innerText = option.value;
+			option.onclick = 'config.filter=this.value;startup();';
+			filterBlock.appendChild(option);
+		}
+
+		list.appendChild(filterBlock);
+	}
+
 	let spacing = calculateSpacing();
 	let displayList = timelineList
-		.sort(function (a, b) { return a.sort - b.sort; })
+		.filter(function(f) { return config.filter ? f.group == config.filter : true; })
+		.sort(function (a, b) { return config.sort ? a[config.sort] - b[config.sort] : 0; })
 		.reduce(function (total, current, index, _) {
 			if (current.skip) {
 				for (s = 0; s < current.skip * spacing; s++)
@@ -288,7 +328,7 @@ function generateTimeline(timelineList, querySelector) {
 			});
 			return total;
 		}, []);
-
+	
 	// pad empty spaces at end so timeline can be within view
 	// if(displayList.length && config.orientation == 'horizontal') {
 	// 	for(s = 0; s < Math.floor((timelineDiv.clientWidth / 100) / config.size); s++)
