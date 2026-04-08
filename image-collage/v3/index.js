@@ -1291,11 +1291,12 @@ function showContextMenu() {
 	}
 	// add option to copy url
 	if(window.data?.copy == 'allow') {
+		let imageUrl = event.target.getAttribute('data-image');
 		let copy = document.createElement('div');
-		copy.innerText = 'Copy Image URL';
+		copy.setAttribute('data-id', 'Copy Image URL');
 		copy.addEventListener('click', function() {
 			if(navigator.clipboard)
-				navigator.clipboard.writeText(event.target.getAttribute('data-image'));
+				navigator.clipboard.writeText(imageUrl);
 		});
 		submenu.appendChild(copy);
 	}
