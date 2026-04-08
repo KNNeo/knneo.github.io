@@ -1289,7 +1289,18 @@ function showContextMenu() {
 		});
 		submenu.appendChild(menuItem);
 	}
+	// add option to copy url
+	if(window.data?.copy == 'allow') {
+		let copy = document.createElement('div');
+		copy.innerText = 'Copy Image URL';
+		copy.addEventListener('click', function() {
+			if(navigator.clipboard)
+				navigator.clipboard.writeText(event.target.getAttribute('data-image'));
+		});
+		submenu.appendChild(copy);
+	}
 	contextDiv.appendChild(submenu);
+
 	//adjust context if exceed window bottom
 	if (y + contextDiv.getBoundingClientRect().height + 80 >= collage.getBoundingClientRect().height) {
 		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';

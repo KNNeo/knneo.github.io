@@ -557,6 +557,7 @@ a:focus-within {
 		max-width: var(--max-width);
 		height: 100%;
 		position: relative;
+        padding-right: 24px;
 	}
 
 	.handle {
