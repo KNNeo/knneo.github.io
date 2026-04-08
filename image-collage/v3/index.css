@@ -504,6 +504,7 @@ a:focus-within {
 	font-size: 8em;
 	text-align: center;
 	text-shadow: 4px 4px var(--background);
+	z-index: 3;
 }
 
 .popup.material-icons {

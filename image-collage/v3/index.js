@@ -1279,7 +1279,7 @@ function showContextMenu() {
 		let menuItem = document.createElement('div');
 		menuItem.setAttribute('data-id', tag);
 		if(window.include.includes(tag))
-			menuItem.setAttribute('data-selected', tag);
+			menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
 		menuItem.addEventListener('click', function() {
 			window.include = window.include.includes(tag) ? '' : event.target.getAttribute('data-id');
 			include.value = window.include;
