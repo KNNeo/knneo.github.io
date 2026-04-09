@@ -348,6 +348,9 @@ function generateTimeline(timelineList, querySelector) {
 		}, [])
 		// filter out all non-phase groups
 		.filter(function(f, i, a) { return a.filter(x => x.phase == 1).length || a.filter(x => x.phase == f.phase).length > 1; });
+		
+	if(phase > 1)
+		displayList = displayList.slice(displayList.findIndex(x => x.txt || x.img));
 	// pad empty spaces at end so timeline can be within view
 	// if(displayList.length && config.orientation == 'horizontal') {
 	// 	for(s = 0; s < Math.floor((timelineDiv.clientWidth / 100) / config.size); s++)
