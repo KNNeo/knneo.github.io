@@ -376,11 +376,11 @@ function generateGrid() {
 		.filter(function (val) {
 			let prop = config.date?.property;
 			// if no date config or filter, always pass
-			if(!prop || !window.data.date || !window.data.date.start || !window.data.date.end)
+			if(!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
 				return true;
 			// convert val to date, check validity
 			let currentDate = new Date(val[prop]);
-			if (current != 'Invalid Date')
+			if (currentDate != 'Invalid Date')
 				return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
 			else
 				return false; // always fail if parse fail
@@ -697,7 +697,7 @@ function keypress() {
 		default:
 			// based on setting
 			if (window.overlay) return;
-			let elem = document.querySelector('[onclick][data-key=' + event.key + ']');
+			let elem = document.querySelector('[onclick][data-key="' + event.key + '"]');
 			if (elem) elem.click();
 			break;
 	}
@@ -967,20 +967,25 @@ function setDate() {
 	let dataset = [...generateFiltered().map(x => new Date(x[config.date.property]).valueOf())];
 	let minDate = new Date(Math.min(...dataset));
 	let maxDate = new Date(Math.max(...dataset));
+	let minDateStr = minDate.getFullYear() + '-' + (1+minDate.getMonth()).toString().padStart(2, '0') + '-' + (1+minDate.getDate()).toString().padStart(2, '0');
+	let maxDateStr = maxDate.getFullYear() + '-' + (1+maxDate.getMonth()).toString().padStart(2, '0') + '-' + (1+maxDate.getDate()).toString().padStart(2, '0');
 	let container = document.createElement('label');
 	container.textContent = 'Select date: ';
 	let startDate = document.createElement('input');
 	startDate.classList.add('date');
 	startDate.type = 'date';
-	startDate.min = minDate.getFullYear() + '-' + minDate.getMonth() + '-' + minDate.getDate();
-	startDate.max = maxDate.getFullYear() + '-' + maxDate.getMonth() + '-' + maxDate.getDate();
+	startDate.value = minDateStr;
+	startDate.min = minDateStr;
+	startDate.max = maxDateStr;
 	startDate.oninput = function() {
 		if(!window.data.date) window.data.date = {};
-		window.data.date.start = new Date(this.value);
-		if(config.date?.select != 'range')
+		window.data.date.start = this.value ? new Date(this.value) : new Date(minDateStr);
+		if(config.date?.select != 'range' || !window.data.date.end)
 			window.data.date.end = new Date(this.value);
 		console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
-		generateGrid();
+		if(window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
+			window.data.date.end != 'Invalid Date' && window.data.date.end.getFullYear() > 2000)
+			generateGrid();
 	};
 	container.appendChild(startDate);
 	if(config.date?.select == 'range') {
@@ -988,13 +993,16 @@ function setDate() {
 		let endDate = document.createElement('input');
 		endDate.classList.add('date');
 		endDate.type = 'date';
-		endDate.min = minDate.getFullYear() + '-' + minDate.getMonth() + '-' + minDate.getDate();
-		endDate.max = maxDate.getFullYear() + '-' + maxDate.getMonth() + '-' + maxDate.getDate();
+		endDate.value = maxDateStr;
+		endDate.min = minDateStr;
+		endDate.max = maxDateStr;
 		endDate.oninput = function() {
 			if(!window.data.date) window.data.date = {};
-			window.data.date.end = new Date(this.value);
+			window.data.date.end = this.value ? new Date(this.value) : new Date(maxDateStr);
 			console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
-			generateGrid();
+			if(window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
+				window.data.date.end != 'Invalid Date' && window.data.date.end.getFullYear() > 2000)
+				generateGrid();
 		};
 		container.appendChild(endDate);
 	}
