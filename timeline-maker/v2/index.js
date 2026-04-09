@@ -251,10 +251,6 @@ function showLayouts() {
 }
 
 //--FUNCTIONS--//
-function initialize() {
-	timelineDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
-}
-
 function loadData() {
 	// if empty, create
 	if (document.querySelector('#data') == null) {
@@ -281,6 +277,7 @@ function generateTimeline(timelineList, querySelector) {
 	list.classList.remove('vertical');
 	list.classList.add(config.orientation);
 	list.onscroll = timelineOnScroll;
+	list.onwheel = onWheel;
 
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('grid');
@@ -350,7 +347,7 @@ function generateTimeline(timelineList, querySelector) {
 		.filter(function(f, i, a) { return a.filter(x => x.phase == 1).length || a.filter(x => x.phase == f.phase).length > 1; });
 	// clear leading empty spaces
 	if(phase > 1)
-		displayList = displayList.slice(displayList.findIndex(x => x.id));
+		displayList = displayList.slice(displayList.findIndex(x => typeof x.id == 'number'));
 	// iterate items, with orientation and count
 	let count = 0;
 	let textPos = ['start', 'alternate', 'ltr'].includes(config.layout) ? 'left' : 'right';
@@ -544,7 +541,6 @@ function removeDialog() {
 
 //--INITIAL--//
 function startup() {
-	initialize();
 	loadData();
 	generateTimeline(JSON.parse(document.querySelector('#data').textContent), '.timeline');
 	saveData();
