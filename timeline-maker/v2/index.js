@@ -107,7 +107,8 @@ function toggleDimMode() {
 	event.target.classList.toggle('bi-lightbulb');
 	event.target.classList.toggle('bi-lightbulb-fill');
 	config.dimmed = config.dimmed ? false : true;
-	startup();
+	for(let item of document.querySelectorAll('.container div'))
+		item.classList.toggle('dimmed');
 }
 
 function toggleOrientation() {
