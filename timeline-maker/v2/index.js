@@ -280,14 +280,14 @@ function generateTimeline(timelineList, querySelector) {
 	list.classList.remove('horizontal');
 	list.classList.remove('vertical');
 	list.classList.add(config.orientation);
-	list.setAttribute('onscroll', 'timelineOnScroll()');
+	list.onscroll = timelineOnScroll;
 
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('grid');
 
 	if(timelineList.filter(x => x.group).length) {
 		let groups = timelineList.reduce(function (total, current, index, _) {
-			if(current.group && !total.includes(current.group)) {
+			if(current.group && !total.includes(current.group) && current.group != 'Interval') {
 				total.push(current.group);
 			}
 			return total;
@@ -295,10 +295,13 @@ function generateTimeline(timelineList, querySelector) {
 		let filterSelect = document.createElement('select');
 		filterSelect.title = 'Filter Timeline';
 		filterSelect.classList.add('filter');
-		filterSelect.setAttribute('onchange', 'config.filter=this.value;startup();');
+		filterSelect.onchange = function() {
+			config.filter = event.target.value;
+			startup();
+		};
 
 		let filterDefault = document.createElement('option');
-		filterDefault.value = 'Default';
+		filterDefault.value = 'No filter';
 		filterDefault.innerText = filterDefault.value;
 		filterSelect.appendChild(filterDefault);
 
@@ -311,7 +314,7 @@ function generateTimeline(timelineList, querySelector) {
 			filterSelect.appendChild(option);
 		}
 		// reset default if no value or first group selected
-		if(!config.filter || config.filter == 'Default') {
+		if(!config.filter || config.filter == 'No filter') {
 			config.filter = '';
 			filterDefault.setAttribute('selected', '');
 		}
@@ -368,7 +371,9 @@ function generateTimeline(timelineList, querySelector) {
 		blob.classList.add('blob');
 		if (config.dimmed) blob.classList.add('dimmed');
 		blob.classList.add('interactive');
-		blob.setAttribute('onclick', 'selectItem(event.target.parentElement)');
+		blob.onclick = function() {
+			selectItem(event.target.parentElement);
+		};
 		blob.innerText = '|';
 		if (item.empty) blob.style.opacity = 0;
 		elems.push(blob);
@@ -389,7 +394,9 @@ function generateTimeline(timelineList, querySelector) {
 					if (config.dimmed) txt.classList.add('dimmed');
 					if (dat.tooltip) {
 						txt.classList.add('interactive');
-						txt.setAttribute('onclick', 'popupText("' + dat.tooltip + '")');
+						txt.onclick = function() {
+							popupText(dat.tooltip);
+						};
 					}
 					txt.innerText = dat.txt;
 					elems.push(txt);
@@ -402,8 +409,7 @@ function generateTimeline(timelineList, querySelector) {
 					img.classList.add('img');
 					if (config.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
-					img.setAttribute('oncontextmenu', 'return false');
-					img.setAttribute('onload', 'resizeImage()');
+					img.onload = resizeImage;
 					img.title = dat.title ?? '';
 
 					if (dat.url && dat.url.length > 0)
@@ -411,7 +417,9 @@ function generateTimeline(timelineList, querySelector) {
 					else {
 						if (dat.tooltip) {
 							img.classList.add('interactive');
-							img.setAttribute('onclick', 'popupText("' + dat.tooltip + '")');
+							img.onclick = function() {
+								popupText(dat.tooltip);
+							};
 						}
 						elems.push(img);
 					}
@@ -419,7 +427,6 @@ function generateTimeline(timelineList, querySelector) {
 					if (dat.url && dat.url.length > 0) {
 						url.classList.add(dat.pos);
 						url.href = dat.url;
-						// url.setAttribute('target', '_blank');
 						elems.push(url);
 					}
 				}
