@@ -194,7 +194,6 @@ function generateSidebar() {
 	}
 
 	for (let [key, value] of Object.entries(window.data.setting)) {
-		if(!document.querySelector('.' + key)) continue;
 		if (key == 'expand' && config.isLandscape())
 			document.querySelector('.' + key).classList.add('hidden');
 		else if (value)
@@ -978,9 +977,9 @@ function setDate() {
 	startDate.min = minDateStr;
 	startDate.max = maxDateStr;
 	startDate.oninput = function() {
-		if(!window.data.date) window.data.date = {};
+		if(!window.data.date) window.data.date = { start: minDate, end: maxDate };
 		window.data.date.start = this.value ? new Date(this.value) : new Date(minDateStr);
-		if(config.date?.select != 'range' || !window.data.date.end)
+		if(config.date?.select != 'range')
 			window.data.date.end = new Date(this.value);
 		console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
 		if(window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
@@ -997,7 +996,7 @@ function setDate() {
 		endDate.min = minDateStr;
 		endDate.max = maxDateStr;
 		endDate.oninput = function() {
-			if(!window.data.date) window.data.date = {};
+			if(!window.data.date) window.data.date = { start: minDate, end: maxDate };
 			window.data.date.end = this.value ? new Date(this.value) : new Date(maxDateStr);
 			console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
 			if(window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
