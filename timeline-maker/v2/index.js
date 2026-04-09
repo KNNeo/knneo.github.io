@@ -284,7 +284,7 @@ function generateTimeline(timelineList, querySelector) {
 
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('grid');
-
+	// filter selection
 	if(timelineList.filter(x => x.group).length) {
 		let groups = timelineList.reduce(function (total, current, index, _) {
 			if(current.group && !total.includes(current.group) && current.group != 'Interval') {
@@ -320,7 +320,7 @@ function generateTimeline(timelineList, querySelector) {
 		}
 		list.appendChild(filterSelect);
 	}
-
+	// filter display list from data
 	let spacing = calculateSpacing();
 	let phase = 1;
 	let displayList = timelineList
@@ -348,12 +348,10 @@ function generateTimeline(timelineList, querySelector) {
 		}, [])
 		// filter out all non-phase groups
 		.filter(function(f, i, a) { return a.filter(x => x.phase == 1).length || a.filter(x => x.phase == f.phase).length > 1; });
-	// pad empty spaces at end so timeline can be within view
-	// if(displayList.length && config.orientation == 'horizontal') {
-	// 	for(s = 0; s < Math.floor((timelineDiv.clientWidth / 100) / config.size); s++)
-	// 		displayList.push({ "empty": true });
-	// }
-
+	// clear leading empty spaces
+	if(phase > 1)
+		displayList = displayList.slice(displayList.findIndex(x => x.id));
+	// iterate items, with orientation and count
 	let count = 0;
 	let textPos = ['start', 'alternate', 'ltr'].includes(config.layout) ? 'left' : 'right';
 	if (config.layout == 'alternate' && displayList.length > 1 && displayList[0]?.data && displayList[0]?.data.find(d => d.txt)?.pos)
