@@ -13,6 +13,10 @@ const config = {
 		id: 'image_collage_data_id',
 		columns: 'image_collage_columns',
 		width: 'image_collage_width'
+	},
+	date: {
+		property: 'dt',
+		select: 'range' // single|range
 	}
 };
 
@@ -190,6 +194,7 @@ function generateSidebar() {
 	}
 
 	for (let [key, value] of Object.entries(window.data.setting)) {
+		if(!document.querySelector('.' + key)) continue;
 		if (key == 'expand' && config.isLandscape())
 			document.querySelector('.' + key).classList.add('hidden');
 		else if (value)
@@ -360,32 +365,45 @@ function generateStats() {
 			countArray.push([item, filtered[item]]);
 	}
 
-	popupText(countArray.sort(function (a, b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('<br>'));
+	popupContent(countArray.sort(function (a, b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('<br>'));
 }
 
 function generateGrid() {
 	let prevValue = '';
 	grid.innerHTML = '';
 
-	let filterArray = generateFiltered().sort(function (a, b) {
-		let prop = window.data.sort?.property;
-		// if property not found, sort list as is
-		if (!prop || !a[prop] || !b[prop]) {
-			if (!window.data.sort?.order)
-				return 0;
-			return window.data.sort.order == 'desc' ? -1 : 1;
-		}
-		if (new Date(a[prop]) != 'Invalid Date' && new Date(b[prop]) != 'Invalid Date') {
-			// convert dates to int string
-			a[prop] = new Date(a[prop]).getTime();
-			b[prop] = new Date(b[prop]).getTime();
-			return window.data.sort.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
-		}
-		// sort string by locale if any
-		if (window.data.sort.order == 'desc')
-			return b[prop].localeCompare(a[prop], window.data.sort?.locale || '');
-		return a[prop].localeCompare(b[prop], window.data.sort?.locale || '');
-	});
+	let filterArray = generateFiltered()
+		.filter(function (val) {
+			let prop = config.date?.property;
+			// if no date config or filter, always pass
+			if(!prop || !window.data.date || !window.data.date.start || !window.data.date.end)
+				return true;
+			// convert val to date, check validity
+			let currentDate = new Date(val[prop]);
+			if (current != 'Invalid Date')
+				return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
+			else
+				return false; // always fail if parse fail
+		})
+		.sort(function (a, b) {
+			let prop = window.data.sort?.property;
+			// if property not found, sort list as is
+			if (!prop || !a[prop] || !b[prop]) {
+				if (!window.data.sort?.order)
+					return 0;
+				return window.data.sort.order == 'desc' ? -1 : 1;
+			}
+			if (new Date(a[prop]) != 'Invalid Date' && new Date(b[prop]) != 'Invalid Date') {
+				// convert dates to int string
+				a[prop] = new Date(a[prop]).getTime();
+				b[prop] = new Date(b[prop]).getTime();
+				return window.data.sort.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
+			}
+			// sort string by locale if any
+			if (window.data.sort.order == 'desc')
+				return b[prop].localeCompare(a[prop], window.data.sort?.locale || '');
+			return a[prop].localeCompare(b[prop], window.data.sort?.locale || '');
+		});
 
 	for (let item of filterArray) {
 		let gridItem = document.createElement('div');
@@ -918,7 +936,7 @@ function setColumns(val) {
 		input.value = window.columns;
 		input.setAttribute('data-value', window.columns || 'Auto');
 		container.appendChild(input);
-		popupText(container);
+		popupContent(container);
 	}
 	else {
 		window.columns = parseInt(val);
@@ -943,6 +961,44 @@ function onHandleMove() {
 
 function onHandleUp() {
 	window.dragging = false;
+}
+
+function setDate() {
+	let dataset = [...generateFiltered().map(x => new Date(x[config.date.property]).valueOf())];
+	let minDate = new Date(Math.min(...dataset));
+	let maxDate = new Date(Math.max(...dataset));
+	let container = document.createElement('label');
+	container.textContent = 'Select date: ';
+	let startDate = document.createElement('input');
+	startDate.classList.add('date');
+	startDate.type = 'date';
+	startDate.min = minDate.getFullYear() + '-' + minDate.getMonth() + '-' + minDate.getDate();
+	startDate.max = maxDate.getFullYear() + '-' + maxDate.getMonth() + '-' + maxDate.getDate();
+	startDate.oninput = function() {
+		if(!window.data.date) window.data.date = {};
+		window.data.date.start = new Date(this.value);
+		if(config.date?.select != 'range')
+			window.data.date.end = new Date(this.value);
+		console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
+		generateGrid();
+	};
+	container.appendChild(startDate);
+	if(config.date?.select == 'range') {
+		container.appendChild(document.createTextNode(' - '));
+		let endDate = document.createElement('input');
+		endDate.classList.add('date');
+		endDate.type = 'date';
+		endDate.min = minDate.getFullYear() + '-' + minDate.getMonth() + '-' + minDate.getDate();
+		endDate.max = maxDate.getFullYear() + '-' + maxDate.getMonth() + '-' + maxDate.getDate();
+		endDate.oninput = function() {
+			if(!window.data.date) window.data.date = {};
+			window.data.date.end = new Date(this.value);
+			console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
+			generateGrid();
+		};
+		container.appendChild(endDate);
+	}
+	popupContent(container);
 }
 
 //--VIEWER--//
@@ -1227,7 +1283,7 @@ function popupTextGoAway(text, className) {
 	}, 1000);
 }
 
-function popupText(input) {
+function popupContent(input) {
 	let dialogDiv = document.querySelector('.dialog');
 	if (dialogDiv == null) {
 		dialogDiv = document.createElement('div');
