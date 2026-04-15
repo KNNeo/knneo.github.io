@@ -21,6 +21,10 @@ html {
 	color: var(--foreground);
 }
 
+html.darked {
+	color-scheme: dark;
+}
+
 body {
   max-width: 640px;
   margin: auto;

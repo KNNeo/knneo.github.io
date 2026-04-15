@@ -23,6 +23,10 @@ html {
 	color: rgb(var(--foreground));
 }
 
+html.darked {
+	color-scheme: dark;
+}
+
 body {
   margin: 0;
   text-align: center;
