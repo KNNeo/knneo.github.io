@@ -372,18 +372,6 @@ function generateGrid() {
 	grid.innerHTML = '';
 
 	let filterArray = generateFiltered()
-		.filter(function (val) {
-			let prop = config.date?.property;
-			// if no date config or filter, always pass
-			if(!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
-				return true;
-			// convert val to date, check validity
-			let currentDate = new Date(val[prop]);
-			if (currentDate != 'Invalid Date')
-				return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
-			else
-				return false; // always fail if parse fail
-		})
 		.sort(function (a, b) {
 			let prop = window.data.sort?.property;
 			// if property not found, sort list as is
@@ -522,6 +510,18 @@ function generateFiltered() {
 			&& (window.exclude.length == 0 || (tagsExcluded.length > 0))
 			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
 			&& (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search));
+	})
+	.filter(function (val) {
+		let prop = config.date?.property;
+		// if no date config or filter, always pass
+		if(!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
+			return true;
+		// convert val to date, check validity
+		let currentDate = new Date(val[prop]);
+		if (currentDate != 'Invalid Date')
+			return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
+		else
+			return false; // always fail if parse fail
 	});
 }
 
