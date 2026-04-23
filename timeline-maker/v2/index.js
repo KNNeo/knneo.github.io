@@ -435,6 +435,7 @@ function generateTimeline(querySelector) {
 
 					if (dat.url && dat.url.length > 0) {
 						url.classList.add(position);
+						img.classList.remove(position);
 						url.href = dat.url;
 						elems.push(url);
 					}
