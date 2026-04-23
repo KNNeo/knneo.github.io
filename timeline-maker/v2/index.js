@@ -272,10 +272,13 @@ function saveData() {
 function generateTimeline(querySelector) {
 	let list = document.querySelector(querySelector);
 	// read element content if any
-	if(list.innerHTML && typeof JSON.parse(list.innerHTML) == 'object')
-		document.querySelector('#data').textContent = list.innerHTML;
-	else
-		list.innerHTML = '';
+	try {
+		document.querySelector('#data').textContent = JSON.parse(list.innerHTML);
+	}
+	catch {
+		console.warn('parse json fail in:', list);
+	}
+	list.innerHTML = '';
 	let timelineList = JSON.parse(document.querySelector('#data').textContent);
 	list.classList.remove('horizontal');
 	list.classList.remove('vertical');
