@@ -413,7 +413,8 @@ function generateTimeline(querySelector) {
 				if (dat.img) {
 					let url = document.createElement('a');
 					let img = document.createElement('img');
-					img.classList.add(dat.pos || invertPosition(textPos));
+					let position = dat.pos || invertPosition(textPos);
+					img.classList.add(position);
 					img.classList.add('img');
 					if (timeline.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
@@ -433,6 +434,7 @@ function generateTimeline(querySelector) {
 					}
 
 					if (dat.url && dat.url.length > 0) {
+						url.classList.add(position);
 						url.href = dat.url;
 						elems.push(url);
 					}
