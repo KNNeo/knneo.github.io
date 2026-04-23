@@ -5,6 +5,7 @@ const timeline = {
 	orientation: window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	size: 40,
 	scroll: 0.1,
+	scale: 1,
 	formats: ".jpg|.webp",
 	storage: {
 		data: "timeline-data-v2",		// json data
@@ -316,14 +317,20 @@ function generateTimeline(timelineList, querySelector) {
 		list.appendChild(filterSelect);
 	}
 	// filter display list from data
+	let spacing = calculateHorizontalSpacing();
 	let phase = 1;
 	let displayList = timelineList
 		.filter(function(f) { return timeline.filter ? (f.group == 'All' || f.group == 'Interval' || f.group == timeline.filter) : true; })
 		.sort(function (a, b) { return timeline.sort && a[timeline.sort] && b[timeline.sort] ? a[timeline.sort].localeCompare(b[timeline.sort]) : 0; }) // asc only
 		.reduce(function (total, current, index, _) {
-			// skip follow value, no ratio
+			// follow content skip
 			if (current.skip) {
 				for (s = 0; s < current.skip; s++)
+					total.push({});
+			}
+			// follow calculation based on config or auto
+			else if (index > 0 && spacing > 1) {
+				for (s = 0; s < spacing; s++)
 					total.push({});
 			}
 			// if any group has interval value, phase cannot be 1
@@ -475,6 +482,15 @@ function generateTimeline(timelineList, querySelector) {
 		listBlock.innerText = 'No data found\n\n(Open editor to load example)';
 
 	list.appendChild(listBlock);
+}
+
+function calculateHorizontalSpacing() {
+	// multiply based on horizontal screen ratio
+	if(timeline.scale == 'auto' && config.orientation == 'horizontal')
+		return Math.ceil(window.innerWidth / window.innerHeight);
+	else if (typeof timeline.scale == 'number')
+		return timeline.scale;
+	return 1;
 }
 
 function resizeImage() {
