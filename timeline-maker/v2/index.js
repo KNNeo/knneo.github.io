@@ -433,7 +433,6 @@ function generateTimeline(querySelector) {
 					}
 
 					if (dat.url && dat.url.length > 0) {
-						url.classList.add(dat.pos);
 						url.href = dat.url;
 						elems.push(url);
 					}
