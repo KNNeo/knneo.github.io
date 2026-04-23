@@ -232,7 +232,9 @@ a:hover {
 
 .layouts button {
 	height: 40px;
-	font-size: 1em;
+	font-size: 1rem;
+    margin: 4px;
+	cursor: pointer;
 }
 
 .dialog {
