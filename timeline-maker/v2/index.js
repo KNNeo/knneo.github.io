@@ -318,18 +318,14 @@ function generateTimeline(timelineList, querySelector) {
 		list.appendChild(filterSelect);
 	}
 	// filter display list from data
-	let spacing = calculateSpacing();
 	let phase = 1;
 	let displayList = timelineList
 		.filter(function(f) { return config.filter ? (f.group == 'All' || f.group == 'Interval' || f.group == config.filter) : true; })
 		.sort(function (a, b) { return config.sort && a[config.sort] && b[config.sort] ? a[config.sort].localeCompare(b[config.sort]) : 0; }) // asc only
 		.reduce(function (total, current, index, _) {
+			// skip follow value, no ratio
 			if (current.skip) {
-				for (s = 0; s < current.skip * spacing; s++)
-					total.push({});
-			}
-			else if (index > 0 && spacing > 1) {
-				for (s = 0; s < spacing; s++)
+				for (s = 0; s < current.skip; s++)
 					total.push({});
 			}
 			// if any group has interval value, phase cannot be 1
@@ -482,13 +478,6 @@ function generateTimeline(timelineList, querySelector) {
 		listBlock.innerText = 'No data found\n\n(Open editor to load example)';
 
 	list.appendChild(listBlock);
-}
-
-function calculateSpacing() {
-	// multiply based on horizontal screen ratio
-	if (config.orientation == 'horizontal')
-		return Math.ceil(window.innerWidth / window.innerHeight);
-	return 1;
 }
 
 function resizeImage() {
