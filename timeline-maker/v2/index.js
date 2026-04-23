@@ -269,9 +269,14 @@ function saveData() {
 	localStorage.setItem(timeline.storage.data, document.querySelector('#data').textContent);
 }
 
-function generateTimeline(timelineList, querySelector) {
+function generateTimeline(querySelector) {
 	let list = document.querySelector(querySelector);
-	list.innerHTML = '';
+	// read element content if any
+	if(list.innerHTML && typeof JSON.parse(list.innerHTML) == 'object')
+		document.querySelector('#data').textContent = list.innerHTML;
+	else
+		list.innerHTML = '';
+	let timelineList = JSON.parse(document.querySelector('#data').textContent);
 	list.classList.remove('horizontal');
 	list.classList.remove('vertical');
 	list.classList.add(timeline.orientation);
@@ -544,6 +549,6 @@ function removeDialog() {
 //--INITIAL--//
 function startup() {
 	loadData();
-	generateTimeline(JSON.parse(document.querySelector('#data').textContent), '.timeline');
+	generateTimeline('.timeline');
 	saveData();
 }
