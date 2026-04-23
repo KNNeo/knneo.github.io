@@ -151,10 +151,6 @@ a:hover {
 	font-size: 0.9em;
 }
 
-.grid .emoji {
-	font-size: 4em;
-}
-
 .grid .blob {
 	grid-area: center;
 	font-size: 3em;

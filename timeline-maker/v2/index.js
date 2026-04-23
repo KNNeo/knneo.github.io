@@ -1,7 +1,5 @@
 //--DEFAULT SETTINGS--//
-const isFirefox = (/Firefox/i.test(navigator.userAgent));
-const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
-const config = {
+const timeline = {
 	debug: false,
 	dimmed: true,
 	orientation: window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
@@ -60,7 +58,7 @@ function staggerTimeline() {
 }
 
 function setPosition() {
-	config.layout = event.target.getAttribute('data-id');
+	timeline.layout = event.target.getAttribute('data-id');
 	if (event.target.closest('.layouts'))
 		event.target.closest('.layouts').querySelector('.display').innerHTML = event.target.getAttribute('data-description');
 	startup();
@@ -73,16 +71,16 @@ function invertPosition(pos) {
 //--EVENT HANDLERS--//
 function onWheel() {
 	event.preventDefault();
-	let scrollDelta = (config.dimmed ? config.scroll : 1) * (isFirefox ? -event.detail * 50 : event.wheelDelta);
-	if (config.orientation == 'horizontal')
+	let scrollDelta = (timeline.dimmed ? timeline.scroll : 1) * ((/Firefox/i.test(navigator.userAgent)) ? -event.detail * 50 : event.wheelDelta);
+	if (timeline.orientation == 'horizontal')
 		timelineDiv.scrollLeft -= scrollDelta;
-	if (config.orientation == 'vertical')
+	if (timeline.orientation == 'vertical')
 		timelineDiv.scrollTop -= scrollDelta;
 }
 
 function timelineOnScroll() {
-	var middleY = (timelineDiv.clientHeight / 2) + config.size;
-	var middleX = (timelineDiv.clientWidth / 2) - config.size;
+	var middleY = (timelineDiv.clientHeight / 2) + timeline.size;
+	var middleX = (timelineDiv.clientWidth / 2) - timeline.size;
 
 	var positions = [];
 	var selected = null;
@@ -106,20 +104,20 @@ function timelineOnScroll() {
 function toggleDimMode() {
 	event.target.classList.toggle('bi-lightbulb');
 	event.target.classList.toggle('bi-lightbulb-fill');
-	config.dimmed = config.dimmed ? false : true;
+	timeline.dimmed = timeline.dimmed ? false : true;
 	for(let item of document.querySelectorAll('.container :is(div, img)'))
 		item.classList.toggle('dimmed');
 }
 
 function toggleOrientation() {
-	config.orientation = config.orientation == 'horizontal' ? 'vertical' : 'horizontal';
+	timeline.orientation = timeline.orientation == 'horizontal' ? 'vertical' : 'horizontal';
 	timelineDiv.classList.toggle('horizontal');
 	timelineDiv.classList.toggle('vertical');
 }
 
 function openEditor() {
 	popupText('<textarea id="editor" name="editor" rows="8" cols="40" style="max-width: 90%;">' +
-		localStorage.getItem(config.storage.edit) +
+		localStorage.getItem(timeline.storage.edit) +
 		'</textarea>' +
 		'<div><a class="bi bi-stickies" href="javascript:void(0);" title="Load Example" onclick="document.querySelector(\'#editor\').value=loadEdit(document.querySelector(\'#example\').textContent);"></a>' +
 		'<a class="bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector("#editor").textContent);"></a>' +
@@ -142,7 +140,7 @@ function loadEdit(content) {
 				markup += (elem.pos == 'left' ? 'LEFT ' : '') + (elem.pos == 'right' ? 'RIGHT ' : '') + elem.img + ',' + (elem.url || '') + '\n';
 		}
 	}
-	if(config.debug) console.log('parsing json', markup);
+	if(timeline.debug) console.log('parsing json', markup);
 
 	/*
 	Example of output:
@@ -166,7 +164,7 @@ function saveEdit() {
 		removeDialog();
 	}
 
-	localStorage.setItem(config.storage.edit, document.querySelector("#editor").value);
+	localStorage.setItem(timeline.storage.edit, document.querySelector("#editor").value);
 	let json = [];
 	let newObj = { "id": 0 };
 	let obj = JSON.parse(JSON.stringify(newObj));
@@ -203,7 +201,7 @@ function saveEdit() {
 			// text value
 			dataObj.txt = val.slice(1, val.length - 1);
 		}
-		let isStaticImage = config.formats.split('|').find(f => val.indexOf(f) >= 0); // static images (for now)
+		let isStaticImage = timeline.formats.split('|').find(f => val.indexOf(f) >= 0); // static images (for now)
 		if (isStaticImage && val.indexOf(',') < 0) // image only
 			dataObj.img = val;
 		if (isStaticImage && val.indexOf(',') >= 0) { // image value with url
@@ -217,7 +215,7 @@ function saveEdit() {
 	}
 	// push last value if any
 	if (obj.data) json.push(obj);
-	if(config.debug) console.log('parse instructions', json);
+	if(timeline.debug) console.log('parse instructions', json);
 	document.querySelector("#data").textContent = JSON.stringify(json);
 	saveData();
 	startup();
@@ -247,14 +245,14 @@ function showLayouts() {
 			description: 'all elements on alternate sides (prefer text on end)'
 		},
 	];
-	popupText('<div class="layouts"><div class="display">' + (layouts.find(l => config.layout == l.id)?.description || '') + '</div><br>' + layouts.map(l => '<button ' + (config.layout == l.id ? 'class="selected"' : '') + ' data-id="' + l.id + '" data-description="' + l.description + '" title="' + l.title + '" onclick="setPosition()">' + l.value + '</button>').join('') + '</div>');
+	popupText('<div class="layouts"><div class="display">' + (layouts.find(l => timeline.layout == l.id)?.description || '') + '</div><br>' + layouts.map(l => '<button ' + (timeline.layout == l.id ? 'class="selected"' : '') + ' data-id="' + l.id + '" data-description="' + l.description + '" title="' + l.title + '" onclick="setPosition()">' + l.value + '</button>').join('') + '</div>');
 }
 
 //--FUNCTIONS--//
 function loadData() {
 	// if empty, create
 	if (document.querySelector('#data') == null) {
-		if(config.debug) console.log('no data found, creating');
+		if(timeline.debug) console.log('no data found, creating');
 		let data = document.createElement('script');
 		data.id = 'data';
 		data.setAttribute('type', 'application/json');
@@ -263,11 +261,11 @@ function loadData() {
 	}
 	// if empty inline, load from local storage (inline to override)
 	if (document.querySelector('#data').textContent.trim().length < 3)
-		document.querySelector('#data').textContent = localStorage.getItem(config.storage.data) ?? '[]';
+		document.querySelector('#data').textContent = localStorage.getItem(timeline.storage.data) ?? '[]';
 }
 
 function saveData() {
-	localStorage.setItem(config.storage.data, document.querySelector('#data').textContent);
+	localStorage.setItem(timeline.storage.data, document.querySelector('#data').textContent);
 }
 
 function generateTimeline(timelineList, querySelector) {
@@ -275,7 +273,7 @@ function generateTimeline(timelineList, querySelector) {
 	list.innerHTML = '';
 	list.classList.remove('horizontal');
 	list.classList.remove('vertical');
-	list.classList.add(config.orientation);
+	list.classList.add(timeline.orientation);
 	list.onscroll = timelineOnScroll;
 	list.onwheel = onWheel;
 
@@ -293,7 +291,7 @@ function generateTimeline(timelineList, querySelector) {
 		filterSelect.title = 'Filter Timeline';
 		filterSelect.classList.add('filter');
 		filterSelect.onchange = function() {
-			config.filter = event.target.value;
+			timeline.filter = event.target.value;
 			startup();
 		};
 
@@ -306,13 +304,13 @@ function generateTimeline(timelineList, querySelector) {
 			let option = document.createElement('option');
 			option.value = group;
 			option.innerText = option.value;
-			if(config.filter == group)
+			if(timeline.filter == group)
 				option.setAttribute('selected', '');
 			filterSelect.appendChild(option);
 		}
 		// reset default if no value or first group selected
-		if(!config.filter || config.filter == 'No filter') {
-			config.filter = '';
+		if(!timeline.filter || timeline.filter == 'No filter') {
+			timeline.filter = '';
 			filterDefault.setAttribute('selected', '');
 		}
 		list.appendChild(filterSelect);
@@ -320,8 +318,8 @@ function generateTimeline(timelineList, querySelector) {
 	// filter display list from data
 	let phase = 1;
 	let displayList = timelineList
-		.filter(function(f) { return config.filter ? (f.group == 'All' || f.group == 'Interval' || f.group == config.filter) : true; })
-		.sort(function (a, b) { return config.sort && a[config.sort] && b[config.sort] ? a[config.sort].localeCompare(b[config.sort]) : 0; }) // asc only
+		.filter(function(f) { return timeline.filter ? (f.group == 'All' || f.group == 'Interval' || f.group == timeline.filter) : true; })
+		.sort(function (a, b) { return timeline.sort && a[timeline.sort] && b[timeline.sort] ? a[timeline.sort].localeCompare(b[timeline.sort]) : 0; }) // asc only
 		.reduce(function (total, current, index, _) {
 			// skip follow value, no ratio
 			if (current.skip) {
@@ -346,10 +344,10 @@ function generateTimeline(timelineList, querySelector) {
 		displayList = displayList.slice(displayList.findIndex(x => x.id >= 0), displayList.findLastIndex(x => x.id >= 0) + 1);
 	// iterate items, with orientation and count
 	let count = 0;
-	let textPos = ['start', 'alternate', 'ltr'].includes(config.layout) ? 'left' : 'right';
-	if (config.layout == 'alternate' && displayList.length > 1 && displayList[0]?.data && displayList[0]?.data.find(d => d.txt)?.pos)
+	let textPos = ['start', 'alternate', 'ltr'].includes(timeline.layout) ? 'left' : 'right';
+	if (timeline.layout == 'alternate' && displayList.length > 1 && displayList[0]?.data && displayList[0]?.data.find(d => d.txt)?.pos)
 		textPos = displayList[0]?.data?.txt?.pos;
-	if(config.debug) console.log('filter list', displayList);
+	if(timeline.debug) console.log('filter list', displayList);
 	for (let item of displayList) {
 		count++;
 
@@ -360,7 +358,7 @@ function generateTimeline(timelineList, querySelector) {
 		let blob = document.createElement('div');
 		blob.classList.add('center');
 		blob.classList.add('blob');
-		if (config.dimmed) blob.classList.add('dimmed');
+		if (timeline.dimmed) blob.classList.add('dimmed');
 		blob.classList.add('interactive');
 		blob.onclick = function() {
 			selectItem(event.target.parentElement);
@@ -370,19 +368,18 @@ function generateTimeline(timelineList, querySelector) {
 		elems.push(blob);
 
 		if (item.data && item.data.length > 0) {
-			if (['alternate', 'ltr', 'rtl'].includes(config.layout) && count > 0)
+			if (['alternate', 'ltr', 'rtl'].includes(timeline.layout) && count > 0)
 				textPos = invertPosition(textPos);
-			if (config.layout == 'ltr' && item.data.length == 1 && item.data[0].txt)
+			if (timeline.layout == 'ltr' && item.data.length == 1 && item.data[0].txt)
 				textPos = 'left';
-			if (config.layout == 'rtl' && item.data.length == 1 && item.data[0].txt)
+			if (timeline.layout == 'rtl' && item.data.length == 1 && item.data[0].txt)
 				textPos = 'right';
 			for (let dat of item.data) {
 				if (dat.txt) {
 					let txt = document.createElement('div');
 					txt.classList.add(dat.pos || textPos);
 					txt.classList.add('txt');
-					if (dat.txt.match(emojiRegex) && dat.txt.length < 5) txt.classList.add('emoji');
-					if (config.dimmed) txt.classList.add('dimmed');
+					if (timeline.dimmed) txt.classList.add('dimmed');
 					if (dat.tooltip) {
 						txt.classList.add('interactive');
 						txt.onclick = function() {
@@ -398,7 +395,7 @@ function generateTimeline(timelineList, querySelector) {
 					let img = document.createElement('img');
 					img.classList.add(dat.pos || invertPosition(textPos));
 					img.classList.add('img');
-					if (config.dimmed) img.classList.add('dimmed');
+					if (timeline.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
 					img.onload = resizeImage;
 					img.title = dat.title ?? '';
