@@ -273,7 +273,12 @@ function generateTimeline(querySelector) {
 	let list = document.querySelector(querySelector);
 	// read element content if any
 	try {
-		document.querySelector('#data').textContent = JSON.parse(list.innerHTML);
+		if(list.innerHTML.includes('\n')) { // assume instructions
+			document.querySelector("#editor").value = list.innerHTML;
+			saveEdit();
+		}
+		else // assume json
+			document.querySelector('#data').textContent = JSON.parse(list.innerHTML);
 	}
 	catch {
 		console.warn('parse json fail in:', list);
