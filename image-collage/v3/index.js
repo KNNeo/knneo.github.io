@@ -968,6 +968,7 @@ function setDate() {
 	let maxDate = new Date(Math.max(...dataset));
 	let minDateStr = minDate.getFullYear() + '-' + (1+minDate.getMonth()).toString().padStart(2, '0') + '-' + (1+minDate.getDate()).toString().padStart(2, '0');
 	let maxDateStr = maxDate.getFullYear() + '-' + (1+maxDate.getMonth()).toString().padStart(2, '0') + '-' + (1+maxDate.getDate()).toString().padStart(2, '0');
+	let main = document.createElement('div');
 	let container = document.createElement('label');
 	container.textContent = 'Select date: ';
 	let startDate = document.createElement('input');
@@ -1005,7 +1006,21 @@ function setDate() {
 		};
 		container.appendChild(endDate);
 	}
-	popupContent(container);
+	let resetBtn = document.createElement('button');
+	resetBtn.innerText = 'Reset';
+	resetBtn.addEventListener('click', resetDate);
+
+	main.appendChild(container);
+	main.appendChild(resetBtn);
+	popupContent(main);
+}
+
+function resetDate() {
+	let dataset = [...window.data.data.map(x => new Date(x[config.date.property]).valueOf())];
+	let minDate = new Date(Math.min(...dataset));
+	let maxDate = new Date(Math.max(...dataset));
+	window.data.date = { start: minDate, end: maxDate };
+	generateGrid();
 }
 
 //--VIEWER--//
