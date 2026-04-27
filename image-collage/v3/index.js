@@ -698,6 +698,7 @@ function keypress() {
 			if (window.overlay) return;
 			let elem = document.querySelector('[onclick][data-key="' + event.key + '"]');
 			if (elem) elem.click();
+			else if (document.querySelector('.context:not(.hidden)')) hideContextMenu();
 			break;
 	}
 }
