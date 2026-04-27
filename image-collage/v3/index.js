@@ -698,7 +698,6 @@ function keypress() {
 			if (window.overlay) return;
 			let elem = document.querySelector('[onclick][data-key="' + event.key + '"]');
 			if (elem) elem.click();
-			else if (document.querySelector('.context:not(.hidden)')) hideContextMenu();
 			break;
 	}
 }
@@ -1381,6 +1380,8 @@ function showContextMenu() {
 }
 
 function hideContextMenu() {
+	if(document.querySelector('.context:not(.hidden)'))
+		event.preventDefault();
 	contextDiv.classList.add('hidden');
 	document.removeEventListener('click', hideContextMenu);
 }
