@@ -966,8 +966,8 @@ function setDate() {
 	let dataset = [...generateFiltered().map(x => new Date(x[config.date.property]).valueOf())];
 	let minDate = new Date(Math.min(...dataset));
 	let maxDate = new Date(Math.max(...dataset));
-	let minDateStr = minDate.getFullYear() + '-' + (1+minDate.getMonth()).toString().padStart(2, '0') + '-' + (1+minDate.getDate()).toString().padStart(2, '0');
-	let maxDateStr = maxDate.getFullYear() + '-' + (1+maxDate.getMonth()).toString().padStart(2, '0') + '-' + (1+maxDate.getDate()).toString().padStart(2, '0');
+	let minDateStr = minDate.getFullYear() + '-' + (1+minDate.getMonth()).toString().padStart(2, '0') + '-' + minDate.getDate().toString().padStart(2, '0');
+	let maxDateStr = maxDate.getFullYear() + '-' + (1+maxDate.getMonth()).toString().padStart(2, '0') + '-' + maxDate.getDate().toString().padStart(2, '0');
 	let main = document.createElement('div');
 	let container = document.createElement('label');
 	container.textContent = 'Select date: ';
