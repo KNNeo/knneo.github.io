@@ -797,6 +797,7 @@ function onClearAll() {
 	include.value = window.include;
 	window.exclude = '';
 	exclude.value = window.exclude;
+	initializeDate();
 	generateGrid();
 }
 
