@@ -91,6 +91,7 @@ function initializeVariables(data) {
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
+	initializeDate();
 	initializeCollage();
 }
 
@@ -962,23 +963,29 @@ function onHandleUp() {
 	window.dragging = false;
 }
 
-function setDate() {
+function initializeDate() {
 	let dataset = [...generateFiltered().map(x => new Date(x[config.date.property]).valueOf())];
 	let minDate = new Date(Math.min(...dataset));
 	let maxDate = new Date(Math.max(...dataset));
-	let minDateStr = minDate.getFullYear() + '-' + (1+minDate.getMonth()).toString().padStart(2, '0') + '-' + minDate.getDate().toString().padStart(2, '0');
-	let maxDateStr = maxDate.getFullYear() + '-' + (1+maxDate.getMonth()).toString().padStart(2, '0') + '-' + maxDate.getDate().toString().padStart(2, '0');
+	if(!window.data.date) window.data.date = { start: minDate, end: maxDate, initial: { start: minDate, end: maxDate }};
+}
+
+function setDate() {
+	let minDateStr = window.data.date.initial.start.getFullYear() + '-' + (1+window.data.date.initial.start.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.start.getDate().toString().padStart(2, '0');
+	let maxDateStr = window.data.date.initial.end.getFullYear() + '-' + (1+window.data.date.initial.end.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.end.getDate().toString().padStart(2, '0');
+	let startDateStr = window.data.date.start.getFullYear() + '-' + (1+window.data.date.start.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.start.getDate().toString().padStart(2, '0');
+	let endDateStr = window.data.date.end.getFullYear() + '-' + (1+window.data.date.end.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.end.getDate().toString().padStart(2, '0');
+
 	let main = document.createElement('div');
 	let container = document.createElement('label');
 	container.textContent = 'Select date: ';
 	let startDate = document.createElement('input');
 	startDate.classList.add('date');
 	startDate.type = 'date';
-	startDate.value = minDateStr;
+	startDate.value = startDateStr;
 	startDate.min = minDateStr;
 	startDate.max = maxDateStr;
 	startDate.oninput = function() {
-		if(!window.data.date) window.data.date = { start: minDate, end: maxDate };
 		window.data.date.start = this.value ? new Date(this.value) : new Date(minDateStr);
 		if(config.date?.select != 'range')
 			window.data.date.end = new Date(this.value);
@@ -993,11 +1000,10 @@ function setDate() {
 		let endDate = document.createElement('input');
 		endDate.classList.add('date');
 		endDate.type = 'date';
-		endDate.value = maxDateStr;
+		endDate.value = endDateStr;
 		endDate.min = minDateStr;
 		endDate.max = maxDateStr;
 		endDate.oninput = function() {
-			if(!window.data.date) window.data.date = { start: minDate, end: maxDate };
 			window.data.date.end = this.value ? new Date(this.value) : new Date(maxDateStr);
 			console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
 			if(window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
