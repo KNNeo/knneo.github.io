@@ -2,10 +2,10 @@
 const config = {
 	year: {
 		start: 2008,
-		end: 2025
+		end: 2026
 	},
 	season: {
-		current: 'Autumn',
+		current: 'Spring',
 		max: 7,
 		list: [
 			{ title: 'Winter', altTitle: '' },
