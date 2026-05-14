@@ -83,7 +83,6 @@ function setData(source) {
 }
 
 function initializeVariables(data) {
-	if (!data) return;
 	window.overlay = false;
 	window.data = data;
 	window.include = '';
@@ -490,7 +489,7 @@ function generateGrid() {
 }
 
 function generateFiltered() {
-	if (typeof window.data.data != 'object') return [];
+	if (!window.data || typeof window.data.data != 'object') return [];
 	let includeArray = window.include.split('|');
 	let excludeArray = window.exclude.split('|');
 	if (window.data.debug) console.log('included', includeArray);
