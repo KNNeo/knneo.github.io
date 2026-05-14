@@ -83,6 +83,7 @@ function setData(source) {
 }
 
 function initializeVariables(data) {
+	if (!data) return;
 	window.overlay = false;
 	window.data = data;
 	window.include = '';
@@ -90,12 +91,9 @@ function initializeVariables(data) {
 	window.columns = parseInt(localStorage.getItem(config.storage.columns) || 0);
 	window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
 	window.slideshow = { run: null, history: [] };
+	window.likes = { enable: false, list: JSON.parse(localStorage.getItem(config.storage.likes)) };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
-	window.likes = {
-		enable: false,
-		list: JSON.parse(localStorage.getItem(config.storage.likes))
-	};
 	initializeDate();
 	initializeCollage();
 }
@@ -208,13 +206,13 @@ function generateSidebar() {
 			document.querySelector('.' + key).classList.add('hidden');
 	}
 
-	if(document.querySelector('.size'))
+	if (document.querySelector('.size'))
 		document.querySelector('.size').innerText = window.preset;
-	if(!document.querySelector('.handle')) {
+	if (!document.querySelector('.handle')) {
 		let handle = document.createElement('div');
 		handle.className = 'handle material-icons';
 		handle.innerText = 'drag_handle';
-		handle.addEventListener('mousedown', function() {
+		handle.addEventListener('mousedown', function () {
 			// trigger drag mode
 			window.dragging = true;
 		});
@@ -342,7 +340,7 @@ function generateViewer() {
 			next.click();
 		return false;
 	}, false);
-	if(window.data?.viewer?.captions)
+	if (window.data?.viewer?.captions)
 		viewer.classList.add('captions');
 	else
 		viewer.classList.remove('captions');
@@ -517,18 +515,18 @@ function generateFiltered() {
 			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
 			&& (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search));
 	})
-	.filter(function (val) {
-		let prop = config.date?.property;
-		// if no date config or filter, always pass
-		if(!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
-			return true;
-		// convert val to date, check validity
-		let currentDate = new Date(val[prop]);
-		if (currentDate != 'Invalid Date')
-			return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
-		else
-			return false; // always fail if parse fail
-	});
+		.filter(function (val) {
+			let prop = config.date?.property;
+			// if no date config or filter, always pass
+			if (!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
+				return true;
+			// convert val to date, check validity
+			let currentDate = new Date(val[prop]);
+			if (currentDate != 'Invalid Date')
+				return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
+			else
+				return false; // always fail if parse fail
+		});
 }
 
 function generateLikes() {
@@ -599,7 +597,7 @@ function toggleTags() {
 }
 
 function toggleLikes() {
-	if(event && event.target) {
+	if (event && event.target) {
 		let showLikes = event.target.innerText == 'favorite';
 		event.target.innerText = showLikes ? 'favorite_border' : 'favorite';
 		window.likes.enable = event.target.innerText == 'favorite';
@@ -625,7 +623,7 @@ function calculateThumbnailSize(fullscreen) {
 	let columns = calculateColumns(gridWidth);
 	let thumbWidth = gridWidth / columns;
 	let thumbHeight = thumbWidth * (window.data.grid?.thumbnail?.ratio || 1);
-	if(fullscreen) {
+	if (fullscreen) {
 		thumbWidth = window.innerWidth;
 		thumbHeight = window.innerHeight;
 	}
@@ -653,7 +651,7 @@ function calculateColumns(gridWidth) {
 			break;
 	}
 	columns = Math.round(gridWidth / columns);
-	if(window.columns) columns = window.columns;
+	if (window.columns) columns = window.columns;
 	return columns < window.data?.grid?.column?.min ? window.data.grid.column.min : columns;
 }
 
@@ -685,10 +683,10 @@ function focusInView() {
 //--EVENTS--//
 function keypress() {
 	event.preventDefault();
-	if(config.isLandscape() && parseInt(event.key) >= 0 && parseInt(event.key) <= 9) {
+	if (config.isLandscape() && parseInt(event.key) >= 0 && parseInt(event.key) <= 9) {
 		// is number row
 		let cols = parseInt(event.key) || 10; // normalize to 0 - 9
-		if(cols < window.data?.grid?.column?.min || 
+		if (cols < window.data?.grid?.column?.min ||
 			cols > window.data?.grid?.column?.max
 		) return; // out of range
 		popupTextGoAway(cols + ' COLUMN' + (cols == 1 ? '' : 'S'));
@@ -740,7 +738,7 @@ function resize() {
 
 function onToggleSize() {
 	let id = config.presets.size.indexOf(event.target.innerText);
-	event.target.innerText = config.presets.size[id+1 >= config.presets.size.length ? 0 : id+1];
+	event.target.innerText = config.presets.size[id + 1 >= config.presets.size.length ? 0 : id + 1];
 	window.preset = event.target.innerText;
 	popupTextGoAway(window.preset.toUpperCase().slice(window.preset.lastIndexOf('_') + 1), 'material-icons');
 	generateGrid();
@@ -926,7 +924,7 @@ function onRandomSelect() {
 }
 
 function setMenuWidth() {
-	if(localStorage.getItem(config.storage.width))
+	if (localStorage.getItem(config.storage.width))
 		window.data.menu.width = parseInt(localStorage.getItem(config.storage.width));
 	menu.style.setProperty('--max-width', (window.data.menu.width || 400) + 'px');
 }
@@ -937,8 +935,8 @@ function setMenuHeight() {
 }
 
 function setColumns(val) {
-	if(event) event.preventDefault();
-	if(!val) {
+	if (event) event.preventDefault();
+	if (!val) {
 		let container = document.createElement('label');
 		let input = document.createElement('input');
 		input.classList.add('range');
@@ -946,10 +944,10 @@ function setColumns(val) {
 		input.title = 'You can also use (1-9) to set no. of columns';
 		input.min = window.data?.grid?.column?.min || 0;
 		input.max = window.data?.grid?.column?.max || 20;
-		input.oninput = function() {
+		input.oninput = function () {
 			window.columns = parseInt(this.value);
 			window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
-			if(document.querySelector('.size'))
+			if (document.querySelector('.size'))
 				document.querySelector('.size').innerText = window.preset;
 			this.setAttribute('data-value', window.columns || 'Auto');
 			localStorage.setItem(config.storage.columns, window.columns);
@@ -968,11 +966,11 @@ function setColumns(val) {
 }
 
 function onHandleMove() {
-	if(window.dragging) {
+	if (window.dragging) {
 		// console.log(event.screenX);
 		// can assume screenX is new width of left leaning sidebar
 		// stagger as multiple to prevent constant render
-		if(event.screenX % 10 == 0) {
+		if (event.screenX % 10 == 0) {
 			localStorage.setItem(config.storage.width, event.screenX);
 			delete window.data.menu.display;
 			popupTextGoAway(event.screenX);
@@ -987,7 +985,7 @@ function onHandleUp() {
 
 function onLike() {
 	let filename = event.target.getAttribute('data-image');
-	if(event.target.title == 'Add to Likes')
+	if (event.target.title == 'Add to Likes')
 		window.likes.list.push(filename);
 	else
 		window.likes.list.filter(l => l != filename);
@@ -998,14 +996,14 @@ function initializeDate() {
 	let dataset = [...generateFiltered().map(x => new Date(x[config.date.property]).valueOf())];
 	let minDate = new Date(Math.min(...dataset));
 	let maxDate = new Date(Math.max(...dataset));
-	if(!window.data.date) window.data.date = { start: minDate, end: maxDate, initial: { start: minDate, end: maxDate }};
+	if (!window.data.date) window.data.date = { start: minDate, end: maxDate, initial: { start: minDate, end: maxDate } };
 }
 
 function setDate() {
-	let minDateStr = window.data.date.initial.start.getFullYear() + '-' + (1+window.data.date.initial.start.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.start.getDate().toString().padStart(2, '0');
-	let maxDateStr = window.data.date.initial.end.getFullYear() + '-' + (1+window.data.date.initial.end.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.end.getDate().toString().padStart(2, '0');
-	let startDateStr = window.data.date.start.getFullYear() + '-' + (1+window.data.date.start.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.start.getDate().toString().padStart(2, '0');
-	let endDateStr = window.data.date.end.getFullYear() + '-' + (1+window.data.date.end.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.end.getDate().toString().padStart(2, '0');
+	let minDateStr = window.data.date.initial.start.getFullYear() + '-' + (1 + window.data.date.initial.start.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.start.getDate().toString().padStart(2, '0');
+	let maxDateStr = window.data.date.initial.end.getFullYear() + '-' + (1 + window.data.date.initial.end.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.end.getDate().toString().padStart(2, '0');
+	let startDateStr = window.data.date.start.getFullYear() + '-' + (1 + window.data.date.start.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.start.getDate().toString().padStart(2, '0');
+	let endDateStr = window.data.date.end.getFullYear() + '-' + (1 + window.data.date.end.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.end.getDate().toString().padStart(2, '0');
 
 	let main = document.createElement('div');
 	let container = document.createElement('label');
@@ -1016,17 +1014,17 @@ function setDate() {
 	startDate.value = startDateStr;
 	startDate.min = minDateStr;
 	startDate.max = maxDateStr;
-	startDate.oninput = function() {
+	startDate.oninput = function () {
 		window.data.date.start = this.value ? new Date(this.value) : new Date(minDateStr);
-		if(config.date?.select != 'range')
+		if (config.date?.select != 'range')
 			window.data.date.end = new Date(this.value);
 		console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
-		if(window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
+		if (window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
 			window.data.date.end != 'Invalid Date' && window.data.date.end.getFullYear() > 2000)
 			generateGrid();
 	};
 	container.appendChild(startDate);
-	if(config.date?.select == 'range') {
+	if (config.date?.select == 'range') {
 		container.appendChild(document.createTextNode(' - '));
 		let endDate = document.createElement('input');
 		endDate.classList.add('date');
@@ -1034,10 +1032,10 @@ function setDate() {
 		endDate.value = endDateStr;
 		endDate.min = minDateStr;
 		endDate.max = maxDateStr;
-		endDate.oninput = function() {
+		endDate.oninput = function () {
 			window.data.date.end = this.value ? new Date(this.value) : new Date(maxDateStr);
 			console.log('from ' + window.data.date.start.toDateString() + ' to ' + window.data.date.end.toDateString());
-			if(window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
+			if (window.data.date.start != 'Invalid Date' && window.data.date.start.getFullYear() > 2000 &&
 				window.data.date.end != 'Invalid Date' && window.data.date.end.getFullYear() > 2000)
 				generateGrid();
 		};
@@ -1362,7 +1360,7 @@ function createDialog(node) {
 	if (typeof node == 'object')
 		dialog.appendChild(node);
 	dialog.addEventListener('click', function () {
-		if(event.target == document.querySelector('dialog'))
+		if (event.target == document.querySelector('dialog'))
 			event.target.remove();
 	});
 	dialog.addEventListener('keyup', function () {
@@ -1376,7 +1374,7 @@ function createDialog(node) {
 function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
-	if(!contextDiv.classList.contains('hidden'))
+	if (!contextDiv.classList.contains('hidden'))
 		return contextDiv.classList.add('hidden');
 	document.addEventListener('click', hideContextMenu);
 	//positioning
@@ -1390,12 +1388,12 @@ function showContextMenu() {
 	let submenu = document.createElement('div');
 	submenu.className = 'menu-options';
 	//render tags
-	for(let tag of Array.from(event.target.title.split('\n'))) {
+	for (let tag of Array.from(event.target.title.split('\n'))) {
 		let menuItem = document.createElement('div');
 		menuItem.setAttribute('data-id', tag);
-		if(window.include.includes(tag))
+		if (window.include.includes(tag))
 			menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
-		menuItem.addEventListener('click', function() {
+		menuItem.addEventListener('click', function () {
 			window.include = window.include.includes(tag) ? '' : event.target.getAttribute('data-id');
 			include.value = window.include;
 			generateTagsList();
@@ -1406,17 +1404,17 @@ function showContextMenu() {
 	}
 	let imageUrl = event.target.getAttribute('data-image');
 	// add option to copy url
-	if(window.data?.copy == 'allow') {
+	if (window.data?.copy == 'allow') {
 		let copy = document.createElement('div');
 		copy.setAttribute('data-id', 'Copy Image URL');
-		copy.addEventListener('click', function() {
-			if(navigator.clipboard)
+		copy.addEventListener('click', function () {
+			if (navigator.clipboard)
 				navigator.clipboard.writeText(imageUrl);
 		});
 		submenu.appendChild(copy);
 	}
 	// add option to like
-	if(window.data?.like) {
+	if (window.data?.like) {
 		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes));
 		let like = document.createElement('div');
 		like.setAttribute('data-id', likedFiles.includes(imageUrl) ? 'Remove from Likes' : 'Add to Likes');
@@ -1440,7 +1438,7 @@ function showContextMenu() {
 }
 
 function hideContextMenu() {
-	if(document.querySelector('.context:not(.hidden)'))
+	if (document.querySelector('.context:not(.hidden)'))
 		event.preventDefault();
 	contextDiv.classList.add('hidden');
 	document.removeEventListener('click', hideContextMenu);
