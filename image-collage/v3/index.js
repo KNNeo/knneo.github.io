@@ -603,6 +603,7 @@ function toggleLikes() {
 		let showLikes = event.target.innerText == 'favorite';
 		event.target.innerText = showLikes ? 'favorite_border' : 'favorite';
 		window.likes.enable = event.target.innerText == 'favorite';
+		generateGrid();
 	}
 }
 
