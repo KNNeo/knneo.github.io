@@ -12,7 +12,8 @@ const config = {
 	storage: {
 		id: 'image_collage_data_id',
 		columns: 'image_collage_columns',
-		width: 'image_collage_width'
+		width: 'image_collage_width',
+		likes: 'image_collage_favourites'
 	},
 	date: {
 		property: 'dt',
@@ -91,6 +92,10 @@ function initializeVariables(data) {
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
+	window.likes = {
+		enable: false,
+		list: JSON.parse(localStorage.getItem(config.storage.likes))
+	};
 	initializeDate();
 	initializeCollage();
 }
@@ -372,7 +377,7 @@ function generateGrid() {
 	let prevValue = '';
 	grid.innerHTML = '';
 
-	let filterArray = generateFiltered()
+	let filterArray = window.likes.enable ? generateLikes() : generateFiltered()
 		.sort(function (a, b) {
 			let prop = window.data.sort?.property;
 			// if property not found, sort list as is
@@ -526,6 +531,13 @@ function generateFiltered() {
 	});
 }
 
+function generateLikes() {
+	let filenames = JSON.parse(localStorage.getItem(config.storage.likes));
+	return window.data.data.filter(m => {
+		return (item['og'] || item['lg'] || item['md'] || item['sm']).includes(m);
+	});
+}
+
 function generateOrientationValues() {
 	let values = generateFiltered();
 	for (let item of values) {
@@ -584,6 +596,14 @@ function toggleTags() {
 		console.error('tag category groups do not exist, edit in config');
 	}
 	return false;
+}
+
+function toggleLikes() {
+	if(event && event.target) {
+		let showLikes = event.target.innerText == 'favorite';
+		event.target.innerText = showLikes ? 'favorite_border' : 'favorite';
+		window.likes.enable = event.target.innerText == 'favorite';
+	}
 }
 
 function getThumbnailSizeBySetting(item) {
@@ -962,6 +982,15 @@ function onHandleMove() {
 
 function onHandleUp() {
 	window.dragging = false;
+}
+
+function onLike() {
+	let filename = event.target.getAttribute('data-image');
+	if(event.target.title == 'Add to Likes')
+		window.likes.list.push(filename);
+	else
+		window.likes.list.filter(l => l != filename);
+	localStorage.setItem(config.storage.likes, JSON.stringify(window.likes.list));
 }
 
 function initializeDate() {
@@ -1374,9 +1403,9 @@ function showContextMenu() {
 		});
 		submenu.appendChild(menuItem);
 	}
+	let imageUrl = event.target.getAttribute('data-image');
 	// add option to copy url
 	if(window.data?.copy == 'allow') {
-		let imageUrl = event.target.getAttribute('data-image');
 		let copy = document.createElement('div');
 		copy.setAttribute('data-id', 'Copy Image URL');
 		copy.addEventListener('click', function() {
@@ -1385,8 +1414,16 @@ function showContextMenu() {
 		});
 		submenu.appendChild(copy);
 	}
+	// add option to like
+	if(window.data?.like) {
+		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes));
+		let like = document.createElement('div');
+		like.setAttribute('data-id', likedFiles.includes(imageUrl) ? 'Remove from Likes' : 'Add to Likes');
+		like.setAttribute('data-image', imageUrl);
+		like.addEventListener('click', onLike);
+		submenu.appendChild(like);
+	}
 	contextDiv.appendChild(submenu);
-
 	//adjust context if exceed window bottom
 	if (y + contextDiv.getBoundingClientRect().height + 80 >= collage.getBoundingClientRect().height) {
 		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
