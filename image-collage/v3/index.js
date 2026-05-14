@@ -44,7 +44,7 @@ const observer = new IntersectionObserver(callback, {
 	root: collage,
 	rootMargin: '10px',
 	threshold: 0,
-})
+});
 
 //--FUNCTIONS--//
 function startup() {
@@ -983,7 +983,7 @@ function onHandleUp() {
 }
 
 function onLike() {
-	let filename = event.target.getAttribute('data-image');
+	let filename = event.target.getAttribute('data-src');
 	if (event.target.title == 'Add to Likes')
 		window.likes.list.push(filename);
 	else
