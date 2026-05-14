@@ -399,7 +399,7 @@ function generateGrid() {
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
 
-		if (window.data.grid?.banner && item[window.data.grid.banner.property]) {
+		if (!window.likes?.enable && window.data.grid?.banner && item[window.data.grid.banner.property]) {
 			// as property, or if not object, as string
 			let prefix = (item[window.data.grid.banner.property] || '');
 			if (window.data.grid.banner.start && window.data.grid.banner.end)
@@ -531,7 +531,7 @@ function generateFiltered() {
 function generateLikes() {
 	let filenames = JSON.parse(localStorage.getItem(config.storage.likes) || '[]');
 	return window.data.data.filter(m => {
-		return (item['og'] || item['lg'] || item['md'] || item['sm']).includes(m);
+		return filenames.includes((m['og'] || m['lg'] || m['md'] || m['sm']));
 	});
 }
 
@@ -983,8 +983,8 @@ function onHandleUp() {
 }
 
 function onLike() {
-	let filename = event.target.getAttribute('data-src');
-	if (event.target.title == 'Add to Likes')
+	let filename = event.target.getAttribute('data-image');
+	if (event.target.getAttribute('data-id') == 'Add to Likes')
 		window.likes.list.push(filename);
 	else
 		window.likes.list.filter(l => l != filename);
@@ -1401,9 +1401,9 @@ function showContextMenu() {
 		});
 		submenu.appendChild(menuItem);
 	}
-	let imageUrl = event.target.getAttribute('data-image');
 	// add option to copy url
 	if (window.data?.copy == 'allow') {
+		let imageUrl = event.target.getAttribute('data-image');
 		let copy = document.createElement('div');
 		copy.setAttribute('data-id', 'Copy Image URL');
 		copy.addEventListener('click', function () {
@@ -1413,11 +1413,12 @@ function showContextMenu() {
 		submenu.appendChild(copy);
 	}
 	// add option to like
-	if (window.data?.like) {
+	if (window.data?.setting?.likes) {
+		let imageSrc = event.target.getAttribute('data-src');
 		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes) || '[]');
 		let like = document.createElement('div');
-		like.setAttribute('data-id', likedFiles.includes(imageUrl) ? 'Remove from Likes' : 'Add to Likes');
-		like.setAttribute('data-image', imageUrl);
+		like.setAttribute('data-id', likedFiles.includes(imageSrc) ? 'Remove from Likes' : 'Add to Likes');
+		like.setAttribute('data-image', imageSrc);
 		like.addEventListener('click', onLike);
 		submenu.appendChild(like);
 	}
