@@ -90,7 +90,7 @@ function initializeVariables(data) {
 	window.columns = parseInt(localStorage.getItem(config.storage.columns) || 0);
 	window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
 	window.slideshow = { run: null, history: [] };
-	window.likes = { enable: false, list: JSON.parse(localStorage.getItem(config.storage.likes)) };
+	window.likes = { enable: false, list: JSON.parse(localStorage.getItem(config.storage.likes) || '[]') };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
 	initializeDate();
@@ -529,7 +529,7 @@ function generateFiltered() {
 }
 
 function generateLikes() {
-	let filenames = JSON.parse(localStorage.getItem(config.storage.likes));
+	let filenames = JSON.parse(localStorage.getItem(config.storage.likes) || '[]');
 	return window.data.data.filter(m => {
 		return (item['og'] || item['lg'] || item['md'] || item['sm']).includes(m);
 	});
@@ -1414,7 +1414,7 @@ function showContextMenu() {
 	}
 	// add option to like
 	if (window.data?.like) {
-		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes));
+		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes) || '[]');
 		let like = document.createElement('div');
 		like.setAttribute('data-id', likedFiles.includes(imageUrl) ? 'Remove from Likes' : 'Add to Likes');
 		like.setAttribute('data-image', imageUrl);
