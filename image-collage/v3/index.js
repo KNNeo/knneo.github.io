@@ -148,10 +148,10 @@ function generateTags() {
 				return window.data.tag?.sort?.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
 			// else string
 			if (window.data.tag?.sort?.order == 'desc')
-				return b[prop].localeCompare(a[prop], window.data.tag?.sort?.locale || '');
-			return a[prop].localeCompare(b[prop], window.data.tag?.sort?.locale || '');
+				return b[prop].localeCompare(a[prop], window.data.tag?.sort?.locale);
+			return a[prop].localeCompare(b[prop], window.data.tag?.sort?.locale);
 		});
-	//if (window.data.debug) 
+	if (window.data.debug) 
 		console.log(window['buttonArray']);
 
 	// update style
@@ -392,8 +392,8 @@ function generateGrid() {
 			}
 			// sort string by locale if any
 			if (window.data.sort.order == 'desc')
-				return b[prop].localeCompare(a[prop], window.data.sort?.locale || '');
-			return a[prop].localeCompare(b[prop], window.data.sort?.locale || '');
+				return b[prop].localeCompare(a[prop], window.data.sort?.locale);
+			return a[prop].localeCompare(b[prop], window.data.sort?.locale);
 		});
 
 	for (let item of filterArray) {
