@@ -95,6 +95,7 @@ function initializeVariables(data) {
 	window.addEventListener('mousemove', hideMouseInViewer);
 	initializeDate();
 	initializeCollage();
+	initializeWindow();
 }
 
 function initializeCollage() {
@@ -103,6 +104,11 @@ function initializeCollage() {
 	generateTagsList();
 	generateGrid();
 	generateViewer();
+}
+
+function initializeWindow() {
+	window.addEventListener('resize', resize);
+	window.addEventListener('keyup', keypress);
 }
 
 function generateTags() {
