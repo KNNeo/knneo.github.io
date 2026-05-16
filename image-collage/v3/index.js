@@ -1118,9 +1118,8 @@ function openImageInViewer(image) {
 				window.slideshow.run = setTimeout(runSlideshow, (window.data?.viewer?.slideshow?.duration || 5) * 1000);
 		}, 250);
 	});
-	img.addEventListener('click', closeViewer);
-	img.addEventListener('mouseup', onZoomViewer);
-	img.addEventListener('mousemove', onMouseMoveViewer);
+	img.addEventListener('mouseup', onViewerMouseUp);
+	img.addEventListener('mousemove', onViewerMouseMove);
 
 	let caption = document.createElement('div');
 	caption.classList.add('caption');
@@ -1193,7 +1192,7 @@ function onTouchMoveViewer() {
 	}
 }
 
-function onMouseMoveViewer() {
+function onViewerMouseMove() {
 	if (window.data.debug) console.log(event.clientX, event.clientY);
 	if (window.data.debug) console.log(viewer.clientWidth, viewer.clientHeight);
 	let normalizeX = event.clientX / viewer.clientWidth * 100;
@@ -1229,7 +1228,13 @@ function closeViewer() {
 	viewer.classList.remove('open');
 }
 
-function onZoomViewer() {
+function onViewerMouseUp() {
+	if(event.button == 0) {
+		closeViewer();
+	}
+	if(event.button == 1) {
+		toggleFullscreen();
+	}
 	if (event.button == 2) {
 		if (window.data?.slideshow?.zoom == null && window.slideshow?.run) return;
 		viewer.classList.toggle('zoom');
@@ -1244,6 +1249,32 @@ function getFilenameInfo(url) {
 	}
 	else
 		return { filename: url, extension: '' };
+}
+
+function toggleFullscreen() {
+    if(collage.getAttribute('data-fullscreen') == null) {
+        collage.setAttribute('data-fullscreen', '');
+		let doc = document.documentElement;
+		if (doc.requestFullscreen)
+			doc.requestFullscreen();
+		else if (doc.mozRequestFullScreen) //Firefox 
+			doc.mozRequestFullScreen();
+		else if (doc.webkitRequestFullscreen) //Chrome, Safari, Opera
+			doc.webkitRequestFullscreen();
+		else if (doc.msRequestFullscreen) //IE,Edge
+			doc.msRequestFullscreen();
+	}
+    else {
+        collage.removeAttribute('data-fullscreen');
+		if (document.exitFullscreen)
+			document.exitFullscreen();
+		else if (document.mozCancelFullScreen) //Firefox
+			document.mozCancelFullScreen();
+		else if (document.webkitExitFullscreen) //Chrome, Safari, Opera
+			document.webkitExitFullscreen();
+		else if (document.msExitFullscreen) //IE, Edge
+			document.msExitFullscreen();
+    }
 }
 
 //--SLIDESHOW--//
