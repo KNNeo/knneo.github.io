@@ -148,10 +148,11 @@ function generateTags() {
 				return window.data.tag?.sort?.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
 			// else string
 			if (window.data.tag?.sort?.order == 'desc')
-				return b[prop].localeCompare(a[prop], window.data.tag?.sort?.locale);
-			return a[prop].localeCompare(b[prop], window.data.tag?.sort?.locale);
+				return b[prop].localeCompare(a[prop], window.data.tag?.sort?.locale || '');
+			return a[prop].localeCompare(b[prop], window.data.tag?.sort?.locale || '');
 		});
-	if (window.data.debug) console.log(window['buttonArray']);
+	//if (window.data.debug) 
+		console.log(window['buttonArray']);
 
 	// update style
 	tags.style.setProperty('--border', (window.data.tag?.border || 0) + 'px');
