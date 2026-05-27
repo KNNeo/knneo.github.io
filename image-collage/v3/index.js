@@ -22,26 +22,25 @@ const config = {
 };
 
 //--REFERENCES--//
-const title = document.querySelector('.title');
-const description = document.querySelector('.description');
-const collage = document.querySelector('.collage');
-const grid = document.querySelector('.grid');
-const tags = document.querySelector('.tags');
-const sidebar = document.querySelector('.sidebar');
-const menu = document.querySelector('.menu');
-const settings = document.querySelector('.settings');
-const viewer = document.querySelector('.viewer');
-const include = document.querySelector('#include');
-const exclude = document.querySelector('#exclude');
-const contextDiv = document.querySelector('.context');
-const callback = (entries, observer) => {
+const titleElem = document.querySelector('.title');
+const descriptionElem = document.querySelector('.description');
+const collageElem = document.querySelector('.collage');
+const gridElem = document.querySelector('.grid');
+const tagsElem = document.querySelector('.tags');
+const sidebarElem = document.querySelector('.sidebar');
+const menuElem = document.querySelector('.menu');
+const settingsElem = document.querySelector('.settings');
+const viewerElem = document.querySelector('.viewer');
+const includeElem = document.querySelector('#include');
+const excludeElem = document.querySelector('#exclude');
+const contextElem = document.querySelector('.context');
+const gridObserver = new IntersectionObserver((entries, observer) => {
 	entries.forEach((elem) => {
 		let thumbnail = elem.target;
 		thumbnail.src = thumbnail.getAttribute('data-image');
 	});
-};
-const observer = new IntersectionObserver(callback, {
-	root: collage,
+}, {
+	root: collageElem,
 	rootMargin: '10px',
 	threshold: 0,
 });
@@ -91,8 +90,7 @@ function initializeVariables(data) {
 	window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
 	window.slideshow = { run: null, history: [] };
 	window.likes = { enable: false, list: JSON.parse(localStorage.getItem(config.storage.likes) || '[]') };
-	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
-	window.addEventListener('mousemove', hideMouseInViewer);
+	menuElem.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	initializeDate();
 	initializeCollage();
 	initializeWindow();
@@ -161,76 +159,75 @@ function generateTags() {
 		console.log(window['buttonArray']);
 
 	// update style
-	tags.style.setProperty('--border', (window.data.tag?.border || 0) + 'px');
-	tags.style.setProperty('--radius', (window.data.tag?.radius || 0) + 'px');
+	tagsElem.style.setProperty('--border', (window.data.tag?.border || 0) + 'px');
+	tagsElem.style.setProperty('--radius', (window.data.tag?.radius || 0) + 'px');
 }
 
 function generateSidebar() {
 	setMenuWidth();
 	setMenuHeight();
 	if (window.data.menu.display && window.data.menu.display == 'hidden') {
-		menu.classList.add(window.data.menu.display);
-		if (sidebar) sidebar.innerText = 'menu';
+		menuElem.classList.add(window.data.menu.display);
+		if (sidebarElem) sidebarElem.innerText = 'menu';
 	}
-	else if (menu.classList.contains(window.data.menu.display)) {
-		menu.classList.remove(window.data.menu.display);
-		if (sidebar) sidebar.innerText = 'menu_open';
+	else if (menuElem.classList.contains(window.data.menu.display)) {
+		menuElem.classList.remove(window.data.menu.display);
+		if (sidebarElem) sidebarElem.innerText = 'menu_open';
 	}
 
 	document.title = window.data.title ? window.data.title + ' - Image Collage' : 'Image Collage';
 
 	if (window.data.title && window.data.title.length > 0)
-		title.innerText = window.data.title;
+		titleElem.innerText = window.data.title;
 
 	if (window.data.description && window.data.description.length > 0)
-		description.innerHTML = window.data.description.startsWith('http') ? '<a href="' + window.data.description + '" target="_blank">' + window.data.description.substring(window.data.description.indexOf('://') + 3) + '</a>' : window.data.description;
+		descriptionElem.innerHTML = window.data.description.startsWith('http') ? '<a href="' + window.data.description + '" target="_blank">' + window.data.description.substring(window.data.description.indexOf('://') + 3) + '</a>' : window.data.description;
 
 	if (typeof window.data.setting.filter == 'boolean' && window.data.setting.filter) {
-		let include = document.querySelector('#include');
-		include.classList.add('filter');
-		include.placeholder = window.data.placeholder.include;
-		include.addEventListener('input', function () {
+		includeElem.classList.add('filter');
+		includeElem.placeholder = window.data.placeholder.include;
+		includeElem.addEventListener('input', function () {
 			window.include = event.target.value;
 			generateGrid();
 		});
 
-		let exclude = document.querySelector('#exclude');
-		exclude.classList.add('filter');
-		exclude.placeholder = window.data.placeholder.exclude;
-		exclude.addEventListener('input', function () {
+		excludeElem.classList.add('filter');
+		excludeElem.placeholder = window.data.placeholder.exclude;
+		excludeElem.addEventListener('input', function () {
 			window.exclude = event.target.value;
 			generateGrid();
 		});
 	}
 
-	for(let setting of settings.querySelectorAll('.settings-icon')) {
-		let key = setting.classList[0];
+	for(let setting of settingsElem.querySelectorAll('.settings-icon')) {
+		let key = setting.classList[0]; // unique id must be first class of button
 		let value = window.data.setting[key];
-		if (value)
-			settings.querySelector('.' + key).classList.remove('hidden');
+		if (value) {
+			settingsElem.querySelector('.' + key).classList.remove('hidden');
+			if (window.preset && key == 'size')
+				settingsElem.querySelector('.size').innerText = window.preset;
+		}
 		else
-			settings.querySelector('.' + key).classList.add('hidden');
+			settingsElem.querySelector('.' + key).classList.add('hidden');
 	}
 
-	if (settings.querySelector('.size'))
-		settings.querySelector('.size').innerText = window.preset;
-	if (!menu.querySelector('.handle')) {
+	if (!menuElem.querySelector('.handle')) {
 		let handle = document.createElement('div');
 		handle.className = 'handle material-icons';
 		handle.innerText = 'drag_handle';
 		handle.addEventListener('mousedown', function () {
 			// trigger drag mode
 			window.dragging = true;
+			window.addEventListener('mousemove', onHandleMove);
+			window.addEventListener('mouseup', onHandleUp);
 		});
-		window.addEventListener('mousemove', onHandleMove);
-		window.addEventListener('mouseup', onHandleUp);
-		menu.appendChild(handle);
+		menuElem.appendChild(handle);
 	}
 }
 
 function generateTagsList() {
-	tags.innerHTML = '';
-	tags.style.setProperty('--categories', window.data.tag.category.ratio.reduce((total, r) => total + r) || window.data.tag.category.groups.length);
+	tagsElem.innerHTML = '';
+	tagsElem.style.setProperty('--categories', window.data.tag.category.ratio.reduce((total, r) => total + r) || window.data.tag.category.groups.length);
 
 	if (window.data.tag.category && window.data.tag.category.groups) {
 		let sections = window.data.tag.category.ratio.reduce((sum, r) => sum + r, 0);
@@ -248,13 +245,13 @@ function generateTagsList() {
 			title.setAttribute('onclick', 'onClickCategoryHeader()');
 			tag.appendChild(title);
 
-			tags.appendChild(tag);
+			tagsElem.appendChild(tag);
 		});
 	}
 	else {
 		let tag = document.createElement('div');
 		tag.classList.add('tags-category');
-		tags.appendChild(tag);
+		tagsElem.appendChild(tag);
 	}
 
 	for (let button of window['buttonArray']) {
@@ -283,8 +280,8 @@ function generateTagsList() {
 					filter.setAttribute('filter', 'include');
 					break;
 			}
-			include.value = window.include;
-			exclude.value = window.exclude;
+			includeElem.value = window.include;
+			excludeElem.value = window.exclude;
 			// scroll to filter where selected, else if deselected scroll to other include
 			if (filter.getAttribute('filter') != 'include')
 				filter = document.querySelector('.tags .tag[filter="include"]');
@@ -310,8 +307,8 @@ function generateTagsList() {
 					filter.setAttribute('filter', 'exclude');
 					break;
 			}
-			include.value = window.include;
-			exclude.value = window.exclude;
+			includeElem.value = window.include;
+			excludeElem.value = window.exclude;
 			// scroll to filter where selected, else if deselected scroll to other exclude
 			if (filter.getAttribute('filter') != 'exclude')
 				filter = document.querySelector('.tags .tag[filter="exclude"]');
@@ -324,23 +321,23 @@ function generateTagsList() {
 		if (window.exclude.split(window.data.separator).includes(button.value))
 			tag.setAttribute('filter', 'exclude');
 		if (button.category > window.data.tag.category.groups.length - 1)
-			tags.childNodes[window.data.tag.category.groups.length - 1].appendChild(tag);
+			tagsElem.childNodes[window.data.tag.category.groups.length - 1].appendChild(tag);
 		else if (button.category)
-			tags.childNodes[button.category].appendChild(tag);
-		else if (tags.childNodes.length > 0)
-			tags.childNodes[0].appendChild(tag);
+			tagsElem.childNodes[button.category].appendChild(tag);
+		else if (tagsElem.childNodes.length > 0)
+			tagsElem.childNodes[0].appendChild(tag);
 	}
 }
 
 function generateViewer() {
-	viewer.addEventListener('contextmenu', function () {
+	viewerElem.addEventListener('contextmenu', function () {
 		event.preventDefault();
 		return false;
 	}, false);
 	if (window.data?.viewer?.captions)
-		viewer.classList.add('captions');
+		viewerElem.classList.add('captions');
 	else
-		viewer.classList.remove('captions');
+		viewerElem.classList.remove('captions');
 }
 
 function generateStats() {
@@ -370,7 +367,7 @@ function generateStats() {
 
 function generateGrid() {
 	let prevValue = '';
-	grid.innerHTML = '';
+	gridElem.innerHTML = '';
 
 	let filterArray = window.likes.enable ? generateLikes() : generateFiltered()
 		.sort(function (a, b) {
@@ -414,7 +411,7 @@ function generateGrid() {
 				overlay.title = prefix;
 				if (onGrid) {
 					overlay.classList.add('grid-item');
-					grid.appendChild(overlay);
+					gridElem.appendChild(overlay);
 				}
 				else {
 					overlay.classList.add('prefix');
@@ -469,21 +466,21 @@ function generateGrid() {
 			console.log('item not loaded:', event.target.getAttribute('data-image'));
 		});
 		gridItem.appendChild(gridItemImage);
-		observer.observe(gridItemImage);
-		grid.appendChild(gridItem);
+		gridObserver.observe(gridItemImage);
+		gridElem.appendChild(gridItem);
 	}
 	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
-	grid.setAttribute('data-mode', feedMode ? 'feed' : '');
+	gridElem.setAttribute('data-mode', feedMode ? 'feed' : '');
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize(feedMode);
-	grid.style.setProperty('--width', thumbWidth + 'px');
-	grid.style.setProperty('--height', thumbHeight + 'px');
-	grid.style.setProperty('--border', (window.data.grid?.thumbnail?.border || 1) + 'px');
-	grid.style.setProperty('--radius', (window.data.grid?.thumbnail?.radius || 0) + 'px');
+	gridElem.style.setProperty('--width', thumbWidth + 'px');
+	gridElem.style.setProperty('--height', thumbHeight + 'px');
+	gridElem.style.setProperty('--border', (window.data.grid?.thumbnail?.border || 1) + 'px');
+	gridElem.style.setProperty('--radius', (window.data.grid?.thumbnail?.radius || 0) + 'px');
 
 	if (document.querySelector('.counter'))
 		document.querySelector('.counter').innerText = filterArray.length;
 	if (!filterArray.length)
-		grid.innerText = 'No Data';
+		gridElem.innerText = 'No Data';
 }
 
 function generateFiltered() {
@@ -537,7 +534,7 @@ function generateOrientationValues() {
 	let values = generateFiltered();
 	for (let item of values) {
 		let source = item['og'] || item['lg'] || item['md'] || item['sm'];
-		let itemDiv = collage.querySelector('img[data-src="' + source + '"]');
+		let itemDiv = collageElem.querySelector('img[data-src="' + source + '"]');
 		if (!itemDiv || !itemDiv.complete) {
 			alert('all images not fully loaded, cannot determine orientation!\nscroll down all the way to load all images')
 			console.error('generateOrientationValues: image not loaded!', source);
@@ -579,7 +576,7 @@ function toggleTags() {
 			toggleVariable('include', keywords[currentIndex]);
 			toggleVariable('include', keywords[nextIndex]);
 		}
-		include.value = window.include;
+		includeElem.value = window.include;
 		generateTagsList();
 		generateGrid();
 		// scroll to filter where selected, else if deselected scroll to other include
@@ -616,7 +613,7 @@ function getThumbnailSizeBySetting(item) {
 }
 
 function calculateThumbnailSize(fullscreen) {
-	let gridWidth = grid.getBoundingClientRect().width;
+	let gridWidth = gridElem.getBoundingClientRect().width;
 	let columns = calculateColumns(gridWidth);
 	let thumbWidth = gridWidth / columns;
 	let thumbHeight = thumbWidth * (window.data.grid?.thumbnail?.ratio || 1);
@@ -672,7 +669,7 @@ function fadeIn() {
 
 function focusInView() {
 	// focus on top left element on collage scroll
-	let imageInView = Array.from(collage.querySelectorAll('.grid-item img')).find(i => i.getBoundingClientRect().y > 0);
+	let imageInView = Array.from(collageElem.querySelectorAll('.grid-item img')).find(i => i.getBoundingClientRect().y > 0);
 	if (imageInView)
 		imageInView.focus();
 }
@@ -713,7 +710,7 @@ function keypress() {
 		case 'ArrowLeft':
 		case 'ArrowRight':
 			// navigate in viewer
-			if(!document.querySelector('.viewer.open')) return;
+			if(!viewerElem.classList.includes('open')) return;
 			let prev = document.querySelector('.viewer-nav.prev');
 			let next = document.querySelector('.viewer-nav.next');
 			if (prev && event.key == 'ArrowLeft')
@@ -733,13 +730,13 @@ function keypress() {
 function resize() {
 	// resize grid
 	document.querySelector('.expand').innerText = 'unfold_more';
-	tags.classList.remove('expanded');
+	tagsElem.classList.remove('expanded');
 	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
-	grid.setAttribute('data-mode', feedMode ? 'feed' : '');
+	gridElem.setAttribute('data-mode', feedMode ? 'feed' : '');
 	// resize images
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize(feedMode);
-	grid.style.setProperty('--width', thumbWidth + 'px');
-	grid.style.setProperty('--height', thumbHeight + 'px');
+	gridElem.style.setProperty('--width', thumbWidth + 'px');
+	gridElem.style.setProperty('--height', thumbHeight + 'px');
 
 	setTimeout(setMenuHeight, 300);
 }
@@ -758,14 +755,14 @@ function onToggleExpander() {
 		case 'unfold_more':
 			event.target.innerText = 'unfold_less';
 			event.target.title = 'Close Tags';
-			tags.classList.toggle('expanded');
+			tagsElem.classList.toggle('expanded');
 			for (let tag of document.querySelectorAll('.tag'))
 				tag.tabIndex = 0;
 			break
 		case 'unfold_less':
 			event.target.innerText = 'unfold_more';
 			event.target.title = 'Expand Tags';
-			tags.classList.toggle('expanded');
+			tagsElem.classList.toggle('expanded');
 			for (let tag of document.querySelectorAll('.tag'))
 				tag.tabIndex = -1;
 			break;
@@ -777,7 +774,7 @@ function onToggleExpander() {
 
 function onScrollSidebar() {
 	if (event.target == event.target.closest('.menu'))
-		collage.scrollTop -= config.isFirefox ? -event.detail * 20 : event.wheelDelta;
+		collageElem.scrollTop -= config.isFirefox ? -event.detail * 20 : event.wheelDelta;
 	if (!config.isLandscape() && event.target.closest('.tags')) {
 		event.preventDefault();
 		// scroll with respect to category element
@@ -821,9 +818,9 @@ function onClearAll() {
 	for (let tag of document.querySelectorAll('.tag'))
 		tag.removeAttribute('filter');
 	window.include = '';
-	include.value = window.include;
+	includeElem.value = window.include;
 	window.exclude = '';
-	exclude.value = window.exclude;
+	excludeElem.value = window.exclude;
 	initializeDate();
 	generateGrid();
 }
@@ -831,13 +828,13 @@ function onClearAll() {
 function onToggleSidebar() {
 	// resize sidebar
 	event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
-	document.querySelector('.menu').classList.toggle('hidden');
+	menuElem.classList.toggle('hidden');
 	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
-	grid.setAttribute('data-mode', feedMode ? 'feed' : '');
+	gridElem.setAttribute('data-mode', feedMode ? 'feed' : '');
 	// resize images
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize(feedMode);
-	grid.style.setProperty('--width', thumbWidth + 'px');
-	grid.style.setProperty('--height', thumbHeight + 'px');
+	gridElem.style.setProperty('--width', thumbWidth + 'px');
+	gridElem.style.setProperty('--height', thumbHeight + 'px');
 
 	event.target.focus();
 	setTimeout(setMenuHeight, 300);
@@ -845,7 +842,7 @@ function onToggleSidebar() {
 
 function onToggleCaptions() {
 	event.target.innerText = event.target.innerText == 'subtitles' ? 'subtitles_off' : 'subtitles';
-	viewer.classList.toggle('captions');
+	viewerElem.classList.toggle('captions');
 	popupTextGoAway(event.target.innerText, 'material-icons');
 }
 
@@ -934,12 +931,12 @@ function onRandomSelect() {
 function setMenuWidth() {
 	if (localStorage.getItem(config.storage.width))
 		window.data.menu.width = parseInt(localStorage.getItem(config.storage.width));
-	menu.style.setProperty('--max-width', (window.data.menu.width || 400) + 'px');
+	menuElem.style.setProperty('--max-width', (window.data.menu.width || 400) + 'px');
 }
 
 function setMenuHeight() {
-	if (menu.closest('.content'))
-		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
+	if (menuElem.closest('.content'))
+		menuElem.closest('.content').style.setProperty('--menu-height', (menuElem.getBoundingClientRect()?.height || 0) + 'px');
 }
 
 function setColumns(val) {
@@ -977,8 +974,8 @@ function onHandleMove() {
 	if (window.dragging) {
 		// console.log(event.screenX);
 		// can assume screenX is new width of left leaning sidebar
-		// stagger as multiple to prevent constant render
-		if (event.screenX % 10 == 0) {
+		// stagger as integer multiple to prevent over-rendering
+		if (event.screenX % 1 == 0) {
 			localStorage.setItem(config.storage.width, event.screenX);
 			delete window.data.menu.display;
 			popupTextGoAway(event.screenX);
@@ -989,6 +986,9 @@ function onHandleMove() {
 
 function onHandleUp() {
 	window.dragging = false;
+	window.removeEventListener('mousemove', onHandleMove);
+	window.removeEventListener('mouseup', onHandleUp);
+	generateGrid();
 }
 
 function onLike() {
@@ -1109,10 +1109,10 @@ function openViewer() {
 
 function openImageInViewer(image) {
 	let imgNo = window['viewer-list'].findIndex(i => i.src === image.src);
-	viewer.setAttribute('index', imgNo);
-	viewer.setAttribute('ontouchstart', 'onTouchStart()');
-	viewer.setAttribute('ontouchmove', 'onTouchMoveViewer()');
-	viewer.style.setProperty('--fit', window.data?.slideshow?.cover ? 'cover' : 'contain');
+	viewerElem.setAttribute('index', imgNo);
+	viewerElem.setAttribute('ontouchstart', 'onTouchStart()');
+	viewerElem.setAttribute('ontouchmove', 'onTouchMoveViewer()');
+	viewerElem.style.setProperty('--fit', window.data?.slideshow?.cover ? 'cover' : 'contain');
 
 	let viewerPrev = document.createElement('a');
 	viewerPrev.classList.add('prev');
@@ -1165,29 +1165,30 @@ function openImageInViewer(image) {
 		caption.style.setProperty('--align', window.data.grid.caption.align);
 	caption.innerText = image.getAttribute('data-caption');
 
-	if (viewer.childNodes.length > 0)
-		viewer.innerHTML = '';
+	if (viewerElem.childNodes.length > 0)
+		viewerElem.innerHTML = '';
 	if (imgNo - 1 >= 0 && window.slideshow?.run == null)
-		viewer.appendChild(viewerPrev);
+		viewerElem.appendChild(viewerPrev);
 	if (imgNo + 1 < window['viewer-list'].length && window.slideshow?.run == null)
-		viewer.appendChild(viewerNext);
-	viewer.appendChild(loader);
-	viewer.appendChild(img);
-	viewer.appendChild(caption);
-	viewer.focus();
+		viewerElem.appendChild(viewerNext);
+	viewerElem.appendChild(loader);
+	viewerElem.appendChild(img);
+	viewerElem.appendChild(caption);
+	viewerElem.focus();
 	window['loading'] = true;
+	window.addEventListener('mousemove', hideMouseInViewer);
 
-	viewer.classList.add('open');
+	viewerElem.classList.add('open');
 }
 
 function onClickViewerPrev() {
-	openImageInViewer(window['viewer-list'][parseInt(viewer.getAttribute('index')) - 1]);
+	openImageInViewer(window['viewer-list'][parseInt(viewerElem.getAttribute('index')) - 1]);
 	runLoader();
 	return false;
 }
 
 function onClickViewerNext() {
-	openImageInViewer(window['viewer-list'][parseInt(viewer.getAttribute('index')) + 1]);
+	openImageInViewer(window['viewer-list'][parseInt(viewerElem.getAttribute('index')) + 1]);
 	runLoader();
 	return false;
 }
@@ -1206,25 +1207,25 @@ function onTouchMoveViewer() {
 		console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
 	//--SWIPE LEFT--//
 	if (swipeLeft > swipeUp && swipeLeft > swipeDown) {
-		viewer.removeAttribute('ontouchmove');
+		viewerElem.removeAttribute('ontouchmove');
 		onClickViewerNext();
 		return;
 	}
 	//--SWIPE RIGHT--//
 	if (swipeRight > swipeUp && swipeRight > swipeDown) {
-		viewer.removeAttribute('ontouchmove');
+		viewerElem.removeAttribute('ontouchmove');
 		onClickViewerPrev();
 		return;
 	}
 	//--SWIPE DOWN--//
 	if (swipeDown > swipeLeft && swipeDown > swipeRight) {
-		viewer.removeAttribute('ontouchmove');
+		viewerElem.removeAttribute('ontouchmove');
 		closeViewer();
 		return;
 	}
 	//--SWIPE UP--//
 	if (swipeUp > swipeLeft && swipeUp > swipeRight) {
-		viewer.removeAttribute('ontouchmove');
+		viewerElem.removeAttribute('ontouchmove');
 		closeViewer();
 		return;
 	}
@@ -1232,22 +1233,22 @@ function onTouchMoveViewer() {
 
 function onViewerMouseMove() {
 	if (window.data.debug) console.log(event.clientX, event.clientY);
-	if (window.data.debug) console.log(viewer.clientWidth, viewer.clientHeight);
-	let normalizeX = event.clientX / viewer.clientWidth * 100;
-	let normalizeY = event.clientY / viewer.clientHeight * 100;
+	if (window.data.debug) console.log(viewerElem.clientWidth, viewerElem.clientHeight);
+	let normalizeX = event.clientX / viewerElem.clientWidth * 100;
+	let normalizeY = event.clientY / viewerElem.clientHeight * 100;
 	event.target.style.setProperty('--horizontal', normalizeX.toFixed(2) + '%');
 	event.target.style.setProperty('--vertical', normalizeY.toFixed(2) + '%');
 }
 
 function hideMouseInViewer() {
-	if (viewer.classList.contains('open')) {
-		viewer.style.setProperty('--cursor', '');
-		viewer.getBoundingClientRect(); // for style refresh
+	if (viewerElem.classList.contains('open')) {
+		viewerElem.style.setProperty('--cursor', '');
+		viewerElem.getBoundingClientRect(); // for style refresh
 		setTimeout(function () {
 			// auto hide based on config
 			if ((window.data?.viewer?.cursor || window.data?.viewer?.slideshow?.cursor) != 'hide') return;
-			viewer.style.setProperty('--cursor', 'none');
-			viewer.getBoundingClientRect();
+			viewerElem.style.setProperty('--cursor', 'none');
+			viewerElem.getBoundingClientRect();
 		}, 5000);
 	}
 }
@@ -1255,15 +1256,16 @@ function hideMouseInViewer() {
 function closeViewer() {
 	if (window.slideshow.run) {
 		stopSlideshow();
-		let gridImage = grid.querySelector('img[data-src="' + (viewer.querySelector('img')?.src || '') + '"');
+		let gridImage = gridElem.querySelector('img[data-src="' + (viewerElem.querySelector('img')?.src || '') + '"');
 		if (gridImage) {
 			// scroll image to top of screen when close viewer
 			gridImage.scrollIntoView({ block: 'center' });
 			gridImage.focus();
 		}
 	}
-	viewer.classList.remove('zoom');
-	viewer.classList.remove('open');
+	viewerElem.classList.remove('zoom');
+	viewerElem.classList.remove('open');
+	window.removeEventListener('mousemove', hideMouseInViewer);
 }
 
 function onViewerMouseUp() {
@@ -1275,7 +1277,7 @@ function onViewerMouseUp() {
 	}
 	if (event.button == 2) {
 		if (window.data?.slideshow?.zoom == null && window.slideshow?.run) return;
-		viewer.classList.toggle('zoom');
+		viewerElem.classList.toggle('zoom');
 	}
 }
 
@@ -1290,8 +1292,8 @@ function getFilenameInfo(url) {
 }
 
 function toggleFullscreen() {
-	if (collage.getAttribute('data-fullscreen') == null) {
-		collage.setAttribute('data-fullscreen', '');
+	if (collageElem.getAttribute('data-fullscreen') == null) {
+		collageElem.setAttribute('data-fullscreen', '');
 		let doc = document.documentElement;
 		if (doc.requestFullscreen)
 			doc.requestFullscreen();
@@ -1303,7 +1305,7 @@ function toggleFullscreen() {
 			doc.msRequestFullscreen();
 	}
 	else {
-		collage.removeAttribute('data-fullscreen');
+		collageElem.removeAttribute('data-fullscreen');
 		if (document.exitFullscreen)
 			document.exitFullscreen();
 		else if (document.mozCancelFullScreen) //Firefox
@@ -1443,16 +1445,16 @@ function createDialog(node) {
 function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
-	if (!contextDiv.classList.contains('hidden'))
-		return contextDiv.classList.add('hidden');
+	if (!contextElem.classList.contains('hidden'))
+		return contextElem.classList.add('hidden');
 	document.addEventListener('click', hideContextMenu);
 	//positioning
 	let x = event.clientX;
 	let y = event.clientY;
-	contextDiv.style.top = y + 'px';
-	contextDiv.style.left = x + 'px';
-	contextDiv.classList.remove('hidden');
-	contextDiv.innerHTML = '';
+	contextElem.style.top = y + 'px';
+	contextElem.style.left = x + 'px';
+	contextElem.classList.remove('hidden');
+	contextElem.innerHTML = '';
 	//render menu
 	let submenu = document.createElement('div');
 	submenu.className = 'menu-options';
@@ -1464,7 +1466,7 @@ function showContextMenu() {
 			menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
 		menuItem.addEventListener('click', function () {
 			window.include = window.include.includes(tag) ? '' : event.target.getAttribute('data-id');
-			include.value = window.include;
+			includeElem.value = window.include;
 			generateTagsList();
 			generateGrid();
 			hideContextMenu();
@@ -1492,24 +1494,24 @@ function showContextMenu() {
 		like.addEventListener('click', onLike);
 		submenu.appendChild(like);
 	}
-	contextDiv.appendChild(submenu);
+	contextElem.appendChild(submenu);
 	//adjust context if exceed window bottom
-	if (y + contextDiv.getBoundingClientRect().height + 80 >= collage.getBoundingClientRect().height) {
-		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
-		if (y - contextDiv.getBoundingClientRect().height < 0)
-			contextDiv.style.top = 0;
+	if (y + contextElem.getBoundingClientRect().height + 80 >= collageElem.getBoundingClientRect().height) {
+		contextElem.style.top = (y - contextElem.getBoundingClientRect().height) + 'px';
+		if (y - contextElem.getBoundingClientRect().height < 0)
+			contextElem.style.top = 0;
 	}
 	//adjust context if exceed window right
-	if (x + contextDiv.getBoundingClientRect().width + 80 >= collage.getBoundingClientRect().x + collage.getBoundingClientRect().width) {
-		contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
-		if (x - contextDiv.getBoundingClientRect().width < collage.getBoundingClientRect().x + collage.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
-			contextDiv.style.left = collage.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
+	if (x + contextElem.getBoundingClientRect().width + 80 >= collageElem.getBoundingClientRect().x + collageElem.getBoundingClientRect().width) {
+		contextElem.style.left = (x - contextElem.getBoundingClientRect().width) + 'px';
+		if (x - contextElem.getBoundingClientRect().width < collageElem.getBoundingClientRect().x + collageElem.getBoundingClientRect().width + contextElem.getBoundingClientRect().width)
+			contextElem.style.left = collageElem.getBoundingClientRect().width - contextElem.getBoundingClientRect().width + 'px';
 	}
 }
 
 function hideContextMenu() {
 	if (document.querySelector('.context:not(.hidden)'))
 		event.preventDefault();
-	contextDiv.classList.add('hidden');
+	contextElem.classList.add('hidden');
 	document.removeEventListener('click', hideContextMenu);
 }
