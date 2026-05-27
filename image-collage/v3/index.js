@@ -203,16 +203,18 @@ function generateSidebar() {
 		});
 	}
 
-	for (let [key, value] of Object.entries(window.data.setting)) {
+	for(let setting of settings.querySelectorAll('.settings-icon')) {
+		let key = setting.classList[0];
+		let value = window.data.setting[key];
 		if (value)
-			document.querySelector('.' + key).classList.remove('hidden');
+			settings.querySelector('.' + key).classList.remove('hidden');
 		else
-			document.querySelector('.' + key).classList.add('hidden');
+			settings.querySelector('.' + key).classList.add('hidden');
 	}
 
-	if (document.querySelector('.size'))
-		document.querySelector('.size').innerText = window.preset;
-	if (!document.querySelector('.handle')) {
+	if (settings.querySelector('.size'))
+		settings.querySelector('.size').innerText = window.preset;
+	if (!menu.querySelector('.handle')) {
 		let handle = document.createElement('div');
 		handle.className = 'handle material-icons';
 		handle.innerText = 'drag_handle';
