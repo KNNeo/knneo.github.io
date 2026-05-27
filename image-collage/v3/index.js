@@ -157,7 +157,7 @@ function generateTags() {
 				return b[prop].localeCompare(a[prop], window.data.tag?.sort?.locale);
 			return a[prop].localeCompare(b[prop], window.data.tag?.sort?.locale);
 		});
-	if (window.data.debug) 
+	if (window.data.debug)
 		console.log(window['buttonArray']);
 
 	// update style
@@ -1051,17 +1051,47 @@ function setDate() {
 	resetBtn.innerText = 'Reset';
 	resetBtn.addEventListener('click', resetDate);
 
+	let options = document.createElement('div');
+	options.appendChild(document.createTextNode('Within: '));
+	for (let range of [
+		{ value: 'Past 2 Weeks', date: () => new Date(new Date().setDate(new Date().getDate() - 14)) },
+		{ value: 'This Month', date: () => new Date(new Date().setDate(1)) },
+		{ value: 'Past 3 Months', date: () => new Date(new Date().setMonth(new Date().getMonth() - 3)) },
+		{ value: 'This Year', date: () => new Date(new Date().setMonth(0, 1)) },
+	]) {
+		let option = document.createElement('button');
+		option.innerText = range.value;
+		option.setAttribute('data-date', range.date().toDateString());
+		option.addEventListener('click', onDatePreset);
+		options.appendChild(option);
+	}
+
 	main.appendChild(container);
 	main.appendChild(resetBtn);
+	main.appendChild(options);
 	popupContent(main);
+}
+
+function onDatePreset() {
+	let date = new Date(event.target.getAttribute('data-date'));
+	let dataset = [...window.data.data.map(x => new Date(x[config.date.property]).valueOf())];
+	let minDate = new Date(Math.min(...dataset));
+	if (date >= minDate) {
+		let dateStr = date.getFullYear() + '-' + (1 + date.getMonth()).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+		document.querySelector('input.date').value = dateStr;
+		document.querySelector('input.date').dispatchEvent(new Event('input'));
+	}
 }
 
 function resetDate() {
 	let dataset = [...window.data.data.map(x => new Date(x[config.date.property]).valueOf())];
 	let minDate = new Date(Math.min(...dataset));
 	let maxDate = new Date(Math.max(...dataset));
-	window.data.date = { start: minDate, end: maxDate };
-	generateGrid();
+	let minDateStr = window.data.date.initial.start.getFullYear() + '-' + (1 + window.data.date.initial.start.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.start.getDate().toString().padStart(2, '0');
+	let maxDateStr = window.data.date.initial.end.getFullYear() + '-' + (1 + window.data.date.initial.end.getMonth()).toString().padStart(2, '0') + '-' + window.data.date.initial.end.getDate().toString().padStart(2, '0');
+	document.querySelectorAll('input.date')[0].value = minDateStr;
+	document.querySelectorAll('input.date')[1].value = maxDateStr;
+	document.querySelectorAll('input.date')[0].dispatchEvent(new Event('input'));
 }
 
 //--VIEWER--//
@@ -1235,10 +1265,10 @@ function closeViewer() {
 }
 
 function onViewerMouseUp() {
-	if(event.button == 0) {
+	if (event.button == 0) {
 		closeViewer();
 	}
-	if(event.button == 1) {
+	if (event.button == 1) {
 		toggleFullscreen();
 	}
 	if (event.button == 2) {
@@ -1258,8 +1288,8 @@ function getFilenameInfo(url) {
 }
 
 function toggleFullscreen() {
-    if(collage.getAttribute('data-fullscreen') == null) {
-        collage.setAttribute('data-fullscreen', '');
+	if (collage.getAttribute('data-fullscreen') == null) {
+		collage.setAttribute('data-fullscreen', '');
 		let doc = document.documentElement;
 		if (doc.requestFullscreen)
 			doc.requestFullscreen();
@@ -1270,8 +1300,8 @@ function toggleFullscreen() {
 		else if (doc.msRequestFullscreen) //IE,Edge
 			doc.msRequestFullscreen();
 	}
-    else {
-        collage.removeAttribute('data-fullscreen');
+	else {
+		collage.removeAttribute('data-fullscreen');
 		if (document.exitFullscreen)
 			document.exitFullscreen();
 		else if (document.mozCancelFullScreen) //Firefox
@@ -1280,7 +1310,7 @@ function toggleFullscreen() {
 			document.webkitExitFullscreen();
 		else if (document.msExitFullscreen) //IE, Edge
 			document.msExitFullscreen();
-    }
+	}
 }
 
 //--SLIDESHOW--//
