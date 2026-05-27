@@ -337,15 +337,6 @@ function generateViewer() {
 		event.preventDefault();
 		return false;
 	}, false);
-	document.body.addEventListener('keyup', function () {
-		let prev = document.querySelector('.viewer-nav.prev');
-		let next = document.querySelector('.viewer-nav.next');
-		if (event.key == 'ArrowLeft' && prev != null)
-			prev.click();
-		if (event.key == 'ArrowRight' && next != null)
-			next.click();
-		return false;
-	}, false);
 	if (window.data?.viewer?.captions)
 		viewer.classList.add('captions');
 	else
@@ -718,6 +709,17 @@ function keypress() {
 		case 'Home':
 		case 'End':
 			focusInView();
+			break;
+		case 'ArrowLeft':
+		case 'ArrowRight':
+			// navigate in viewer
+			if(!document.querySelector('.viewer.open')) return;
+			let prev = document.querySelector('.viewer-nav.prev');
+			let next = document.querySelector('.viewer-nav.next');
+			if (prev && event.key == 'ArrowLeft')
+				prev.click();
+			if (next && event.key == 'ArrowRight')
+				next.click();
 			break;
 		default:
 			// based on setting
