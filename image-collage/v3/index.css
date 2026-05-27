@@ -550,6 +550,10 @@ a:focus-within {
 }
 
 @media (orientation: landscape) {
+	.expand.settings-icon {
+		display: none;
+	}
+
 	.content {
 		display: flex;
 	}

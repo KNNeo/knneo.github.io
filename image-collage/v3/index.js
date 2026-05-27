@@ -204,9 +204,7 @@ function generateSidebar() {
 	}
 
 	for (let [key, value] of Object.entries(window.data.setting)) {
-		if (key == 'expand' && config.isLandscape())
-			document.querySelector('.' + key).classList.add('hidden');
-		else if (value)
+		if (value)
 			document.querySelector('.' + key).classList.remove('hidden');
 		else
 			document.querySelector('.' + key).classList.add('hidden');
