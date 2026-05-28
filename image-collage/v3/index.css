@@ -314,7 +314,7 @@ a:focus-within {
 	color: var(--primary);
 }
 
-.range {
+.range input {
 	width: calc(100% - 2rem);
 }
 

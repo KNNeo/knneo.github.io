@@ -942,8 +942,8 @@ function setColumns(val) {
 	if (event) event.preventDefault();
 	if (!val) {
 		let container = document.createElement('label');
+		container.classList.add('range');
 		let input = document.createElement('input');
-		input.classList.add('range');
 		input.type = 'range';
 		input.title = 'You can also use (1-9) to set no. of columns';
 		input.min = window.data?.grid?.column?.min || 0;
@@ -953,12 +953,12 @@ function setColumns(val) {
 			window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
 			if (document.querySelector('.size'))
 				document.querySelector('.size').innerText = window.preset;
-			this.setAttribute('data-value', window.columns || 'Auto');
+			this.closest('.range').setAttribute('data-value', window.columns || 'Auto');
 			localStorage.setItem(config.storage.columns, window.columns);
 			generateGrid();
 		};
 		input.value = window.columns;
-		input.setAttribute('data-value', window.columns || 'Auto');
+		container.setAttribute('data-value', window.columns || 'Auto');
 		container.appendChild(input);
 		popupContent(container);
 	}
