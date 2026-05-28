@@ -170,7 +170,6 @@ a:focus-within {
 	height: var(--height, 100%);
 	box-sizing: border-box;
 	overflow: hidden;
-	cursor: pointer;
 }
 
 .grid[data-mode="feed"] .grid-item {
@@ -184,6 +183,7 @@ a:focus-within {
 	height: 100%;
 	object-fit: cover;
 	transition: transform 0.1s ease;
+	cursor: pointer;
 }
 
 .grid:not([data-mode="feed"]) .grid-item img:hover {
