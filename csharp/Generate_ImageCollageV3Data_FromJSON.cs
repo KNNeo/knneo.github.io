@@ -10,7 +10,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 
 /* NOTE
- * Output paste into data.js in Image Collage v2
+ * Output paste into data.js in Image Collage v3
  * Use SourceDataItem to obtain info required to display
  * Use MapDataItem to fix any naming issues from source
  * Empty dataurl if do not want to always pull data from server
@@ -22,7 +22,7 @@ public class Program {
 	{
 		//variables
 		bool debugMode = false;
-		bool checkFiles = true;
+		bool checkFilesIfDownloaded = true;
 		bool downloadFiles = false; // false will use links from dataUrl
 		var generateObjectAs = "string"; // accepted data types: object, string
 		var separator = '_';
@@ -35,18 +35,18 @@ public class Program {
 		string thumbpath = @"/home/kaineng/Documents/Workspaces/doaxvv/thumbs/"; // ends with slash; ignored if downloadFiles is false
 		string destination = @"/home/kaineng/Documents/Repositories/knneo.github.io/image-collage/v3/data/doaxvv.js";
 		// Pre-execution notice
-		Console.WriteLine("================================================================================");
-		if(!checkFiles) Console.WriteLine($"checkFiles is {checkFiles}; change to True to check downloaded images");
-		if(!downloadFiles) Console.WriteLine($"downloadFiles is {downloadFiles}; change to True to downloaded images");
+		Console.WriteLine(new String('=', Console.WindowWidth));
+		if(!checkFilesIfDownloaded) Console.WriteLine($"checkFilesIfDownloaded is {checkFilesIfDownloaded}; change to True to check for downloaded images");
 		if(downloadFiles) Console.WriteLine($"downloadFiles is {downloadFiles}; change to False to keep links in output online");
-		Console.WriteLine("================================================================================");
-		// download data file
+		else Console.WriteLine($"downloadFiles is {downloadFiles}; change to True to downloaded images");
+		Console.WriteLine(new String('=', Console.WindowWidth));
+		// download data file to datapath
 		if(!string.IsNullOrWhiteSpace(dataurl))
 		{
 			Console.WriteLine("Downloading data file...");
 			DownloadTo(dataurl, datapath);
 		}
-		// read  data file
+		// read data file from datapath (backup)
 		List<SourceDataItem> data = new List<SourceDataItem>();
 		using (StreamReader r = new StreamReader(datapath))
 		{
@@ -55,7 +55,7 @@ public class Program {
 			data = JsonConvert.DeserializeObject<List<SourceDataItem>>(json);
 			if(debugMode) Console.WriteLine(OutputTable<SourceDataItem>(data));
 		}
-			
+		// read data from mappingpath (compare)
 		List<MapDataItem> mapper = new List<MapDataItem>();
 		using (StreamReader r = new StreamReader(mappingpath))
 		{
@@ -64,12 +64,12 @@ public class Program {
 			mapper = JsonConvert.DeserializeObject<List<MapDataItem>>(json);
 			if(debugMode) Console.WriteLine(OutputTable<MapDataItem>(mapper));
 		}
-		
-		if(checkFiles)
+		Console.WriteLine("Check downloaded files...");
+		if(checkFilesIfDownloaded)
 		{
 			if(!Directory.Exists(thumbpath))
 				Directory.CreateDirectory(thumbpath);
-			
+			// for each file in mapper, download file by filename
 			foreach(var file in mapper)
 			{
 				if(String.IsNullOrWhiteSpace(file.ishou) || String.IsNullOrWhiteSpace(file.chara))
@@ -123,10 +123,9 @@ public class Program {
 				}
 			}
 		}
-			
 		Console.WriteLine("Generating...");
 		var output = new List<ImageCollageItem>();
-		
+		// for each file in mapper, assign file by filename
 		foreach(var file in mapper)
 		{
 			if(!string.IsNullOrWhiteSpace(file.search))
@@ -158,7 +157,7 @@ public class Program {
 				output.Add(item);
 			}
 		}
-		
+		// output by file type
 		switch(generateObjectAs)
 		{
 			case "string":
