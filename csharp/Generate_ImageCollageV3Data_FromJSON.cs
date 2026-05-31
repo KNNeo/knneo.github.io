@@ -31,7 +31,7 @@ public class Program {
 		var prefixLg = "size" + separator + "lg" + separator;		
 		string dataurl = "https://doax.cc/api/ssr_data.json"; // master data source
 		string datapath = @"/home/kaineng/Documents/Workspaces/doaxvv/doaxvv_ssr_data.json"; // master data
-		string mappingpath = @"/media/kaineng/PORTABLE/RBKN/My Workplace/Workplace/BACKUPS/doaxvv_ssr_data.json"; // mapping data
+		string mappingpath = @"/media/kaineng/PORTABLE/RBKN/Workplace/BACKUPS/DOAXVV/doaxvv_ssr_data.json"; // mapping data
 		string thumbpath = @"/home/kaineng/Documents/Workspaces/doaxvv/thumbs/"; // ends with slash; ignored if downloadFiles is false
 		string destination = @"/home/kaineng/Documents/Repositories/knneo.github.io/image-collage/v3/data/doaxvv.js";
 		// Pre-execution notice
