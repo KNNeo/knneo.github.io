@@ -749,16 +749,18 @@ function resize() {
 	gridElem.style.setProperty('--width', thumbWidth + 'px');
 	gridElem.style.setProperty('--height', thumbHeight + 'px');
 	// update expander
-	if(config.isLandscape()) {
-		for(let header of tagsElem.querySelectorAll('.category-title')) {
-			let category = header.closest('.tags-category');
-			let firstTag = header.nextElementSibling;
-			if(category && category.getBoundingClientRect().height > firstTag.getBoundingClientRect().height + 8)
-				header.setAttribute('data-icon', 'open_in_full');
-			else
-				header.removeAttribute('data-icon');
+	setTimeout(function() {
+		if(config.isLandscape()) {
+			for(let header of tagsElem.querySelectorAll('.category-title')) {
+				let category = header.closest('.tags-category');
+				let firstTag = header.nextElementSibling;
+				if(category && category.getBoundingClientRect().height > firstTag.getBoundingClientRect().height + 8)
+					header.setAttribute('data-icon', 'open_in_full');
+				else
+					header.removeAttribute('data-icon');
+			}
 		}
-	}
+	}, 200);
 	setTimeout(setMenuHeight, 300);
 }
 
