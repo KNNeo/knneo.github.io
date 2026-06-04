@@ -228,7 +228,7 @@ function generateSidebar() {
 function generateTagsList() {
 	tagsElem.innerHTML = '';
 	tagsElem.style.setProperty('--categories', window.data.tag.category.ratio.reduce((total, r) => total + r) || window.data.tag.category.groups.length);
-
+	// create category header
 	if (window.data.tag.category && window.data.tag.category.groups) {
 		let sections = window.data.tag.category.ratio.reduce((sum, r) => sum + r, 0);
 		window.data.tag.category.groups.forEach(function (current, index, _) {
@@ -253,7 +253,7 @@ function generateTagsList() {
 		tag.classList.add('tags-category');
 		tagsElem.appendChild(tag);
 	}
-
+	// create tags after each category header
 	for (let button of window['buttonArray']) {
 		if (button.value == '') continue;
 		let tag = document.createElement('button');
@@ -326,6 +326,17 @@ function generateTagsList() {
 			tagsElem.childNodes[button.category].appendChild(tag);
 		else if (tagsElem.childNodes.length > 0)
 			tagsElem.childNodes[0].appendChild(tag);
+	}
+	// add expander
+	if(config.isLandscape()) {
+		for(let header of tagsElem.querySelectorAll('.category-title')) {
+			let category = header.closest('.tags-category');
+			let firstTag = header.nextElementSibling;
+			if(category && category.getBoundingClientRect().height > firstTag.getBoundingClientRect().height + 8)
+				header.setAttribute('data-icon', 'open_in_full');
+			else
+				header.removeAttribute('data-icon');
+		}
 	}
 }
 

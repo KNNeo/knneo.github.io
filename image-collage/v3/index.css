@@ -69,6 +69,15 @@ a:focus-within {
 	position: relative;
 }
 
+.tags>div .category-title::after {
+	content: attr(data-icon);
+	font-family: "Material Icons";
+	vertical-align: text-top;
+	padding-left: 4px;
+	font-size: 1.5em;
+	font-weight: initial;
+}
+
 .tags>div::-webkit-scrollbar {
 	height: 0;
 }
@@ -562,7 +571,7 @@ a:focus-within {
 		max-width: var(--max-width);
 		height: 100%;
 		position: relative;
-        padding-right: 24px;
+		padding-right: 24px;
 	}
 
 	.handle {
@@ -590,15 +599,6 @@ a:focus-within {
 
 	.tags>div {
 		max-height: calc(100% / var(--categories, 1) * var(--ratio, 1));
-	}
-
-	.tags>div .category-title::after {
-		content: "open_in_full";
-		font-family: "Material Icons";
-		vertical-align: text-top;
-		padding-left: 4px;
-		font-size: 1.5em;
-		font-weight: initial;
 	}
 
 	.tags:has(div.expanded) {
