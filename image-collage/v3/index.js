@@ -748,7 +748,17 @@ function resize() {
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize(feedMode);
 	gridElem.style.setProperty('--width', thumbWidth + 'px');
 	gridElem.style.setProperty('--height', thumbHeight + 'px');
-
+	// update expander
+	if(config.isLandscape()) {
+		for(let header of tagsElem.querySelectorAll('.category-title')) {
+			let category = header.closest('.tags-category');
+			let firstTag = header.nextElementSibling;
+			if(category && category.getBoundingClientRect().height > firstTag.getBoundingClientRect().height + 8)
+				header.setAttribute('data-icon', 'open_in_full');
+			else
+				header.removeAttribute('data-icon');
+		}
+	}
 	setTimeout(setMenuHeight, 300);
 }
 
