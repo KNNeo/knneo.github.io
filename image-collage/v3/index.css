@@ -92,7 +92,7 @@ a:focus-within {
 	font-weight: initial;
 }
 
-.tags .category-title {
+.tags .category-title[data-icon] {
 	cursor: pointer;
 }
 
