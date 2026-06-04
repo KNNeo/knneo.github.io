@@ -82,8 +82,8 @@ a:focus-within {
 	height: 0;
 }
 
-.tags>div:has([filter]) .category-title::after,
-.tags:has(div.expanded)>div:has([filter]) .category-title::after {
+.tags>div:has([filter]) .category-title[data-icon]::after,
+.tags:has(div.expanded)>div:has([filter]) .category-title[data-icon]::after {
 	content: "filter_list_off";
 	font-family: "Material Icons";
 	vertical-align: text-top;
