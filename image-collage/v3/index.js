@@ -529,6 +529,7 @@ function generateFiltered() {
 			!m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)
 			&& !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
 		);
+		console.log(tagsIncluded, tagsExcluded);
 		//include tags by category
 		//exclude tags
 		//exclude from config
