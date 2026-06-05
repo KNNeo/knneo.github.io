@@ -502,36 +502,54 @@ function generateFiltered() {
 	if (window.data.debug) console.log('excluded', excludeArray);
 	if (!window.data?.tag?.join) window.data.tag.join = 'and'; // default join method
 	return window.data.data.filter(m => {
-		let tagsIncluded = includeArray.filter(s =>
-			(m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
+		//within each dataset item
+		let tagsIncluded = includeArray
+		.reduce(s => {
+			let buttonVal = window['buttonArray'].find(b => b.value == r);
+			let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
 			|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
-			|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()))
-		);
+			|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()));
+			if(window.data.tag.category.join == 'or' && inData) {
+				buttonVal.include = 1;
+			}
+			else {
+				// join == 'and', need to find all in category
+				let buttonValCategory = window['buttonArray'].filter(b => b.category == r && includeArray.includes(b.value));
+				let allInData = buttonValCategory.every(s => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
+					|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
+					|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
+				buttonVal.include = allInData ? 1 : 0;
+			}
+			return buttonVal;
+		});
 		let tagsExcluded = excludeArray.filter(s =>
 			!m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)
 			&& !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
 		);
-		//include tags
+		//include tags by category
 		//exclude tags
 		//exclude from config
 		//include from search
-		return (window.include.length == 0 || (window.data.tag.join.toLowerCase() == 'and' && tagsIncluded.length == includeArray.length) || (window.data.tag.join.toLowerCase() == 'or' && tagsIncluded.length > 0))
+		return (window.include.length == 0 || 
+				(window.data.tag.join.toLowerCase() == 'and' && tagsIncluded.every(t => t.include)) || 
+				(window.data.tag.join.toLowerCase() == 'or' && tagsIncluded.some(t => t.include))
+			)
 			&& (window.exclude.length == 0 || (tagsExcluded.length > 0))
 			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
 			&& (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search));
 	})
-		.filter(function (val) {
-			let prop = config.date?.property;
-			// if no date config or filter, always pass
-			if (!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
-				return true;
-			// convert val to date, check validity
-			let currentDate = new Date(val[prop]);
-			if (currentDate != 'Invalid Date')
-				return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
-			else
-				return false; // always fail if parse fail
-		});
+	.filter(function (val) {
+		let prop = config.date?.property;
+		// if no date config or filter, always pass
+		if (!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
+			return true;
+		// convert val to date, check validity
+		let currentDate = new Date(val[prop]);
+		if (currentDate != 'Invalid Date')
+			return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
+		else
+			return false; // always fail if parse fail
+	});
 }
 
 function generateLikes() {
