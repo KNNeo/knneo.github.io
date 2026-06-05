@@ -504,7 +504,7 @@ function generateFiltered() {
 	return window.data.data.filter(m => {
 		//within each dataset item
 		let tagsIncluded = includeArray
-		.reduce(s => {
+		.map(s => {
 			let buttonVal = window['buttonArray'].find(b => b.value == r);
 			let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
 			|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
