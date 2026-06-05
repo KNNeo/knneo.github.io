@@ -529,7 +529,13 @@ function generateFiltered() {
 			!m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)
 			&& !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
 		);
-		console.log(m.id, tagsIncluded, tagsExcluded);
+		console.log(m.id, (window.include.length == 0 || 
+				(window.data.tag.join.toLowerCase() == 'and' && tagsIncluded.every(t => t.include)) || 
+				(window.data.tag.join.toLowerCase() == 'or' && tagsIncluded.some(t => t.include))
+			)
+			&& (window.exclude.length == 0 || (tagsExcluded.length > 0))
+			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
+			&& (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search)));
 		//include tags by category
 		//exclude tags
 		//exclude from config
