@@ -505,7 +505,7 @@ function generateFiltered() {
 		//within each dataset item
 		let tagsIncluded = includeArray
 		.reduce((t, s) => {
-			let buttonVal = window['buttonArray'].find(b => b.value == r);
+			let buttonVal = window['buttonArray'].find(b => b.value == s);
 			if(buttonVal) {
 				let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
 				|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
@@ -515,7 +515,7 @@ function generateFiltered() {
 				}
 				else {
 					// join == 'and', need to find all in category
-					let buttonValCategory = window['buttonArray'].filter(b => b.category == r && includeArray.includes(b.value));
+					let buttonValCategory = window['buttonArray'].filter(b => b.category == buttonVal.category && includeArray.includes(b.value));
 					let allInData = buttonValCategory.every(s => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
 						|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
 						|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
