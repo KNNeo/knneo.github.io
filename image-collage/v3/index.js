@@ -521,7 +521,7 @@ function generateFiltered() {
 						|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
 					buttonVal.include = allInData ? 1 : 0;
 				}
-				t.push(s);
+				t.push(buttonVal);
 			}
 			return t;
 		}, []);
