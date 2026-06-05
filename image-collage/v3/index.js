@@ -516,7 +516,7 @@ function generateFiltered() {
 				else {
 					// join == 'and', need to find all in category
 					let buttonValCategory = window['buttonArray'].filter(b => b.category == buttonVal.category && includeArray.includes(b.value));
-					let allInData = buttonValCategory.every(s => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
+					let allInData = buttonValCategory.every(m => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
 						|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
 						|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
 					buttonVal.include = allInData ? 1 : 0;
