@@ -504,24 +504,27 @@ function generateFiltered() {
 	return window.data.data.filter(m => {
 		//within each dataset item
 		let tagsIncluded = includeArray
-		.map(s => {
+		.reduce((t, s) => {
 			let buttonVal = window['buttonArray'].find(b => b.value == r);
-			let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
-			|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
-			|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()));
-			if(window.data.tag.category.join == 'or' && inData) {
-				buttonVal.include = 1;
+			if(buttonVal) {
+				let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
+				|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
+				|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()));
+				if(window.data.tag.category.join == 'or' && inData) {
+					buttonVal.include = 1;
+				}
+				else {
+					// join == 'and', need to find all in category
+					let buttonValCategory = window['buttonArray'].filter(b => b.category == r && includeArray.includes(b.value));
+					let allInData = buttonValCategory.every(s => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
+						|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
+						|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
+					buttonVal.include = allInData ? 1 : 0;
+				}
+				t.push(s);
 			}
-			else {
-				// join == 'and', need to find all in category
-				let buttonValCategory = window['buttonArray'].filter(b => b.category == r && includeArray.includes(b.value));
-				let allInData = buttonValCategory.every(s => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
-					|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
-					|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
-				buttonVal.include = allInData ? 1 : 0;
-			}
-			return buttonVal;
-		});
+			return t;
+		}, []);
 		let tagsExcluded = excludeArray.filter(s =>
 			!m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)
 			&& !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
