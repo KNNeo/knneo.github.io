@@ -91,9 +91,9 @@ function initializeVariables(data) {
 	window.slideshow = { run: null, history: [] };
 	window.likes = { enable: false, list: JSON.parse(localStorage.getItem(config.storage.likes) || '[]') };
 	menuElem.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
-	initializeDate();
 	initializeCollage();
 	initializeWindow();
+	initializeDate();
 }
 
 function initializeCollage() {
