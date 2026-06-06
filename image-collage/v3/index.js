@@ -501,6 +501,7 @@ function generateFiltered() {
 	if (window.data.debug) console.log('included', includeArray);
 	if (window.data.debug) console.log('excluded', excludeArray);
 	if (!window.data?.tag?.join) window.data.tag.join = 'and'; // default join method
+	// console.log('category', window.data.tag.category.join, 'all', window.data.tag.join);
 	return window.data.data.filter(m => {
 		//within each dataset item
 		let tagsIncluded = includeArray
@@ -510,10 +511,11 @@ function generateFiltered() {
 				let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
 				|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
 				|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()));
-				if(window.data.tag.category.join == 'or' && inData) {
-					buttonVal.include = 1;
+				if(window.data.tag.category.join == 'or') {
+					console.log('v', m.nm, inData);
+					buttonVal.include = inData ? 1 : 0;
 				}
-				else {
+				if(window.data.tag.category.join == 'and') {
 					// join == 'and', need to find all in category
 					let buttonValCategory = window['buttonArray'].filter(b => b.category == buttonVal.category && includeArray.includes(b.value));
 					let allInData = buttonValCategory.every(m => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
@@ -525,24 +527,27 @@ function generateFiltered() {
 			}
 			return t;
 		}, []);
+		let tagsIncludedCategories = new Array(5).fill(0).reduce((t, c, i) => {
+			let tagsInCategoryId = tagsIncluded.filter(x => x.category == i);
+			if(window.data.tag.category.join.toLowerCase() == 'and')
+				c = !tagsInCategoryId.length || tagsInCategoryId.every(y => y.include) ? 1 : 0;
+			if(window.data.tag.category.join.toLowerCase() == 'or')
+				c = !tagsInCategoryId.length || tagsInCategoryId.some(y => y.include) ? 1 : 0;
+			t.push(c);
+			return t;
+		}, []);
+		// console.log('tagsIncluded', tagsIncluded);
 		let tagsExcluded = excludeArray.filter(s =>
 			!m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)
 			&& !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
 		);
-		console.log(m.id, (window.include.length == 0 || 
-				(window.data.tag.join.toLowerCase() == 'and' && tagsIncluded.every(t => t.include)) || 
-				(window.data.tag.join.toLowerCase() == 'or' && tagsIncluded.some(t => t.include))
-			)
-			&& (window.exclude.length == 0 || (tagsExcluded.length > 0))
-			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
-			&& (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search)));
 		//include tags by category
 		//exclude tags
 		//exclude from config
 		//include from search
 		return (window.include.length == 0 || 
-				(window.data.tag.join.toLowerCase() == 'and' && tagsIncluded.every(t => t.include)) || 
-				(window.data.tag.join.toLowerCase() == 'or' && tagsIncluded.some(t => t.include))
+				(window.data.tag.join.toLowerCase() == 'and' && tagsIncludedCategories.every(t => t)) || 
+				(window.data.tag.join.toLowerCase() == 'or' && tagsIncludedCategories.some(t => t))
 			)
 			&& (window.exclude.length == 0 || (tagsExcluded.length > 0))
 			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
