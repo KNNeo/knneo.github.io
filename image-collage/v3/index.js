@@ -500,7 +500,8 @@ function generateFiltered() {
 	let excludeArray = window.exclude.split('|');
 	if (window.data.debug) console.log('included', includeArray);
 	if (window.data.debug) console.log('excluded', excludeArray);
-	if (!window.data?.tag?.join) window.data.tag.join = 'and'; // default join method
+	if (!window.data?.tag?.join) window.data.tag.join = 'and'; // default join method by category
+	if (!window.data?.tag?.category?.join) window.data.tag.category.join = 'or'; // default join method in category
 	// console.log('category', window.data.tag.category.join, 'all', window.data.tag.join);
 	return window.data.data.filter(m => {
 		//within each dataset item
