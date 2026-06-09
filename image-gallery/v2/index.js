@@ -262,6 +262,7 @@ function hideDetails() {
 }
 
 function showFilters() {
+	if(!window.variables) return changeData();
 	 // if no orientation mapped, create map; does not work if all items not loaded
 	if(window.variables.items[0].orientation == null)
 		generateOrientationValues();
