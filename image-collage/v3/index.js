@@ -1048,13 +1048,9 @@ function onHandleUp() {
 
 function onLike() {
 	let filename = event.target.getAttribute('data-image');
-	if (!window.likes.list.includes(filename))
-		window.likes.list.push(filename);
-	else {
-		window.likes.list = window.likes.list.filter(l => l != filename);
-		generateGrid();
-	}
+	window.likes.list = window.likes.list.includes(filename) ? window.likes.list.filter(l => l != filename) : [...window.likes.list, filename];
 	localStorage.setItem(config.storage.likes, JSON.stringify(window.likes.list));
+	generateGrid();
 }
 
 function initializeDate() {
