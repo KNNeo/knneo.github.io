@@ -547,7 +547,7 @@ function generateGrid() {
 	if (document.querySelector('.counter'))
 		document.querySelector('.counter').innerText = filterArray.length;
 	if (!filterArray.length)
-		gridElem.innerText = 'No Data';
+		gridElem.appendChild(document.createTextNode('No Data'));
 }
 
 function generateFiltered() {
