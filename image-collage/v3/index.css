@@ -171,6 +171,26 @@ a:focus-within {
 	align-content: flex-start;
 }
 
+.grid .header {
+	width: 100%;
+	display: flex;
+    justify-content: center;
+}
+
+.grid .header button {
+    position: relative;
+	width: 40%;
+}
+
+.grid .header input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .grid-item {
 	position: relative;
 	border: var(--border, 1px) solid var(--background);

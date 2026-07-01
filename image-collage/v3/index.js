@@ -376,9 +376,65 @@ function generateStats() {
 	popupContent(countArray.sort(function (a, b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('<br>'));
 }
 
+function generateGridHeader() {
+	let header = document.createElement('div');
+	header.classList.add('header');
+
+	let importBtn = document.createElement('button');
+	importBtn.classList.add('import');
+	importBtn.innerText = 'Import';
+
+	let importInput = document.createElement('input');
+	importInput.id = 'import';
+	importInput.type = 'file';
+	importInput.accept = 'application/json';
+	importInput.addEventListener('change', importFavourites);
+	importBtn.appendChild(importInput);
+	
+	let exportBtn = document.createElement('button');
+	exportBtn.classList.add('export');
+	exportBtn.addEventListener('click', exportFavourites);
+	exportBtn.innerText = 'Export';
+	
+	header.appendChild(importBtn);
+	header.appendChild(exportBtn);
+	gridElem.appendChild(header);
+}
+
+function importFavourites() {
+	let list = event.target.files;
+	let reader = new FileReader();
+	reader.readAsDataURL(list[0]);
+	reader.onload = function(event) {
+		let json = atob(event.target.result.substring(29));
+		localStorage.setItem(config.storage.likes, json || '[]');
+		console.log('Import done');	
+		generateGrid();
+	};
+}
+
+function exportFavourites() {
+	let textOutput = localStorage.getItem(config.storage.likes) || '[]';
+	if (textOutput.length > 2) {
+		//create download file
+		let downloadLink = document.createElement('a');
+		downloadLink.href = 'data:application/json;base64,' + btoa(textOutput);
+		downloadLink.target = '_blank';
+		downloadLink.download = 'favourites.json';
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		document.body.removeChild(downloadLink);
+	}
+	else console.error('No items for export');
+	
+	console.log('Export done');	
+}
+
 function generateGrid() {
 	let prevValue = '';
 	gridElem.innerHTML = '';
+
+	if (window.likes.enable) generateGridHeader();
 
 	let filterArray = window.likes.enable ? generateLikes() : generateFiltered()
 		.sort(function (a, b) {
