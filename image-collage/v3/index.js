@@ -1051,7 +1051,7 @@ function onLike() {
 	if (event.target.getAttribute('data-id') == 'Add to Likes')
 		window.likes.list.push(filename);
 	else
-		window.likes.list.filter(l => l != filename);
+		window.likes.list = window.likes.list.filter(l => l != filename);
 	localStorage.setItem(config.storage.likes, JSON.stringify(window.likes.list));
 }
 
