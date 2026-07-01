@@ -1050,8 +1050,10 @@ function onLike() {
 	let filename = event.target.getAttribute('data-image');
 	if (!window.likes.list.includes(filename))
 		window.likes.list.push(filename);
-	else
+	else {
 		window.likes.list = window.likes.list.filter(l => l != filename);
+		generateGrid();
+	}
 	localStorage.setItem(config.storage.likes, JSON.stringify(window.likes.list));
 }
 
