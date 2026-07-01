@@ -1048,7 +1048,7 @@ function onHandleUp() {
 
 function onLike() {
 	let filename = event.target.getAttribute('data-image');
-	if (event.target.getAttribute('data-id') == 'Add to Likes')
+	if (!window.likes.list.includes(filename))
 		window.likes.list.push(filename);
 	else
 		window.likes.list = window.likes.list.filter(l => l != filename);
