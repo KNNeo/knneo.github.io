@@ -635,7 +635,7 @@ function toggleTags() {
 	return false;
 }
 
-function toggleLikes() {
+function toggleLikeView() {
 	if (event && event.target) {
 		let showLikes = event.target.innerText == 'favorite';
 		event.target.innerText = showLikes ? 'favorite_border' : 'favorite';
@@ -1050,7 +1050,7 @@ function onLike() {
 	let filename = event.target.getAttribute('data-image');
 	window.likes.list = window.likes.list.includes(filename) ? window.likes.list.filter(l => l != filename) : [...window.likes.list, filename];
 	localStorage.setItem(config.storage.likes, JSON.stringify(window.likes.list));
-	generateGrid();
+	if (window.likes.enable) generateGrid();
 }
 
 function initializeDate() {
