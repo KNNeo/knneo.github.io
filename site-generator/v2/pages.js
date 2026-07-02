@@ -25,7 +25,6 @@ const dataScript = document.querySelector("script#data");
 //--EVENT HANDLERS--//
 function onSectionSelect() {
 	if (config.key) event.target.closest("section").focus();
-	else if (isLandscape) event.target.closest("section").scrollIntoView({ behavior: "smooth" });
 	document.querySelector("header")?.classList.add("hide");
 }
 
