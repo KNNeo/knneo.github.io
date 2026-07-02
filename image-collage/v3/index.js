@@ -1606,7 +1606,7 @@ function showContextMenu() {
 		submenu.appendChild(like);
 	}
 	// show sidebar
-	if(!isLandscape() && document.querySelector('.menu.hidden')) {
+	if(!config.isLandscape() && document.querySelector('.menu.hidden')) {
 		let sidebar = document.createElement('button');
 		sidebar.setAttribute('data-id', 'Show Menu');
 		sidebar.setEventListener('click', onToggleSidebar);
