@@ -85,7 +85,7 @@ function onMasonryContextMenu() {
 			else
 				alert('No duplicates found!');
 		}},
-		{ title: 'Export Masonry', order: 10, onclick: function() {
+		{ title: 'Export Masonry', order: 11, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -97,7 +97,25 @@ function onMasonryContextMenu() {
 			if(copyResult && navigator.clipboard)
 				navigator.clipboard.writeText(data);
 		}},
-		{ title: 'Clear Items', order: 4, onclick: function() {
+		{
+			title: 'Set Masonry Size', order: 10, onclick: function () {
+				//find position of section and section item in data object
+				let section = document.context.closest('section');
+				let sectionIndex = parseInt(section.getAttribute('data-index'));
+				let gridItem = document.context.closest('.grid-item');
+				let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+				//popup prompt for input, set in data
+				let result = prompt('Input number of columns/width (> 100: image width; 2-99: no of columns)', config.data.pages[sectionIndex].items[gridItemIndex - 1].config[0]);
+				if (result) {
+					let resultInt = parseInt(result);
+					if (resultInt < 0) return alert('value less than 0, try again');
+					config.data.pages[sectionIndex].items[gridItemIndex - 1].config = resultInt > 100 ? [2, 100, resultInt] : [resultInt, resultInt, 200];
+					save();
+					render();
+				}
+			}
+		},
+		{ title: 'Clear Items', order: 5, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
