@@ -44,12 +44,12 @@ function onExitClick() {
 			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
 			if(copyResult && navigator.clipboard)
 				navigator.clipboard.writeText(data);
-		}},
-		{ title: 'Exit', order: 4, onclick: function() {
-			window.location.href = typeof processLinkExtensions == "function"
-				? processLinkExtensions(config.data.exit)
-				: config.data.exit;
 		}}
+		// { title: 'Exit', order: 4, onclick: function() {
+		// 	window.location.href = typeof processLinkExtensions == "function"
+		// 		? processLinkExtensions(config.data.exit)
+		// 		: config.data.exit;
+		// }}
 	];
 	showContextMenu(options);
 }
