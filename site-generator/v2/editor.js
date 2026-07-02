@@ -36,22 +36,42 @@ function toggleFullscreen() {
 function onExitClick() {
 	event.preventDefault();
 	let options = [
-		{ title: 'Reset Changes', order: 2, onclick: resetChanges },
 		{ title: 'Full Screen', order: 1, onclick: toggleFullscreen },
+		{ title: 'Reset Changes', order: 2, onclick: resetChanges },
 		{
-			title: 'Export Page', order: 3, onclick: function () {
+			title: 'Import Page', order: 3, onclick: function () {
+				//popup data for user, copy to clipboard
+				let result = prompt('Input import data (in JSON)');
+				if (result) {
+					try {
+						let data = JSON.parse(result);
+						config.data = data;
+						save();
+						render();
+					}
+					catch (e) {
+						alert('Import failed! Try again.');
+						console.error(e);
+					}
+				}
+			}
+		},
+		{
+			title: 'Export Page', order: 4, onclick: function () {
 				//popup data for user, copy to clipboard
 				let data = JSON.stringify(config.data);
-				let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
-				if (copyResult && navigator.clipboard)
+				let result = prompt('Export complete! Click on ok to copy to clipboard.', data);
+				if (result && navigator.clipboard)
 					navigator.clipboard.writeText(data);
 			}
+		},
+		{
+			title: 'Exit', order: 5, onclick: function () {
+				window.location.href = typeof processLinkExtensions == "function"
+					? processLinkExtensions(config.data.exit)
+					: config.data.exit;
+			}
 		}
-		// { title: 'Exit', order: 4, onclick: function() {
-		// 	window.location.href = typeof processLinkExtensions == "function"
-		// 		? processLinkExtensions(config.data.exit)
-		// 		: config.data.exit;
-		// }}
 	];
 	showContextMenu(options);
 }
