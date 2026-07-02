@@ -569,7 +569,7 @@ function generateFiltered() {
 				|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
 				|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()));
 				if(window.data.tag.category.join == 'or') {
-					console.log('v', m.nm, inData);
+					if (window.data.debug) console.log('v', m.nm, inData);
 					buttonVal.include = inData ? 1 : 0;
 				}
 				if(window.data.tag.category.join == 'and') {
@@ -1609,7 +1609,7 @@ function showContextMenu() {
 	if(!config.isLandscape() && document.querySelector('.menu.hidden')) {
 		let sidebar = document.createElement('button');
 		sidebar.setAttribute('data-id', 'Show Menu');
-		sidebar.setEventListener('click', onToggleSidebar);
+		sidebar.addEventListener('click', onToggleSidebar);
 		submenu.appendChild(sidebar);
 	}
 	contextElem.appendChild(submenu);
