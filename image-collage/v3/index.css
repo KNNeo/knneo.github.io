@@ -22,6 +22,10 @@ button {
 	color: var(--foreground);
 }
 
+button {
+	all: unset;
+}
+
 body {
 	margin: 0;
 	overflow: hidden;
@@ -116,16 +120,17 @@ a:focus-within {
 
 .tag {
 	margin: 4px;
+	padding: 4px 12px;
 	cursor: pointer;
 	color: var(--foreground);
 	background-color: var(--background);
 	border: var(--border) solid var(--foreground);
 	border-radius: var(--radius);
-	height: 2rem;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
 	white-space: nowrap;
 	max-width: 15em;
+    font-size: 0.9em;
 }
 
 .tag:hover,
@@ -294,6 +299,8 @@ a:focus-within {
 
 .back {
 	display: block;
+    width: 100%;
+    text-align: center;
 	font-size: 0.9em;
 }
 
@@ -551,30 +558,42 @@ a:focus-within {
 .context {
 	font-size: 0.75em;
 	position: absolute;
-	border-radius: 4px;
 	white-space: nowrap;
 	background-color: var(--background);
 	box-shadow: 1px 3px 0 0 var(--accent);
+	border-radius: 8px;
 	z-index: 9;
 }
 
-.context .menu-options div {
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	padding: 4px 6px;
-	cursor: pointer;
+.context .menu-options hr {
+	width: 90%;
+	border-top: 1px solid var(--accent);
+    opacity: 0.5;
 }
 
-.context .menu-options div::before {
+.context .menu-options button {
+	width: calc(100% - 20px);
+	display: flex;
+	align-items: center;
+    margin: 4px;
+    padding: 4px 6px;
+	cursor: pointer;
+	border-radius: 16px;
+}
+
+.context .menu-options button::before {
 	content: attr(data-id);
 }
 
-.context .menu-options div[data-selected] {
+.context .menu-options button[data-selected] {
 	background-color: var(--secondary);
 }
 
-.context .menu-options div:hover {
+.context .menu-options button:hover {
+	background-color: var(--accent);
+}
+
+.context .menu-options button:hover {
 	background-color: var(--accent);
 }
 

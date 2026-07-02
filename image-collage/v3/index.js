@@ -939,7 +939,8 @@ function onClearAll() {
 
 function onToggleSidebar() {
 	// resize sidebar
-	event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
+	if(event?.target)
+		event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
 	menuElem.classList.toggle('hidden');
 	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
 	gridElem.setAttribute('data-mode', feedMode ? 'feed' : '');
@@ -1565,11 +1566,11 @@ function showContextMenu() {
 	contextElem.classList.remove('hidden');
 	contextElem.innerHTML = '';
 	//render menu
-	let submenu = document.createElement('div');
+	let submenu = document.createElement('button');
 	submenu.className = 'menu-options';
 	//render tags
 	for (let tag of Array.from(event.target.title.split('\n'))) {
-		let menuItem = document.createElement('div');
+		let menuItem = document.createElement('button');
 		menuItem.setAttribute('data-id', tag);
 		if (window.include.includes(tag))
 			menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
@@ -1582,10 +1583,11 @@ function showContextMenu() {
 		});
 		submenu.appendChild(menuItem);
 	}
+	submenu.appendChild(document.createElement('hr'));
 	// add option to copy url
 	if (window.data?.copy == 'allow') {
 		let imageUrl = event.target.getAttribute('data-image');
-		let copy = document.createElement('div');
+		let copy = document.createElement('button');
 		copy.setAttribute('data-id', 'Copy Image URL');
 		copy.addEventListener('click', function () {
 			if (navigator.clipboard)
@@ -1597,11 +1599,18 @@ function showContextMenu() {
 	if (window.data?.setting?.likes) {
 		let imageSrc = event.target.getAttribute('data-src');
 		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes) || '[]');
-		let like = document.createElement('div');
+		let like = document.createElement('button');
 		like.setAttribute('data-id', likedFiles.includes(imageSrc) ? 'Remove from Likes' : 'Add to Likes');
 		like.setAttribute('data-image', imageSrc);
 		like.addEventListener('click', onLike);
 		submenu.appendChild(like);
+	}
+	// show sidebar
+	if(!isLandscape() && document.querySelector('.menu.hidden')) {
+		let sidebar = document.createElement('button');
+		sidebar.setAttribute('data-id', 'Show Menu');
+		sidebar.setEventListener('click', onToggleSidebar);
+		submenu.appendChild(sidebar);
 	}
 	contextElem.appendChild(submenu);
 	//adjust context if exceed window bottom
