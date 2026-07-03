@@ -808,7 +808,11 @@ function filterPages() {
 		config.filter = allSections;
 		removeDialog();
 		startup();
-		showSnackbar('Filtered by: "' + filterValue + '"');
+		showSnackbar('表紙するのタグ： ' + filterValue + '', 'リセット',
+			function() {
+				config.filter = null;
+				startup();
+			});
 	}
 }
 
@@ -953,31 +957,6 @@ function updateMasonryDimensions(item) {
 		});
 }
 
-//--SNACKBAR--//
-function showSnackbar(filterValue) {
-	let active =
-		document.querySelector(".snackbar") ?? document.createElement("div");
-	if (active.childElementCount > 0) active.innerHTML = "";
-	active.className = "snackbar";
-	let message = document.createElement("div");
-	message.innerText = filterValue;
-	active.appendChild(message);
-
-	let action = document.createElement("button");
-	action.className = "action";
-	action.href = "javascript:void(0)";
-	action.innerText = "Reset";
-	action.setAttribute("onclick", "resetSnackbar()");
-	active.appendChild(action);
-	document.body.appendChild(active);
-}
-
-function resetSnackbar() {
-	event.target.closest(".snackbar").remove();
-	config.filter = null;
-	startup();
-}
-
 //--CONTEXT MENU--//
 function showContextMenu(options) {
 	event.preventDefault();
@@ -1043,8 +1022,8 @@ function hideContextMenu() {
 function startup() {
 	if (pageMain) pageMain.innerText = "Loading...";
 	// load data
-	if (document.querySelector(".snackbar"))
-		console.log(document.querySelector(".snackbar").getAttribute("data-filter"));
+	if ((config.filter || []).length)
+		console.log('filter active');
 	else if (localStorage.getItem(window.btoa(window.location.href))) {
 		config.data = JSON.parse(localStorage.getItem(window.btoa(window.location.href)));
 		console.log("using local storage");
