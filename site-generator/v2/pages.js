@@ -86,10 +86,18 @@ function onWheel(e) {
 }
 
 function onHistoryChange() {
-	// if viewer open, close and return
-	if (document.querySelector('.viewer')?.classList.contains('open') && window.location.hash != '#viewer') {
-		// console.log('close viewer');
-		closeViewer();
+	// viewer open, close and return
+	if (document.querySelector('.viewer')?.classList.contains('open') && window.location.hash != '#viewer')
+		return closeViewer();
+	// popup sheet open, close and return
+	if (document.querySelector('.sheet:not(.hide), .sheet.loading')) {
+		// console.log('close popup');tion')
+		stopLoader();
+		if (typeof hideScrim == 'function')
+			hideScrim();
+		if (typeof hideSheets == 'function')
+			hideSheets();
+		return resetHistoryState();
 	}
 }
 
@@ -397,9 +405,14 @@ function renderParagraph(data, container) {
 function renderImage(data, container) {
 	let width = container.getBoundingClientRect().width;
 	let height = container.getBoundingClientRect().height;
+	let minWidth = 24;
+	let minHeight = 24;
 
 	let image = document.createElement("img");
-	if (data.tooltip) image.title = data.tooltip;
+	if (data.tooltip) {
+		image.title = data.tooltip;
+		image.ariaLabel = data.tooltip;
+	}
 	if (data.link && (data.thumbnail || data.source)) {
 		image.src = data.thumbnail || data.source;
 		let wrapper = document.createElement("a");
@@ -425,32 +438,32 @@ function renderImage(data, container) {
 		let imgWidth = image.getBoundingClientRect().width;
 		let imgHeight = image.getBoundingClientRect().height;
 		// logic is broken: image not rendered can't get dimensions
-		if (imgHeight >= imgWidth) {
-			if (config.debug) console.log('landscape image');
-			image.style.setProperty("--height", "calc(" + height + "px - 1em)");
+		if (height > minHeight && imgHeight > 0 && imgHeight > imgWidth) {
+			if (config.debug) console.log('portrait image', image);
+			image.style.setProperty('--height', 'calc(' + 0.8 * height + 'px - 1em)');
 		}
-		else {
-			if (config.debug) console.log('portrait image');
-			image.style.setProperty("--width", "calc(" + width + "px - 1em)");
+		else if (width > minWidth && imgWidth > 0) {
+			if (config.debug) console.log('landscape image', image);
+			image.style.setProperty('--width', 'calc(' + 0.8 * width + 'px - 1em)');
 		}
-		// if height exceed dialog grid size
-		if (container.closest("dialog") && imgHeight > height) {
-			if (config.debug) console.log('in dialog', image);
-			image.style.setProperty("--height", "calc(" + height + "px - 1em)");
+		// should not be needed: to fit within container
+		if (imgWidth >= width) {
+			if (config.debug) console.log('out of width', image);
+			image.style.setProperty('max-width', 'calc(' + 0.8 * width + 'px - 1em)');
+			if (data.link)
+				image.parentElement.style.setProperty('max-width', 'calc(' + 0.8 * width + 'px - 1em)');
 		}
-		else if (data.rows > 1) {
-			if (config.debug) console.log('span rows', image);
-			let totalRows = container.parentElement.style.getPropertyValue('--rows');
-			if (totalRows && parseInt(totalRows) >= data.rows) {
-				image.addEventListener('load', function () {
-					let height = container.getBoundingClientRect().height;
-					image.style.setProperty("max-height", "calc(" + 0.8 * height + "px - 1em)");
-				});
-			}
+		if (imgHeight >= height) {
+			if (config.debug) console.log('out of height', image);
+			// need to know new ratio
+			let ratio = imgWidth / imgHeight;
+			//console.log('out of height', ratio);
+			image.style.setProperty('max-width', 'calc(' + 0.8 * width * ratio + 'px - 1em)');
+			if (data.link)
+				image.parentElement.style.setProperty('max-width', 'calc(' + 0.8 * width * ratio + 'px - 1em)');
+
+			image.style.setProperty('--height', 'calc(' + width * ratio + 'px - 1em)');
 		}
-		// fixed width wrt container
-		if (height > width)
-			image.style.setProperty("max-width", "calc(" + 0.8 * width + "px - 1em)");
 	}
 }
 
@@ -576,18 +589,20 @@ function renderMasonry(data, container) {
 		if (config.masonry.minColumns && totalCol < config.masonry.minColumns)
 			totalCol = config.masonry.minColumns;
 		// sort via order, else create order
-		if(data.images.length && !data.images[0].order)
-			data.images.map(function(i, index) { i.order = index });
-		if (data.shuffle && !config.filter) {
-			let newOrder = Array.from({length: data.images.length}, (v, i) => i).sort(function () { return 2 * Math.random() - 1 });
-			data.images.map(function (i, index) { i.order = newOrder[index] });
-		}
-		if (data.reverse)
-			data.images.map(function (i, index) { i.order = data.images.length - index - 1 });
-		data.images.sort(function(a,b) { return b.order - a.order });
+		// if(data.images.length && !data.images[0].order)
+		// 	data.images.map(function(i, index) { i.order = index });
+		// if (data.shuffle && !config.filter) {
+		// 	let newOrder = Array.from({length: data.images.length}, (v, i) => i).sort(function () { return 2 * Math.random() - 1 });
+		// 	data.images.map(function (i, index) { i.order = newOrder[index] });
+		// }
+		// data.images.sort(function(a,b) { return b.order - a.order });
 		// filter images if notification detected (see startup)
 		let images = JSON.parse(JSON.stringify(data.images));
-		if (config.filter) images = images.filter((i) => !i.skip);
+		if (config.filter) {
+			images = images.filter((i) => !i.skip);
+			data.images = data.images.filter((i) => !i.skip);
+		}
+		if (data.reverse) images.reverse();
 		// create masonry columns
 		for (let row = 0; row < totalCol; row++) {
 			let colDiv = document.createElement("div");
@@ -607,7 +622,7 @@ function renderMasonry(data, container) {
 				if (item.tooltip && item.tooltip.length > 0) image.title = item.tooltip;
 				image.src = item.thumbnail || item.source;
 				image.alt = item.tooltip;
-				image.setAttribute("data-images", item.order);
+				image.setAttribute("data-images", data.reverse ? images.length - 1 - d : d);
 				// data for recursion render
 				if (item.grid)
 					image.setAttribute("data-type", data.type);
@@ -894,42 +909,38 @@ function onKeyUp() {
 
 function onClickGalleryImage() {
 	event.stopPropagation();
-	if (
-		event.target.getAttribute("data-src") &&
-		typeof popupImage == "function"
-	)
+	if (event.target.dataset.src && typeof popupImage == 'function')
 		return popupImage(event.target);
-	if (
-		event.target.getAttribute("data-images") &&
-		typeof openGridInDialog == "function"
-	)
-		return openGridInDialog(
-			event.target.closest("section").getAttribute("data-index"),
-			event.target.getAttribute("data-images"),
-			event.target.getAttribute("data-type")
-		);
+	if (event.target.dataset.images && typeof openGalleryImageGrid == 'function')
+		return openGalleryImageGrid(event.target);
 }
 
-function openGridInDialog(sectionIndex, galleryIndex, type) {
+function openGalleryImageGrid(elem) {
+	// get elem info
+	let sectionIndex = elem.closest('section').dataset.index;
+	let galleryIndex = elem.dataset.images;
+	let type = elem.dataset.type;
 	// add section container
-	let container = document.createElement("section");
-	if (typeof popupContent == "function") popupContent(container);
-	else return;
-	let isGalleryContained = type == 'masonry' || type == 'gallery';
-	if (isGalleryContained && document.querySelector("dialog")) // create fixed container size
-		document.querySelector("dialog").classList.add('full');
-	let itemsOfType = config.sections[parseInt(sectionIndex)].items.filter(
-		(i) => i.type == type
-	);
-	if (itemsOfType && itemsOfType.length > 0) {
+	let container = document.querySelector('.sheet') || document.createElement('section');
+	container.classList.add('sheet', 'hide');
+	container.tabIndex = -1;
+	if (!document.querySelector('.sheet'))
+		document.body.appendChild(container);
+	else
+		container.replaceChildren();
+	// show as sheet
+	if (typeof showScrim == 'function')
+		showScrim();
+	if (typeof showSheet == 'function')
+		showSheet(container, { draggable: true, delay: true, origin: elem });
+	let itemsOfType = config.sections[parseInt(sectionIndex)].items.filter((i) => i.type == type);
+	if (itemsOfType && itemsOfType.length) {
 		// render grid of first item type
-		let data = itemsOfType[0].images.find(x => x.order == parseInt(galleryIndex));
-		// console.log(data.grid);
-		let section = document.querySelector("dialog section") || container;
-		section.setAttribute("data-type", data.grid.type);
-		renderGrid(data.grid, section);
-		if (!isGalleryContained && document.querySelector("dialog")) // remove fixed container size
-			document.querySelector("dialog").classList.remove('full');
+		let data = itemsOfType[0].images[parseInt(galleryIndex)].grid;
+		if (config.debug) console.log('openGalleryImageGrid', data);
+		container.dataset.type = data.type;
+		renderGrid(data, container);
+		container.focus();
 	}
 }
 

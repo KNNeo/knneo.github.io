@@ -1,3 +1,22 @@
+//--STATE--//
+function addHistoryState(property) {
+	// add to history state to allow browser back action
+	if (history.state && history.state[property]) {
+		let currentState = history.state || {};
+		currentState[property] = true;
+		history.replaceState(currentState, null, ' ');
+	}
+	else {
+		let newState = {};
+		newState[property] = true;
+		history.pushState(newState, null, ' ');
+	}
+}
+
+function resetHistoryState() {
+	history.replaceState(null, null, ' ');
+}
+
 //--SNACKBAR--//
 function showSnackbar(messageText, actionText, onClose = null) {
 	// find element
@@ -54,16 +73,16 @@ function showScrim() {
 	generateScrim();
 	document.querySelector('.scrim')?.classList.remove('hide');
 	let meta = document.querySelector('meta[name="theme-color"]');
-	let highContrast = getThemeOption().includes('high-contrast');
-	if (blogTheme && meta) {
+	// let highContrast = getThemeOption().includes('high-contrast');
+	if (meta) {
 		// read from active css variable
 		let rootStyle = getComputedStyle(document.documentElement);
 		let accentRgb = rootStyle.getPropertyValue('--accent').split(',').map(s => parseInt(s));
 		let backgroundRgb = rootStyle.getPropertyValue('--background').split(',').map(s => parseInt(s));
-		if(highContrast) { // high contrast, assume default dark color
-			accentRgb = [69, 69, 69];
-			backgroundRgb = [0, 0, 0];
-		}
+		// if(highContrast) { // high contrast, assume default dark color
+		// 	accentRgb = [69, 69, 69];
+		// 	backgroundRgb = [0, 0, 0];
+		// }
 		// flatten rgba to hex value (since meta cannot be 8 digits)
 		if (accentRgb.length == 3 && backgroundRgb.length == 3)
 			// fixed alpha value, follow css
@@ -83,10 +102,8 @@ function rgbaToHex(rgb, alpha, bg) {
 function hideScrim() {
 	document.querySelector('.scrim')?.classList.add('hide');
 	let meta = document.querySelector('meta[name="theme-color"]');
-	if (blogTheme && meta) {
-		let allThemes = blogTheme.selections.light().concat(blogTheme.selections.dark());
-		let theme = allThemes.find(t => t.name == document.documentElement.dataset.theme);
-		if (theme) meta.content = theme.color;
+	if (meta) {
+		meta.content = document.documentElement.classList.contains('darked') ? 'black' : 'white';
 	}
 	if (document.querySelector('.sheet:not(.hide)'))
 		hideSheets();

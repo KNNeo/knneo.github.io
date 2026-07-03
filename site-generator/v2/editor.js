@@ -159,20 +159,20 @@ function onMasonryContextMenu() {
 				}
 			}
 		},
-		{
-			title: 'Shuffle Items', order: 4, onclick: function () {
-				//find position of section and section item in data object
-				let section = document.context.closest('section');
-				let sectionIndex = parseInt(section.getAttribute('data-index'));
-				let gridItem = document.context.closest('.grid-item');
-				let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
-				//set shuffle to true, sort order auto assign
-				config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle = true;
-				config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = false;
-				save();
-				render();
-			}
-		},
+		// {
+		// 	title: 'Shuffle Items', order: 4, onclick: function () {
+		// 		//find position of section and section item in data object
+		// 		let section = document.context.closest('section');
+		// 		let sectionIndex = parseInt(section.getAttribute('data-index'));
+		// 		let gridItem = document.context.closest('.grid-item');
+		// 		let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+		// 		//set shuffle to true, sort order auto assign
+		// 		config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle = true;
+		// 		config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = false;
+		// 		save();
+		// 		render();
+		// 	}
+		// },
 		{
 			title: 'Sort Items', order: 4, onclick: function () {
 				//find position of section and section item in data object

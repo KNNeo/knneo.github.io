@@ -43,6 +43,20 @@ section {
 	transition: opacity var(--slow);
 }
 
+section.sheet {
+    width: 100%;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+section.sheet[data-loader="drag_handle"].dragging {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 section[data-type="main"] img,
 section[data-type="title"] img {
 	border-radius: 99px;
@@ -69,6 +83,9 @@ section .grid-container {
 	grid-template-rows: repeat(var(--rows, 1), 1fr);
 }
 
+section.sheet .grid-container {
+	padding-block: 1em;
+}
 section .grid-item {
 	grid-column: var(--col, 1) / span var(--colspan, 1);
 	grid-row: var(--row, 1) / span var(--rowspan, 1);
@@ -287,6 +304,7 @@ dialog section .title p {
 }
 
 section.main .links,
+section.sheet .links,
 dialog section[data-type="grid"] .links {
 	display: flex;
 	flex-direction: column;
@@ -332,6 +350,11 @@ section .paragraph .expanded {
 	width: 100%;
 	height: 100%;
 	margin: auto;
+}
+
+section.sheet .paragraph .expanded {
+	padding: 1em;
+	box-sizing: border-box;
 }
 
 dialog.dialog.full:has(.paragraph .expanded) {
@@ -626,11 +649,17 @@ body:has(.scrim:not(.hide)) {
 		height: auto;
 	}
 
-	section:not(.main) {
-		padding: 4em 0;
+	section:not(.main):not(.sheet) {
+		padding-bottom: 4em;
 	}
 
-	dialog section:not(.main) {
+	section.sheet {
+		width: 100%;
+		max-width: 640px;
+		max-height: calc(100vh - 60px);
+	}
+
+	dialog section:not(.main):not(.sheet) {
 		margin-top: 0;
 		padding: 0;
 	}
