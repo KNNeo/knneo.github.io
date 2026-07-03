@@ -572,7 +572,7 @@ a:focus-within {
 	position: absolute;
 	white-space: nowrap;
 	background-color: var(--background);
-	box-shadow: 1px 3px 0 0 var(--accent);
+	box-shadow: 0px 4px 3px 3px var(--background);
 	border-radius: 8px;
 	z-index: 9;
 }
