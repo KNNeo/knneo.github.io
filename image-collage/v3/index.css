@@ -582,6 +582,12 @@ a:focus-within {
 	z-index: 9;
 }
 
+.context .menu-options b {
+    display: block;
+    padding: 4px 6px;
+    margin: 4px;
+}
+
 .context .menu-options hr {
 	width: 90%;
 	border-top: 1px solid var(--accent);
