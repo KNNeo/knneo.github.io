@@ -199,7 +199,7 @@ function generateSidebar() {
 		});
 	}
 
-	for(let setting of settingsElem.querySelectorAll('.settings-icon')) {
+	for (let setting of settingsElem.querySelectorAll('.settings-icon')) {
 		let key = setting.classList[0]; // unique id must be first class of button
 		let value = window.data.setting[key];
 		if (value) {
@@ -328,11 +328,11 @@ function generateTagsList() {
 			tagsElem.childNodes[0].appendChild(tag);
 	}
 	// add expander
-	if(config.isLandscape()) {
-		for(let header of tagsElem.querySelectorAll('.category-title')) {
+	if (config.isLandscape()) {
+		for (let header of tagsElem.querySelectorAll('.category-title')) {
 			let category = header.closest('.tags-category');
 			let firstTag = header.nextElementSibling;
-			if(category && category.getBoundingClientRect().height > firstTag.getBoundingClientRect().height + 8)
+			if (category && category.getBoundingClientRect().height > firstTag.getBoundingClientRect().height + 8)
 				header.setAttribute('data-icon', 'open_in_full');
 			else
 				header.removeAttribute('data-icon');
@@ -390,12 +390,12 @@ function generateGridHeader() {
 	importInput.accept = 'application/json';
 	importInput.addEventListener('change', importFavourites);
 	importBtn.appendChild(importInput);
-	
+
 	let exportBtn = document.createElement('button');
 	exportBtn.classList.add('export');
 	exportBtn.addEventListener('click', exportFavourites);
 	exportBtn.innerText = 'Export';
-	
+
 	header.appendChild(importBtn);
 	header.appendChild(exportBtn);
 	gridElem.appendChild(header);
@@ -405,10 +405,10 @@ function importFavourites() {
 	let list = event.target.files;
 	let reader = new FileReader();
 	reader.readAsDataURL(list[0]);
-	reader.onload = function(event) {
+	reader.onload = function (event) {
 		let json = atob(event.target.result.substring(29));
 		localStorage.setItem(config.storage.likes, json || '[]');
-		console.log('Import done');	
+		console.log('Import done');
 		generateGrid();
 	};
 }
@@ -426,8 +426,8 @@ function exportFavourites() {
 		document.body.removeChild(downloadLink);
 	}
 	else console.error('No items for export');
-	
-	console.log('Export done');	
+
+	console.log('Export done');
 }
 
 function generateGrid() {
@@ -562,33 +562,33 @@ function generateFiltered() {
 	return window.data.data.filter(m => {
 		//within each dataset item
 		let tagsIncluded = includeArray
-		.reduce((t, s) => {
-			let buttonVal = window['buttonArray'].find(b => b.value == s);
-			if(buttonVal) {
-				let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
-				|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
-				|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()));
-				if(window.data.tag.category.join == 'or') {
-					if (window.data.debug) console.log('v', m.nm, inData);
-					buttonVal.include = inData ? 1 : 0;
-				}
-				if(window.data.tag.category.join == 'and') {
-					// join == 'and', need to find all in category
-					let buttonValCategory = window['buttonArray'].filter(b => b.category == buttonVal.category && includeArray.includes(b.value));
-					let allInData = buttonValCategory.every(m => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
+			.reduce((t, s) => {
+				let buttonVal = window['buttonArray'].find(b => b.value == s);
+				if (buttonVal) {
+					let inData = (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
 						|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
-						|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
-					buttonVal.include = allInData ? 1 : 0;
+						|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()));
+					if (window.data.tag.category.join == 'or') {
+						if (window.data.debug) console.log('v', m.nm, inData);
+						buttonVal.include = inData ? 1 : 0;
+					}
+					if (window.data.tag.category.join == 'and') {
+						// join == 'and', need to find all in category
+						let buttonValCategory = window['buttonArray'].filter(b => b.category == buttonVal.category && includeArray.includes(b.value));
+						let allInData = buttonValCategory.every(m => (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase()))
+							|| (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator))
+							|| (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())));
+						buttonVal.include = allInData ? 1 : 0;
+					}
+					t.push(buttonVal);
 				}
-				t.push(buttonVal);
-			}
-			return t;
-		}, []);
+				return t;
+			}, []);
 		let tagsIncludedCategories = new Array(5).fill(0).reduce((t, c, i) => {
 			let tagsInCategoryId = tagsIncluded.filter(x => x.category == i);
-			if(window.data.tag.category.join.toLowerCase() == 'and')
+			if (window.data.tag.category.join.toLowerCase() == 'and')
 				c = !tagsInCategoryId.length || tagsInCategoryId.every(y => y.include) ? 1 : 0;
-			if(window.data.tag.category.join.toLowerCase() == 'or')
+			if (window.data.tag.category.join.toLowerCase() == 'or')
 				c = !tagsInCategoryId.length || tagsInCategoryId.some(y => y.include) ? 1 : 0;
 			t.push(c);
 			return t;
@@ -602,26 +602,26 @@ function generateFiltered() {
 		//exclude tags
 		//exclude from config
 		//include from search
-		return (window.include.length == 0 || 
-				(window.data.tag.join.toLowerCase() == 'and' && tagsIncludedCategories.every(t => t)) || 
-				(window.data.tag.join.toLowerCase() == 'or' && tagsIncludedCategories.some(t => t))
-			)
+		return (window.include.length == 0 ||
+			(window.data.tag.join.toLowerCase() == 'and' && tagsIncludedCategories.every(t => t)) ||
+			(window.data.tag.join.toLowerCase() == 'or' && tagsIncludedCategories.some(t => t))
+		)
 			&& (window.exclude.length == 0 || (tagsExcluded.length > 0))
 			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
 			&& (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search));
 	})
-	.filter(function (val) {
-		let prop = config.date?.property;
-		// if no date config or filter, always pass
-		if (!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
-			return true;
-		// convert val to date, check validity
-		let currentDate = new Date(val[prop]);
-		if (currentDate != 'Invalid Date')
-			return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
-		else
-			return false; // always fail if parse fail
-	});
+		.filter(function (val) {
+			let prop = config.date?.property;
+			// if no date config or filter, always pass
+			if (!prop || !val[prop] || !window.data.date || !window.data.date.start || !window.data.date.end)
+				return true;
+			// convert val to date, check validity
+			let currentDate = new Date(val[prop]);
+			if (currentDate != 'Invalid Date')
+				return currentDate >= window.data.date.start && currentDate <= window.data.date.end;
+			else
+				return false; // always fail if parse fail
+		});
 }
 
 function generateLikes() {
@@ -811,7 +811,7 @@ function keypress() {
 		case 'ArrowLeft':
 		case 'ArrowRight':
 			// navigate in viewer
-			if(!viewerElem.classList.includes('open')) return;
+			if (!viewerElem.classList.includes('open')) return;
 			let prev = document.querySelector('.viewer-nav.prev');
 			let next = document.querySelector('.viewer-nav.next');
 			if (prev && event.key == 'ArrowLeft')
@@ -839,11 +839,11 @@ function resize() {
 	gridElem.style.setProperty('--width', thumbWidth + 'px');
 	gridElem.style.setProperty('--height', thumbHeight + 'px');
 	// update expander
-	setTimeout(function() {
-		for(let header of tagsElem.querySelectorAll('.category-title')) {
+	setTimeout(function () {
+		for (let header of tagsElem.querySelectorAll('.category-title')) {
 			let category = header.closest('.tags-category');
 			let firstTag = header.nextElementSibling;
-			if(config.isLandscape() && category && category.getBoundingClientRect().height > header.getBoundingClientRect().height + firstTag.getBoundingClientRect().height + 8)
+			if (config.isLandscape() && category && category.getBoundingClientRect().height > header.getBoundingClientRect().height + firstTag.getBoundingClientRect().height + 8)
 				header.setAttribute('data-icon', 'open_in_full');
 			else
 				header.removeAttribute('data-icon');
@@ -900,7 +900,7 @@ function onScrollSidebar() {
 }
 
 function onClickCategoryHeader() {
-	if(!event.target.getAttribute('data-icon')) return;
+	if (!event.target.getAttribute('data-icon')) return;
 	let container = event.target.closest('.tags-category');
 	if (container.querySelector('.tag[filter]')) {
 		// remove filter
@@ -939,7 +939,7 @@ function onClearAll() {
 
 function onToggleSidebar() {
 	// resize sidebar
-	if(event?.target)
+	if (event?.target)
 		event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
 	menuElem.classList.toggle('hidden');
 	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
@@ -1212,7 +1212,7 @@ function createLinkedList(selector) {
 }
 
 function openViewer() {
-	if(!contextElem.classList.contains('hidden')) return;
+	if (!contextElem.classList.contains('hidden')) return;
 	createLinkedList('.grid-item img');
 	openImageInViewer(event.target.parentElement.querySelector('img'));
 	runLoader();
@@ -1573,24 +1573,28 @@ function showContextMenu() {
 	let tagHeader = document.createElement('b');
 	tagHeader.innerText = 'Labels';
 	submenu.appendChild(tagHeader);
-	for (let tag of Array.from(event.target.title.split('\n'))) {
-		let menuItem = document.createElement('button');
-		menuItem.setAttribute('data-icon', 'label');
-		menuItem.setAttribute('data-id', tag);
-		if (window.include.includes(tag))
-			menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
-		menuItem.addEventListener('click', function () {
-			window.include = window.include.includes(tag) ? '' : event.target.getAttribute('data-id');
-			includeElem.value = window.include;
-			generateTagsList();
-			generateGrid();
-			hideContextMenu();
-		});
-		submenu.appendChild(menuItem);
+	let tags = Array.from(event.target.title.split('\n'));
+	if (tags.length) {
+		for (let tag of tags) {
+			let menuItem = document.createElement('button');
+			menuItem.setAttribute('data-icon', 'label');
+			menuItem.setAttribute('data-id', tag);
+			if (window.include.includes(tag))
+				menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
+			menuItem.addEventListener('click', function () {
+				window.include = window.include.includes(tag) ? '' : event.target.getAttribute('data-id');
+				includeElem.value = window.include;
+				generateTagsList();
+				generateGrid();
+				hideContextMenu();
+			});
+			submenu.appendChild(menuItem);
+		}
 	}
-	submenu.appendChild(document.createElement('hr'));
 	// add option to copy url
 	if (window.data?.copy == 'allow') {
+		if (submenu.lastElementChild?.previousElementSibling?.tagName?.toLowerCase() != 'hr')
+			submenu.appendChild(document.createElement('hr'));
 		let imageUrl = event.target.getAttribute('data-image');
 		let copy = document.createElement('button');
 		copy.setAttribute('data-icon', 'link');
@@ -1603,17 +1607,21 @@ function showContextMenu() {
 	}
 	// add option to like
 	if (window.data?.setting?.likes) {
+		if (submenu.lastElementChild?.previousElementSibling?.tagName?.toLowerCase() != 'hr')
+			submenu.appendChild(document.createElement('hr'));
 		let imageSrc = event.target.getAttribute('data-src');
 		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes) || '[]');
 		let like = document.createElement('button');
-		like.setAttribute('data-icon', 'favorite');
+		like.setAttribute('data-icon', 'favorite_border');
 		like.setAttribute('data-id', likedFiles.includes(imageSrc) ? 'Remove from Likes' : 'Add to Likes');
 		like.setAttribute('data-image', imageSrc);
 		like.addEventListener('click', onLike);
 		submenu.appendChild(like);
 	}
 	// show sidebar
-	if(!config.isLandscape() && document.querySelector('.menu.hidden')) {
+	if (!config.isLandscape() && document.querySelector('.menu.hidden')) {
+		if (submenu.lastElementChild?.previousElementSibling?.tagName?.toLowerCase() != 'hr')
+			submenu.appendChild(document.createElement('hr'));
 		let sidebar = document.createElement('button');
 		sidebar.setAttribute('data-icon', 'menu');
 		sidebar.setAttribute('data-id', 'Show Menu');
