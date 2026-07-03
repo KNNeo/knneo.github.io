@@ -1212,6 +1212,7 @@ function createLinkedList(selector) {
 }
 
 function openViewer() {
+	if(!contextElem.classList.contains('hidden')) return;
 	createLinkedList('.grid-item img');
 	openImageInViewer(event.target.parentElement.querySelector('img'));
 	runLoader();
@@ -1556,7 +1557,7 @@ function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
 	if (!contextElem.classList.contains('hidden'))
-		return contextElem.classList.add('hidden');
+		contextElem.classList.add('hidden');
 	document.addEventListener('click', hideContextMenu);
 	//positioning
 	let x = event.clientX;
@@ -1635,7 +1636,7 @@ function showContextMenu() {
 }
 
 function hideContextMenu() {
-	if (document.querySelector('.context:not(.hidden)'))
+	if (!contextElem.classList.contains('hidden'))
 		event.preventDefault();
 	contextElem.classList.add('hidden');
 	document.removeEventListener('click', hideContextMenu);
