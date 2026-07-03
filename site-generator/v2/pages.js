@@ -558,7 +558,7 @@ function renderMasonry(data, container) {
 			"calc(" + event.target.parentElement.getBoundingClientRect().height + "px - 1em)"
 		);
 	});
-	container.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
+	masonry.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
 	container.appendChild(masonry);
 
 	if (data.config && data.config.length == 3) {
@@ -1016,20 +1016,17 @@ function showContextMenu(options) {
 		submenu.appendChild(menuItem);
 	}
 	contextDiv.appendChild(submenu);
-	let targetParent = event.target.closest('section');
-	if (targetParent) {
-		//adjust context if exceed window bottom
-		if (y + contextDiv.getBoundingClientRect().height + 40 >= targetParent.getBoundingClientRect().height) {
-			contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
-			if (y - contextDiv.getBoundingClientRect().height < 0)
-				contextDiv.style.top = 0;
-		}
-		//adjust context if exceed window right
-		if (x + contextDiv.getBoundingClientRect().width + 40 >= targetParent.getBoundingClientRect().x + targetParent.getBoundingClientRect().width) {
-			contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
-			if (x - contextDiv.getBoundingClientRect().width < targetParent.getBoundingClientRect().x + targetParent.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
-				contextDiv.style.left = targetParent.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
-		}
+	//adjust context if exceed window bottom
+	if (y + contextDiv.getBoundingClientRect().height + 40 >= window.innerHeight) {
+		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
+		if (y - contextDiv.getBoundingClientRect().height < 0)
+			contextDiv.style.top = 0;
+	}
+	//adjust context if exceed window right
+	if (x + contextDiv.getBoundingClientRect().width + 40 >= window.innerWidth) {
+		contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
+		if (x - contextDiv.getBoundingClientRect().width < window.innerWidth + contextDiv.getBoundingClientRect().width)
+			contextDiv.style.left = window.innerWidth - contextDiv.getBoundingClientRect().width + 'px';
 	}
 }
 
