@@ -1008,9 +1008,11 @@ function showContextMenu(options) {
 	})
 	for (let option of options) {
 		if (option.disabled) continue;
-		let menuItem = document.createElement('button');
-		menuItem.onclick = option.onclick;
-		menuItem.innerText = option.title;
+		let menuItem = document.createElement(option.onclick ? 'button' : 'hr');
+		if(option.onclick) {
+			menuItem.onclick = option.onclick;
+			menuItem.innerText = option.title;
+		}
 		submenu.appendChild(menuItem);
 	}
 	contextDiv.appendChild(submenu);

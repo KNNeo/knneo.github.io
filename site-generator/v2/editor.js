@@ -112,7 +112,7 @@ function onMasonryContextMenu() {
 			}
 		},
 		{
-			title: 'Export Masonry', order: 11, onclick: function () {
+			title: 'Export Masonry', order: 12, onclick: function () {
 				//find position of section and section item in data object
 				let section = document.context.closest('section');
 				let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -126,7 +126,7 @@ function onMasonryContextMenu() {
 			}
 		},
 		{
-			title: 'Set Masonry Size', order: 10, onclick: function () {
+			title: 'Set Masonry Size', order: 11, onclick: function () {
 				//find position of section and section item in data object
 				let section = document.context.closest('section');
 				let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -143,6 +143,7 @@ function onMasonryContextMenu() {
 				}
 			}
 		},
+		{ title: 'Spacer', order: 10, onclick: null },
 		{
 			title: 'Clear Items', order: 5, onclick: function () {
 				//find position of section and section item in data object
