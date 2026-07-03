@@ -321,6 +321,9 @@ section .images img {
 
 section .title {
 	padding: 0 3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 section .paragraph .expanded {
@@ -419,8 +422,8 @@ dialog section[data-type="grid"] img {
 section .tags {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
-	align-content: center;
+    justify-content: center;
+    align-content: flex-start;
 	font-size: small;
 	/* does not fit in variable */
 }

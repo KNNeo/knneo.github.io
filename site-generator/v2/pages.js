@@ -318,7 +318,7 @@ function renderSectionData(data, container) {
 }
 
 function renderTitle(data, container) {
-	container.classList.add("centered");
+	if (data.align == "center") container.classList.add("centered");
 	let width = container.getBoundingClientRect().width;
 	let height = container.getBoundingClientRect().height;
 
@@ -482,7 +482,7 @@ function renderImages(data, container) {
 }
 
 function renderGallery(data, container) {
-	container.classList.add("centered");
+	if (data.align == "center") container.classList.add("centered");
 
 	let gallery = document.createElement("div");
 	gallery.classList.add("gallery");
@@ -548,7 +548,7 @@ function popupImage() {
 }
 
 function renderMasonry(data, container) {
-	// container.classList.add("centered");
+	if (data.align == "center") container.classList.add("centered");
 
 	let masonry = document.createElement("div");
 	masonry.className = "masonry";
@@ -750,7 +750,7 @@ function shiftMasonryItems() {
 }
 
 function renderTags(data, container) {
-	container.classList.add("centered");
+	if (data.align == "center") container.classList.add("centered");
 
 	let tags = document.createElement("div");
 	tags.className = "tags";
