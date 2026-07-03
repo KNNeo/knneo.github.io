@@ -567,6 +567,9 @@ function renderMasonry(data, container) {
 		config.masonry.columnSize = data.config[2];
 	}
 
+	if(!isLandscape())
+		config.masonry.minColumns = 2;
+
 	if (data.images) {
 		let calcColumns = Math.floor(masonry.getBoundingClientRect().width / config.masonry.columnSize);
 		let totalCol = Math.min(calcColumns, config.masonry.maxColumns);
@@ -1101,5 +1104,5 @@ function save() {
 }
 
 window.addEventListener("load", startup);
-// window.addEventListener("resize", startup);
+window.addEventListener("resize", startup);
 window.addEventListener('popstate', onHistoryChange);

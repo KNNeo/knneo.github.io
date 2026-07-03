@@ -336,7 +336,7 @@ section .paragraph .expanded {
 
 dialog.dialog.full:has(.paragraph .expanded) {
 	width: fit-content;
-    height: fit-content;
+	height: fit-content;
 }
 
 section .masonry {
@@ -365,7 +365,7 @@ section .masonry img {
 }
 
 section .masonry img.marked {
-    filter: brightness(0.3);
+	filter: brightness(0.3);
 }
 
 section .masonry:has(img:hover) img:not(:hover) {
@@ -421,7 +421,8 @@ section .tags {
 	flex-wrap: wrap;
 	justify-content: center;
 	align-content: center;
-	font-size: small; /* does not fit in variable */
+	font-size: small;
+	/* does not fit in variable */
 }
 
 section .tags-value {
@@ -527,6 +528,10 @@ section .gallery .caption {
 		height: auto;
 	}
 
+	section .masonry:has(img:hover) img:not(:hover) {
+		opacity: 1;
+	}
+
 	footer {
 		max-width: calc(100% - 120px);
 		margin: auto;
@@ -541,7 +546,7 @@ section .gallery .caption {
 
 	section .paragraph .expanded {
 		align-content: start;
-        height: fit-content;
+		height: fit-content;
 	}
 
 	section .paragraph em {
