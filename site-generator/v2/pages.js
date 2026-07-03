@@ -137,8 +137,8 @@ function renderExit() {
 	if (!document.querySelector(".exit")) {
 		if (container)
 			container.insertBefore(exit, container.children[0]);
-		else if (pageMain.querySelector('section'))
-			pageMain.querySelector('section').insertBefore(exit, pageMain.querySelector('section').children[0]);
+		else if (pageMain)
+			pageMain.insertBefore(exit, pageMain.children[0]);
 	}
 }
 
@@ -157,8 +157,8 @@ function renderGoToTop() {
 	if (!document.querySelector(".top")) {
 		if (container)
 			container.insertBefore(top, container.children[0]);
-		else if (pageMain.querySelector('section'))
-			pageMain.querySelector('section').insertBefore(top, pageMain.querySelector('section').children[0]);
+		else if (pageMain)
+			pageMain.insertBefore(top, pageMain.children[0]);
 	}
 }
 
