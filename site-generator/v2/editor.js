@@ -214,15 +214,15 @@ function onMasonryContextMenu() {
 					window.input.thumbnail = prompt('key in image url', window.input.thumbnail);
 				if (!window.input.thumbnail) return;
 				if (!window.input.title_url)
-					window.input.title_url = prompt('key in title url in format: title|url', window.input.title_url || 'Melonbooks|');
+					window.input.title_url = prompt('key in title url in format: title|url', window.input.title_url);
 				if (!window.input.title_url) return;
 				if (!window.input.artist_url)
-					window.input.artist_url = prompt('key in artist url in format: artist|url', window.input.artist_url || 'Artist Twitter/X|');
+					window.input.artist_url = prompt('key in artist url in format: artist|url', window.input.artist_url);
 				if (!window.input.artist_url) return;
 				if (!window.input.translation)
-					window.input.translation = prompt('key in translation of title (optional)', window.input.translation || '');
+					window.input.translation = prompt('key in translation of title (optional)', window.input.translation);
 				if (!window.input.tags)
-					window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags || '');
+					window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags);
 				let tags = [];
 				if (typeof window.input.tags == 'string' && window.input.tags.split('|')[0])
 					tags = window.input.tags.split('|');
@@ -293,26 +293,36 @@ function onMasonryContextMenu() {
 						title: gridTitle.title,
 						artist: gridTitle.suffix,
 						thumbnail: gridImage.source,
-						title_url: gridTitle.links[0].text + '|' + gridTitle.links[0].url,
-						artist_url: gridTitle.links[1].text + '|' + gridTitle.links[1].url,
-						translation: gridTitle.prefix,
-						tags: gridTags.values.join('|')
+						title_url: gridTitle.links[0].text + '|' + gridTitle.links[0].url || '',
+						artist_url: gridTitle.links[1].text + '|' + gridTitle.links[1].url || '',
+						translation: gridTitle.prefix || '',
+						tags: gridTags.values.join('|') || ''
 					};
 					//obtain user input
-					let jsonInput = prompt('key in json (optional)');
-					if (jsonInput) window.input = JSON.parse(jsonInput);
-					window.input.title = prompt('key in title', window.input.title);
-					if (!window.input.title) return;
-					window.input.artist = prompt('key in artist', window.input.artist);
-					if (!window.input.artist) return;
-					window.input.thumbnail = prompt('key in image url', window.input.thumbnail);
-					if (!window.input.thumbnail) return;
-					window.input.title_url = prompt('key in title url in format: title|url', window.input.title_url || 'Melonbooks|');
-					if (!window.input.title_url) return;
-					window.input.artist_url = prompt('key in artist url in format: artist|url', window.input.artist_url || 'Artist Twitter/X|');
-					if (!window.input.artist_url) return;
-					window.input.translation = prompt('key in translation of title (optional)', window.input.translation || '');
-					window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags || '');
+					let result = prompt('type in key to edit [title/artist/thumbnail/title_url/artist_url/translation/tags]');
+					if(!result) alert('input missing! try again');
+					if(!Object.keys(window.input).includes(result.toLowerCase()) && result.toLowerCase() != 'json')
+						alert('invalid key! try again');
+					let subResult = prompt('type in value [title_url and artist_url are pipeline separated: label|url]');
+					if(!subResult) alert('input missing! try again');
+					if(result == 'json')
+						window.input = subResult;
+					else
+						window.input[result] = subResult;
+					// let jsonInput = prompt('key in json (optional)');
+					// if (jsonInput) window.input = JSON.parse(jsonInput);
+					// window.input.title = prompt('key in title', window.input.title);
+					// if (!window.input.title) return;
+					// window.input.artist = prompt('key in artist', window.input.artist);
+					// if (!window.input.artist) return;
+					// window.input.thumbnail = prompt('key in image url', window.input.thumbnail);
+					// if (!window.input.thumbnail) return;
+					// window.input.title_url = prompt('key in title url in format: title|url', window.input.title_url);
+					// if (!window.input.title_url) return;
+					// window.input.artist_url = prompt('key in artist url in format: artist|url', window.input.artist_url);
+					// if (!window.input.artist_url) return;
+					// window.input.translation = prompt('key in translation of title (optional)', window.input.translation);
+					// window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags);
 					let tags = [];
 					if (window.input.tags.split('|')[0])
 						tags = window.input.tags.split('|');
