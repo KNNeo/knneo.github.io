@@ -1566,11 +1566,15 @@ function showContextMenu() {
 	contextElem.classList.remove('hidden');
 	contextElem.innerHTML = '';
 	//render menu
-	let submenu = document.createElement('button');
+	let submenu = document.createElement('div');
 	submenu.className = 'menu-options';
 	//render tags
+	let tagHeader = document.createElement('b');
+	tagHeader.innerText = 'Labels';
+	submenu.appendChild(tagHeader);
 	for (let tag of Array.from(event.target.title.split('\n'))) {
 		let menuItem = document.createElement('button');
+		menuItem.setAttribute('data-icon', 'label');
 		menuItem.setAttribute('data-id', tag);
 		if (window.include.includes(tag))
 			menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
@@ -1588,6 +1592,7 @@ function showContextMenu() {
 	if (window.data?.copy == 'allow') {
 		let imageUrl = event.target.getAttribute('data-image');
 		let copy = document.createElement('button');
+		copy.setAttribute('data-icon', 'link');
 		copy.setAttribute('data-id', 'Copy Image URL');
 		copy.addEventListener('click', function () {
 			if (navigator.clipboard)
@@ -1600,6 +1605,7 @@ function showContextMenu() {
 		let imageSrc = event.target.getAttribute('data-src');
 		let likedFiles = JSON.parse(localStorage.getItem(config.storage.likes) || '[]');
 		let like = document.createElement('button');
+		like.setAttribute('data-icon', 'favorite');
 		like.setAttribute('data-id', likedFiles.includes(imageSrc) ? 'Remove from Likes' : 'Add to Likes');
 		like.setAttribute('data-image', imageSrc);
 		like.addEventListener('click', onLike);
@@ -1608,6 +1614,7 @@ function showContextMenu() {
 	// show sidebar
 	if(!config.isLandscape() && document.querySelector('.menu.hidden')) {
 		let sidebar = document.createElement('button');
+		sidebar.setAttribute('data-icon', 'menu');
 		sidebar.setAttribute('data-id', 'Show Menu');
 		sidebar.addEventListener('click', onToggleSidebar);
 		submenu.appendChild(sidebar);

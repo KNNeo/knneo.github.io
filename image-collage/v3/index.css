@@ -594,6 +594,13 @@ a:focus-within {
 }
 
 .context .menu-options button::before {
+	content: attr(data-icon);
+	font-family: 'Material Icons';
+    margin-right: 4px;
+    font-size: 1.25em;
+}
+
+.context .menu-options button::after {
 	content: attr(data-id);
 }
 
