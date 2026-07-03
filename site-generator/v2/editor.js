@@ -303,7 +303,7 @@ function onMasonryContextMenu() {
 					if(!result) alert('input missing! try again');
 					if(!Object.keys(window.input).includes(result.toLowerCase()) && result.toLowerCase() != 'json')
 						alert('invalid key! try again');
-					let subResult = prompt('type in value [title_url and artist_url are pipeline separated: label|url]');
+					let subResult = prompt('type in value [title_url and artist_url are pipeline separated: label|url]', window.input[result] || '');
 					if(!subResult) alert('input missing! try again');
 					if(result == 'json')
 						window.input = subResult;
