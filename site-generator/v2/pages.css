@@ -342,6 +342,7 @@ dialog.dialog.full:has(.paragraph .expanded) {
 section .masonry {
 	width: 100%;
 	height: var(--height);
+	min-height: 100%;
 	display: flex;
 	align-items: flex-start;
 	overflow-y: auto;
