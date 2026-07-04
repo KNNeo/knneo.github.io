@@ -27,11 +27,6 @@ select {
 body {
 	margin: 0;
 	text-align: center;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 	height: calc(100% - 20px);
 }
 
@@ -92,6 +87,11 @@ a:hover {
 	border: 0;
 	padding: 0 4px;
 	height: 1.5lh;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .grid .container {
@@ -118,13 +118,7 @@ a:hover {
 }
 
 .grid .left {
-	grid-area: left;
-	-webkit-user-select: auto;
-	-khtml-user-select: auto;
-	-moz-user-select: auto;
-	-ms-user-select: auto;
-	user-select: auto;
-}
+	grid-area: left;}
 
 .vertical .grid .left {
 	overflow: hidden;
@@ -133,11 +127,6 @@ a:hover {
 
 .grid .right {
 	grid-area: right;
-	-webkit-user-select: auto;
-	-khtml-user-select: auto;
-	-moz-user-select: auto;
-	-ms-user-select: auto;
-	user-select: auto;
 }
 
 .vertical .grid .right {
@@ -155,6 +144,12 @@ a:hover {
 	grid-area: center;
 	font-size: 3em;
 	font-weight: bold;
+	pointer-events: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .grid .img {
@@ -162,6 +157,11 @@ a:hover {
 	max-height: 120px;
 	border: 4px solid var(--foreground);
 	pointer-events: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .grid .img.horizontal {
@@ -251,4 +251,12 @@ a:hover {
 
 .dialog dialog a {
 	padding: 6px;
+}
+
+.settings {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }

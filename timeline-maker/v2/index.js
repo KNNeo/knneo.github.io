@@ -1,7 +1,7 @@
 //--DEFAULT SETTINGS--//
 const timeline = {
 	debug: false,
-	dimmed: true,
+	dimmed: false,
 	orientation: window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	size: 40,
 	scroll: 0.1,
