@@ -592,6 +592,7 @@ function renderMasonry(data, container) {
 		if (data.shuffle) {
 			let newOrder = Array.from({length: data.images.length}, (v, i) => i).sort(function () { return 2 * Math.random() - 1 });
 			data.images.map(function (i, index) { i.order = newOrder[index] });
+			data.shuffle = false;
 		}
 		if(data.images.length && data.images.every(i => typeof i.order == 'number'))
 			data.images.sort(function(a,b) { return b.order - a.order });
