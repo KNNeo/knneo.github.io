@@ -340,7 +340,7 @@ body:has(.scrim:not(.hide)) {
 /* CONTEXT MENU */
 .context {
 	font-size: 0.75em;
-	position: absolute;
+	position: fixed;
 	border-radius: 8px;
 	white-space: nowrap;
 	border: 1px solid rgb(var(--accent));

@@ -64,15 +64,18 @@ function onExitClick() {
 				if (result && navigator.clipboard)
 					navigator.clipboard.writeText(data);
 			}
-		},
-		{
+		}
+	];
+	if(config.data.exit) {
+		options.push({
 			title: 'Exit', order: 5, onclick: function () {
 				window.location.href = typeof processLinkExtensions == "function"
 					? processLinkExtensions(config.data.exit)
 					: config.data.exit;
 			}
-		}
-	];
+		});
+		
+	}
 	showContextMenu(options);
 }
 
