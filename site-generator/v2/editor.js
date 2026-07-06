@@ -171,6 +171,9 @@ function onMasonryContextMenu() {
 				config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = false;
 				save();
 				render();
+				//revert, shuffle works only once
+				config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle = false;
+				save();
 			}
 		},
 		{
