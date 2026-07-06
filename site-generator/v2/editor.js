@@ -159,20 +159,20 @@ function onMasonryContextMenu() {
 				}
 			}
 		},
-		// {
-		// 	title: 'Shuffle Items', order: 4, onclick: function () {
-		// 		//find position of section and section item in data object
-		// 		let section = document.context.closest('section');
-		// 		let sectionIndex = parseInt(section.getAttribute('data-index'));
-		// 		let gridItem = document.context.closest('.grid-item');
-		// 		let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
-		// 		//set shuffle to true, sort order auto assign
-		// 		config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle = true;
-		// 		config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = false;
-		// 		save();
-		// 		render();
-		// 	}
-		// },
+		{
+			title: 'Shuffle Items', order: 4, onclick: function () {
+				//find position of section and section item in data object
+				let section = document.context.closest('section');
+				let sectionIndex = parseInt(section.getAttribute('data-index'));
+				let gridItem = document.context.closest('.grid-item');
+				let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+				//set shuffle to true, sort order auto assign
+				config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle = true;
+				config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = false;
+				save();
+				render();
+			}
+		},
 		{
 			title: 'Sort Items', order: 4, onclick: function () {
 				//find position of section and section item in data object
@@ -200,7 +200,7 @@ function onMasonryContextMenu() {
 				let sectionIndex = parseInt(section.getAttribute('data-index'));
 				let gridItem = document.context.closest('.grid-item');
 				let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
-				//obtain user input
+				//obtain user input in order
 				window.input = {};
 				let jsonInput = prompt('key in json (optional)');
 				if (jsonInput) window.input = JSON.parse(jsonInput);
@@ -298,7 +298,7 @@ function onMasonryContextMenu() {
 						translation: gridTitle.prefix || '',
 						tags: gridTags.values.join('|') || ''
 					};
-					//obtain user input
+					//obtain user input by key
 					let result = prompt('type in key to edit [title/artist/thumbnail/title_url/artist_url/translation/tags]');
 					if(!result) return alert('input missing! try again');
 					if(!Object.keys(window.input).includes(result.toLowerCase()) && result.toLowerCase() != 'json')
@@ -309,20 +309,6 @@ function onMasonryContextMenu() {
 						window.input = subResult;
 					else
 						window.input[result] = subResult;
-					// let jsonInput = prompt('key in json (optional)');
-					// if (jsonInput) window.input = JSON.parse(jsonInput);
-					// window.input.title = prompt('key in title', window.input.title);
-					// if (!window.input.title) return;
-					// window.input.artist = prompt('key in artist', window.input.artist);
-					// if (!window.input.artist) return;
-					// window.input.thumbnail = prompt('key in image url', window.input.thumbnail);
-					// if (!window.input.thumbnail) return;
-					// window.input.title_url = prompt('key in title url in format: title|url', window.input.title_url);
-					// if (!window.input.title_url) return;
-					// window.input.artist_url = prompt('key in artist url in format: artist|url', window.input.artist_url);
-					// if (!window.input.artist_url) return;
-					// window.input.translation = prompt('key in translation of title (optional)', window.input.translation);
-					// window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags);
 					let tags = [];
 					if (window.input.tags.split('|')[0])
 						tags = window.input.tags.split('|');
