@@ -595,7 +595,6 @@ function renderMasonry(data, container) {
 		}
 		else if(data.images.length && data.images.every(i => typeof i.order == 'number'))
 			data.images.sort(function(a,b) { return b.order - a.order });
-		}
 		// filter images if config detected (see startup)
 		let images = JSON.parse(JSON.stringify(data.images));
 		if (config.filter) {
