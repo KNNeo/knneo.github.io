@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
+	<link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
+	<script src="../../theme.js"></script>
+	<script src="index.js" defer></script>
+	<title>Body Ellipse Calculator</title>
+</head>
+
+<body onload="startup()" onkeyup="onKeyUp()">
+	<h2>Body Ellipse Calculator</h2>
+	<h6>Estimates of the female body</h6>
+	<div class="page">
+
+		<label>
+			<input type="radio" id="jp-region" name="region" value="Japan" checked data-unit="cm">
+			Japan
+		</label>
+		<label>
+			<input type="radio" id="us-region" name="region" value="USA" data-unit="in">
+			USA</label>
+		<br>
+		<br>
+		<label for="under">
+			Circumference (Underbust)
+			<br>
+			<input type="number" id="under" name="under" value="65" step="0.01">
+			<span for="under" name="unit"></span>
+		</label>
+		<br>
+		<label for="top">
+			Circumference (Top bust)
+			<br>
+			<input type="number" id="top" name="top" value="77" step="0.01">
+			<span for="top" name="unit"></span>
+		</label>
+		<br>
+		<br>
+		<button type="submit" value="Submit" onclick="calculate()">Submit</button>
+		<br>
+		<br>
+		<label for="cup">Cup size</label><br>
+		<input type="text" disabled id="cup" name="cup" value=""><br>
+		<label for="horizontal">Underbust to top</label><br>
+		<input type="text" disabled id="horizontal" name="horizontal" value="">
+		<span for="under" name="unit"></span>
+	</div>
+	<h3 class="settings">
+		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);"
+			onclick="toggleDarkMode()" oncontextmenu="customSetTheme()">brightness_high</a>
+		<div class="spacer"> </div>
+		<a href="https://knneo.github.io/">knneo.github.io</a>
+	</h3>
+</body>
+
+</html>
