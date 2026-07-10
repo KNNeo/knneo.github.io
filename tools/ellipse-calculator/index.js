@@ -47,7 +47,7 @@ function calculate() {
             calculateJapan();
         }
         if (region.value == 'USA') {
-            let match = cupSize.match(/([A-Z]{1,3})([0-9]{1,3})/);
+            let match = cupSize.match(/([0-9]{1,3})([A-Z]{1,3})/);
             if(!match || match.length != 3)
                 return alert('format wrong! ' + region.value);
             let cupChar = match[2].charCodeAt(); // min 65
