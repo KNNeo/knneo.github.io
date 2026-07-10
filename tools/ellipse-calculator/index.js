@@ -51,8 +51,8 @@ function calculate() {
             if(!match || match.length != 3)
                 return alert('format wrong! ' + region.value);
             let cupChar = match[2].charCodeAt(); // min 65
-            if(cupChar == 'DD') cupChar = 'E';
-            if(cupChar == 'DDD') cupChar = 'F';
+            if(match[2] == 'DD') cupChar = 'E'.charCodeAt();
+            if(match[2] == 'DDD') cupChar = 'F'.charCodeAt();
             inputUnder.value = parseInt(match[1]);
             inputTop.value = parseInt(inputUnder.value) + ((cupChar - 65) * 1);
             calculateUSA();
