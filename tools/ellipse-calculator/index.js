@@ -140,7 +140,7 @@ function convert() {
         calculate();
 }
 
-function clear() {
+function clearInput() {
     inputUnder.value = '';
     inputTop.value = '';
     outputCup.value = '';
