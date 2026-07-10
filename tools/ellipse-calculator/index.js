@@ -39,7 +39,7 @@ function calculate() {
         let region = Array.from(inputRadios).find(i => i.checked);
         if (region.value == 'Japan') {
             let match = cupSize.match(/([A-Z])([0-9]{1,3})/);
-            if(!match || match.length == 3)
+            if(!match || match.length != 3)
                 return alert('format wrong! ' + region.value);
             let cupChar = match[1].charCodeAt(); // min 65
             inputUnder.value = parseInt(match[2]);
@@ -48,7 +48,7 @@ function calculate() {
         }
         if (region.value == 'USA') {
             let match = cupSize.match(/([A-Z]{1,3})([0-9]{1,3})/);
-            if(!match || match.length == 3)
+            if(!match || match.length != 3)
                 return alert('format wrong! ' + region.value);
             let cupChar = match[2].charCodeAt(); // min 65
             if(cupChar == 'DD') cupChar = 'E';
@@ -138,6 +138,13 @@ function convert() {
     }
     if (inputUnder?.value && inputTop?.value)
         calculate();
+}
+
+function clear() {
+    inputUnder.value = '';
+    inputTop.value = '';
+    outputCup.value = '';
+    outputHorizontal.value = '';
 }
 
 
