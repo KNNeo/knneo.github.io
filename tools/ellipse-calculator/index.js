@@ -20,8 +20,6 @@ function onKeyUp() {
 
 //--EVENT HANDLERS--//
 function calculate() {
-    if (!inputUnder?.value || !inputTop?.value || !outputCup?.value)
-        return alert('fill in underbust and tip or cup field(s)!');
     if (inputUnder?.value && inputTop?.value) {
         if (parseFloat(inputTop.value) < parseFloat(inputUnder.value))
             return alert('top must be larger than under!');
@@ -36,7 +34,7 @@ function calculate() {
                 break;
         }
     }
-    if (outputCup?.value) {
+    else if (outputCup?.value) {
         let cupSize = outputCup.value;
         let region = Array.from(inputRadios).find(i => i.checked);
         if (region.value == 'Japan') {
@@ -60,6 +58,8 @@ function calculate() {
             calculateUSA();
         }
     }
+    else
+        return alert('fill in underbust, tip or cup field(s)!');
 }
 
 function calculateJapan() {
