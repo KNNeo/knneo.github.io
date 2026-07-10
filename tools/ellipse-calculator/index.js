@@ -20,19 +20,47 @@ function onKeyUp() {
 
 //--EVENT HANDLERS--//
 function calculate() {
-    if (!inputUnder?.value || !inputTop?.value)
-        return alert('fill in both fields!');
-    if (parseFloat(inputTop.value) < parseFloat(inputUnder.value))
-        return alert('top must be larger than under!');
+    if (!inputUnder?.value || !inputTop?.value || !outputCup?.value)
+        return alert('fill in underbust and tip or cup field(s)!');
+    if (inputUnder?.value && inputTop?.value) {
+        if (parseFloat(inputTop.value) < parseFloat(inputUnder.value))
+            return alert('top must be larger than under!');
 
-    let region = Array.from(inputRadios).find(i => i.checked);
-    switch (region.value) {
-        case 'Japan':
-            calculateJapan();
-            break;
-        case 'USA':
-            calculateUSA();
-            break;
+        let region = Array.from(inputRadios).find(i => i.checked);
+        switch (region.value) {
+            case 'Japan':
+                calculateJapan();
+                break;
+            case 'USA':
+                calculateUSA();
+                break;
+        }
+    }
+    if (outputCup?.value) {
+        let cupSize = outputCup.value;
+        let region = Array.from(inputRadios).find(i => i.checked);
+        switch (region.value) {
+            case 'Japan':
+                let match = cupSize.match(/([A-Z])([0-9]{1,3})/);
+                if(!match || match.length == 3)
+                    return alert('format wrong! ' + region.value);
+                let cupChar = match[1].charCodeAt(); // min 65
+                inputUnder.value = parseInt(match[2]);
+                inputTop.value = inputUnder.value + 7.5 + (cupChar - 65 * 1.5);
+                calculateJapan();
+                break;
+            case 'USA':
+                let match = cupSize.match(/([A-Z]{1,3})([0-9]{1,3})/);
+                if(!match || match.length == 3)
+                    return alert('format wrong! ' + region.value);
+                let cupChar = match[2].charCodeAt(); // min 65
+                if(cupChar == 'DD') cupChar = 'E';
+                if(cupChar == 'DDD') cupChar = 'F';
+                inputUnder.value = parseInt(match[1]);
+                inputTop.value = inputUnder.value + (cupChar - 65 * 1);
+                calculateUSA();
+                break;
+        }
     }
 }
 
