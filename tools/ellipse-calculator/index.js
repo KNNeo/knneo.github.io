@@ -43,7 +43,7 @@ function calculate() {
                 return alert('format wrong! ' + region.value);
             let cupChar = match[1].charCodeAt(); // min 65
             inputUnder.value = parseInt(match[2]);
-            inputTop.value = inputUnder.value + 7.5 + (cupChar - 65 * 1.5);
+            inputTop.value = parseInt(inputUnder.value) + 7 + (cupChar - 65 * 1.5);
             calculateJapan();
         }
         if (region.value == 'USA') {
@@ -54,7 +54,7 @@ function calculate() {
             if(cupChar == 'DD') cupChar = 'E';
             if(cupChar == 'DDD') cupChar = 'F';
             inputUnder.value = parseInt(match[1]);
-            inputTop.value = inputUnder.value + (cupChar - 65 * 1);
+            inputTop.value = parseInt(inputUnder.value) + (cupChar - 65 * 1);
             calculateUSA();
         }
     }
