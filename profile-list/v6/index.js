@@ -728,10 +728,11 @@ function generateProfileName(profile) {
 	if (config.debug) console.log('generateProfileName');
 
 	let cell = document.createElement('div');
-	cell.style.display = 'flex';
-	cell.style.justifyContent = 'space-evenly';
 	//--NAME VALUE--//
 	let cellDiv = document.createElement('div');
+	cellDiv.style.display = 'flex';
+	cellDiv.style.flexDirection = 'column';
+	cellDiv.style.justifyContent = 'space-evenly';
 
 	// name clickable if friend mode
 	let span = document.createElement(config.multi ? 'a' : 'span');
@@ -739,6 +740,7 @@ function generateProfileName(profile) {
 	span.title = profile.nickname && profile.nickname.length > 0 ? profile.nickname.removeNumberPrefix() : '';
 	span.setAttribute('data-name', profile.name);
 	span.innerText = profile.name;
+	cellDiv.appendChild(span);
 	if (config.multi) {
 		span.href = 'javascript:void(0)';
 		span.addEventListener('click', function () {
@@ -748,9 +750,10 @@ function generateProfileName(profile) {
 	}
 	else {
 		if(profile.alt) {
-			let span = document.createElement('span');
-			span.classList.add('profile-alt');
-			span.innerText = profile.alt;
+			let alt = document.createElement('span');
+			alt.classList.add('profile-alt');
+			alt.innerText = profile.alt;
+			cellDiv.appendChild(alt);
 		}
 		if (profile.nickname) {
 			span.classList.add('points');
@@ -760,9 +763,7 @@ function generateProfileName(profile) {
 		}
 	}
 
-	cellDiv.appendChild(span);
 	cell.appendChild(cellDiv);
-
 	return cell;
 }
 
