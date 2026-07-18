@@ -446,24 +446,6 @@ function renderImage(data, container) {
 			if (config.debug) console.log('landscape image', image);
 			image.style.setProperty('--width', 'calc(' + 0.8 * width + 'px - 1em)');
 		}
-		// should not be needed: to fit within container
-		if (imgWidth >= width) {
-			if (config.debug) console.log('out of width', image);
-			image.style.setProperty('max-width', 'calc(' + 0.8 * width + 'px - 1em)');
-			if (data.link)
-				image.parentElement.style.setProperty('max-width', 'calc(' + 0.8 * width + 'px - 1em)');
-		}
-		if (imgHeight >= height) {
-			if (config.debug) console.log('out of height', image);
-			// need to know new ratio
-			let ratio = imgWidth / imgHeight;
-			//console.log('out of height', ratio);
-			image.style.setProperty('max-width', 'calc(' + 0.8 * width * ratio + 'px - 1em)');
-			if (data.link)
-				image.parentElement.style.setProperty('max-width', 'calc(' + 0.8 * width * ratio + 'px - 1em)');
-
-			image.style.setProperty('--height', 'calc(' + width * ratio + 'px - 1em)');
-		}
 	}
 }
 
