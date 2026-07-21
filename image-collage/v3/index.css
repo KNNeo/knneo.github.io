@@ -719,7 +719,11 @@ a:focus-within {
 	.viewer.captions .caption {
 		right: 1em;
 	}
+}
 
+@media (pointer: coarse) {
+	.settings,
+	.settings-icon,
 	.context {
 		font-size: 1.25em;
 	}
