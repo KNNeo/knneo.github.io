@@ -140,8 +140,15 @@ function renderExit() {
 		document.querySelector(".exit") || document.createElement("a");
 	exit.className = "exit material-icons";
 	exit.innerText = "menu";
-	exit.href = 'javascript:void(0);';
-	exit.setAttribute('onclick', 'onExitClick()');
+	if (typeof onExitClick == 'function') {
+		exit.href = 'javascript:void(0);';
+		exit.setAttribute('onclick', 'onExitClick()');
+	}
+	else {
+		exit.href = typeof processLinkExtensions == "function"
+			? processLinkExtensions('../index.html')
+			: '../index.html';
+	}
 	if (!document.querySelector(".exit")) {
 		if (container)
 			container.insertBefore(exit, container.children[0]);
@@ -547,13 +554,14 @@ function renderMasonry(data, container) {
 
 	let masonry = document.createElement("div");
 	masonry.className = "masonry";
-	masonry.addEventListener('resize', function() {
+	masonry.addEventListener('resize', function () {
 		event.target.style.setProperty(
 			"--height",
 			"calc(" + event.target.parentElement.getBoundingClientRect().height + "px - 1em)"
 		);
 	});
-	masonry.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
+	if (typeof onMasonryContextMenu == 'function')
+		masonry.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
 	container.appendChild(masonry);
 
 	if (data.config && data.config.length == 3) {
@@ -562,7 +570,7 @@ function renderMasonry(data, container) {
 		config.masonry.columnSize = data.config[2];
 	}
 
-	if(!isLandscape())
+	if (!isLandscape())
 		config.masonry.minColumns = 2;
 
 	if (data.images) {
@@ -572,18 +580,18 @@ function renderMasonry(data, container) {
 			totalCol = config.masonry.minColumns;
 		// create order if random, else sort by order ascending
 		if (data.shuffle) {
-			let newOrder = Array.from({length: data.images.length}, (v, i) => i).sort(function () { return 2 * Math.random() - 1 });
+			let newOrder = Array.from({ length: data.images.length }, (v, i) => i).sort(function () { return 2 * Math.random() - 1 });
 			data.images.map(function (i, index) { i.order = newOrder[index] });
 		}
-		if(data.images.length && data.images.every(i => typeof i.order == 'number'))
-			data.images.sort(function(a,b) { return a.order - b.order });
+		if (data.images.length && data.images.every(i => typeof i.order == 'number'))
+			data.images.sort(function (a, b) { return a.order - b.order });
 		// filter images if config detected (see startup)
 		let images = JSON.parse(JSON.stringify(data.images));
 		if (config.filter) {
 			images = images.filter((i) => !i.skip);
 			data.images = data.images.filter((i) => !i.skip);
 		}
-		if(data.reverse) data.images.reverse();
+		if (data.reverse) data.images.reverse();
 		// create masonry columns
 		for (let row = 0; row < totalCol; row++) {
 			let colDiv = document.createElement("div");
@@ -805,7 +813,7 @@ function filterPages() {
 		removeDialog();
 		startup();
 		showSnackbar('表紙するのタグ： ' + filterValue + '', 'リセット',
-			function() {
+			function () {
 				config.filter = null;
 				startup();
 			});
@@ -983,7 +991,7 @@ function showContextMenu(options) {
 	for (let option of options) {
 		if (option.disabled) continue;
 		let menuItem = document.createElement(option.onclick ? 'button' : 'hr');
-		if(option.onclick) {
+		if (option.onclick) {
 			menuItem.onclick = option.onclick;
 			menuItem.innerText = option.title;
 		}
@@ -1025,7 +1033,7 @@ function startup() {
 		config.data = JSON.parse(dataScript?.innerText || []);
 		console.log("using inline html embedded json");
 	} else if (dataScript?.src && typeof getJson == 'function') {
-		getJson(dataScript?.src, function(contents) {
+		getJson(dataScript?.src, function (contents) {
 			config.data = contents;
 			init();
 		});
