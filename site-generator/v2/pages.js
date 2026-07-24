@@ -576,14 +576,13 @@ function renderMasonry(data, container) {
 			data.images.map(function (i, index) { i.order = newOrder[index] });
 		}
 		if(data.images.length && data.images.every(i => typeof i.order == 'number'))
-			data.images.sort(function(a,b) { return b.order - a.order });
+			data.images.sort(function(a,b) { return data.reverse ? b.order - a.order : a.order - b.order });
 		// filter images if config detected (see startup)
 		let images = JSON.parse(JSON.stringify(data.images));
 		if (config.filter) {
 			images = images.filter((i) => !i.skip);
 			data.images = data.images.filter((i) => !i.skip);
 		}
-		if (data.reverse) images.reverse();
 		// create masonry columns
 		for (let row = 0; row < totalCol; row++) {
 			let colDiv = document.createElement("div");

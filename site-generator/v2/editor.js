@@ -180,23 +180,25 @@ function onMasonryContextMenu() {
 			}
 		},
 		{
-			title: 'Sort Items', order: 4, onclick: function () {
+			title: 'Sort Items by Tags', order: 4, onclick: function () {
 				//find position of section and section item in data object
 				let section = document.context.closest('section');
 				let sectionIndex = parseInt(section.getAttribute('data-index'));
 				let gridItem = document.context.closest('.grid-item');
 				let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
 				//remove shuffle, toggle reverse
-				delete config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle;
-				config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse ? false : true;
-				//sort based on tags, remove by sort order
-				config.data.pages[sectionIndex].items[gridItemIndex - 1].images.sort(function (a, b) {
-					let aItem = (a.grid.items[2].values || []).toReversed().join(',');
-					let bItem = (b.grid.items[2].values || []).toReversed().join(',');
-					return bItem.localeCompare(aItem, config.sort.locale);
-				}).map(c => delete c.order);
-				save();
-				render();
+				if (confirm('confirm sort items? this action cannot be reversed.')) {
+					delete config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle;
+					config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse ? false : true;
+					//sort based on tags, remove by sort order
+					config.data.pages[sectionIndex].items[gridItemIndex - 1].images.sort(function (a, b) {
+						let aItem = (a.grid.items[2].values || []).toReversed().join(',');
+						let bItem = (b.grid.items[2].values || []).toReversed().join(',');
+						return bItem.localeCompare(aItem, config.sort.locale);
+					});
+					save();
+					render();
+				}
 			}
 		},
 		{
@@ -236,7 +238,6 @@ function onMasonryContextMenu() {
 				let template = {
 					"tooltip": window.input.title + '\n' + window.input.artist,
 					"thumbnail": window.input.thumbnail,
-					"sort": 0,
 					"grid": {
 						"type": "grid", "columns": 2, "rows": 8,
 						"items": [
@@ -272,10 +273,8 @@ function onMasonryContextMenu() {
 					let image = document.context;
 					let imageIndex = parseInt(image.getAttribute('data-images'));
 					//popup confirm for user, then remove
-					imageIndex = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.findIndex(i => i.order == imageIndex);
 					if (confirm('confirm clear item? this action cannot be reversed.')) {
-						delete config.data.pages[sectionIndex].items[gridItemIndex - 1].images[imageIndex];
-						config.data.pages[sectionIndex].items[gridItemIndex - 1].images = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.filter(i => i);
+						config.data.pages[sectionIndex].items[gridItemIndex - 1].images = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.filter(i => i.order != imageIndex);
 						save();
 						render();
 					}
