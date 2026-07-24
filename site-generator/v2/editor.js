@@ -191,10 +191,12 @@ function onMasonryContextMenu() {
 					delete config.data.pages[sectionIndex].items[gridItemIndex - 1].shuffle;
 					config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse = config.data.pages[sectionIndex].items[gridItemIndex - 1].reverse ? false : true;
 					//sort based on tags, remove by sort order
-					config.data.pages[sectionIndex].items[gridItemIndex - 1].images.sort(function (a, b) {
+					config.data.pages[sectionIndex].items[gridItemIndex - 1].images = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.sort(function (a, b) {
 						let aItem = (a.grid.items[2].values || []).toReversed().join(',');
 						let bItem = (b.grid.items[2].values || []).toReversed().join(',');
 						return bItem.localeCompare(aItem, config.sort.locale);
+					}).map(function(c, i) {
+						return { ...c, order: i }
 					});
 					save();
 					render();
