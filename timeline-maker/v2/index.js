@@ -117,9 +117,9 @@ function toggleOrientation() {
 }
 
 function openEditor() {
-	popupText('<textarea id="editor" name="editor" rows="8" cols="40" style="max-width: 90%;">' +
+	popupText('<div><textarea id="editor" name="editor" rows="8" cols="40" style="max-width: 90%;">' +
 		localStorage.getItem(timeline.storage.edit) +
-		'</textarea>' +
+		'</textarea></div>' +
 		'<div><a class="bi bi-stickies" href="javascript:void(0);" title="Load Example" onclick="document.querySelector(\'#editor\').value=loadEdit(document.querySelector(\'#example\').textContent);"></a>' +
 		'<a class="bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector("#editor").textContent);"></a>' +
 		'<a class="bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="saveEdit()"></a></div>');
@@ -542,7 +542,7 @@ function createDialog(node) {
 		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function () {
-		if (event.target == document.querySelector('dialog'))
+		if (event.target == document.querySelector('dialog') && event.target == document.activeElement)
 			removeDialog();
 	});
 	return dialog;
