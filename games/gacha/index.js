@@ -34,7 +34,7 @@ function generateCard(card) {
 	cardText.innerText = card.value;
 	cardDiv.appendChild(cardText);
 
-	pageDiv.appendCard(cardDiv);
+	pageDiv.appendChild(cardDiv);
 }
 
 //--EVENT HANDLERS--//
