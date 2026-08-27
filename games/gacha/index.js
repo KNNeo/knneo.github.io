@@ -211,10 +211,13 @@ function processQueryResult(content) {
 	let columns = content[0].columns;
 	let rows = content[0].values;
 	let list = [];
+	let item = {};
 	for (let col of columns) {
 		let colIndex = columns.indexOf(col);
 		for (let row of rows)
-			list[col] = row[colIndex];
+			item[col] = row[colIndex];
+		list.push(item);
+		item = {};
 	}
 	return list;
 }
