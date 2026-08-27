@@ -10,10 +10,32 @@ const config = {
 };
 
 //--DOM NODE REFERENCES--//
-
+const pageDiv = document.querySelector('div.page');
 
 //--DOM FUNCTIONS--//
+function generateRandomCard() {
+	generateCard(config.cards.sort(r => 2*Math.random()-1));
+}
 
+function generateCards() {
+	for(let card of config.cards)
+		generateCard(card);
+}
+
+function generateCard(card) {
+	let cardDiv = document.createElement('div');
+	cardDiv.dataset.id = card.id;
+
+	let cardImg = document.createElement('img');
+	cardImg.src = card.image;
+	cardDiv.appendChild(cardImg);
+
+	let cardText = document.createElement('div');
+	cardText.innerText = card.value;
+	cardDiv.appendChild(cardText);
+
+	pageDiv.appendCard(cardDiv);
+}
 
 //--EVENT HANDLERS--//
 
@@ -181,6 +203,7 @@ function startup() {
 	console.log('Initialization complete.');
 	queryDb('SELECT * FROM card', function (content) {
 		config.cards = processQueryResult(content);
+		generateCards();
 	});
 }
 
