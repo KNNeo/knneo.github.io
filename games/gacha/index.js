@@ -42,13 +42,13 @@ function generateCard(card, onclick) {
 	cardDiv.appendChild(cardImg);
 
 	let cardText = document.createElement('h5');
-	cardText.innerText = card.value.split(config?.card?.separator || '/').join('\n');
-	cardText.title = cardText.innerText;
+	cardText.textContent = card.value.split(config?.card?.separator || '/').join('\n');
+	cardText.title = cardText.textContent;
 	cardDiv.appendChild(cardText);
 
 	if (card.price) {
 		let cardPrice = document.createElement('p');
-		cardPrice.innerText = card.price;
+		cardPrice.textContent = card.price;
 		cardDiv.appendChild(cardPrice);
 	}
 
@@ -238,9 +238,9 @@ function writeDb(statement) {
 	}
 }
 
-async function migrateDb(SQL, callback) {
+async function migrateDbCards(SQL, callback) {
 	if (!config.db)
-		return console.error('migrateDb: Database not found.');
+		return console.error('Database not found.');
 
 	try {
 		console.log('Version change detected! Updating database...');
@@ -295,7 +295,7 @@ window.addEventListener('load', async function () {
 
 function startup() {
 	if (config.id != localStorage.getItem('gacha_ver_id'))
-		migrateDb(config.sql, startup);
+		migrateDbCards(config.sql, startup);
 	selectView();
 	initCards();
 	initLibrary();
