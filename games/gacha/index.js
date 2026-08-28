@@ -1,7 +1,7 @@
 //--DEFAULT SETTINGS--//
 const config = {
 	debug: true,
-	id: '20260322',
+	id: '20260828',
 	idb: {
 		name: 'gacha',
 		store: 'surugacha',
@@ -42,21 +42,65 @@ function generateCard(card) {
 	let cardDiv = document.createElement('div');
 	cardDiv.classList.add('card', 'box');
 	cardDiv.dataset.id = card.id;
+	cardDiv.onclick = hideCard;
 
 	let cardImg = document.createElement('img');
 	cardImg.src = card.image;
 	cardDiv.appendChild(cardImg);
 
 	let cardText = document.createElement('h5');
-	cardText.title = card.value;
 	cardText.innerText = card.value.split(config?.card?.separator || '/').join('\n');
+	cardText.title = cardText.innerText;
 	cardDiv.appendChild(cardText);
 
 	let cardPrice = document.createElement('p');
 	cardPrice.innerText = card.price;
 	cardDiv.appendChild(cardPrice);
 
+	saveCardToLibrary(card.id);
+
 	return cardDiv;
+}
+
+function saveCardToLibrary(id) {
+	let now = new Date();
+	let nowInt = parseInt(`${now.getYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
+	writeDb(`INSERT INTO library (cardId, dateAdded) VALUES (${id}, ${nowInt});`);
+	saveDb();
+}
+
+function hideCard() {
+	return this.remove();
+}
+
+function generateLibrary() {
+	let filterDiv = document.createElement('select');
+	sortDiv.value = '===FILTER===';
+
+	let sortDiv = document.createElement('select');
+	sortDiv.value = '===SORT===';
+
+	let headerDiv = document.createElement('div');
+	headerDiv.classList.add('filter-sort');
+	headerDiv.appendChild(filterDiv);
+	headerDiv.appendChild(sortDiv);
+
+	let listDiv = document.createElement('div');
+	listDiv.classList.add('list');
+
+	if(config.library.length) {
+		for (let item of config.library) {
+			let card = config.cards.find(c => c.id === item.cardId);
+			if(card)
+				listDiv.appendChild(generateCard(card));
+			else
+				console.warn('card in library missing in card list', item.cardId);
+		}
+		libraryView.replaceChildren(headerDiv, listDiv);
+	}
+	else
+		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
+
 }
 
 //--EVENT HANDLERS--//
@@ -221,7 +265,11 @@ function startup() {
 	selectView();
 	queryDb('SELECT * FROM card', function (content) {
 		config.cards = processQueryResult(content);
-		console.log('Initialization complete.');
+		console.log('Card list init complete.');
+	});
+	queryDb('SELECT * FROM library', function (content) {
+		config.library = processQueryResult(content);
+		console.log('Library init complete.');
 	});
 }
 
