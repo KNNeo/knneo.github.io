@@ -65,7 +65,7 @@ function generateCard(card) {
 function saveCardToLibrary(id) {
 	let now = new Date();
 	let nowInt = parseInt(`${now.getYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
-	writeDb(`INSERT INTO library (cardId, dateAdded) VALUES (${id}, ${nowInt});`);
+	writeDb(`INSERT INTO library (cardId, added) VALUES (${id}, ${nowInt});`);
 	saveDb();
 }
 
@@ -264,10 +264,14 @@ window.addEventListener('load', async function () {
 function startup() {
 	selectView();
 	queryDb('SELECT * FROM card', function (content) {
+		if (!content || !content.length)
+			return console.error('Card list empty');
 		config.cards = processQueryResult(content);
 		console.log('Card list init complete.');
 	});
 	queryDb('SELECT * FROM library', function (content) {
+		if (!content || !content.length)
+			return console.error('Library empty');
 		config.library = processQueryResult(content);
 		console.log('Library init complete.');
 	});
