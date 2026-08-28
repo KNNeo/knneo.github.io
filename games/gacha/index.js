@@ -46,9 +46,11 @@ function generateCard(card, onclick) {
 	cardText.title = cardText.innerText;
 	cardDiv.appendChild(cardText);
 
-	let cardPrice = document.createElement('p');
-	cardPrice.innerText = card.price;
-	cardDiv.appendChild(cardPrice);
+	if (card.price) {
+		let cardPrice = document.createElement('p');
+		cardPrice.innerText = card.price;
+		cardDiv.appendChild(cardPrice);
+	}
 
 	let cardLike = document.createElement('a');
 	cardLike.classList.add('bi', 
@@ -62,6 +64,7 @@ function generateCard(card, onclick) {
 }
 
 function toggleLikeCard() {
+	// TODO: update db
 	if(event?.target?.classList.contains('bi-star-fill'))
 		event?.target.classList.replace('bi-star-fill', 'bi-star');
 	else
@@ -241,7 +244,7 @@ async function migrateDb(SQL, callback) {
 
 	try {
 		console.log('Version change detected! Updating database...');
-		let newDb = createDb(SQL);
+		let newDb = await createDb(SQL);
 		let newDbCards = newDb.exec("SELECT * FROM card");
 
 		if (newDbCards.length === 0 || !newDbCards[0].values.length)
