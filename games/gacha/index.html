@@ -16,17 +16,21 @@
 </head>
 
 <body>
-	<h2>Suruga-cha</h2>
-	<h6>What if you can play the used photos market back into a game of chance?</h6>
-	<div class="page"></div>
-	<h3 class="settings">
-		<a title="Generate Random Card" class="random material-icons" href="javascript:void(0);"
-			onclick="generateRandomCard()">shuffle</a>
-		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);"
-			onclick="toggleDarkMode()" oncontextmenu="customSetTheme()">brightness_high</a>
-		<div class="spacer"> </div>
-		<a href="https://knneo.github.io/">knneo.github.io</a>
-	</h3>
+	<header class="header">
+		<h2>Suruga-cha</h2>
+		<h3 class="settings">
+			<a title="Generate Random Card" class="bi bi-shuffle" href="javascript:void(0);"
+				onclick="generateRandomCard()"></a>
+			<a title="Toggle Dark Mode" class="bi bi-brightness-high-fill" href="javascript:void(0);"
+				onclick="toggleDarkMode()" oncontextmenu="customSetTheme()"></a>
+			<a title="Go Home" class="bi bi-github" href="https://knneo.github.io/"></a>
+		</h3>
+	</header>
+	<main class="page">
+		<div class="card-view"></div>
+		<div class="library-view"></div>
+	</main>
+	<footer class="footer"></footer>
 </body>
 
 </html>

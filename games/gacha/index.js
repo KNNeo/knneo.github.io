@@ -10,11 +10,12 @@ const config = {
 };
 
 //--DOM NODE REFERENCES--//
-const pageDiv = document.querySelector('div.page');
+const cardView = document.querySelector('div.card-view');
+const libraryView = document.querySelector('div.library-view');
 
 //--DOM FUNCTIONS--//
 function generateRandomCard() {
-	generateCard(config.cards.sort(r => 2*Math.random()-1));
+	cardView.replaceChildren(generateCard(config.cards.sort(r => 2*Math.random()-1)));
 }
 
 function generateCards() {
@@ -24,17 +25,22 @@ function generateCards() {
 
 function generateCard(card) {
 	let cardDiv = document.createElement('div');
+	cardDiv.classList.add('card', 'box');
 	cardDiv.dataset.id = card.id;
 
 	let cardImg = document.createElement('img');
 	cardImg.src = card.image;
 	cardDiv.appendChild(cardImg);
 
-	let cardText = document.createElement('div');
-	cardText.innerText = card.value;
+	let cardText = document.createElement('h4');
+	cardText.innerText = card.value.split('/').join('\n');
 	cardDiv.appendChild(cardText);
 
-	pageDiv.appendChild(cardDiv);
+	let cardPrice = document.createElement('p');
+	cardPrice.innerText = card.price;
+	cardDiv.appendChild(cardPrice);
+
+	return cardDiv;
 }
 
 //--EVENT HANDLERS--//
@@ -203,7 +209,7 @@ function startup() {
 	console.log('Initialization complete.');
 	queryDb('SELECT * FROM card', function (content) {
 		config.cards = processQueryResult(content);
-		generateCards();
+		generateRandomCard();
 	});
 }
 
