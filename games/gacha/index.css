@@ -81,31 +81,12 @@ footer button {
 	border: 2px solid rgb(var(--accent));
 }
 
-footer button:active {
-	transform: scale(0.97);
-}
-
 .box {
 	margin: 5px;
 	vertical-align: top;
 	scroll-snap-align: center;
 	white-space: normal;
 	touch-action: manipulation;
-}
-
-.shadowed {
-	border: 1px solid lightgray;
-	box-shadow: 3px 3px;
-}
-
-.shadowed:active {
-	box-shadow: 1px 1px;
-	transform: translate(2px, 2px);
-}
-
-.unshadowed {
-	filter: opacity(100%);
-	transition: filter 1s;
 }
 
 .view {
