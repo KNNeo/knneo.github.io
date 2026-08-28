@@ -62,7 +62,6 @@ function generateCard(card, onclick) {
 }
 
 function toggleLikeCard() {
-	event.preventDefault();
 	if(event?.target?.classList.contains('bi-star-fill'))
 		event?.target.classList.replace('bi-star-fill', 'bi-star');
 	else
@@ -80,7 +79,8 @@ function saveCardToLibrary(id) {
 }
 
 function hideCard() {
-	return this.remove();
+	if (event?.target?.onclick) return;
+	else this.remove();
 }
 
 function generateLibrary() {
@@ -107,6 +107,7 @@ function generateLibrary() {
 			let card = config.cards.find(c => c.id === item.cardId);
 			if (card)
 				listDiv.appendChild(generateCard(card, function() {
+					if (event?.target?.onclick) return;
 					cardView.replaceChildren(generateCard(card, hideCard));
 					selectView();
 				}));
