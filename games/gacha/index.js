@@ -124,7 +124,7 @@ function generateLibrary() {
 //--DOM EVENT LISTENERS--//
 function generateRandomCard() {
 	let cards = config.cards
-		.filter(c => !config?.library?.length || config.library.filter(l => c.id != l.cardId).length)
+		.filter(c => !config?.library?.length || !config.library.find(l => c.id == l.cardId))
 		.sort(r => 2*Math.random()-1);
 	if (cards.length) {
 		selectView();
