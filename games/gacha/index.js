@@ -62,12 +62,12 @@ function generateCard(card) {
 	return cardDiv;
 }
 
-function saveCardToLibrary(cardId) {
-	if(config.library.find(l => l.id == cardId))
-		return console.error('cardId in library', cardId);
+function saveCardToLibrary(id) {
+	if(config.library.find(l => l.cardId == id))
+		return console.error('cardId in library', id);
 	let now = new Date();
 	let nowInt = parseInt(`${now.getYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
-	writeDb(`INSERT INTO library (cardId, added) VALUES ('${cardId}', ${nowInt});`);
+	writeDb(`INSERT INTO library (cardId, added) VALUES ('${id}', ${nowInt});`);
 	saveDb();
 }
 
