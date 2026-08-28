@@ -43,7 +43,7 @@ function generateCard(card, onclick) {
 
 	let cardText = document.createElement('h5');
 	cardText.textContent = card.value.split(config?.card?.separator || '/').join('\n');
-	cardText.title = cardText.textContent;
+	cardText.title = cardText.innerText;
 	cardDiv.appendChild(cardText);
 
 	if (card.price) {
