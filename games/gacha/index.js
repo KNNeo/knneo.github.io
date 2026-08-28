@@ -74,6 +74,8 @@ function hideCard() {
 }
 
 function generateLibrary() {
+	initLibrary();
+	
 	let filterDiv = document.createElement('select');
 	sortDiv.value = '===FILTER===';
 
@@ -263,12 +265,20 @@ window.addEventListener('load', async function () {
 
 function startup() {
 	selectView();
+	initCards();
+	initLibrary();
+}
+
+function initCards() {
 	queryDb('SELECT * FROM card', function (content) {
 		if (!content || !content.length)
 			return console.error('Card list empty');
 		config.cards = processQueryResult(content);
 		console.log('Card list init complete.');
 	});
+}
+
+function initLibrary() {
 	queryDb('SELECT * FROM library', function (content) {
 		if (!content || !content.length)
 			return console.error('Library empty');
