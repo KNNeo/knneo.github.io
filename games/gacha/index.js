@@ -77,7 +77,7 @@ function hideCard() {
 
 function generateLibrary() {
 	let filterDiv = document.createElement('select');
-	sortDiv.value = '===FILTER===';
+	filterDiv.value = '===FILTER===';
 
 	let sortDiv = document.createElement('select');
 	sortDiv.value = '===SORT===';
@@ -104,10 +104,7 @@ function generateLibrary() {
 		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
 }
 
-//--EVENT HANDLERS--//
-
-
-//--FUNCTIONS--//
+//--DB FUNCTIONS--//
 function getIDB() {
 	return new Promise((resolve, reject) => {
 		const request = indexedDB.open(config.idb.name, 1);
@@ -277,7 +274,7 @@ function initCards() {
 	});
 }
 
-function initLibrary(callback) {
+function initLibrary() {
 	queryDb('SELECT * FROM library', function (content) {
 		if (!content || !content.length)
 			return console.error('Library empty');
