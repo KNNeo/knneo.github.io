@@ -27,6 +27,8 @@ function selectView() {
 		else
 			view.classList.add('hidden');
 	}
+	if (className == 'library-view')
+		initLibrary();
 }
 
 function generateCards() {
@@ -192,6 +194,7 @@ function writeDb(statement) {
 		config.db.run("BEGIN TRANSACTION");
 		config.db.run(statement);
 		config.db.run("COMMIT");
+		saveDb();
 	} catch (err) {
 		config.db.run("ROLLBACK");
 		console.error("Write to database failed:", err);
@@ -256,6 +259,7 @@ function generateRandomCard() {
 function resetData() {
 	if (confirm('Confirm reset data? This action cannot be undone.')) {
 		writeDb('DELETE FROM library');
+		saveDb();
 		window.location.reload();
 	}
 }
