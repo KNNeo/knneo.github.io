@@ -76,34 +76,32 @@ function hideCard() {
 }
 
 function generateLibrary() {
-	initLibrary(function() {
-		let filterDiv = document.createElement('select');
-		sortDiv.value = '===FILTER===';
+	let filterDiv = document.createElement('select');
+	sortDiv.value = '===FILTER===';
 
-		let sortDiv = document.createElement('select');
-		sortDiv.value = '===SORT===';
+	let sortDiv = document.createElement('select');
+	sortDiv.value = '===SORT===';
 
-		let headerDiv = document.createElement('div');
-		headerDiv.classList.add('filter-sort');
-		headerDiv.appendChild(filterDiv);
-		headerDiv.appendChild(sortDiv);
+	let headerDiv = document.createElement('div');
+	headerDiv.classList.add('filter-sort');
+	headerDiv.appendChild(filterDiv);
+	headerDiv.appendChild(sortDiv);
 
-		let listDiv = document.createElement('div');
-		listDiv.classList.add('list');
+	let listDiv = document.createElement('div');
+	listDiv.classList.add('list');
 
-		if(config.library.length) {
-			for (let item of config.library) {
-				let card = config.cards.find(c => c.id === item.cardId);
-				if(card)
-					listDiv.appendChild(generateCard(card));
-				else
-					console.warn('card in library missing in card list', item.cardId);
-			}
-			libraryView.replaceChildren(headerDiv, listDiv);
+	if(config.library.length) {
+		for (let item of config.library) {
+			let card = config.cards.find(c => c.id === item.cardId);
+			if(card)
+				listDiv.appendChild(generateCard(card));
+			else
+				console.warn('card in library missing in card list', item.cardId);
 		}
-		else
-			libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
-	});
+		libraryView.replaceChildren(headerDiv, listDiv);
+	}
+	else
+		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
 }
 
 //--EVENT HANDLERS--//
@@ -284,8 +282,8 @@ function initLibrary(callback) {
 		if (!content || !content.length)
 			return console.error('Library empty');
 		config.library = processQueryResult(content);
+		generateLibrary();
 		console.log('Library init complete.');
-		if (callback) callback();
 	});
 }
 
