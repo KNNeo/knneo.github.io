@@ -235,7 +235,7 @@ function writeDb(statement) {
 	}
 }
 
-async function migrateDb(SQL) {
+async function migrateDb(SQL, callback) {
 	if (!config.db)
 		return console.error('migrateDb: Database not found.');
 
@@ -272,7 +272,9 @@ async function migrateDb(SQL) {
 		newDb.close();
 
 		await saveDb();
+		localStorage.setItem('gacha_ver_id', config.id);
 		console.log(`Successfully migrated ${rows.length} cards.`);
+		if (callback) callback();
 	} catch (err) {
 		config.db.run("ROLLBACK");
 		console.error("Database migration failed:", err);
@@ -289,10 +291,8 @@ window.addEventListener('load', async function () {
 });
 
 function startup() {
-	if (config.id != localStorage.getItem('gacha_ver_id')) {
-		migrateDb(config.sql);
-		localStorage.setItem('gacha_ver_id', config.id);
-	}
+	if (config.id != localStorage.getItem('gacha_ver_id'))
+		migrateDb(config.sql, startup);
 	selectView();
 	initCards();
 	initLibrary();
