@@ -290,7 +290,7 @@ window.addEventListener('load', async function () {
 
 function startup() {
 	if (config.id != localStorage.getItem('gacha_ver_id')) {
-		await migrateDb(config.sql);
+		migrateDb(config.sql);
 		localStorage.setItem('gacha_ver_id', config.id);
 	}
 	selectView();
