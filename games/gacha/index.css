@@ -43,8 +43,9 @@ html {
 
 body,
 main {
-	margin: 0;
+	margin: auto;
 	width: 100%;
+	max-width: 480px;
 	height: 100%;
 	text-align: center;
 	-webkit-user-select: none;
@@ -72,7 +73,9 @@ footer {
 	left: 0;
 	right: 0;
 	width: 100%;
+	max-width: 480px;
 	height: 4em;
+    margin: auto;
 }
 
 footer button {
@@ -101,7 +104,6 @@ footer button {
 
 .card-view {
 	width: 100%;
-	max-width: 480px;
 	height: 100%;
 	display: flex;
 	justify-content: center;
@@ -158,7 +160,6 @@ footer button {
 
 .library-view {
 	width: 100%;
-	max-width: 480px;
 	height: 100%;
 	display: flex;
 	flex-direction: row;

@@ -29,10 +29,6 @@ function selectView() {
 	}
 }
 
-function generateRandomCard() {
-	cardView.replaceChildren(generateCard(config.cards.sort(r => 2*Math.random()-1)[0], hideCard));
-}
-
 function generateCards() {
 	for (let card of config.cards)
 		generateCard(card);
@@ -42,8 +38,7 @@ function generateCard(card, onclick) {
 	let cardDiv = document.createElement('div');
 	cardDiv.classList.add('card', 'box');
 	cardDiv.dataset.id = card.id;
-	if (onclick)
-		cardDiv.onclick = onclick;
+	if (onclick) cardDiv.onclick = onclick;
 
 	let cardImg = document.createElement('img');
 	cardImg.src = card.image;
@@ -83,18 +78,22 @@ function generateLibrary() {
 	let sortDiv = document.createElement('select');
 	sortDiv.value = '===SORT===';
 
+	let statsDiv = document.createElement('div');
+	statsDiv.innerText = `${config.cards} cards\n${config.library} in library`;
+
 	let headerDiv = document.createElement('div');
 	headerDiv.classList.add('filter-sort');
 	headerDiv.appendChild(filterDiv);
 	headerDiv.appendChild(sortDiv);
+	headerDiv.appendChild(statsDiv);
 
 	let listDiv = document.createElement('div');
 	listDiv.classList.add('list');
 
-	if(config.library.length) {
+	if (config.library.length) {
 		for (let item of config.library) {
 			let card = config.cards.find(c => c.id === item.cardId);
-			if(card)
+			if (card)
 				listDiv.appendChild(generateCard(card));
 			else
 				console.warn('card in library missing in card list', item.cardId);
@@ -134,9 +133,6 @@ async function createDb(SQL) {
 }
 
 async function loadDb(SQL, callback) {
-	if (!config.db)
-		console.error('loadDb: Database not found.');
-
 	const idb = await getIDB();
 	const tx = idb.transaction(config.idb.store, "readonly");
 	const request = tx.objectStore(config.idb.store).get(config.idb.key);
@@ -246,6 +242,25 @@ async function migrateDb(SQL) {
 	}
 }
 
+//--DOM EVENT LISTENERS--//
+function generateRandomCard() {
+	let cards = config.cards
+		.filter(c => !config?.library?.length || config.library.filter(l => c.id != l.cardId).length)
+		.sort(r => 2*Math.random()-1);
+	if (cards.length)
+		cardView.replaceChildren(generateCard(cards[0], hideCard));
+	else
+		alert('no more cards to draw, update library!');
+}
+
+function resetData() {
+	if (confirm('Confirm reset data? This action cannot be undone.')) {
+		writeDb('DELETE FROM library');
+		window.location.reload();
+	}
+}
+
+
 //--INITIAL--//
 window.addEventListener('load', async function () {
 	let SQL = await initSqlJs({
@@ -277,8 +292,6 @@ function initCards() {
 
 function initLibrary() {
 	queryDb('SELECT * FROM library', function (content) {
-		if (!content || !content.length)
-			return console.error('Library empty');
 		config.library = processQueryResult(content);
 		generateLibrary();
 		console.log('Library init complete.');
@@ -286,6 +299,7 @@ function initLibrary() {
 }
 
 function processQueryResult(content) {
+	if (!content || !content.length) return [];
 	let columns = content[0].columns;
 	let rows = content[0].values;
 	let list = [];
