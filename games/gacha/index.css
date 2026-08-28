@@ -172,11 +172,16 @@ footer button {
 	height: 44px;
 	padding-top: 70px;
 	display: flex;
+    gap: 8px;
+	align-items: center;
 	position: sticky;
 	top: 0;
 	z-index: 1;
 	background: rgb(var(--background));
-	align-items: center;
+}
+
+.library-view .filter-sort div {
+	font-size: 0.8em;
 }
 
 .library-view .filter-sort select {
@@ -213,12 +218,19 @@ footer button {
 	max-height: 100px;
 	border-radius: 8px;
 	object-fit: contain;
+    grid-row: 1 / 3;
 }
 
 .library-view .card h5 {
 	max-height: 4.2lh;
 	overflow: hidden;
-    margin-block: 1em;
+    text-align: start;
+    margin: 1em;
+    grid-row: 1 / 3;
+}
+
+.library-view .card a {
+    grid-row: 2 / 3;
 }
 
 .settings {

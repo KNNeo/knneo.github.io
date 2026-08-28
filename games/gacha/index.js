@@ -55,9 +55,22 @@ function generateCard(card, onclick) {
 	cardPrice.innerText = card.price;
 	cardDiv.appendChild(cardPrice);
 
+	let cardLike = document.createElement('a');
+	cardLike.classList.add('bi', 
+		config.library.find(s => s.cardId == card.id) ? 'bi-star' : 'bi-star-fill');
+	cardLike.onclick = toggleLikeCard;
+	cardDiv.appendChild(cardLike);
+
 	saveCardToLibrary(card.id);
 
 	return cardDiv;
+}
+
+function toggleLikeCard() {
+	if(event?.target?.classList.contains('bi-star-fill'))
+		event?.target.classList.replace('bi-star-fill', 'bi-star');
+	else
+		event?.target.classList.replace('bi-star', 'bi-star-fill');
 }
 
 function saveCardToLibrary(id) {
@@ -67,6 +80,7 @@ function saveCardToLibrary(id) {
 	let nowInt = parseInt(`${now.getYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
 	writeDb(`INSERT INTO library (cardId, added) VALUES ('${id}', ${nowInt});`);
 	saveDb();
+	initLibrary();
 }
 
 function hideCard() {
@@ -105,6 +119,26 @@ function generateLibrary() {
 	else
 		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
 }
+
+//--DOM EVENT LISTENERS--//
+function generateRandomCard() {
+	let cards = config.cards
+		.filter(c => !config?.library?.length || config.library.filter(l => c.id != l.cardId).length)
+		.sort(r => 2*Math.random()-1);
+	if (cards.length)
+		cardView.replaceChildren(generateCard(cards[0], hideCard));
+	else
+		alert('no more cards to draw, update library!');
+}
+
+function resetData() {
+	if (confirm('Confirm reset data? This action cannot be undone.')) {
+		writeDb('DELETE FROM library');
+		saveDb();
+		window.location.reload();
+	}
+}
+
 
 //--DB FUNCTIONS--//
 function getIDB() {
@@ -244,26 +278,6 @@ async function migrateDb(SQL) {
 		console.error("Database migration failed:", err);
 	}
 }
-
-//--DOM EVENT LISTENERS--//
-function generateRandomCard() {
-	let cards = config.cards
-		.filter(c => !config?.library?.length || config.library.filter(l => c.id != l.cardId).length)
-		.sort(r => 2*Math.random()-1);
-	if (cards.length)
-		cardView.replaceChildren(generateCard(cards[0], hideCard));
-	else
-		alert('no more cards to draw, update library!');
-}
-
-function resetData() {
-	if (confirm('Confirm reset data? This action cannot be undone.')) {
-		writeDb('DELETE FROM library');
-		saveDb();
-		window.location.reload();
-	}
-}
-
 
 //--INITIAL--//
 window.addEventListener('load', async function () {
