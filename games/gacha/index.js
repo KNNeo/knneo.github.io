@@ -15,7 +15,7 @@ const libraryView = document.querySelector('div.library-view');
 
 //--DOM FUNCTIONS--//
 function generateRandomCard() {
-	cardView.replaceChildren(generateCard(config.cards.sort(r => 2*Math.random()-1)));
+	cardView.replaceChildren(generateCard(config.cards.sort(r => 2*Math.random()-1)[0]));
 }
 
 function generateCards() {
@@ -78,26 +78,22 @@ async function loadDb(SQL, callback) {
 	if (!config.db)
 		console.error('loadDb: Database not found.');
 
-	try {
-		const idb = await getIDB();
-		const tx = idb.transaction(config.idb.store, "readonly");
-		const request = tx.objectStore(config.idb.store).get(config.idb.key);
+	const idb = await getIDB();
+	const tx = idb.transaction(config.idb.store, "readonly");
+	const request = tx.objectStore(config.idb.store).get(config.idb.key);
 
-		request.onsuccess = async () => {
-			const data = request.result;
-			if (data) {
-				console.log("Existing database found and loaded.");
-				config.db = new SQL.Database(data);
-			} else {
-				console.log("No saved database found. Creating new.");
-				config.db = await createDb(SQL);
-				console.log("Fresh database loaded.");
-			}
-			if(callback) callback();
-		};
-	} catch (err) {
-		console.error("Error loading database:", err);
-	}
+	request.onsuccess = async () => {
+		const data = request.result;
+		if (data) {
+			console.log("Existing database found and loaded.");
+			config.db = new SQL.Database(data);
+		} else {
+			console.log("No saved database found. Creating new.");
+			config.db = await createDb(SQL);
+			console.log("Fresh database loaded.");
+		}
+		if (callback) callback();
+	};
 }
 
 async function saveDb() {
