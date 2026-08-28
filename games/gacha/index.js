@@ -31,11 +31,6 @@ function selectView() {
 		initLibrary();
 }
 
-function generateCards() {
-	for (let card of config.cards)
-		generateCard(card);
-}
-
 function generateCard(card, onclick) {
 	let cardDiv = document.createElement('div');
 	cardDiv.classList.add('card', 'box');
@@ -67,6 +62,7 @@ function generateCard(card, onclick) {
 }
 
 function toggleLikeCard() {
+	event.preventDefault();
 	if(event?.target?.classList.contains('bi-star-fill'))
 		event?.target.classList.replace('bi-star-fill', 'bi-star');
 	else
@@ -110,7 +106,10 @@ function generateLibrary() {
 		for (let item of config.library) {
 			let card = config.cards.find(c => c.id === item.cardId);
 			if (card)
-				listDiv.appendChild(generateCard(card));
+				listDiv.appendChild(generateCard(card, function() {
+					cardView.replaceChildren(generateCard(card, hideCard));
+					selectView();
+				}));
 			else
 				console.warn('card in library missing in card list', item.cardId);
 		}

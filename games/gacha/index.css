@@ -231,6 +231,7 @@ footer button {
 
 .library-view .card a {
     grid-row: 2 / 3;
+	cursor: pointer;
 }
 
 .settings {
