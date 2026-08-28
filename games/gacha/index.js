@@ -79,7 +79,7 @@ function generateLibrary() {
 	sortDiv.value = '===SORT===';
 
 	let statsDiv = document.createElement('div');
-	statsDiv.innerText = `${config.cards} cards\n${config.library} in library`;
+	statsDiv.innerText = `${config.cards?.length || 0} cards\n${config.library?.length || 0} in library`;
 
 	let headerDiv = document.createElement('div');
 	headerDiv.classList.add('filter-sort');
