@@ -17,6 +17,20 @@
 	--accent: 69, 69, 69;
 }
 
+a,
+a:visited {
+	color: rgb(var(--foreground));
+	text-decoration: none;
+}
+
+a:hover {
+	color: rgb(var(--primary));
+}
+
+button {
+	all: unset;
+}
+
 html {
 	font-family: Noto Sans;
 	background-color: rgb(var(--background));
@@ -48,6 +62,8 @@ header {
 }
 
 footer {
+	display: flex;
+	justify-content: space-evenly;
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -57,20 +73,16 @@ footer {
 }
 
 footer button {
+	width: 100%;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	border: 2px solid rgb(var(--accent));
 }
 
-a,
-a:visited {
-	color: rgb(var(--foreground));
-	text-decoration: none;
-}
-
-a:hover {
-	color: rgb(var(--primary));
+footer button:active {
+	transform: scale(0.97);
 }
 
 .hidden {
@@ -112,8 +124,12 @@ a:hover {
 }
 
 .card {
-	max-width: 200px;
+	max-width: 180px;
 	position: relative;
+	padding: 16px;
+	border-radius: 16px;
+	background: rgba(var(--secondary), 0.6);
+	box-shadow: 0px 4px 3px 3px var(--background);
 }
 
 .card img {
@@ -124,11 +140,13 @@ a:hover {
 	font-size: 0.8em;
 	position: absolute;
 	top: 1em;
-	right: 1em;
+	right: 2em;
 }
 
 .settings {
 	position: absolute;
 	top: 0;
 	right: 0;
+	background: rgb(var(--accent));
+	border-radius: 99px;
 }

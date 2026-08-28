@@ -6,6 +6,9 @@ const config = {
 		name: 'gacha',
 		store: 'surugacha',
 		key: 'app_db'
+	},
+	card: {
+		separator: /\u3000|\//g  // u3000 = Ideographic Space
 	}
 };
 
@@ -15,11 +18,11 @@ const libraryView = document.querySelector('div.library-view');
 
 //--DOM FUNCTIONS--//
 function selectView() {
-	let classPrefix = 'card';
+	let className = 'card-view';
 	if (event?.target?.dataset?.id)
-		classPrefix = event.target.dataset.id;
+		className = event.target.dataset.id;
 	for (let view of document.querySelectorAll('.view')) {
-		if (view.classList.contains(classPrefix + '-view'))
+		if (view.classList.contains(className))
 			view.classList.remove('hidden');
 		else
 			view.classList.add('hidden');
@@ -46,7 +49,7 @@ function generateCard(card) {
 
 	let cardText = document.createElement('h5');
 	cardText.title = card.value;
-	cardText.innerText = card.value.split(/　\//g).join('\n');
+	cardText.innerText = card.value.split(config?.card?.separator || '/').join('\n');
 	cardDiv.appendChild(cardText);
 
 	let cardPrice = document.createElement('p');
@@ -215,11 +218,10 @@ window.addEventListener('load', async function () {
 });
 
 function startup() {
-	console.log('Initialization complete.');
 	selectView();
 	queryDb('SELECT * FROM card', function (content) {
 		config.cards = processQueryResult(content);
-		generateRandomCard();
+		console.log('Initialization complete.');
 	});
 }
 
