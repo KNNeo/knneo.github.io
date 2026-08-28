@@ -79,6 +79,7 @@ footer button {
 	justify-content: center;
 	align-items: center;
 	border: 2px solid rgb(var(--accent));
+	cursor: pointer;
 }
 
 .box {

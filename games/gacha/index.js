@@ -62,7 +62,9 @@ function generateCard(card) {
 	return cardDiv;
 }
 
-function saveCardToLibrary(id) {
+function saveCardToLibrary(cardId) {
+	if(config.library.find(l => l.id == cardId))
+		return console.error('cardId in library', cardId);
 	let now = new Date();
 	let nowInt = parseInt(`${now.getYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
 	writeDb(`INSERT INTO library (cardId, added) VALUES ('${id}', ${nowInt});`);
@@ -74,35 +76,34 @@ function hideCard() {
 }
 
 function generateLibrary() {
-	initLibrary();
-	
-	let filterDiv = document.createElement('select');
-	sortDiv.value = '===FILTER===';
+	initLibrary(function() {
+		let filterDiv = document.createElement('select');
+		sortDiv.value = '===FILTER===';
 
-	let sortDiv = document.createElement('select');
-	sortDiv.value = '===SORT===';
+		let sortDiv = document.createElement('select');
+		sortDiv.value = '===SORT===';
 
-	let headerDiv = document.createElement('div');
-	headerDiv.classList.add('filter-sort');
-	headerDiv.appendChild(filterDiv);
-	headerDiv.appendChild(sortDiv);
+		let headerDiv = document.createElement('div');
+		headerDiv.classList.add('filter-sort');
+		headerDiv.appendChild(filterDiv);
+		headerDiv.appendChild(sortDiv);
 
-	let listDiv = document.createElement('div');
-	listDiv.classList.add('list');
+		let listDiv = document.createElement('div');
+		listDiv.classList.add('list');
 
-	if(config.library.length) {
-		for (let item of config.library) {
-			let card = config.cards.find(c => c.id === item.cardId);
-			if(card)
-				listDiv.appendChild(generateCard(card));
-			else
-				console.warn('card in library missing in card list', item.cardId);
+		if(config.library.length) {
+			for (let item of config.library) {
+				let card = config.cards.find(c => c.id === item.cardId);
+				if(card)
+					listDiv.appendChild(generateCard(card));
+				else
+					console.warn('card in library missing in card list', item.cardId);
+			}
+			libraryView.replaceChildren(headerDiv, listDiv);
 		}
-		libraryView.replaceChildren(headerDiv, listDiv);
-	}
-	else
-		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
-
+		else
+			libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
+	});
 }
 
 //--EVENT HANDLERS--//
@@ -278,12 +279,13 @@ function initCards() {
 	});
 }
 
-function initLibrary() {
+function initLibrary(callback) {
 	queryDb('SELECT * FROM library', function (content) {
 		if (!content || !content.length)
 			return console.error('Library empty');
 		config.library = processQueryResult(content);
 		console.log('Library init complete.');
+		if (callback) callback();
 	});
 }
 
