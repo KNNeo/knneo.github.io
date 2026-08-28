@@ -67,7 +67,7 @@ function saveCardToLibrary(cardId) {
 		return console.error('cardId in library', cardId);
 	let now = new Date();
 	let nowInt = parseInt(`${now.getYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
-	writeDb(`INSERT INTO library (cardId, added) VALUES ('${id}', ${nowInt});`);
+	writeDb(`INSERT INTO library (cardId, added) VALUES ('${cardId}', ${nowInt});`);
 	saveDb();
 }
 
