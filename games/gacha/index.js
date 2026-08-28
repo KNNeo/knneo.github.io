@@ -58,8 +58,6 @@ function generateCard(card, onclick) {
 	cardLike.onclick = toggleLikeCard;
 	cardDiv.appendChild(cardLike);
 
-	saveCardToLibrary(card.id);
-
 	return cardDiv;
 }
 
@@ -128,8 +126,11 @@ function generateRandomCard() {
 	let cards = config.cards
 		.filter(c => !config?.library?.length || config.library.filter(l => c.id != l.cardId).length)
 		.sort(r => 2*Math.random()-1);
-	if (cards.length)
+	if (cards.length) {
+		selectView();
 		cardView.replaceChildren(generateCard(cards[0], hideCard));
+		saveCardToLibrary(cards[0].id);
+	}
 	else
 		alert('no more cards to draw, update library!');
 }
