@@ -30,7 +30,7 @@ function selectView() {
 }
 
 function generateRandomCard() {
-	cardView.replaceChildren(generateCard(config.cards.sort(r => 2*Math.random()-1)[0]));
+	cardView.replaceChildren(generateCard(config.cards.sort(r => 2*Math.random()-1)[0], hideCard));
 }
 
 function generateCards() {
@@ -38,11 +38,12 @@ function generateCards() {
 		generateCard(card);
 }
 
-function generateCard(card) {
+function generateCard(card, onclick) {
 	let cardDiv = document.createElement('div');
 	cardDiv.classList.add('card', 'box');
 	cardDiv.dataset.id = card.id;
-	cardDiv.onclick = hideCard;
+	if (onclick)
+		cardDiv.onclick = onclick;
 
 	let cardImg = document.createElement('img');
 	cardImg.src = card.image;
@@ -98,7 +99,7 @@ function generateLibrary() {
 			else
 				console.warn('card in library missing in card list', item.cardId);
 		}
-		libraryView.replaceChildren(headerDiv, listDiv);
+		libraryView.replaceChildren(headerDiv, listDiv, document.createElement('hr'));
 	}
 	else
 		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
