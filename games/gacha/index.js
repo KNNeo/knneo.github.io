@@ -14,12 +14,24 @@ const cardView = document.querySelector('div.card-view');
 const libraryView = document.querySelector('div.library-view');
 
 //--DOM FUNCTIONS--//
+function selectView() {
+	let classPrefix = 'card';
+	if (event?.target?.dataset?.id)
+		classPrefix = event.target.dataset.id;
+	for (let view of document.querySelectorAll('.view')) {
+		if (view.classList.contains(classPrefix + '-view'))
+			view.classList.remove('hidden');
+		else
+			view.classList.add('hidden');
+	}
+}
+
 function generateRandomCard() {
 	cardView.replaceChildren(generateCard(config.cards.sort(r => 2*Math.random()-1)[0]));
 }
 
 function generateCards() {
-	for(let card of config.cards)
+	for (let card of config.cards)
 		generateCard(card);
 }
 
@@ -204,6 +216,7 @@ window.addEventListener('load', async function () {
 
 function startup() {
 	console.log('Initialization complete.');
+	selectView();
 	queryDb('SELECT * FROM card', function (content) {
 		config.cards = processQueryResult(content);
 		generateRandomCard();
