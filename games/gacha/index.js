@@ -32,8 +32,9 @@ function generateCard(card) {
 	cardImg.src = card.image;
 	cardDiv.appendChild(cardImg);
 
-	let cardText = document.createElement('h4');
-	cardText.innerText = card.value.split('/').join('\n');
+	let cardText = document.createElement('h5');
+	cardText.title = card.value;
+	cardText.innerText = card.value.split(/　\//g).join('\n');
 	cardDiv.appendChild(cardText);
 
 	let cardPrice = document.createElement('p');
@@ -92,7 +93,7 @@ async function loadDb(SQL, callback) {
 			config.db = await createDb(SQL);
 			console.log("Fresh database loaded.");
 		}
-		if (callback) callback();
+		if (callback) setTimeout(callback, 0);
 	};
 }
 
