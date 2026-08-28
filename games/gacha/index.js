@@ -281,19 +281,18 @@ async function migrateDb(SQL) {
 
 //--INITIAL--//
 window.addEventListener('load', async function () {
-	let SQL = await initSqlJs({
+	config.sql = await initSqlJs({
 		locateFile: file => `https://knneo.github.io/games/gacha/sql-wasm.wasm`
 	});
-	await loadDb(SQL, startup);
+	await loadDb(config.sql, startup);
 	await saveDb();
-	if (config.id != localStorage.getItem('gacha_ver_id')) {
-		await migrateDb(SQL);
-		localStorage.setItem('gacha_ver_id', config.id);
-		startup();
-	}
 });
 
 function startup() {
+	if (config.id != localStorage.getItem('gacha_ver_id')) {
+		await migrateDb(config.sql);
+		localStorage.setItem('gacha_ver_id', config.id);
+	}
 	selectView();
 	initCards();
 	initLibrary();
