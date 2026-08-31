@@ -72,7 +72,7 @@ function generateCard(card, onclick) {
 	cardDiv.appendChild(cardImgDiv);
 
 	let cardText = document.createElement('h5');
-	cardText.textContent = card.value.split(config?.card?.separator || '/').join('\n');
+	cardText.innerText = card.value.split(config?.card?.separator || '/').join('\n');
 	cardText.title = cardText.innerText;
 	cardDiv.appendChild(cardText);
 
