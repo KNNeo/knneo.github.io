@@ -87,7 +87,7 @@ function generateCard(card, onclick) {
 
 	let cardLike = document.createElement('a');
 	cardLike.classList.add('bi', 
-		config.library.find(s => s.cardId == card.id) ? 'bi-star' : 'bi-star-fill');
+		config.library.find(s => s.cardId == card.id)?.like ? 'bi-star' : 'bi-star-fill');
 	cardLike.onclick = toggleLikeCard;
 	cardDiv.appendChild(cardLike);
 
@@ -192,7 +192,7 @@ function generateStats() {
 		let progress = document.createElement('progress');
 		progress.min = 0;
 		progress.max = 100;
-		progress.value = parseInt(pack.count) / parseInt(pack.total);
+		progress.value = parseInt(pack.count) / parseInt(pack.total) * progress.max;
 		container.appendChild(progress);
 
 		let label = document.createElement('label');
