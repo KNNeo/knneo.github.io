@@ -140,7 +140,7 @@ function generateLibraryList() {
 	let filterVal = libraryView.querySelector('.filter')?.value || '';
 	let filterFunc = config.options?.filter?.find(f => f.value == filterVal)?.func;
 
-	let sortVal = libraryView.querySelector('.sort')?.value || '';
+	let sortVal = libraryView.querySelector('.sort')?.value || config.options?.sort[0]?.value || '';
 	let sortFunc = config.options?.sort?.find(s => s.value == sortVal)?.func;
 	if (!sortVal || !sortFunc) return console.error('sort func not found!');
 
