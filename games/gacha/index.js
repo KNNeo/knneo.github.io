@@ -107,18 +107,11 @@ function generateLibrary() {
 	filterDiv.classList.add('filter');
 	filterDiv.value = '===FILTER===';
 	filterDiv.onchange = generateLibraryList;
-	let defaultFilterDiv = document.createElement('option');
-	defaultFilterDiv.innerText = '===FILTER===';
-	filterDiv.appendChild(defaultFilterDiv);
-
+	
 	let sortDiv = document.createElement('select');
 	sortDiv.classList.add('sort');
 	sortDiv.value = config.options.sort[0]?.value;
 	sortDiv.onchange = generateLibraryList;
-	let defaultSortDiv = document.createElement('option');
-	defaultSortDiv.innerText = sortDiv.value;
-	sortDiv.appendChild(defaultSortDiv);
-
 	for (let opt of config.options.sort) {
 		let optDiv = document.createElement('option');
 		optDiv.innerText = opt.value;
