@@ -184,8 +184,10 @@ function generateLibraryList() {
 function generateStats() {
 	let elems = [];
 	for (let pack of config.stats) {
-		let div = document.createElement('div');
-		elems.push(div);
+		let container = document.createElement('div');
+		let title = document.createElement('h5');
+		title.innerText = pack.value;
+		container.appendChild(title);
 		
 		let progress = document.createElement('progress');
 		progress.min = 0;
@@ -193,9 +195,11 @@ function generateStats() {
 		progress.value = parseInt(pack.count) / parseInt(pack.total);
 
 		let label = document.createElement('label');
-		label.innerText = pack.count + ' / ' + pack.total;
 		label.appendChild(progress);
-		elems.push(label);
+		label.innerText = pack.count + ' / ' + pack.total;
+		container.appendChild(label);
+		
+		elems.push(container);
 	}
 	statsView.replaceChildren(...elems);
 }

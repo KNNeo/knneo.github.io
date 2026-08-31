@@ -251,6 +251,21 @@ footer button {
 	cursor: pointer;
 }
 
+.stats-view {
+    box-sizing: border-box;
+    padding: 1em;
+	padding-top: 70px;
+	display: flex;
+    gap: 4px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.stats-view h5 {
+	width: 100%;
+	text-align: start;
+}
+
 .settings {
 	position: absolute;
 	top: 0;
