@@ -333,6 +333,8 @@ async function migrateDbCards(SQL, callback) {
 		if (newDbCards.length === 0 || !newDbCards[0].values.length)
 			return console.error("No data found in the card table.");
 
+		config.db.run("BEGIN TRANSACTION");
+		
 		let columns = newDbCards[0].columns;
 		let rows = newDbCards[0].values;
 		let colNames = columns.join(", ");
@@ -348,8 +350,6 @@ async function migrateDbCards(SQL, callback) {
 				`;
 
 		let stmt = config.db.prepare(upsertSql);
-		config.db.run("BEGIN TRANSACTION");
-
 		for (let row of rows)
 			stmt.run(row);
 
