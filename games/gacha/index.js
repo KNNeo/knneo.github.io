@@ -157,10 +157,11 @@ function generateLibraryList() {
 	if (!listDiv) return console.error('library element not found!');
 
 	if (config.library.length) {
+		let newList = [];
 		for (let item of config.library.sort(sortFunc)) {
 			let card = config.cards.find(c => c.id === item.cardId);
 			if (card)
-				listDiv.appendChild(generateCard(card, function() {
+				newList.push(generateCard(card, function() {
 					if (event?.target?.onclick) return;
 					cardView.replaceChildren(generateCard(card, hideCard));
 					selectView();
@@ -168,6 +169,7 @@ function generateLibraryList() {
 			else
 				console.warn('card in library missing in card list', item.cardId);
 		}
+		listDiv.replaceChildren(...newList);
 	}
 }
 
