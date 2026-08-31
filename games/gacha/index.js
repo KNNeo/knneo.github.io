@@ -193,10 +193,10 @@ function generateStats() {
 		progress.min = 0;
 		progress.max = 100;
 		progress.value = parseInt(pack.count) / parseInt(pack.total);
+		container.appendChild(progress);
 
 		let label = document.createElement('label');
-		label.appendChild(progress);
-		label.textContent = pack.count + ' / ' + pack.total;
+		label.innerText = pack.count + ' / ' + pack.total;
 		container.appendChild(label);
 
 		elems.push(container);
