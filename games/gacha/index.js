@@ -75,13 +75,13 @@ function generateCard(card, onclick) {
 	cardDiv.appendChild(cardImgDiv);
 
 	let cardText = document.createElement('h5');
-	cardText.textContent = card.value.split(config?.card?.separator || '/').join('\n');
+	cardText.textContent = card.desc.split(config?.card?.separator || '/').join('\n');
 	cardText.title = cardText.innerText;
 	cardDiv.appendChild(cardText);
 
-	if (card.price) {
+	if (card.value) {
 		let cardPrice = document.createElement('p');
-		cardPrice.textContent = card.price;
+		cardPrice.textContent = card.value;
 		cardDiv.appendChild(cardPrice);
 	}
 

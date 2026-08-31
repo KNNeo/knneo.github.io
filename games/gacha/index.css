@@ -261,9 +261,18 @@ footer button {
     align-items: flex-start;
 }
 
+.stats-view div {
+	width: 100%;
+}
+
 .stats-view h5 {
 	width: 100%;
 	text-align: start;
+}
+
+.stats-view progress {
+    width: calc(100% - 8ch);
+    margin-right: 1em;
 }
 
 .settings {
