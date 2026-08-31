@@ -1,7 +1,7 @@
 //--DEFAULT SETTINGS--//
 const config = {
 	debug: true,
-	id: '20260828_2',
+	id: '20260831',
 	idb: {
 		name: 'gacha',
 		store: 'surugacha',
@@ -43,6 +43,7 @@ const config = {
 //--DOM NODE REFERENCES--//
 const cardView = document.querySelector('div.card-view');
 const libraryView = document.querySelector('div.library-view');
+const statsView = document.querySelector('div.stats-view');
 
 //--DOM FUNCTIONS--//
 function selectView() {
@@ -72,7 +73,7 @@ function generateCard(card, onclick) {
 	cardDiv.appendChild(cardImgDiv);
 
 	let cardText = document.createElement('h5');
-	cardText.innerText = card.value.split(config?.card?.separator || '/').join('\n');
+	cardText.textContent = card.value.split(config?.card?.separator || '/').join('\n');
 	cardText.title = cardText.innerText;
 	cardDiv.appendChild(cardText);
 
@@ -117,6 +118,7 @@ function hideCard() {
 function generateLibrary() {
 	let filterDiv = document.createElement('input');
 	filterDiv.classList.add('filter');
+	filterDiv.placeholder = 'Filter by description...';
 	filterDiv.oninput = generateLibraryList;
 
 	let sortDiv = document.createElement('select');
@@ -177,6 +179,25 @@ function generateLibraryList() {
 	}
 }
 
+function generateStats() {
+	let elems = [];
+	for (let pack of config.stats) {
+		let div = document.createElement('div');
+		elems.push(div);
+		
+		let progress = document.createElement('progress');
+		progress.min = 0;
+		progress.max = 100;
+		progress.value = parseInt(pack.count) / parseInt(pack.total);
+
+		let label = document.createElement('label');
+		label.innerText = pack.count + ' / ' + pack.total;
+		label.appendChild(progress);
+		elems.push(label);
+	}
+	statsView.replaceChildren(...elems);
+}
+
 //--DOM EVENT LISTENERS--//
 function generateRandomCard() {
 	let cards = config.cards
@@ -198,7 +219,6 @@ function resetData() {
 		window.location.reload();
 	}
 }
-
 
 //--DB FUNCTIONS--//
 function getIDB() {
@@ -372,6 +392,16 @@ function initLibrary() {
 		config.library = processQueryResult(content);
 		generateLibrary();
 		console.log('Library init complete.');
+	});
+}
+
+function initCardPacks() {
+	initCards();
+	queryDb('SELECT p.id, p.value, COUNT(c.id) AS \'total\', COUNT(l.cardId) AS \'count\' FROM pack p JOIN pack_card pc on p.id = pc.packId JOIN card c on pc.cardId = c.id LEFT JOIN library l ON c.id = l.cardId GROUP BY p.id, p.value', function (content) {
+		if (!content || !content.length)
+			return console.error('Stats empty');
+		config.stats = processQueryResult(content);
+		console.log('Stats init complete.');
 	});
 }
 
