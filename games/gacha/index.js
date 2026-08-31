@@ -196,9 +196,9 @@ function generateStats() {
 
 		let label = document.createElement('label');
 		label.appendChild(progress);
-		label.innerText = pack.count + ' / ' + pack.total;
+		label.textContent = pack.count + ' / ' + pack.total;
 		container.appendChild(label);
-		
+
 		elems.push(container);
 	}
 	statsView.replaceChildren(...elems);
