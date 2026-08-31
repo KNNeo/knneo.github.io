@@ -135,7 +135,7 @@ footer button {
 	display: none;
 }
 
-.card-view .card img {
+.card-view .card div:has(>img) {
 	width: 100%;
 	border-radius: 8px;
 }
@@ -220,7 +220,7 @@ footer button {
 	border-top: 2px solid transparent;
 }
 
-.library-view .card img {
+.library-view .card div:has(>img) {
 	width: 100%;
 	max-height: 100px;
 	border-radius: 8px;

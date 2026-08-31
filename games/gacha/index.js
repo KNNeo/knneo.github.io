@@ -9,6 +9,22 @@ const config = {
 	},
 	card: {
 		separator: /\u3000|\//g  // u3000 = Ideographic Space
+	},
+	options: {
+		sort: [
+			{
+				value: 'Date Added (Ascending)',
+				func: function(a, b) {
+					return a.added - b.added;
+				}
+			},
+			{
+				value: 'Date Added (Descending)',
+				func: function(a, b) {
+					return b.added - a.added;					
+				}
+			}
+		]
 	}
 };
 
@@ -37,9 +53,11 @@ function generateCard(card, onclick) {
 	cardDiv.dataset.id = card.id;
 	if (onclick) cardDiv.onclick = onclick;
 
+	let cardImgDiv = document.createElement('div');
 	let cardImg = document.createElement('img');
 	cardImg.src = card.image;
-	cardDiv.appendChild(cardImg);
+	cardImgDiv.appendChild(cardImg);
+	cardDiv.appendChild(cardImgDiv);
 
 	let cardText = document.createElement('h5');
 	cardText.textContent = card.value.split(config?.card?.separator || '/').join('\n');
@@ -73,7 +91,7 @@ function saveCardToLibrary(id) {
 	if(config.library.find(l => l.cardId == id))
 		return console.error('cardId in library', id);
 	let now = new Date();
-	let nowInt = parseInt(`${now.getYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
+	let nowInt = parseInt(`${now.getFullYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}`);
 	writeDb(`INSERT INTO library (cardId, added) VALUES ('${id}', ${nowInt});`);
 	saveDb();
 	initLibrary();
@@ -86,10 +104,27 @@ function hideCard() {
 
 function generateLibrary() {
 	let filterDiv = document.createElement('select');
+	filterDiv.classList.add('filter');
 	filterDiv.value = '===FILTER===';
+	filterDiv.onchange = generateLibraryList;
+	let defaultFilterDiv = document.createElement('option');
+	defaultFilterDiv.innerText = '===FILTER===';
+	filterDiv.appendChild(defaultFilterDiv);
 
 	let sortDiv = document.createElement('select');
+	sortDiv.classList.add('sort');
 	sortDiv.value = '===SORT===';
+	sortDiv.onchange = generateLibraryList;
+	let defaultSortDiv = document.createElement('option');
+	defaultSortDiv.innerText = '===SORT===';
+	sortDiv.appendChild(defaultSortDiv);
+
+	for (let opt of config.options.sort) {
+		let optDiv = document.createElement('option');
+		optDiv.innerText = opt.value;
+		optDiv.value = opt.value;
+		sortDiv.appendChild(optDiv);
+	}
 
 	let statsDiv = document.createElement('div');
 	statsDiv.innerText = `${config.cards?.length || 0} cards\n${config.library?.length || 0} in library`;
@@ -102,9 +137,27 @@ function generateLibrary() {
 
 	let listDiv = document.createElement('div');
 	listDiv.classList.add('list');
+	generateLibraryList();
+
+	if (config.library.length)
+		libraryView.replaceChildren(headerDiv, listDiv, document.createElement('hr'));
+	else
+		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
+}
+
+function generateLibraryList() {
+	let filterVal = libraryView.querySelector('.filter')?.value || '';
+	let filterFunc = config.options?.filter?.find(f => f.val == filterVal)?.func;
+
+	let sortVal = libraryView.querySelector('.sort')?.value || '';
+	let sortFunc = config.options?.sort?.find(s => s.val == sortVal)?.func;
+	if (!sortVal || !sortFunc) return console.error('sort func not found!');
+
+	let listDiv = libraryView.querySelector('.list');
+	if (!listDiv) return console.error('library element not found!');
 
 	if (config.library.length) {
-		for (let item of config.library) {
+		for (let item of config.library.sort(sortFunc)) {
 			let card = config.cards.find(c => c.id === item.cardId);
 			if (card)
 				listDiv.appendChild(generateCard(card, function() {
@@ -115,10 +168,7 @@ function generateLibrary() {
 			else
 				console.warn('card in library missing in card list', item.cardId);
 		}
-		libraryView.replaceChildren(headerDiv, listDiv, document.createElement('hr'));
 	}
-	else
-		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
 }
 
 //--DOM EVENT LISTENERS--//
