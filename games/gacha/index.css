@@ -32,6 +32,12 @@ button {
 	all: unset;
 }
 
+input,
+select,
+option {
+	font-family: Noto Sans;
+}
+
 html {
 	font-family: Noto Sans;
 	background-color: rgb(var(--background));
