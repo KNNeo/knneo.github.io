@@ -95,7 +95,11 @@ function generateCard(card, onclick) {
 }
 
 function toggleLikeCard() {
-	// TODO: update db
+	// update db
+	let id = event?.target?.closest('.card')?.dataset.id;
+	writeDb('UPDATE library SET like = ' + (event?.target?.classList.contains('bi-star-fill') ? 0 : 1) + ' WHERE cardId = "' + id + '"');
+	saveDb();
+	// update view
 	if(event?.target?.classList.contains('bi-star-fill'))
 		event?.target.classList.replace('bi-star-fill', 'bi-star');
 	else
@@ -334,7 +338,7 @@ async function migrateDbCards(SQL, callback) {
 			return console.error("No data found in the card table.");
 
 		config.db.run("BEGIN TRANSACTION");
-
+ 
 		let columns = newDbCards[0].columns;
 		let rows = newDbCards[0].values;
 		let colNames = columns.join(", ");
