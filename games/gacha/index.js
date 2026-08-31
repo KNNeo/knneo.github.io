@@ -128,12 +128,13 @@ function generateLibrary() {
 
 	let listDiv = document.createElement('div');
 	listDiv.classList.add('list');
-	generateLibraryList();
 
 	if (config.library.length)
 		libraryView.replaceChildren(headerDiv, listDiv, document.createElement('hr'));
 	else
 		libraryView.replaceChildren(headerDiv, document.createTextNode('Library is empty, draw some cards!'));
+	
+	generateLibraryList();
 }
 
 function generateLibraryList() {
