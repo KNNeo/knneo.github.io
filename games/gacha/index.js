@@ -13,15 +13,15 @@ const config = {
 	options: {
 		sort: [
 			{
-				value: 'Date Added (Ascending)',
-				func: function(a, b) {
-					return a.added - b.added;
-				}
-			},
-			{
 				value: 'Date Added (Descending)',
 				func: function(a, b) {
 					return b.added - a.added;					
+				}
+			},
+			{
+				value: 'Date Added (Ascending)',
+				func: function(a, b) {
+					return a.added - b.added;
 				}
 			}
 		]
@@ -113,10 +113,10 @@ function generateLibrary() {
 
 	let sortDiv = document.createElement('select');
 	sortDiv.classList.add('sort');
-	sortDiv.value = '===SORT===';
+	sortDiv.value = config.options.sort[0]?.value;
 	sortDiv.onchange = generateLibraryList;
 	let defaultSortDiv = document.createElement('option');
-	defaultSortDiv.innerText = '===SORT===';
+	defaultSortDiv.innerText = sortDiv.value;
 	sortDiv.appendChild(defaultSortDiv);
 
 	for (let opt of config.options.sort) {
