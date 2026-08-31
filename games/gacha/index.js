@@ -23,6 +23,18 @@ const config = {
 				func: function(a, b) {
 					return a.added - b.added;
 				}
+			},
+			{
+				value: 'Id (Descending)',
+				func: function(a, b) {
+					return b.cardId - a.cardId;
+				}
+			},
+			{
+				value: 'Id (Ascending)',
+				func: function(a, b) {
+					return a.cardId - b.cardId;
+				}
 			}
 		]
 	}
@@ -103,9 +115,9 @@ function hideCard() {
 }
 
 function generateLibrary() {
-	let filterDiv = document.createElement('select');
+	let filterDiv = document.createElement('input');
 	filterDiv.classList.add('filter');
-	filterDiv.onchange = generateLibraryList;
+	filterDiv.oninput = generateLibraryList;
 
 	let sortDiv = document.createElement('select');
 	sortDiv.classList.add('sort');
@@ -139,8 +151,6 @@ function generateLibrary() {
 
 function generateLibraryList() {
 	let filterVal = libraryView.querySelector('.filter')?.value || '';
-	let filterFunc = config.options?.filter?.find(f => f.value == filterVal)?.func;
-
 	let sortVal = libraryView.querySelector('.sort')?.value || config.options?.sort[0]?.value || '';
 	let sortFunc = config.options?.sort?.find(s => s.value == sortVal)?.func;
 	if (!sortVal || !sortFunc) return console.error('sort func not found!');
@@ -150,7 +160,9 @@ function generateLibraryList() {
 
 	if (config.library.length) {
 		let newList = [];
-		for (let item of config.library.sort(sortFunc)) {
+		for (let item of config.library
+					.filter(f => !filterVal || config.cards.find(c => c.id == f.cardId)?.value.includes(filterVal))
+					.sort(sortFunc)) {
 			let card = config.cards.find(c => c.id === item.cardId);
 			if (card)
 				newList.push(generateCard(card, function() {
