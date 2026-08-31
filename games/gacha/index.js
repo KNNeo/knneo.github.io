@@ -58,6 +58,8 @@ function selectView() {
 	}
 	if (className == 'library-view')
 		initLibrary();
+	if (className == 'stats-view')
+		initStats();
 }
 
 function generateCard(card, onclick) {
@@ -395,12 +397,13 @@ function initLibrary() {
 	});
 }
 
-function initCardPacks() {
+function initStats() {
 	initCards();
 	queryDb('SELECT p.id, p.value, COUNT(c.id) AS \'total\', COUNT(l.cardId) AS \'count\' FROM pack p JOIN pack_card pc on p.id = pc.packId JOIN card c on pc.cardId = c.id LEFT JOIN library l ON c.id = l.cardId GROUP BY p.id, p.value', function (content) {
 		if (!content || !content.length)
 			return console.error('Stats empty');
 		config.stats = processQueryResult(content);
+		generateStats();
 		console.log('Stats init complete.');
 	});
 }
