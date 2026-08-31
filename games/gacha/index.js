@@ -1,7 +1,7 @@
 //--DEFAULT SETTINGS--//
 const config = {
 	debug: true,
-	id: '20260831',
+	id: '20260831_1',
 	idb: {
 		name: 'gacha',
 		store: 'surugacha',
@@ -334,7 +334,7 @@ async function migrateDbCards(SQL, callback) {
 			return console.error("No data found in the card table.");
 
 		config.db.run("BEGIN TRANSACTION");
-		
+
 		let columns = newDbCards[0].columns;
 		let rows = newDbCards[0].values;
 		let colNames = columns.join(", ");
