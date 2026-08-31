@@ -15,13 +15,13 @@ const config = {
 			{
 				value: 'Date Added (Descending)',
 				func: function(a, b) {
-					return b.added - a.added;					
+					return a.added - b.added;
 				}
 			},
 			{
 				value: 'Date Added (Ascending)',
 				func: function(a, b) {
-					return a.added - b.added;
+					return b.added - a.added;
 				}
 			}
 		]
