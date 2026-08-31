@@ -105,12 +105,10 @@ function hideCard() {
 function generateLibrary() {
 	let filterDiv = document.createElement('select');
 	filterDiv.classList.add('filter');
-	filterDiv.value = '===FILTER===';
 	filterDiv.onchange = generateLibraryList;
-	
+
 	let sortDiv = document.createElement('select');
 	sortDiv.classList.add('sort');
-	sortDiv.value = config.options.sort[0]?.value;
 	sortDiv.onchange = generateLibraryList;
 	for (let opt of config.options.sort) {
 		let optDiv = document.createElement('option');
