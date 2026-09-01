@@ -85,11 +85,13 @@ function generateCard(card, onclick) {
 		cardDiv.appendChild(cardPrice);
 	}
 
-	let cardLike = document.createElement('a');
-	cardLike.classList.add('bi', 
-		config.library.find(s => s.cardId == card.id)?.like ? 'bi-star' : 'bi-star-fill');
-	cardLike.onclick = toggleLikeCard;
-	cardDiv.appendChild(cardLike);
+	let inLibrary = config.library.find(s => s.cardId == card.id);
+	if (inLibrary) {
+		let cardLike = document.createElement('a');
+		cardLike.classList.add('bi', inLibrary.like ? 'bi-star' : 'bi-star-fill');
+		cardLike.onclick = toggleLikeCard;
+		cardDiv.appendChild(cardLike);
+	}
 
 	return cardDiv;
 }
@@ -224,6 +226,8 @@ function generateRandomCard() {
 
 function resetData() {
 	if (confirm('Confirm reset data? This action cannot be undone.')) {
+		if (confirm('COnfirm reset db? Do not proceed if you intend to keep old card info.'))
+			clearDb();
 		writeDb('DELETE FROM library');
 		saveDb();
 		window.location.reload();
@@ -369,6 +373,19 @@ async function migrateDbCards(SQL, callback) {
 		config.db.run("ROLLBACK");
 		console.error("Database migration failed:", err);
 	}
+}
+
+async function clearDb() {
+	// Get all existing database metadata
+	let dbs = await window.indexedDB.databases();
+
+	// Loop through and delete each database by name
+	dbs.forEach(db => {
+		let request = window.indexedDB.deleteDatabase(db.name);
+		request.onsuccess = () => console.log(`Deleted DB: ${db.name}`);
+		request.onerror = () => console.error(`Error deleting DB: ${db.name}`);
+		request.onblocked = () => console.warn(`Deletion of ${db.name} is blocked`);
+	});
 }
 
 //--INITIAL--//
