@@ -1,7 +1,7 @@
 //--DEFAULT SETTINGS--//
 const config = {
 	debug: true,
-	id: '20260831_2',
+	id: '20260901',
 	idb: {
 		name: 'gacha',
 		store: 'surugacha',
@@ -226,7 +226,7 @@ function generateRandomCard() {
 
 function resetData() {
 	if (confirm('Confirm reset data? This action cannot be undone.')) {
-		if (confirm('COnfirm reset db? Do not proceed if you intend to keep old card info.'))
+		if (confirm('Confirm reset db? Do not proceed if you intend to keep old card info.'))
 			clearDb();
 		writeDb('DELETE FROM library');
 		saveDb();
