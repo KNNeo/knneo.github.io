@@ -88,7 +88,7 @@ function generateCard(card, onclick) {
 	let inLibrary = config.library.find(s => s.cardId == card.id);
 	if (inLibrary) {
 		let cardLike = document.createElement('a');
-		cardLike.classList.add('bi', inLibrary.like ? 'bi-star' : 'bi-star-fill');
+		cardLike.classList.add('bi', inLibrary.like ? 'bi-star-fill' : 'bi-star');
 		cardLike.onclick = toggleLikeCard;
 		cardDiv.appendChild(cardLike);
 	}
