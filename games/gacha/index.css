@@ -197,8 +197,8 @@ footer button {
 	font-size: 0.8em;
 }
 
-.library-view .filter-sort select {
-	width: 40%;
+.library-view .filter-sort :is(input, select) {
+	width: 38%;
 	justify-content: center;
 	align-items: center;
 }
