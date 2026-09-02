@@ -1,7 +1,7 @@
 //--DEFAULT SETTINGS--//
 const config = {
 	debug: true,
-	id: '20260901',
+	id: '20260902',
 	idb: {
 		name: 'gacha',
 		store: 'surugacha',
