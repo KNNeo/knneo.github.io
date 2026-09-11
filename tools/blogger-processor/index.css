@@ -16,18 +16,19 @@
 }
 
 html {
-	font-family: Noto Sans;
-	background-color: var(--background);
-	color: var(--foreground);
-	color-scheme: light;
+  font-family: Noto Sans;
+  background-color: var(--background);
+  color: var(--foreground);
+  color-scheme: light;
 }
 
 html.darked {
-	color-scheme: dark;
+  color-scheme: dark;
 }
 
 body {
-  margin: 0;
+  max-width: 480px;
+  margin: auto;
   text-align: center;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -58,20 +59,25 @@ textarea {
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 
 .box {
-	margin: 5px;
-	vertical-align: top;
-	scroll-snap-align: center;
-	white-space: normal;
-	touch-action: manipulation;
+  margin: 5px;
+  vertical-align: top;
+  scroll-snap-align: center;
+  white-space: normal;
+  touch-action: manipulation;
+}
+
+.options {
+  display: flex;
 }
 
 .message {
   display: block;
   height: 2em;
+  padding: 8px;
 }
 
 .shadowed {
@@ -81,14 +87,14 @@ textarea {
 
 .shadowed:active {
   box-shadow: 1px 1px;
-  transform: translate(2px,2px);
+  transform: translate(2px, 2px);
 }
 
 .unshadowed {
-	filter: opacity(100%);
-	transition: filter 1s;
+  filter: opacity(100%);
+  transition: filter 1s;
 }
 
 .settings a.material-icons {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
