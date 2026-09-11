@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-SG">
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
-    <link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
-    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
-    <link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
+	<link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
+	<link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
 	<script src="../../theme.js" type="application/javascript" charset="utf-8"></script>
 	<script src="index.js" defer></script>
-    <title>Conversation Starter</title>
+	<title>Conversation Starter</title>
 </head>
+
 <body onload="startup()" onkeydown="onKeyDown()">
 	<div class="page">
 		<h2>Conversations</h2>
@@ -22,33 +24,56 @@
 				<div id="selection" class="selection" data-value="saved">
 					<div data-id="saved" onclick="onSelectConversation()">Messages</div>
 				</div>
-				<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
-				<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
-				<a class="delete bi bi-x-square" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
+				<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation"
+					onclick="addConversation()"></a>
+				<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation"
+					onclick="renameConversation()"></a>
+				<a class="delete bi bi-x-square" href="javascript:void(0);" title="Delete Current Conversation"
+					onclick="deleteConversation()" oncontextmenu="false"></a>
 			</div>
 		</div>
 		<!--MESSAGE BOX-->
 		<div class="container">
 			<div class="conversation" id="saved">
 				<div class="view messages homepage"></div>
+				<div class="view editor import hidden">
+					<textarea name="import" title="editor" placeholder="Message text here..."></textarea>
+					<label for="import" title="Converation selected will be appended">Import to:</label>
+					<select name="import" class="select" id="import" onfocus="updateConversationListOptions()"
+						onchange="updateConversationList()">
+						<option value="">======</option>
+					</select>
+					<a class="bi bi-send send" href="javascript:void(0);" onclick="importConversation()"
+						title="Send"></a>
+				</div>
 			</div>
 		</div>
 		<!--SETTINGS-->
 		<h3 class="settings">
-			<a class="section bi bi-file-break" href="javascript:void(0);" title="Select Section" onclick="selectSection()"></a>
-			<a class="fullscreen bi bi-phone" href="javascript:void(0);" title="Toggle Fullscreen" onclick="toggleFullscreen()" oncontextmenu="toggleFullscreen()"></a>
-			<a class="audio bi bi-volume-mute" href="javascript:void(0);" title="Toggle Audio" onclick="toggleAudio()" oncontextmenu="false"></a>
-			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="customSetTheme()" oncontextmenu="false"></a>
-			<a class="code bi bi-code-square" href="javascript:void(0);" title="Show Data" onclick="showData()" oncontextmenu="false"></a>
-			<a class="clear bi bi-trash" href="javascript:void(0);" title="Clear All Conversations" onclick="clearConversations()" oncontextmenu="false"></a>
+			<a class="section bi bi-file-break" href="javascript:void(0);" title="Select Section"
+				onclick="selectSection()"></a>
+			<a class="fullscreen bi bi-phone" href="javascript:void(0);" title="Toggle Fullscreen"
+				onclick="toggleFullscreen()" oncontextmenu="toggleFullscreen()"></a>
+			<a class="audio bi bi-volume-mute" href="javascript:void(0);" title="Toggle Audio" onclick="toggleAudio()"
+				oncontextmenu="false"></a>
+			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode"
+				onclick="toggleDarkMode()" oncontextmenu="customSetTheme()" oncontextmenu="false"></a>
+			<a class="code bi bi-code-square" href="javascript:void(0);" title="Show Data" onclick="showData()"
+				oncontextmenu="false"></a>
+			<a class="clear bi bi-trash" href="javascript:void(0);" title="Clear All Conversations"
+				onclick="clearConversations()" oncontextmenu="false"></a>
 		</h3>
 		<!--FULLSCREEN HEADER-->
 		<div class="header">
 			<a class="bi bi-chevron-left" href="javascript:void(0);" title="Back" onclick="onSelectHomepage()"></a>
 			<span onclick="renameConversation()">Conversations</span>
 			<a class="bi bi-telephone" href="javascript:void(0);" title="Call"></a>
-			<a class="bi bi-three-dots-vertical" href="javascript:void(0);" title="Options" onclick="showContextMenu()"></a>
-			<a class="bi bi-plus-circle add" href="javascript:void(0);" title="Add Conversation" onclick="onAddConversation()"></a>
+			<a class="bi bi-three-dots-vertical" href="javascript:void(0);" title="Options"
+				onclick="showContextMenu()"></a>
+			<a class="bi bi-upload upload" href="javascript:void(0);" title="Schedule Conversation"
+				onclick="onImportConversation()"></a>
+			<a class="bi bi-plus-circle add" href="javascript:void(0);" title="Add Conversation"
+				onclick="onAddConversation()"></a>
 			<div class="context hidden"></div>
 		</div>
 		<!--FULLSCREEN FOOTER-->
@@ -62,33 +87,40 @@
 	</div>
 	<template class="template-message">
 		<div class="conversation hidden" data-id="">
-			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
+			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation">
+				CONVERSATION</a>
 			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()" title="Show Editor"> EDITOR</a>
 			<div class="view messages" data-animate></div>
 			<div class="view editor hidden">
-				<textarea title="editor" placeholder="Message text here..."></textarea>
+				<textarea name="messages" title="editor" placeholder="Message text here..."></textarea>
 				<label for="sender" title="Name selected will appear in right side of conversation">Sender:</label>
-				<select name="sender" class="sender" id="sender" onfocus="updateSenderOptions()" onchange="updateSender()">
+				<select name="sender" class="sender" id="sender" onfocus="updateSenderOptions()"
+					onchange="updateSender()">
 					<option value="">======</option>
 				</select>
 				<label for="separator" title="For separation between name and message">Separator:</label>
-				<input name="sender" disabled class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
+				<input name="sender" disabled class="separator" id="separator" placeholder=":"
+					onchange="updateSeparator()"></input>
 				<label for="names" title="For group conversations, to identify multiple recipients">Show Names:</label>
 				<input type="checkbox" disabled name="names" class="names" id="names" onchange="updateNames()"></input>
-				<a class="bi bi-x-circle close" href="javascript:void(0);" onclick="showMessages()" title="Close Editor"></a>
-				<a class="bi bi-question-circle help" href="javascript:void(0);" onclick="showEditorHelp()" title="Help"></a>
-				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)" title="Save Changes"></a>
+				<a class="bi bi-x-circle close" href="javascript:void(0);" onclick="showMessages()"
+					title="Close Editor"></a>
+				<a class="bi bi-question-circle help" href="javascript:void(0);" onclick="showEditorHelp()"
+					title="Help"></a>
+				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)"
+					title="Save Changes"></a>
 			</div>
 		</div>
 	</template>
 	<template class="template-reactions">
 		<div class="reactions">
 			<a class="reaction" href="javascript:void(0);" onclick="setReaction()" title="Good">👍</a>
-			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Love">❤️</a>
-			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Laughs">😂</a>
-			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Angry">😡</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()" title="Love">❤️</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()" title="Laughs">😂</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()" title="Angry">😡</a>
 		</div>
 	</template>
 	<audio class="sfx hidden" src="../resource/pixelbay-happy-pop-2-185287-floraphonic.mp3"></audio>
 </body>
+
 </html>

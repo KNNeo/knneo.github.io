@@ -1,7 +1,8 @@
 //--DEFAULT SETTINGS--//
 const config = {
 	auto: {
-		fullscreen: true
+		fullscreen: true,
+		update: 2000
 	},
 	display: {
 		saved: 'Saved Messages'
@@ -21,6 +22,9 @@ const config = {
 	wrapper: {
 		system: '===',
 		section: '---'
+	},
+	import: {
+		delay: 10000
 	},
 	delay: 1500,
 	debug: false
@@ -50,6 +54,14 @@ function selectConversation() {
 function onSelectConversation() {
 	hideAllConversations();
 	homepageDiv.innerHTML = '';
+	// remove alert, if any
+	clearInterval(config.updates);
+	let item = event.target.closest('.homepage-item');
+	let thumb = item?.querySelector('.homepage-thumb');
+	if (item && thumb) {
+		thumb.removeAttribute('data-alert');
+		thumb.classList.remove('bi-exclamation');
+	}
 	// if(pageDiv.getAttribute('data-fullscreen') != null)
 	// 	toggleFullscreen();
 	let id = (event.target.closest('.homepage-item') || event.target).getAttribute('data-id');
@@ -66,7 +78,8 @@ function onSelectConversation() {
 			if (conv.getAttribute('data-id') == id)
 				conv.classList.remove('hidden');
 		}
-		pageDiv.querySelector('.header span').innerText = window.conversations[document.querySelector('.conversation:not(.hidden)')?.id]?.name || selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
+
+		pageDiv.querySelector('.header span').innerText = event.target.innerText || window.conversations[document.querySelector('.conversation:not(.hidden)')?.id]?.name || selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
 		event.target.blur();
 	}
 	removeDialog();
@@ -136,7 +149,7 @@ function saveEditor(event) {
 			let index = window.conversations.findIndex(c => c.id == conversation.id);
 			window.conversations[index].content = conversation.querySelector('.editor textarea').value;
 			window.conversations[index].updated = new Date().toString();
-			window.conversations.sort((a,b) => new Date(b.updated).getTime() - new Date(a.updated).getTime());
+			window.conversations.sort((a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime());
 			saveLocal();
 			config.saved = true;
 		}
@@ -206,14 +219,60 @@ function updateNames(conversation) {
 	saveLocal();
 }
 
+function onImportConversation() {
+	let container = document.querySelector('.import');
+	container.classList.remove('hidden');
+}
+
+function importConversation() {
+	let container = document.querySelector('.import');
+	let editor = container.querySelector('textarea').value;
+	if (!editor) return onSelectHomepage();
+	let delay = config.import.delay;
+	let destination = config.import.destination;
+
+	let index = window.conversations.findIndex(c => c.id == destination);
+	window.conversations[index].content += editor;
+
+	let lines = (window.conversations[index]?.content || '').split('\n');
+	if (!lines || lines.length < 2)
+		return;
+	let senders = lines.reduce(function (total, line) {
+		let isUrl = line.startsWith('https://') || line.startsWith('http://');
+		let name = isUrl ? '' : line.trim().substring(0, line.indexOf(separator)).trim();
+		if (name && !total.includes(name))
+			total.push(name);
+		return total;
+	}, []);
+	window.conversations[index].sender = senders.filter(s => s != window.conversations[index].name)[0];
+	window.conversations[index].separator = config.separator.line;
+
+	let now = new Date().getTime();
+	window.conversations[index].updated = new Date(now + delay).toString();
+	saveLocal();
+	onSelectHomepage();
+}
+
+function updateConversationListOptions() {
+	let elem = event.target;
+	if (elem.children.length > 1)
+		elem.innerHTML = '<option value="">======</option>';
+	for (let conversation of window.conversations.filter(c => c.updated)) {
+		let option = document.createElement('option');
+		option.value = conversation.id;
+		option.innerText = conversation.name;
+		option.onchange = 'updateConversationList()';
+		elem.appendChild(option);
+	}
+}
+
+function updateConversationList() {
+	config.import.destination = event.target.value;
+}
+
 function onAddConversation() {
 	addConversation();
 	initializeHomepage();
-}
-
-function generateId() {
-	let now = new Date();
-	return 'c' + now.getFullYear() + now.getMonth() + now.getDate() + now.getHours() + now.getMinutes() + now.getSeconds() + now.getMilliseconds();
 }
 
 function addConversation(name, id) {
@@ -223,7 +282,7 @@ function addConversation(name, id) {
 	if (name) {
 		newOpt.innerText = name;
 		// based on current conversation count (starts with 0)
-		if(!id) id = generateId();
+		if (!id) id = generateId();
 		newOpt.classList.add('hidden');
 		// also sort order
 		newOpt.dataset.id = id;
@@ -235,17 +294,21 @@ function addConversation(name, id) {
 		document.querySelector('.container').appendChild(conversation);
 
 		// id will be created datetime
-		if(!window.conversations.find(c => c.id == id))
-			window.conversations.push({ id, name, updated: id });
+		if (!window.conversations.find(c => c.id == id))
+			window.conversations.push({ id, name, content: '', updated: id });
 		saveLocal();
 	}
+	else
+		alert('No name provided! Try again.');
 }
 
 function renameConversation() {
+	if (!homepageDiv.closest('.conversation').classList.contains('hidden'))
+		return;
 	let index = window.conversations.findIndex(c => c.id == document.querySelector('.conversation:not(.hidden)').id);
 	let newName = prompt('Key in new name:', window.conversations[index].name);
 	if (newName != null) {
-		window.conversations[document.querySelector('.conversation:not(.hidden)').id].name = newName;
+		window.conversations[index].name = newName;
 		pageDiv.querySelector('.header span').innerText = newName;
 		saveLocal();
 	}
@@ -253,7 +316,7 @@ function renameConversation() {
 
 function deleteConversation() {
 	if (confirm('Confirm delete current conversation? This action cannot be reversed.')) {
-		window.conversations = window.conversations.filter(c => c.id == document.querySelector('.conversation:not(.hidden)').dataset.id);
+		window.conversations = window.conversations.filter(c => c.id != document.querySelector('.conversation:not(.hidden)').id);
 		// save and reload
 		saveLocal();
 		onSelectHomepage();
@@ -450,6 +513,11 @@ function onSelectHomepage() {
 		hideAllConversations();
 	}
 	initializeHomepage();
+}
+
+function generateId() {
+	let now = new Date();
+	return 'c' + now.getFullYear() + now.getMonth() + now.getDate() + now.getHours() + now.getMinutes() + now.getSeconds() + now.getMilliseconds();
 }
 
 //--FUNCTIONS--//
@@ -984,8 +1052,7 @@ function loadLocal() {
 	if (!window.conversations) {
 		window.conversations = [{
 			id: 'saved',
-			name: config.display.saved,
-			updated: generateId()
+			name: config.display.saved
 		}];
 		saveLocal();
 	}
@@ -1055,12 +1122,12 @@ function initializeHomepage() {
 	//select first conversation
 	let initial = homepageDiv.closest('.conversation');
 	initial.classList.remove('hidden');
+	initial.querySelector('.import').classList.add('hidden');
 	initial.firstElementChild.click();
 	initial.querySelector('.messages').style.height = '';
 	if (!window.conversations.length) // if empty, force create
 		addConversation(config.display.saved);
 	let conversations = window.conversations;
-	let counter = 0;
 	//render messages page
 	for (let ref of conversations) {
 		let item = document.createElement('div');
@@ -1070,7 +1137,7 @@ function initializeHomepage() {
 
 		let thumb = document.createElement('div');
 		thumb.classList.add('homepage-thumb');
-		if(ref.name == config.display.saved) {
+		if (ref.name == config.display.saved) {
 			thumb.classList.add('bi', 'bi-bookmark');
 		}
 		else thumb.setAttribute('data-initial', ref.name[0]);
@@ -1092,4 +1159,21 @@ function initializeHomepage() {
 		}
 		homepageDiv.appendChild(item);
 	}
+	checkUpdates();
+}
+
+function checkUpdates() {
+	config.updates = setInterval(function () {
+		for (let conversation of window.conversations.filter(c => c.updated)) {
+			let updateDate = new Date(conversation.updated);
+			if (new Date().getTime() - updateDate.getTime() < config.auto.update) {
+				let elem = document.querySelector('.homepage-item[data-id="' + conversation.id + '"]');
+				let thumb = elem?.querySelector('.homepage-thumb');
+				if (elem && thumb) {
+					thumb.setAttribute('data-alert', '');
+					thumb.classList.add('bi-exclamation');
+				}
+			}
+		}
+	}, config.auto.update);
 }

@@ -1,18 +1,20 @@
 /*Variables*/
 :root {
-    --primary: #39afff;
-    --secondary: #eee;
-    --background: #fff;
-    --foreground: #000;
-    --accent: lightgray;
+	--primary: #0065ff;
+	--secondary: #609fff;
+    --tertiary: #ddddff;
+	--background: #fff;
+	--foreground: #000;
+	--accent: #ddd;
 }
 
 .darked:root {
-    --primary: #00abbf;
-    --secondary: #444;
-    --background: #000;
-    --foreground: #fff;
-    --accent: gray;
+	--primary: #00e4ff;
+	--secondary: #00abbf;
+    --tertiary: #166264;
+	--background: #000;
+	--foreground: #fff;
+	--accent: #454545;
 }
 
 html,
@@ -118,7 +120,7 @@ a:hover {
 }
 
 .conversation .messages {
-    background-color: var(--secondary);
+    background-color: var(--accent);
     overflow-y: auto;
     position: relative;
     resize: vertical;
@@ -150,10 +152,28 @@ a:hover {
 
 .page[data-fullscreen] .conversation:not(.hidden) :is(.messages, .editor) {
     position: absolute;
-    top: 4.5em;
+    top: 4em;
     height: calc(100% - 9em);
     width: 100%;
     resize: none;
+}
+
+.page[data-fullscreen] .conversation:not(.hidden) :is(.import) {
+    background: var(--background);
+    height: calc(100% - 6em);
+}
+
+.import .select {
+    width: 100%;
+    max-width: 24ch;
+    margin: 16px;
+}
+
+.import .send {
+    background-color: var(--background);
+    border: 1px solid var(--accent);
+    border-radius: 99px;
+    width: 40px;
 }
 
 .page[data-fullscreen]:has(.homepage-item) .homepage.messages {
@@ -162,6 +182,15 @@ a:hover {
 
 .page[data-fullscreen]:has(.homepage-item) .header a,
 .page[data-fullscreen]:has(.homepage-item) .footer {
+    display: none;
+}
+
+.page[data-fullscreen]:has(.homepage-item) .header a.upload {
+    display: initial;
+    grid-area: 1 / 3 / 1 / 3;
+}
+
+.page[data-fullscreen]:not(:has(.homepage-item)) .header a.upload {
     display: none;
 }
 
@@ -194,7 +223,7 @@ a:hover {
 
 .page[data-fullscreen] .header {
     position: absolute;
-    top: 0.25em;
+    top: 0;
     left: 0;
     width: 100%;
     font-size: 1em;
@@ -292,7 +321,7 @@ a:hover {
 .conversation .message .container {
     margin: 8px;
     padding: 6px;
-    background-color: var(--accent);
+    background-color: var(--tertiary);
     border-radius: 10px 10px 10px 0;
     text-align: left;
 }
@@ -331,7 +360,7 @@ a:hover {
 }
 
 .conversation .message[data-sender] .container {
-    background-color: var(--primary);
+    background-color: var(--secondary);
     border-radius: 8px 8px 0 8px;
 }
 
@@ -344,11 +373,11 @@ a:hover {
 }
 
 .conversation .message[data-sender] .container[onclick]:hover {
-    background-color: var(--primary);
+    background-color: var(--secondary);
 }
 
 .conversation .message[data-system] .container {
-    background-color: var(--secondary);
+    background-color: var(--accent);
 }
 
 .conversation .message[data-url]:has(img) .container {
@@ -494,6 +523,7 @@ a:hover {
 }
 
 .homepage .homepage-item {
+    box-sizing: border-box;
     width: 100%;
     border-top: 1px solid var(--accent);
     padding: 8px;
@@ -503,6 +533,7 @@ a:hover {
     align-items: center;
     justify-items: start;
     gap: 8px;
+    cursor: pointer;
 }
 
 .homepage .homepage-item:first-child {
@@ -510,15 +541,24 @@ a:hover {
 }
 
 .homepage .homepage-item .homepage-thumb { 
+    position: relative;
     grid-area: 1 / 1 / 3 / 1;
     width: 60px;
     height: 60px;
     border-radius: 99px;
-    border: 1px solid var(--accent);
-    background-color: var(--primary);
+    border: 1px solid var(--background);
+    background-color: var(--tertiary);
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.homepage .homepage-item .homepage-thumb[data-alert]::before { 
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--secondary);
+    border-radius: 99px;
 }
 
 .homepage .homepage-item .homepage-thumb::after { 
