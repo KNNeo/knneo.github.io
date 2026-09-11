@@ -19,8 +19,8 @@
 		<div>
 			<label for="selection">Select Conversation:</label>
 			<div class="menu">
-				<div id="selection" class="selection" data-value="text0">
-					<div data-id="text0" onclick="onSelectConversation()">Messages</div>
+				<div id="selection" class="selection" data-value="saved">
+					<div data-id="saved" onclick="onSelectConversation()">Messages</div>
 				</div>
 				<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
 				<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
@@ -29,7 +29,7 @@
 		</div>
 		<!--MESSAGE BOX-->
 		<div class="container">
-			<div class="conversation" id="text0">
+			<div class="conversation" id="saved">
 				<div class="view messages homepage"></div>
 			</div>
 		</div>
@@ -61,20 +61,20 @@
 		<a class="home" href="https://knneo.github.io/">knneo.github.io</a>
 	</div>
 	<template class="template-message">
-		<div class="conversation hidden" id="">
+		<div class="conversation hidden" data-id="">
 			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
 			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()" title="Show Editor"> EDITOR</a>
 			<div class="view messages" data-animate></div>
 			<div class="view editor hidden">
 				<textarea title="editor" placeholder="Message text here..."></textarea>
 				<label for="sender" title="Name selected will appear in right side of conversation">Sender:</label>
-				<select name="sender" class="sender" id="sender" onchange="updateSender()">
+				<select name="sender" class="sender" id="sender" onfocus="updateSenderOptions()" onchange="updateSender()">
 					<option value="">======</option>
 				</select>
 				<label for="separator" title="For separation between name and message">Separator:</label>
-				<input name="sender" class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
+				<input name="sender" disabled class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
 				<label for="names" title="For group conversations, to identify multiple recipients">Show Names:</label>
-				<input type="checkbox" name="names" class="names" id="names" onchange="updateNames()"></input>
+				<input type="checkbox" disabled name="names" class="names" id="names" onchange="updateNames()"></input>
 				<a class="bi bi-x-circle close" href="javascript:void(0);" onclick="showMessages()" title="Close Editor"></a>
 				<a class="bi bi-question-circle help" href="javascript:void(0);" onclick="showEditorHelp()" title="Help"></a>
 				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)" title="Save Changes"></a>

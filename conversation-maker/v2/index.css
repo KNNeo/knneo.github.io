@@ -521,8 +521,9 @@ a:hover {
     justify-content: center;
 }
 
-.homepage .homepage-item .homepage-thumb::before { 
+.homepage .homepage-item .homepage-thumb::after { 
     content: attr(data-initial);
+    font-size: 1.25em;
 }
 
 .homepage .homepage-item .homepage-title {

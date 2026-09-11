@@ -3,15 +3,18 @@ const config = {
 	auto: {
 		fullscreen: true
 	},
+	display: {
+		saved: 'Saved Messages'
+	},
 	storage: {
 		messages: 'conversation-messages-v2',
 	},
-    hide: {
-        code: true,
-        clear: true
-    },
+	hide: {
+		code: true,
+		clear: true
+	},
 	separator: {
-		line: ':',
+		line: '：',
 		lines: [':', '：'],
 		choice: '|'
 	},
@@ -40,7 +43,7 @@ function onKeyDown() {
 //--EVENT HANDLERS--//
 function selectConversation() {
 	let conversations = Array.from(selectionDiv.querySelectorAll('div[data-id]'))
-					.map(conv => '<button data-id="' + conv.getAttribute('data-id') + '" onclick="onSelectConversation()">' + conv.innerText + '</button>');
+		.map(conv => '<button data-id="' + conv.getAttribute('data-id') + '" onclick="onSelectConversation()">' + conv.innerText + '</button>');
 	popupText('<div class="sections">' + conversations.join('') + '</div>');
 }
 
@@ -52,18 +55,18 @@ function onSelectConversation() {
 	let id = (event.target.closest('.homepage-item') || event.target).getAttribute('data-id');
 	if (id) {
 		let elem = document.querySelector('#' + id);
-		if(elem) {
+		if (elem) {
 			elem.classList.remove('hidden');
 			elem.firstElementChild.click();
 			elem.querySelector('.messages').style.height = '';
 		}
 		selectionDiv.setAttribute('data-value', id);
-		for(let conv of selectionDiv.querySelectorAll('div[data-id]')) {
+		for (let conv of selectionDiv.querySelectorAll('div[data-id]')) {
 			conv.classList.add('hidden');
-			if(conv.getAttribute('data-id') == id)
+			if (conv.getAttribute('data-id') == id)
 				conv.classList.remove('hidden');
 		}
-		pageDiv.querySelector('.header span').innerText = window['conversation-messages'][document.querySelector('.conversation:not(.hidden)')?.id]?.name || selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
+		pageDiv.querySelector('.header span').innerText = window.conversations[document.querySelector('.conversation:not(.hidden)')?.id]?.name || selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
 		event.target.blur();
 	}
 	removeDialog();
@@ -72,14 +75,14 @@ function onSelectConversation() {
 function showMessages() {
 	let conversation = event.target.closest('.conversation') || document.querySelector('.conversation:not(.hidden)');
 	if (conversation.id) {
-		if(!conversation.querySelector('.message') || conversation.querySelector('.editor:not(.hidden)')) {
+		if (!conversation.querySelector('.message') || conversation.querySelector('.editor:not(.hidden)')) {
 			document.querySelector('#' + conversation.id + ' .messages').innerHTML = document.querySelector('#' + conversation.id + ' .editor textarea').value;
 			processConversation(document.querySelector('#' + conversation.id + ' .messages'));
 		}
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
 		document.querySelector('#' + conversation.id + ' .messages .action')?.scrollIntoView();
 	}
-	if(settingsSection != null) {
+	if (settingsSection != null) {
 		settingsSection.classList.remove('bi-file-earmark-break-fill');
 		settingsSection.classList.add('bi-file-break');
 	}
@@ -92,15 +95,16 @@ function showMessages() {
 function showEditor() {
 	let conversation = event.target.closest('.conversation') || document.querySelector('.conversation:not(.hidden)');
 	if (conversation.id) {
-		document.querySelector('#' + conversation.id + ' .editor').classList.remove('hidden');
-		updateSenderOptions(conversation);
+		conversation.querySelector('.editor').classList.remove('hidden');
+		conversation.querySelector('#sender').focus();
+		updateSeparator(conversation);
+		updateNames(conversation);
 		let sender = conversation.querySelector('.messages').getAttribute('data-sender');
-		if (sender != null)
+		if (sender)
 			conversation.querySelector('.sender option[value=' + sender + ']').selected = sender;
 	}
-	for (let view of document.querySelectorAll('#' + conversation.id + ' .view:not(.editor)')) {
+	for (let view of document.querySelectorAll('#' + conversation.id + ' .view:not(.editor)'))
 		view.classList.add('hidden');
-	}
 	disableRunMessages(conversation);
 	hideContextMenu();
 }
@@ -126,54 +130,34 @@ function showEditorHelp() {
 }
 
 function saveEditor(event) {
-	if(event.target.classList.contains('bi-floppy')) {
+	if (event.target.classList.contains('bi-floppy')) {
 		let conversation = event.target.closest('.conversation');
-		if(!window.saved) {
-			window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
-			let latest = window['conversation-messages'][conversation.id];
-			let latestId = Object.keys(window['conversation-messages']).indexOf(conversation.id);
-			if(latestId) {
-				// shift keys from current item
-				let keys = Object.keys(window['conversation-messages']);
-				for (let i = 1+latestId; i >= 2; i--)
-					window['conversation-messages']['text' + i] = JSON.parse(JSON.stringify(window['conversation-messages']['text' + (i - 1)]));
-				// set latest item as first
-				window['conversation-messages']['text1'] = JSON.parse(JSON.stringify(latest));
-			}
-			// auto detect separator, if possible
-			let sepInput = conversation.querySelector('.editor #separator');
-			if(sepInput) {
-				let input = conversation.querySelector('.editor textarea').value.split('\n');
-				let separator = config.separator.lines.find(l => input.filter(c => c.includes(l)).length > 1);
-				if(separator) {
-					sepInput.value = separator;
-					sepInput.dispatchEvent(new Event('change'));
-				}
-			}
-			saveToLocalStorage();
-			updateSenderOptions(conversation);
-			window.saved = true;
+		if (!config.saved) {
+			let index = window.conversations.findIndex(c => c.id == conversation.id);
+			window.conversations[index].content = conversation.querySelector('.editor textarea').value;
+			window.conversations[index].updated = new Date().toString();
+			window.conversations.sort((a,b) => new Date(b.updated).getTime() - new Date(a.updated).getTime());
+			saveLocal();
+			config.saved = true;
 		}
 		// blink icon
 		event.target.classList.toggle('bi-floppy');
 		event.target.classList.toggle('bi-check2-circle');
-		setTimeout(function() {
+		setTimeout(function () {
 			event.target.classList.toggle('bi-floppy');
 			event.target.classList.toggle('bi-check2-circle');
 		}, 500);
 	}
 }
 
-function saveToLocalStorage() {
-	localStorage.setItem(config.storage.messages, JSON.stringify(window['conversation-messages'] || ''));
-}
-
-function updateSenderOptions(conversation) {
+function updateSenderOptions() {
+	let conversation = event?.target?.closest('.conversation');
 	let selection = conversation.querySelector('.sender');
 	let separator = conversation.querySelector('.messages').getAttribute('data-separator') || config.separator.line;
-	if (!window['conversation-messages'][conversation.id])
+	if (!window.conversations.find(c => c.id == conversation.id))
 		return;
-	let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
+	let index = window.conversations.findIndex(c => c.id == conversation.id);
+	let lines = (window.conversations[index]?.content || '').split('\n');
 	if (!lines || lines.length < 2)
 		return;
 	let value = selection.value;
@@ -187,7 +171,7 @@ function updateSenderOptions(conversation) {
 		return total;
 	}, []);
 	conversation.querySelector('.messages').setAttribute('data-users', senders.join(','));
-	if(!senders.length)
+	if (!senders.length)
 		alert('no senders found! are you using a different separator?');
 
 	for (let sender of senders) {
@@ -197,32 +181,29 @@ function updateSenderOptions(conversation) {
 		newOpt.onchange = 'updateSender()';
 		selection.appendChild(newOpt);
 	}
-	if(value)
+	if (value)
 		selection.value = value;
 }
 
 function updateSender() {
 	let conversation = event.target.closest('.conversation');
 	conversation.querySelector('.messages').setAttribute('data-sender', event.target.value);
-	window['conversation-messages'][conversation.id].sender = event.target.value;
-	saveToLocalStorage();
+	window.conversations.find(c => c.id == conversation.id).sender = event.target.value;
+	saveLocal();
 }
 
-function updateSeparator() {
-	let conversation = event.target.closest('.conversation');
-	conversation.querySelector('.messages').setAttribute('data-separator', event.target.value);
-	window['conversation-messages'][conversation.id].separator = event.target.value;
-	saveToLocalStorage();
+function updateSeparator(conversation) {
+	let separator = config.separator.line;
+	conversation.querySelector('.messages').setAttribute('data-separator', separator);
+	window.conversations.find(c => c.id == conversation.id).separator = separator;
+	saveLocal();
 }
 
-function updateNames() {
-    let conversation = event.target.closest('.conversation');
-    window['conversation-messages'][conversation.id].names = event.target.checked;
-    if(event.target.checked)
-        conversation.querySelector('.messages').setAttribute('data-names', '');
-    else
-        conversation.querySelector('.messages').removeAttribute('data-names');
-    saveToLocalStorage();
+function updateNames(conversation) {
+	let isGroupChat = Array.from(conversation.querySelectorAll('#sender option[value]')).map(s => s.value).length > 3; // excluding default option
+	window.conversations.find(c => c.id == conversation.id).names = isGroupChat;
+	conversation.querySelector('.names').checked = isGroupChat;
+	saveLocal();
 }
 
 function onAddConversation() {
@@ -230,62 +211,59 @@ function onAddConversation() {
 	initializeHomepage();
 }
 
-function addConversation(name) {
+function generateId() {
+	let now = new Date();
+	return 'c' + now.getFullYear() + now.getMonth() + now.getDate() + now.getHours() + now.getMinutes() + now.getSeconds() + now.getMilliseconds();
+}
+
+function addConversation(name, id) {
 	let newOpt = document.createElement('div');
 	if (!name || !typeof (name) == 'string')
 		name = prompt('Key in name:');
 	if (name) {
 		newOpt.innerText = name;
-		let newId = 'text' + selectionDiv.childElementCount;
+		// based on current conversation count (starts with 0)
+		if(!id) id = generateId();
 		newOpt.classList.add('hidden');
-		newOpt.setAttribute('data-id', newId);
+		// also sort order
+		newOpt.dataset.id = id;
 		selectionDiv.appendChild(newOpt);
 
 		let template = document.querySelector('.template-message');
 		let conversation = template.content.cloneNode(true);
-		conversation.firstElementChild.id = newId;
+		conversation.firstElementChild.id = id;
 		document.querySelector('.container').appendChild(conversation);
 
-		if (!window['conversation-messages'][newId])
-			window['conversation-messages'][newId] = { name };
-		saveToLocalStorage();
+		// id will be created datetime
+		if(!window.conversations.find(c => c.id == id))
+			window.conversations.push({ id, name, updated: id });
+		saveLocal();
 	}
 }
 
 function renameConversation() {
-	let newName = prompt('Key in new name:', window['conversation-messages'][document.querySelector('.conversation:not(.hidden)').id].name);
+	let index = window.conversations.findIndex(c => c.id == document.querySelector('.conversation:not(.hidden)').id);
+	let newName = prompt('Key in new name:', window.conversations[index].name);
 	if (newName != null) {
-		window['conversation-messages'][document.querySelector('.conversation:not(.hidden)').id].name = newName;
+		window.conversations[document.querySelector('.conversation:not(.hidden)').id].name = newName;
 		pageDiv.querySelector('.header span').innerText = newName;
-		saveToLocalStorage();
+		saveLocal();
 	}
 }
 
 function deleteConversation() {
-	if(confirm('Confirm delete current conversation? This action cannot be reversed.')) {
-		// empty current item
-		delete window['conversation-messages'][document.querySelector('.conversation:not(.hidden)').id];
-		// shift keys
-		let keys = Object.keys(window['conversation-messages']);
-		for (let i = 1; i <= keys.length; i++) {
-			if (!window['conversation-messages']['text' + i]) {
-				window['conversation-messages']['text' + i] = window['conversation-messages']['text' + (1 + i)];
-				delete window['conversation-messages']['text' + (1 + i)];
-			}
-		}
-		// empty last item
-		delete window['conversation-messages']['text' + (1 + keys.length)];
-	
+	if (confirm('Confirm delete current conversation? This action cannot be reversed.')) {
+		window.conversations = window.conversations.filter(c => c.id == document.querySelector('.conversation:not(.hidden)').dataset.id);
 		// save and reload
-		saveToLocalStorage();
+		saveLocal();
 		onSelectHomepage();
 	}
 }
 
 function clearConversations() {
 	if (confirm('Delete all conversations? This action cannot be reversed!')) {
-		window['conversation-messages'] = {};
-		saveToLocalStorage();
+		window.conversations = {};
+		saveLocal();
 		window.location.reload();
 	}
 }
@@ -316,8 +294,8 @@ function toggleReactions() {
 
 function clearReactions() {
 	// clear those that have not been set ie. more than 1 child
-	for(let message of document.querySelectorAll('.message:has(.reactions .reaction:nth-child(2))')) {
-		if(message == event.target.closest('.message')) continue;
+	for (let message of document.querySelectorAll('.message:has(.reactions .reaction:nth-child(2))')) {
+		if (message == event.target.closest('.message')) continue;
 		message.querySelector('.reactions').remove();
 		message.removeAttribute('data-selected');
 	}
@@ -332,20 +310,20 @@ function toggleAudio() {
 		case 'audio bi bi-volume-mute':
 			event.target.className = 'audio bi bi-volume-up';
 			window.ping = true;
-            sfxAudio.play();
+			sfxAudio.play();
 		default:
 			break;
 	}
 }
 
 function showData() {
-	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + (localStorage.getItem(config.storage.messages) || '') + '</textarea>' +
+	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + (localStorage.getItem(btoa(config.storage.messages)) || '') + '</textarea>' +
 		'<div><a class="add bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);"></a>' +
 		'<a class="add bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="updateData()"></a></div>');
 }
 
 function updateData() {
-	if (localStorage.getItem(config.storage.messages) != document.querySelector('#data').value) // update if different
+	if (localStorage.getItem(btoa(config.storage.messages)) != document.querySelector('#data').value) // update if different
 	{
 		if (document.querySelector('#data').value.length < 1) // set empty
 			document.querySelector('#data').value = '{}';
@@ -356,10 +334,10 @@ function updateData() {
 }
 
 function toggleFullscreen() {
-    if(pageDiv.getAttribute('data-fullscreen') == null) {
-        pageDiv.setAttribute('data-fullscreen', '');
+	if (pageDiv.getAttribute('data-fullscreen') == null) {
+		pageDiv.setAttribute('data-fullscreen', '');
 		pageDiv.querySelector('.header span').innerText = selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
-		if(event?.type != 'click') {
+		if (event?.type == 'click') {
 			try {
 				let doc = document.documentElement;
 				if (doc.requestFullscreen)
@@ -371,7 +349,7 @@ function toggleFullscreen() {
 				else if (doc.msRequestFullscreen) // IE,Edge
 					doc.msRequestFullscreen();
 			}
-			catch(e) {
+			catch (e) {
 				// Expected: programatic call of fullscreen API not allowed
 				console.error(e);
 			}
@@ -379,10 +357,10 @@ function toggleFullscreen() {
 		else
 			event.preventDefault();
 	}
-    else {
-        pageDiv.removeAttribute('data-fullscreen');
-        if(document.querySelector('.conversation:not(.hidden)'))
-            document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
+	else {
+		pageDiv.removeAttribute('data-fullscreen');
+		if (document.querySelector('.conversation:not(.hidden)'))
+			document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
 		if (document.exitFullscreen)
 			document.exitFullscreen();
 		else if (document.mozCancelFullScreen) // Firefox
@@ -391,29 +369,29 @@ function toggleFullscreen() {
 			document.webkitExitFullscreen();
 		else if (document.msExitFullscreen) // IE, Edge
 			document.msExitFullscreen();
-    }
-    // update icon
-    if(document.querySelector('.fullscreen')) {
-        document.querySelector('.fullscreen').classList.toggle('bi-phone');
-        document.querySelector('.fullscreen').classList.toggle('bi-circle');
-    }
+	}
+	// update icon
+	if (document.querySelector('.fullscreen')) {
+		document.querySelector('.fullscreen').classList.toggle('bi-phone');
+		document.querySelector('.fullscreen').classList.toggle('bi-circle');
+	}
 }
 
 function selectSection() {
-	if(!pageDiv.querySelector('.conversation:not(.hidden)'))
+	if (!pageDiv.querySelector('.conversation:not(.hidden)'))
 		return console.error('unable to select section, no conversation selected');
-	if(settingsSection.classList.contains('bi-file-break')) {
+	if (settingsSection.classList.contains('bi-file-break')) {
 		// show sections
-		if(pageDiv.querySelector('.editor:not(.hidden)'))
+		if (pageDiv.querySelector('.editor:not(.hidden)'))
 			return console.error('unable to select section, still in editor');
 		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
-		if(!conversation.querySelector('.message[data-section]'))
+		if (!conversation.querySelector('.message[data-section]'))
 			return alert('no sections detected, add in editor');
 		let sections = Array.from(conversation.querySelectorAll('.message[data-section]'))
-						.map(section => '<button onclick="onSelectSection()">' + section.getAttribute('data-section') + '</button>');
+			.map(section => '<button onclick="onSelectSection()">' + section.getAttribute('data-section') + '</button>');
 		popupText('<div class="sections">' + sections.join('') + '</div>');
 	}
-	if(settingsSection.classList.contains('bi-file-earmark-break-fill')) {
+	if (settingsSection.classList.contains('bi-file-earmark-break-fill')) {
 		footerInput.innerText = '';
 		// reset sections
 		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
@@ -435,40 +413,40 @@ function onSelectSection() {
 	let sectionLine = Array.from(lines).indexOf(conversation.querySelector('.messages .message[data-section="' + sectionName + '"]')); // assume section names unique
 	// console.log(sectionLine);
 	// mark and remove lines not in range
-	for(l = 0; l < sectionLine; l++) {
+	for (l = 0; l < sectionLine; l++) {
 		let line = lines[l];
-		if(line)
+		if (line)
 			line.setAttribute('data-range', '');
 	}
-	for(let line of conversation.querySelectorAll('.messages .message[data-range]'))
+	for (let line of conversation.querySelectorAll('.messages .message[data-range]'))
 		line.remove();
 	// find out which lines are in next section onwards (if not last)
 	lines = conversation.querySelectorAll('.messages .message');
 	sectionName = Array.from(lines).indexOf(conversation.querySelector('.messages .message:not([data-section]) + .message[data-section]')); // assume section names unique
 	// console.log(sectionName);
-	if(sectionName < 0)
+	if (sectionName < 0)
 		sectionName = lines.length - 1;
 	// mark and remove lines not in range
-	for(l = sectionName; l < lines.length - 1; l++) {
+	for (l = sectionName; l < lines.length - 1; l++) {
 		let line = lines[l];
-		if(line)
+		if (line)
 			line.setAttribute('data-range', '');
 	}
-	for(let line of conversation.querySelectorAll('.messages .message[data-range]'))
+	for (let line of conversation.querySelectorAll('.messages .message[data-range]'))
 		line.remove();
 	removeDialog();
 }
 
 function onSelectHomepage() {
 	selectionDiv.querySelector('div[data-id]').click();
-	if(window.saved) {
-		window.saved = false;
+	if (config.saved) {
+		config.saved = false;
 		// remove all but homepage
-		for(let item of document.querySelectorAll('#selection > :not([data-id="text0"])'))
-			item.remove();
-		for(let item of document.querySelectorAll('.conversation:not(#text0)'))
-			item.remove();
-		readFromLocalStorage();
+		// for (let item of document.querySelectorAll('#selection > :not([data-id="saved"])'))
+		// 	item.remove();
+		// for (let item of document.querySelectorAll('.conversation:not(#saved)'))
+		// 	item.remove();
+		loadLocal();
 		hideAllConversations();
 	}
 	initializeHomepage();
@@ -496,11 +474,11 @@ function processConversation(conversation) {
 		let lineDiv = document.createElement('div');
 		lineDiv.classList.add('message');
 		// find start of section, skip and put on next message
-		if(line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
-			sectionName = line.replace(new RegExp(config.wrapper.section, 'g'),'').trim();
+		if (line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
+			sectionName = line.replace(new RegExp(config.wrapper.section, 'g'), '').trim();
 			continue;
 		}
-		if(sectionName) {
+		if (sectionName) {
 			lineDiv.setAttribute('data-section', sectionName);
 			sectionName = '';
 			prevName = '';
@@ -522,7 +500,7 @@ function processConversation(conversation) {
 			let messageText = document.createElement('span');
 			let senderDefined = line.includes(lineSeparator);
 			if (!isSystem) // for non-system, if line has no sender, use previous
-            	lineDiv.setAttribute('aria-label', senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
+				lineDiv.setAttribute('aria-label', senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
 			if (senderDefined)
 				lineDiv.setAttribute('data-first', '');
 			prevName = lineDiv.getAttribute('aria-label');
@@ -543,18 +521,18 @@ function processConversation(conversation) {
 			}
 			// extract text after sender name identified
 			if (isSystem) // system message
-				messageText.innerText = line.replace(new RegExp(config.wrapper.system, 'g'),'').trim();
-			else if(message.includes('@') || message.includes('\uff20')) { // detect ampersand （ascii, unicode)
+				messageText.innerText = line.replace(new RegExp(config.wrapper.system, 'g'), '').trim();
+			else if (message.includes('@') || message.includes('\uff20')) { // detect ampersand （ascii, unicode)
 				// check for all senders
 				let senders = conversation.getAttribute('data-users')?.split(',') ?? [];
 				senders.forEach(sender => {
 					message = message.replace('@' + sender, '@' + sender + ' ')
-									.replace('\uff20' + sender, '\uff20' + sender + ' ');
+						.replace('\uff20' + sender, '\uff20' + sender + ' ');
 				});
-				for(let ref of message.split(' ')) {
+				for (let ref of message.split(' ')) {
 					let isRef = ref.startsWith('@') || ref.startsWith('\uff20');
 					let section = document.createElement('span');
-					if(isRef) section.classList.add('sender-ref');
+					if (isRef) section.classList.add('sender-ref');
 					section.innerText = (ref == message.split(' ')[0] ? '' : ' ') + ref;
 					messageText.appendChild(section);
 				}
@@ -588,7 +566,7 @@ function processConversation(conversation) {
 			lineDiv.appendChild(messageDiv);
 		}
 	}
-    // footer
+	// footer
 	let footer = document.createElement('div');
 	footer.className = 'action message';
 	footer.innerText = '🔁';
@@ -609,10 +587,10 @@ function startConversation() {
 	for (let line of lines.slice(lastSectionIndex))
 		line.classList.add('hide');
 	// show all choices
-	for(let choice of messages.querySelectorAll('.container.hidden'))
+	for (let choice of messages.querySelectorAll('.container.hidden'))
 		choice.classList.remove('hidden');
 	// clear all reactions
-	for(let reactions of messages.querySelectorAll('.reactions'))
+	for (let reactions of messages.querySelectorAll('.reactions'))
 		reactions.remove();
 	// create manual next message trigger
 	let footer = messages.querySelector('.action');
@@ -620,7 +598,7 @@ function startConversation() {
 	footer.title = 'Play Next Message';
 	footer.setAttribute('onclick', 'nextMessage()');
 	// start run
-    allowRunMessages(conversation);
+	allowRunMessages(conversation);
 }
 
 function nextMessage() {
@@ -648,7 +626,7 @@ function nextMessage() {
 		}
 		// choice made, hide other messages on line and continue
 		if (window.choice) {
-			for(let choice of lines[l].querySelectorAll('.container'))
+			for (let choice of lines[l].querySelectorAll('.container'))
 				choice.classList.remove('hidden');
 			for (let choice of lines[l].querySelectorAll('.container:not(:nth-child(' + window.choice + '))'))
 				choice.classList.add('hidden');
@@ -658,15 +636,15 @@ function nextMessage() {
 		window.choice = 0;
 	}
 	// not recipient, show message directly
-	if (l == 0 || 
-		lines[l].getAttribute('data-section') != null || 
-		lines[l].getAttribute('data-loaded') != null || 
-		lines[l].getAttribute('data-recipient') == null || 
+	if (l == 0 ||
+		lines[l].getAttribute('data-section') != null ||
+		lines[l].getAttribute('data-loaded') != null ||
+		lines[l].getAttribute('data-recipient') == null ||
 		lines[l].getAttribute('data-first') == null) {
-		if(config.debug) console.log('show message ' + (1+l));
-        // play sound effect on each message
-        if (window.ping && !lines[l].classList.contains('action') && lines[l].getAttribute('data-system') == null)
-            sfxAudio.play();
+		if (config.debug) console.log('show message ' + (1 + l));
+		// play sound effect on each message
+		if (window.ping && !lines[l].classList.contains('action') && lines[l].getAttribute('data-system') == null)
+			sfxAudio.play();
 		// unhide first hidden message
 		lines[l].classList.remove('hide');
 		// calculate scroll to show next message
@@ -676,7 +654,7 @@ function nextMessage() {
 		}, 0);
 		let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
 		// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
-		if(lines[l].getAttribute('data-section') != null)
+		if (lines[l].getAttribute('data-section') != null)
 			// scroll to beginning of section at bottom
 			conversation.querySelector('.messages').scrollTo({
 				top: diff
@@ -700,29 +678,29 @@ function nextMessage() {
 			});
 	}
 	else if (lines[l].getAttribute('data-loading') != null) {
-        if(messages.querySelector('.loader')) {
+		if (messages.querySelector('.loader')) {
 			// do not calculate next message pop time
 			setTimeout(function () {
-                // loading, remove loader and trigger again
-                messages.removeChild(messages.querySelector('.loader'));
-                // scroll back up
-                conversation.querySelector('.messages').scrollBy({
-                    top: -1*window['loader'],
-                    behavior: 'smooth'
-                });
-				if(config.debug) console.log('show loader');
+				// loading, remove loader and trigger again
+				messages.removeChild(messages.querySelector('.loader'));
+				// scroll back up
+				conversation.querySelector('.messages').scrollBy({
+					top: -1 * window['loader'],
+					behavior: 'smooth'
+				});
+				if (config.debug) console.log('show loader');
 				conversation.querySelector('.action')?.click();
 			}, 500);
 			return;
-        }
+		}
 		// if still running, call next message
 		if (conversation.getAttribute('data-running') != null) {
-            // current line is now same as next line without loader
-            if (l < lines.length - 1)
-                lines[l].setAttribute('data-loaded', '');
+			// current line is now same as next line without loader
+			if (l < lines.length - 1)
+				lines[l].setAttribute('data-loaded', '');
 			// do not calculate next message pop time, set minimum delay
 			setTimeout(function () {
-				if(config.debug) console.log('hide loader');
+				if (config.debug) console.log('hide loader');
 				conversation.querySelector('.action')?.click();
 			}, 500);
 			return;
@@ -734,7 +712,7 @@ function nextMessage() {
 		loader.className = 'message loader';
 		loader.innerText = '• • •';
 		messages.insertBefore(loader, lines[l]);
-        // scroll down
+		// scroll down
 		// calculate scroll to show next message
 		let currentHeight = 16 + loader.getBoundingClientRect().height;
 		let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
@@ -743,7 +721,7 @@ function nextMessage() {
 		let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
 		// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
 		if (diff > 0) {
-            window['loader'] = currentHeight;
+			window['loader'] = currentHeight;
 			// newest message is not aligned to bottom of container
 			if (diff < currentHeight)
 				conversation.querySelector('.messages').scrollBy({
@@ -762,11 +740,11 @@ function nextMessage() {
 			});
 		// if still running, call next message
 		if (conversation.getAttribute('data-running') != null) {
-            lines[l].setAttribute('data-loading', '');
-            window['next'] = calculateWriteTime(lines[l + 1]?.innerText);
+			lines[l].setAttribute('data-loading', '');
+			window['next'] = calculateWriteTime(lines[l + 1]?.innerText);
 			// do not calculate next message pop time
 			setTimeout(function () {
-				if(config.debug) console.log('create loader');
+				if (config.debug) console.log('create loader');
 				conversation.querySelector('.action')?.click();
 			}, window['next']);
 			return;
@@ -787,26 +765,26 @@ function nextMessage() {
 		return;
 	// if still running, call next message (after loader)
 	if (conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null) {
-        let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
+		let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
 		setTimeout(function () {
-			if(conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null)
+			if (conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null)
 				conversation.querySelector('.action')?.click();
 		}, writeTime);
 	}
 }
 
 function calculateWriteTime(text) {
-    // calculate next message pop time
-    let writeLength = text && text.length || 1;
-    let writeTime = config.delay || 1500;
-    let isEmoji = text.trim().match(emojiRegex);
-    if(isEmoji && writeLength < 5)
-        return writeTime;
-	if(text.startsWith('http://') || text.startsWith('https://'))
-        return writeTime;
-    if(writeLength > 12)
-        return writeLength / 6 * writeTime;
-    return writeTime;
+	// calculate next message pop time
+	let writeLength = text && text.length || 1;
+	let writeTime = config.delay || 1500;
+	let isEmoji = text.trim().match(emojiRegex);
+	if (isEmoji && writeLength < 5)
+		return writeTime;
+	if (text.startsWith('http://') || text.startsWith('https://'))
+		return writeTime;
+	if (writeLength > 12)
+		return writeLength / 6 * writeTime;
+	return writeTime;
 }
 
 function setChoices(choices) {
@@ -818,7 +796,7 @@ function setChoices(choices) {
 }
 
 function waitForSender() {
-	if(config.debug) console.log('await reply');
+	if (config.debug) console.log('await reply');
 	if (window.choice) {
 		let conversation = document.querySelector('.conversation:not(.hidden)');
 		let lines = conversation.querySelectorAll('.message');
@@ -829,7 +807,7 @@ function waitForSender() {
 		for (let choice of lines[l - 1].querySelectorAll('.container'))
 			choice.removeAttribute('onclick');
 		setTimeout(function () {
-			if(config.debug) console.log('reply selected, call next');
+			if (config.debug) console.log('reply selected, call next');
 			allowRunMessages(conversation);
 		}, calculateWriteTime(lines[l + 1]?.innerText));
 	}
@@ -838,7 +816,7 @@ function waitForSender() {
 }
 
 function allowRunMessages(conversation) {
-	if(config.debug) console.log('allow run messages');
+	if (config.debug) console.log('allow run messages');
 	if (!conversation) return;
 	// set status
 	conversation.setAttribute('data-running', '');
@@ -851,7 +829,7 @@ function allowRunMessages(conversation) {
 }
 
 function disableRunMessages(conversation) {
-	if(config.debug) console.log('disable run messages');
+	if (config.debug) console.log('disable run messages');
 	if (!conversation) return;
 	// remove status
 	conversation.removeAttribute('data-running');
@@ -862,12 +840,12 @@ function disableRunMessages(conversation) {
 }
 
 function pauseConversation(conversation) {
-	if(config.debug) console.log('pause');
-    if(!conversation)
-        conversation = document.querySelector('.conversation:not(.hidden)');
-	if(conversation.getAttribute('data-running') == null || conversation.getAttribute('data-paused') != null)
+	if (config.debug) console.log('pause');
+	if (!conversation)
+		conversation = document.querySelector('.conversation:not(.hidden)');
+	if (conversation.getAttribute('data-running') == null || conversation.getAttribute('data-paused') != null)
 		return;
-    let footer = conversation.querySelector('.action');
+	let footer = conversation.querySelector('.action');
 	footer.style.opacity = 1;
 	conversation.setAttribute('data-paused', '');
 	footer.setAttribute('onclick', 'resumeConversation()');
@@ -875,12 +853,12 @@ function pauseConversation(conversation) {
 }
 
 function resumeConversation(conversation) {
-	if(config.debug) console.log('resume');
-    if(!conversation)
-        conversation = document.querySelector('.conversation:not(.hidden)');
-	if(conversation.getAttribute('data-paused') == null)
+	if (config.debug) console.log('resume');
+	if (!conversation)
+		conversation = document.querySelector('.conversation:not(.hidden)');
+	if (conversation.getAttribute('data-paused') == null)
 		return;
-    let footer = conversation.querySelector('.action');
+	let footer = conversation.querySelector('.action');
 	footer.style.opacity = '';
 	conversation.removeAttribute('data-paused');
 	footer.setAttribute('onclick', 'nextMessage()');
@@ -936,7 +914,7 @@ function removeDialog() {
 function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
-	if(!contextDiv.classList.contains('hidden'))
+	if (!contextDiv.classList.contains('hidden'))
 		return contextDiv.classList.add('hidden');
 	document.addEventListener('click', hideContextMenu);
 	//positioning
@@ -989,44 +967,32 @@ function showContextMenu() {
 }
 
 function hideContextMenu() {
-	if(!event.target.closest('.context'))
+	if (!event.target.closest('.context'))
 		contextDiv.classList.add('hidden');
 }
 
 //--INITIAL--//
 function startup() {
-	readFromLocalStorage();
+	loadLocal();
 	hideAllConversations();
-    initializeWindow();
+	initializeWindow();
 	initializeHomepage();
 }
 
-function readFromLocalStorage() {
-	window['conversation-messages'] = JSON.parse(localStorage.getItem(config.storage.messages) || '{}') || {};
-	let keys = Object.keys(window['conversation-messages']);
-	for (let i = 1; i <= keys.length; i++) { // to avoid sorting if deleted any conversation
-		let key = 'text' + i;
-		let item = window['conversation-messages'][key];
-		if (item && item.name) {
-			if(!document.querySelector('#' + key))
-				addConversation(item.name);
-			let conversation = document.querySelector('#' + key);
-			if (item.content) // editor content
-				conversation.querySelector('.editor textarea').value = item.content;
-			if (item.separator) { // separator input
-				conversation.querySelector('.messages').setAttribute('data-separator', item.separator);
-				conversation.querySelector('.editor .separator').value = item.separator;
-			}
-			if (item.sender) { // sender input
-				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
-				updateSenderOptions(conversation);
-			}
-            if(item.names) {
-                conversation.querySelector('.messages').setAttribute('data-names', '');
-                conversation.querySelector('.editor .names').checked = item.names;
-			}
-		}
+function loadLocal() {
+	window.conversations = JSON.parse(localStorage.getItem(btoa(config.storage.messages)));
+	if (!window.conversations) {
+		window.conversations = [{
+			id: 'saved',
+			name: config.display.saved,
+			updated: generateId()
+		}];
+		saveLocal();
 	}
+}
+
+function saveLocal() {
+	localStorage.setItem(btoa(config.storage.messages), JSON.stringify(window.conversations));
 }
 
 function hideAllConversations() {
@@ -1038,23 +1004,49 @@ function hideAllConversations() {
 }
 
 function initializeWindow() {
-    // clear popups
+	// to avoid sorting if deleted any conversation
+	for (let i = 0; i < window.conversations.length; i++) {
+		let item = window.conversations[i];
+		if (item && item.name) {
+			if (!document.querySelector('#' + item.id))
+				addConversation(item.name, item.id);
+		}
+
+		let conversation = document.querySelector('#' + item.id);
+		// main content
+		if (item.content)
+			conversation.querySelector('.editor textarea').value = item.content;
+		// separator input
+		if (item.separator) {
+			conversation.querySelector('.messages').setAttribute('data-separator', item.separator);
+			conversation.querySelector('.editor .separator').value = item.separator;
+		}
+		// sender input
+		if (item.sender) {
+			conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
+		}
+		if (item.names) {
+			conversation.querySelector('.messages').setAttribute('data-names', '');
+			conversation.querySelector('.editor .names').checked = item.names;
+		}
+	}
+	// clear popups
 	window.addEventListener('click', clearReactions);
-    // pause current conversation on blur
-    window.addEventListener('blur', function() {
-        let conversation = document.querySelector('.conversation:not(.hidden)');
-        if(conversation && conversation.getAttribute('data-running') != null)
-            pauseConversation(conversation);
-    });
-    // hide setting icons where specified in config, default show all in DOM
-    for(let key of Object.keys(config.hide)) {
-        let setting = document.querySelector('.settings .' + key);
-        let value = config.hide[key];
-        if(setting && value)
-            setting.classList.add('hidden');
-    }
+	// pause current conversation on blur
+	window.addEventListener('blur', function () {
+		let conversation = document.querySelector('.conversation:not(.hidden)');
+		if (conversation && conversation.getAttribute('data-running') != null)
+			pauseConversation(conversation);
+	});
+	// hide setting icons where specified in config, default show all in DOM
+	for (let key of Object.keys(config.hide)) {
+		let setting = document.querySelector('.settings .' + key);
+		let value = config.hide[key];
+		if (setting && value)
+			setting.classList.add('hidden');
+	}
 	// auto fullscreen, will not work with fullscreen API but does not break logic
-	if(config.auto.fullscreen)
+	if (config.auto.fullscreen)
 		toggleFullscreen();
 }
 
@@ -1065,28 +1057,32 @@ function initializeHomepage() {
 	initial.classList.remove('hidden');
 	initial.firstElementChild.click();
 	initial.querySelector('.messages').style.height = '';
-	let conversations = Array.from(Object.keys(window['conversation-messages']));
-	if(!conversations.length) // if empty, force create
-		return onAddConversation();
+	if (!window.conversations.length) // if empty, force create
+		addConversation(config.display.saved);
+	let conversations = window.conversations;
+	let counter = 0;
 	//render messages page
-	for(let selection of conversations) {
-		let ref = window['conversation-messages'][selection];
+	for (let ref of conversations) {
 		let item = document.createElement('div');
 		item.classList.add('homepage-item');
 		item.onclick = onSelectConversation;
-		item.setAttribute('data-id', selection);
+		item.dataset.id = ref.id;
+
 		let thumb = document.createElement('div');
 		thumb.classList.add('homepage-thumb');
-		thumb.setAttribute('data-initial', ref.name[0]);
+		if(ref.name == config.display.saved) {
+			thumb.classList.add('bi', 'bi-bookmark');
+		}
+		else thumb.setAttribute('data-initial', ref.name[0]);
 		item.appendChild(thumb);
 		let title = document.createElement('div');
 		title.classList.add('homepage-title');
 		title.innerText = ref.name;
 		item.appendChild(title);
-		let conversation = document.querySelector('.conversation[id="' +  selection + '"]');
-		if(conversation) {
+		let conversation = document.querySelector('.conversation[id="' + selection + '"]');
+		if (conversation) {
 			let messages = conversation.querySelectorAll('.message:not(.action)');
-			if(messages.length > 1) {
+			if (messages.length > 1) {
 				let lastMessage = messages[messages.length - 1].innerText;
 				let subtitle = document.createElement('div');
 				subtitle.classList.add('homepage-subtitle');
