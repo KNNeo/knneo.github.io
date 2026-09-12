@@ -83,6 +83,7 @@ function onSelectConversation() {
 		event.target.blur();
 	}
 	removeDialog();
+	contextDiv.setAttribute('data-type', 'conversation');
 }
 
 function showMessages() {
@@ -217,6 +218,38 @@ function updateNames(conversation) {
 	window.conversations.find(c => c.id == conversation.id).names = isGroupChat;
 	conversation.querySelector('.names').checked = isGroupChat;
 	saveLocal();
+}
+
+function onBackupConversation() {
+	event.preventDefault();
+	let textOutput = localStorage.getItem(btoa(config.storage.messages)) || '[]';
+	if (textOutput.length > 2) {
+		//create download file
+		let downloadLink = document.createElement('a');
+		downloadLink.href = 'data:application/json;base64,' + btoa(encodeURIComponent(textOutput));
+		downloadLink.target = '_blank';
+		downloadLink.download = 'conversations.json';
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		document.body.removeChild(downloadLink);
+	}
+	else console.error('No items for export.');
+
+	console.log('Export done.');
+	return false;
+}
+
+function onRestoreConversation() {
+	let list = event.target.files;
+	if (!list || !list.length) return;
+	let reader = new FileReader();
+	reader.readAsDataURL(list[0]);
+	reader.onload = function (event) {
+		let json = decodeURIComponent(atob(event.target.result.substring(29)));
+		localStorage.setItem(btoa(config.storage.messages), json || '[]');
+		console.log('Import done.');
+		startup();
+	};
 }
 
 function onImportConversation() {
@@ -995,31 +1028,53 @@ function showContextMenu() {
 	//render menu
 	let submenu = document.createElement('div');
 	submenu.className = 'menu-options';
-	//add to next in playlist
-	let edit = document.createElement('div');
-	edit.className = 'edit bi bi-pencil';
-	edit.innerText = 'Edit Conversation';
-	edit.onclick = showEditor;
-	submenu.appendChild(edit);
-	//toggle sound
-	let sound = document.createElement('div');
-	sound.className = 'audio bi bi-volume-up';
-	sound.innerText = 'Toggle Sound';
-	sound.onclick = toggleAudio;
-	submenu.appendChild(sound);
-	//toggle fullscreen
-	let fullscreen = document.createElement('div');
-	fullscreen.className = 'audio bi bi-arrows-fullscreen';
-	fullscreen.innerText = 'Toggle Fullscreen';
-	fullscreen.onclick = toggleFullscreen;
-	submenu.appendChild(fullscreen);
-	//delete conversation
-	let trash = document.createElement('div');
-	trash.className = 'audio bi bi-trash';
-	trash.innerText = 'Delete Conversation';
-	trash.onclick = deleteConversation;
-	submenu.appendChild(trash);
-	contextDiv.appendChild(submenu);
+	if (contextDiv.getAttribute('data-type') == 'homepage') {
+		//toggle fullscreen
+		let fullscreen = document.createElement('div');
+		fullscreen.className = 'audio bi bi-arrows-fullscreen';
+		fullscreen.innerText = 'Toggle Fullscreen';
+		fullscreen.onclick = toggleFullscreen;
+		submenu.appendChild(fullscreen);
+		//toggle sound
+		let sound = document.createElement('div');
+		sound.className = 'audio bi bi-volume-up';
+		sound.innerText = 'Toggle Sound';
+		sound.onclick = toggleAudio;
+		submenu.appendChild(sound);
+		//import content
+		let append = document.createElement('div');
+		append.className = 'upload bi bi-upload';
+		append.innerText = 'Schedule Conversation';
+		append.onclick = onImportConversation;
+		submenu.appendChild(append);
+		//backup restore
+		let backup = document.createElement('div');
+		backup.className = 'sync bi bi-arrow-down-up';
+		backup.innerText = 'Backup/Restore';
+		backup.oncontextmenu = onBackupConversation;
+
+		let restore = document.createElement('input');
+		restore.type = 'file';
+		restore.onchange = onRestoreConversation;
+		backup.appendChild(restore);
+		submenu.appendChild(backup);
+		contextDiv.appendChild(submenu);
+	}
+	if (contextDiv.getAttribute('data-type') == 'conversation') {
+		//add to next in playlist
+		let edit = document.createElement('div');
+		edit.className = 'edit bi bi-pencil';
+		edit.innerText = 'Edit Conversation';
+		edit.onclick = showEditor;
+		submenu.appendChild(edit);
+		//delete conversation
+		let trash = document.createElement('div');
+		trash.className = 'audio bi bi-trash';
+		trash.innerText = 'Delete Conversation';
+		trash.onclick = deleteConversation;
+		submenu.appendChild(trash);
+		contextDiv.appendChild(submenu);
+	}
 	//adjust context if exceed window bottom
 	if (y + contextDiv.getBoundingClientRect().height + 80 >= pageDiv.getBoundingClientRect().height) {
 		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
@@ -1112,13 +1167,11 @@ function initializeWindow() {
 		if (setting && value)
 			setting.classList.add('hidden');
 	}
-	// auto fullscreen, will not work with fullscreen API but does not break logic
-	if (config.auto.fullscreen)
-		toggleFullscreen();
 }
 
 function initializeHomepage() {
 	homepageDiv.innerHTML = '';
+	contextDiv.setAttribute('data-type', 'homepage');
 	//select first conversation
 	let initial = homepageDiv.closest('.conversation');
 	initial.classList.remove('hidden');

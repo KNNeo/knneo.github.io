@@ -10,10 +10,10 @@
 	<link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
 	<script src="../../theme.js" type="application/javascript" charset="utf-8"></script>
 	<script src="index.js" defer></script>
-	<title>Conversation Starter</title>
+	<title>Conversations</title>
 </head>
 
-<body onload="startup()" onkeydown="onKeyDown()">
+<body onpageshow="toggleFullscreen()" onload="startup()" onkeydown="onKeyDown()">
 	<div class="page">
 		<h2>Conversations</h2>
 		<h5>Curated animations of chat lines using text editor</h5>
@@ -22,7 +22,7 @@
 			<label for="selection">Select Conversation:</label>
 			<div class="menu">
 				<div id="selection" class="selection" data-value="saved">
-					<div data-id="saved" onclick="onSelectConversation()">Messages</div>
+					<div data-id="saved" onclick="onSelectConversation()">Conversations</div>
 				</div>
 				<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation"
 					onclick="addConversation()"></a>
@@ -68,13 +68,11 @@
 			<a class="bi bi-chevron-left" href="javascript:void(0);" title="Back" onclick="onSelectHomepage()"></a>
 			<span onclick="renameConversation()">Conversations</span>
 			<a class="bi bi-telephone" href="javascript:void(0);" title="Call"></a>
-			<a class="bi bi-three-dots-vertical" href="javascript:void(0);" title="Options"
-				onclick="showContextMenu()"></a>
-			<a class="bi bi-upload upload" href="javascript:void(0);" title="Schedule Conversation"
-				onclick="onImportConversation()"></a>
 			<a class="bi bi-plus-circle add" href="javascript:void(0);" title="Add Conversation"
 				onclick="onAddConversation()"></a>
-			<div class="context hidden"></div>
+			<a class="bi bi-three-dots-vertical context-menu" href="javascript:void(0);" title="Options"
+				onclick="showContextMenu()"></a>
+			<div class="context hidden" data-type="homepage"></div>
 		</div>
 		<!--FULLSCREEN FOOTER-->
 		<div class="footer">
