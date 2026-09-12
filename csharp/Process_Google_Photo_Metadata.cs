@@ -35,7 +35,7 @@ public class Program {
         var nameList = new List<string>();
         var peopleList = new List<string>();
         var namePeopleList = new List<string>();
-            namePeopleList.Add("Tag | Description | Time" + (analysisMode ? " | Filename" : ""));
+            namePeopleList.Add("  Tag | Description | Time" + (analysisMode ? " | Filename" : ""));
         
         //foreach json file
         foreach(var f in files)
@@ -123,7 +123,7 @@ public class Program {
         }
         if(analysisMode_showItemsDescriptionTagDiff) {	
             Console.WriteLine("Items, description different from tag");
-            Console.WriteLine(OutputTable<PrintItem>(namePeopleList.Select(p => new PrintItem(){ tag = p }).ToList()));
+            Console.WriteLine(OutputTable<PrintItem>(namePeopleList.OrderBy(n => n).Select(p => new PrintItem(){ tag = p }).ToList()));
         }
         if(analysisMode_showItemsOrderDescriptionCountDesc) {	
             Console.WriteLine("Items, ordered by description count");
