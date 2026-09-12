@@ -19,8 +19,8 @@ public class Program {
         //variables
         bool fullMode = false;
         bool analysisMode_showItemsDescriptionTagDiff = true;
-        bool analysisMode_showItemsOrderDescriptionCountDesc = false;
-        bool analysisMode_showItemsOrderTagCountDesc = false;
+        bool analysisMode_showItemsOrderDescriptionCountDesc = true;
+        bool analysisMode_showItemsOrderTagCountDesc = true;
         bool analysisMode_showItemsFaceMissing = false;
         bool analysisMode = analysisMode_showItemsDescriptionTagDiff || analysisMode_showItemsOrderDescriptionCountDesc || analysisMode_showItemsOrderTagCountDesc || analysisMode_showItemsFaceMissing;
         DateTimeOffset afterDateTimeOffset = DateTimeOffset.Parse("1900-01-01");
@@ -127,12 +127,12 @@ public class Program {
         }
         if(analysisMode_showItemsOrderDescriptionCountDesc) {	
             Console.WriteLine("Items, ordered by description count");
-            Console.WriteLine(OutputTable<PrintItem>(names.Where(s => !exceptionList.Contains(s.tag)).Select(s => new PrintItem(){ tag = s.tag, count = s.count.ToString() }).OrderByDescending(n => n.count).ToList()));
+            Console.WriteLine(OutputTable<PrintItem>(names.Where(s => !exceptionList.Contains(s.tag)).OrderByDescending(n => n.count).Select(s => new PrintItem(){ tag = s.tag, count = s.count.ToString() }).ToList()));
         }
         if(analysisMode_showItemsOrderTagCountDesc) {	
             Console.WriteLine("Items, ordered by tag name count");
-            Console.WriteLine(OutputTable<PrintItem>(people.OrderByDescending(n => n.count).Select(s => new PrintItem(){ tag = s.tag, count = s.count.ToString() }).ToList()));
-        }            
+            Console.WriteLine(OutputTable<PrintItem>(people.OrderByDescending(n => n.count).OrderByDescending(n => n.count).Select(s => new PrintItem(){ tag = s.tag, count = s.count.ToString() }).ToList()));
+        }
         if(analysisMode_showItemsFaceMissing) {	
             Console.WriteLine("Items without face identified");
             Console.WriteLine(OutputTable(jsonList
