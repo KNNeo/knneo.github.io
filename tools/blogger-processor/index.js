@@ -1,7 +1,8 @@
 //--DEFAULT SETTINGS--//
 const config = {
     keepLinks: false,
-    command: 'carousel'
+    command: 'carousel',
+    message: ''
 };
 
 //--DOM NODE REFERENCES--//
@@ -20,13 +21,13 @@ function toggleKeepLinks() {
         case 'insert_link':
             event.target.innerText = 'link_off';
             event.target.title = 'Remove Links In Tables';
-            writeMessageReset(event.target.title);
+            writeMessage(event.target.title);
             config.keepLinks = false;
             break;
         default:
             event.target.innerText = 'insert_link';
             event.target.title = 'Keep Links In Tables';
-            writeMessageReset(event.target.title);
+            writeMessage(event.target.title);
             config.keepLinks = true;
             break;
     }
@@ -35,7 +36,7 @@ function toggleKeepLinks() {
 function onOptionClick(event) {
     if (event?.target?.title) {
         config.command = event.target.title.toLowerCase();
-        writeMessageReset('Current Mode: ' + event.target.title);
+        writeMessage('Current Mode: ' + event.target.title, true);
     }
 }
 
@@ -86,14 +87,15 @@ function onCopy() {
     if (navigator.clipboard) {
         navigator.clipboard.writeText(destTextArea.value);
         destTextArea.value = '';
-        writeMessageReset('Copied to clipboard!');
+        writeMessage('Copied to clipboard!');
     }
 }
 
-function writeMessageReset(input) {
+function writeMessage(input, save) {
     messageSpan.innerText = input;
+    if(save) config.message = input;
     setTimeout(function () {
-        messageSpan.innerText = '';
+        messageSpan.innerText = config.message || '';
     }, 1000);
 }
 
@@ -175,4 +177,5 @@ function removeLinksInImages(link) {
 
 //--INITIAL--//
 function startup() {
+    document.querySelector('.options button').click();
 }
