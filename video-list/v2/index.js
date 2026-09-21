@@ -210,8 +210,9 @@ function onLoadJson(response) {
 		{
 			// console.log('next token available', response.nextPageToken);
 			//if fetch same tag, then take from storage, skip load response
-			if(isPlaylistUpdated(response.etag) && (config.refresh || confirm('new data found on playlist! replace current data?')))
+			if(isPlaylistUpdated(response.etag))
 			{
+				console.log('change detected: get from response');
 				//prevent confirm check
 				config.refresh = true;
 				//archive old info for ref use
