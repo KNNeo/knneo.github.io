@@ -74,7 +74,7 @@ a:hover {
 }
 
 .list {
-    padding: 95px 0 110px 0;
+    padding: 95px 1em 110px;
 }
 
 .thumbnail {
@@ -211,5 +211,13 @@ a:hover {
     /*snap on touch is better on mobile than on desktop*/
     .profile-box {
         scroll-snap-align: center;
+    }
+}
+
+/*MEDIA QUERIES - REDUCED MOTION*/
+@media (prefers-reduced-motion: reduce) {
+    .tile,
+    .unshadowed {
+        transition: none;
     }
 }
