@@ -188,7 +188,7 @@ const config = {
 		focus: true,
 		refresh: 1000,
 		time: new Date(),
-		missions: {
+		mission: {
 			auto: false,
 			list: []
 		},
@@ -235,7 +235,44 @@ function toggleProgress() {
 }
 
 function toggleSettings() {
-	popupContent('Settings unavailable');
+	let settings = [
+		{
+			key: 'Auto Leave Station',
+			desc: 'Train automatically leaves station on countdown end to (marked, or) random destination',
+			value: window.data.game.travel.auto,
+			onchange: function() {
+				window.data.game.travel.auto = this.value;
+				save();
+			}
+		},
+		{
+			key: 'Auto Assign & Complete Missions',
+			desc: 'Missions are assigned and/or completed when train arrives at origin/destination station',
+			value: window.data.mission.auto,
+			onchange: function() {
+				window.data.game.mission.auto = this.value;
+				save();
+			}
+		}
+	];
+	let container = document.createElement('div');
+	for (let setting of settings) {
+		let settingDiv = document.createElement('div');
+		settingDiv.innerText = setting.key;
+		settingDiv.title = setting.desc;
+
+		if (typeof value == 'boolean') {
+			let valueDiv = document.createElement('input');
+			valueDiv.type = 'checkbox';
+			valueDiv.value = setting.value;
+			valueDiv.onchange = setting.onchange;
+			settingDiv.appendChild(valueDiv);
+		}
+
+		container.appendChild(settingDiv);
+	}
+	
+	popupContent(container);
 }
 
 function toggleNav() {
@@ -274,7 +311,7 @@ function toggleLog() {
 }
 
 function toggleMissions() {
-	let runningMissions = window.data.game.missions.all.filter(m => window.data.game.missions.list.includes(m.id));
+	let runningMissions = window.data.game.mission.all.filter(m => window.data.game.mission.list.includes(m.id));
 	if (!window.data.map.stations || !runningMissions.length)
 		return popupContent('No missions running');
 	renderMissions(runningMissions);
@@ -511,7 +548,7 @@ function renderMissions(list) {
 		let action = document.createElement('button');
 		action.classList.add('status');
 		action.innerText = 'Accept';
-		if(window.data.game.missions.list.includes(mission.id))
+		if(window.data.game.mission.list.includes(mission.id))
 			action.innerText = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
 		action.setAttribute('data-name', mission.name);
 		action.setAttribute('data-id', mission.id);
@@ -531,11 +568,11 @@ function renderMissions(list) {
 
 function onMissionAction() {
 	// add to missions list
-	if (!window.data.game.missions.list)
-		window.data.game.missions.list = [];
+	if (!window.data.game.mission.list)
+		window.data.game.mission.list = [];
 	switch (event.target.innerText) {
 		case 'Accept':
-			window.data.game.missions.list.push(event.target.getAttribute('data-id'));
+			window.data.game.mission.list.push(event.target.getAttribute('data-id'));
 			log("Mission [" + event.target.getAttribute('data-name') + "] added");
 			updateMissionCount();
 			removeDialog();
@@ -544,12 +581,12 @@ function onMissionAction() {
 			event.target.innerText = 'Confirm';
 			break;
 		case 'Confirm':
-			window.data.game.missions.list.splice(event.target.getAttribute('data-id'), 1);
+			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
 			updateMissionCount();
 			removeDialog();
 		case 'Complete':
-			window.data.game.missions.list.splice(event.target.getAttribute('data-id'), 1);
+			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
 			updateMissionCount();
 			removeDialog();
@@ -558,7 +595,7 @@ function onMissionAction() {
 }
 
 function updateAllMissions() {
-	window.data.game.missions.all = window.data.map.stations.reduce(function (total, current) {
+	window.data.game.mission.all = window.data.map.stations.reduce(function (total, current) {
 		if (current.goods)
 			return total.concat(current.goods);
 		else return total;
@@ -856,19 +893,19 @@ function updateMissions() {
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if(!station) return;
 	// auto accept missions at station
-	if (window.data.game.missions.auto && station.goods) {
-		let goods = station.goods.filter(s => !window.data.game.missions.list.includes(s.id));
+	if (window.data.game.mission.auto && station.goods) {
+		let goods = station.goods.filter(s => !window.data.game.mission.list.includes(s.id));
 		for (let good of goods) {
-			window.data.game.missions.list.push(good.id);
+			window.data.game.mission.list.push(good.id);
 			log("Mission [" + good.name + "] automatically added");
 		}
 	}
 	// missions with destination at station to remove
-	let missions = window.data.game.missions.all.filter(m => m.dest == station.id && window.data.game.missions.list.includes(m.id));
-	if (window.data.game.missions.auto && missions.length) {
+	let missions = window.data.game.mission.all.filter(m => m.dest == station.id && window.data.game.mission.list.includes(m.id));
+	if (window.data.game.mission.auto && missions.length) {
 		removeDialog();
 		for (let mission of missions) {
-			window.data.game.missions.list.splice(mission.id, 1);
+			window.data.game.mission.list.splice(mission.id, 1);
 			log("Mission [" + mission.name + "] completed");
 		}
 	}
@@ -878,7 +915,7 @@ function updateMissions() {
 function updateMissionCount() {
 	let button = document.querySelector('.missions');
 	if(button)
-		button.dataset.count = window.data.game.missions.list.length || '';
+		button.dataset.count = window.data.game.mission.list.length || '';
 }
 
 function moveCamera() {

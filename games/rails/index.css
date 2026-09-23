@@ -348,6 +348,7 @@ ul {
 dialog.dialog {
 	background-color: rgb(var(--background));
 	color: rgb(var(--foreground));
+	border-radius: 16px;
 	padding: 10px;
 	max-width: 360px;
 	max-height: 80dvh;
