@@ -547,13 +547,17 @@ function renderMissions(list) {
 
 		let action = document.createElement('button');
 		action.classList.add('status');
-		action.innerText = 'Accept';
-		if(window.data.game.mission.list.includes(mission.id))
-			action.innerText = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
+		let actionType = 'Accept';
+		action.innerText = actionType;
+		if(window.data.game.mission.list.includes(mission.id)) {
+			actionType = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
+			action.innerText = actionType;
+		}
 		else
 			action.innerText += (mission.price ? ('\n' + mission.price + '💵') : '');
 		action.setAttribute('data-name', mission.name);
 		action.setAttribute('data-id', mission.id);
+		action.setAttribute('data-type', actionType);
 		action.setAttribute('onclick', 'onMissionAction()');
 
 		grid.appendChild(img);
@@ -572,7 +576,7 @@ function onMissionAction() {
 	// add to missions list
 	if (!window.data.game.mission.list)
 		window.data.game.mission.list = [];
-	switch (event.target.innerText) {
+	switch (event.target.getAttribute('data-type')) {
 		case 'Accept':
 			window.data.game.mission.list.push(event.target.getAttribute('data-id'));
 			log("Mission [" + event.target.getAttribute('data-name') + "] added");
