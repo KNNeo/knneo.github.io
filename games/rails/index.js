@@ -258,8 +258,6 @@ function toggleSettings() {
 	let container = document.createElement('div');
 	for (let setting of settings) {
 		let settingDiv = document.createElement('label');
-		settingDiv.innerText = setting.key;
-		settingDiv.title = setting.desc;
 
 		if (typeof value == 'boolean') {
 			let valueDiv = document.createElement('input');
@@ -269,6 +267,8 @@ function toggleSettings() {
 			settingDiv.appendChild(valueDiv);
 		}
 
+		settingDiv.title = setting.desc;
+		settingDiv.innerText = setting.key;
 		container.appendChild(settingDiv);
 	}
 	
