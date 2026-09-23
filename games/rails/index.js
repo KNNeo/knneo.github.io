@@ -207,7 +207,7 @@ const logDiv = document.querySelector("div.log");
 const logListDiv = document.querySelector("div.log-list");
 const diagramSvg = document.querySelector("svg.diagram");
 const settingsDiv = document.querySelector("div.settings");
-const settingsMenuNavDiv = settingsDiv.querySelector("div.menu.nav");
+const settingsMenuQuickDiv = settingsDiv.querySelector("div.menu.quick");
 
 //--EVENT HANDLERS--//
 function resetProgress() {
@@ -239,7 +239,7 @@ function toggleSettings() {
 }
 
 function toggleNav() {
-	settingsMenuNavDiv.classList.toggle('hidden');
+	settingsMenuQuickDiv.classList.toggle('hidden');
 }
 
 function toggleLayers() {
