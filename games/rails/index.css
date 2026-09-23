@@ -235,6 +235,11 @@ ul {
 	white-space: pre-wrap;
 }
 
+.mission .desc {
+    font-size: small;
+	padding: 8px;
+}
+
 .mission:hover {
 	background-color: rgb(var(--accent));
 }
@@ -253,7 +258,7 @@ ul {
 .status {
 	/* row-start, col-start, row-end, col-end */
 	grid-area: 2 / 3 / auto / auto;
-	border-radius: 99px;
+	border-radius: 8px;
 	border: 2px solid rgb(var(--foreground));
 	cursor: pointer;
 }
