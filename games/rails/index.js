@@ -542,14 +542,16 @@ function renderMissions(list) {
 		description.classList.add('desc');
 		description.innerText = mission.desc || '(No description)';
 		let reward = document.createElement('div');
-		reward.innerText = 'Reward\n' + (mission.reward ? (mission.reward + '💵') : '');
-		price.title = 'Completion Reward';
+		reward.innerText = '';
+		reward.title = 'Completion Reward';
 
 		let action = document.createElement('button');
 		action.classList.add('status');
 		action.innerText = 'Accept';
 		if(window.data.game.mission.list.includes(mission.id))
 			action.innerText = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
+		else
+			action.innerText += 'Reward\n' + (mission.reward ? (mission.reward + '💵') : '');
 		action.setAttribute('data-name', mission.name);
 		action.setAttribute('data-id', mission.id);
 		action.setAttribute('onclick', 'onMissionAction()');
