@@ -241,7 +241,7 @@ function toggleSettings() {
 			desc: 'Train automatically leaves station on countdown end to (marked, or) random destination',
 			value: window.data.game.travel.auto,
 			onchange: function() {
-				window.data.game.travel.auto = this.value;
+				window.data.game.travel.auto = this.checked;
 				save();
 			}
 		},
@@ -250,7 +250,7 @@ function toggleSettings() {
 			desc: 'Missions are assigned and/or completed when train arrives at origin/destination station',
 			value: window.data.game.mission.auto,
 			onchange: function() {
-				window.data.game.mission.auto = this.value;
+				window.data.game.mission.auto = this.checked;
 				save();
 			}
 		}
@@ -265,7 +265,7 @@ function toggleSettings() {
 		if (typeof setting.value == 'boolean') {
 			let valueDiv = document.createElement('input');
 			valueDiv.type = 'checkbox';
-			valueDiv.checked = setting.value;
+			valueDiv.checked = setting.value || false;
 			valueDiv.onchange = setting.onchange;
 			settingDiv.appendChild(valueDiv);
 		}
