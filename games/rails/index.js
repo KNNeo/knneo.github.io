@@ -248,7 +248,7 @@ function toggleSettings() {
 		{
 			key: 'Auto Assign & Complete Missions',
 			desc: 'Missions are assigned and/or completed when train arrives at origin/destination station',
-			value: window.data.mission.auto,
+			value: window.data.game.mission.auto,
 			onchange: function() {
 				window.data.game.mission.auto = this.value;
 				save();
