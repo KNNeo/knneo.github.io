@@ -207,7 +207,7 @@ const logDiv = document.querySelector("div.log");
 const logListDiv = document.querySelector("div.log-list");
 const diagramSvg = document.querySelector("svg.diagram");
 const settingsDiv = document.querySelector("div.settings");
-const settingsMenuDiv = settingsDiv.querySelector("div.menu");
+const settingsMenuNavDiv = settingsDiv.querySelector("div.menu.nav");
 
 //--EVENT HANDLERS--//
 function resetProgress() {
@@ -235,10 +235,14 @@ function toggleProgress() {
 }
 
 function toggleSettings() {
-	settingsMenuDiv.classList.toggle('hidden');
+	popupContent('Settings unavailable');
 }
 
-function toggleDisplay() {
+function toggleNav() {
+	settingsMenuNavDiv.classList.toggle('hidden');
+}
+
+function toggleLayers() {
 	let showLayers = event.target.classList.contains('bi-layers-half');
 	event.target.classList.toggle('bi-layers-half');
 	event.target.classList.toggle('bi-layers-fill');
