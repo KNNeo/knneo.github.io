@@ -534,15 +534,15 @@ function renderMissions(list) {
 		let title = document.createElement('div');
 		let station = window.data.map.stations.find(s => s.id == mission.dest);
 		title.innerText = (mission.name || '(No title)') + '\n' + '[' + station.name + ']';
-		let price = document.createElement('em');
-		price.innerText = mission.price ? (mission.price + '💵') : '';
-		price.title = 'Amount to Pay';
+		// let price = document.createElement('em');
+		// price.innerText = '';
+		// price.title = 'Amount to Pay';
 
 		let description = document.createElement('div');
 		description.classList.add('desc');
 		description.innerText = mission.desc || '(No description)';
 		let reward = document.createElement('div');
-		reward.innerText = '';
+		reward.innerText = 'Reward\n' + (mission.reward ? (mission.reward + '💵') : '');
 		reward.title = 'Completion Reward';
 
 		let action = document.createElement('button');
@@ -551,7 +551,7 @@ function renderMissions(list) {
 		if(window.data.game.mission.list.includes(mission.id))
 			action.innerText = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
 		else
-			action.innerText += 'Reward\n' + (mission.reward ? (mission.reward + '💵') : '');
+			action.innerText += (mission.price ? ('\n' + mission.price + '💵') : '');
 		action.setAttribute('data-name', mission.name);
 		action.setAttribute('data-id', mission.id);
 		action.setAttribute('onclick', 'onMissionAction()');
@@ -560,7 +560,7 @@ function renderMissions(list) {
 		grid.appendChild(title);
 		grid.appendChild(reward);
 		grid.appendChild(description);
-		grid.appendChild(price);
+		// grid.appendChild(price);
 		grid.appendChild(action);
 		container.appendChild(grid);
 	}
