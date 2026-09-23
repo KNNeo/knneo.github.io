@@ -258,17 +258,16 @@ function toggleSettings() {
 	let container = document.createElement('div');
 	for (let setting of settings) {
 		let settingDiv = document.createElement('label');
+		settingDiv.innerText = setting.key;
+		settingDiv.title = setting.desc;
 
-		if (typeof value == 'boolean') {
+		if (typeof setting.value == 'boolean') {
 			let valueDiv = document.createElement('input');
 			valueDiv.type = 'checkbox';
 			valueDiv.value = setting.value;
 			valueDiv.onchange = setting.onchange;
 			settingDiv.appendChild(valueDiv);
 		}
-
-		settingDiv.title = setting.desc;
-		settingDiv.innerText = setting.key;
 		container.appendChild(settingDiv);
 	}
 	
