@@ -333,6 +333,10 @@ ul {
 	object-fit: cover;
 }
 
+.darked .node+foreignObject object {
+	background: radial-gradient(circle, rgba(var(--primary), 1) 0%, rgba(var(--primary), 0.1) 50%, rgba(var(--primary), 0) 100%);
+}
+
 #train[data-content]::before {
 	content: attr(data-content);
 	color: rgb(var(--background));
