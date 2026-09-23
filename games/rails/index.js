@@ -256,6 +256,7 @@ function toggleSettings() {
 		}
 	];
 	let container = document.createElement('div');
+	container.classList.add('game-settings');
 	for (let setting of settings) {
 		let settingDiv = document.createElement('label');
 		settingDiv.innerText = setting.key;
@@ -264,7 +265,7 @@ function toggleSettings() {
 		if (typeof setting.value == 'boolean') {
 			let valueDiv = document.createElement('input');
 			valueDiv.type = 'checkbox';
-			valueDiv.value = setting.value;
+			valueDiv.checked = setting.value;
 			valueDiv.onchange = setting.onchange;
 			settingDiv.appendChild(valueDiv);
 		}

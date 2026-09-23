@@ -156,6 +156,16 @@ ul {
 	border: 2px solid rgb(var(--primary));
 }
 
+.game-settings {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.game-settings input[type=checkbox] {
+	all: revert;
+}
+
 .missions {
     position: relative;
 }
