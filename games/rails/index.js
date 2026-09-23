@@ -257,7 +257,7 @@ function toggleSettings() {
 	];
 	let container = document.createElement('div');
 	for (let setting of settings) {
-		let settingDiv = document.createElement('div');
+		let settingDiv = document.createElement('label');
 		settingDiv.innerText = setting.key;
 		settingDiv.title = setting.desc;
 
