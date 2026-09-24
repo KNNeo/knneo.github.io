@@ -674,24 +674,35 @@ function generateProfileFromJSON(profileName) {
 
 function getProfileImage() {
 	//assume single image tag in profile-image element
+	let imgElems = [];
 	let imgDiv = document.createElement('img');
+	let nextImgDiv = document.createElement('img');
 	imgDiv.addEventListener('load', function() {
+		// set fixed height
+		profileImageDiv.style.height = profileImageDiv.querySelector('img')?.getBoundingClientRect().height + 'px';
+	});
+	nextImgDiv.addEventListener('load', function() {
 		// set fixed height
 		profileImageDiv.style.height = profileImageDiv.querySelector('img')?.getBoundingClientRect().height + 'px';
 	});
 	//find friend image with 3 names
 	let friend = findFriendIdByProfile(config.profiles.slice(0, 3));
-	if (friend)
+	if (friend) {
 		imgDiv.src = getNextFriendImage(friend.id, profileImageDiv.querySelector('img')?.src);
+		imgElems.push(imgDiv);
+	}
 	else {
 		//find profile image with 1 name
 		let profile = config.profiles[0];
 		imgDiv.src = getNextProfileImage(profile.id, profileImageDiv.querySelector('img')?.src);
+		nextImgDiv.src = getNextProfileImage(profile.id, imgDiv.src);
+		imgElems.push(imgDiv);
+		imgElems.push(nextImgDiv);
 	}
 
-	profileImageDiv.innerHTML = '';
-	profileImageDiv.appendChild(imgDiv);
+	profileImageDiv.replaceChildren(...imgElems);
 }
+
 
 function getNextFriendImage(id, current) {
 	let friend = config.data.find(function (n) {

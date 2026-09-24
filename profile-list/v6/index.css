@@ -223,6 +223,10 @@ a:hover {
 	filter: brightness(0) contrast(0) opacity(0.5);
 }
 
+.profile-image {
+	position: relative;
+}
+
 .profile-image img,
 .profile-box-img {
 	margin: auto;
@@ -232,6 +236,21 @@ a:hover {
 	max-height: 33vh;
 	object-fit: contain;
 	border-radius: 28px;
+    position: relative;
+    z-index: 1;
+}
+
+.profile-image img:nth-child(2) {
+    position: absolute;
+    z-index: 0;
+    left: 33%;
+    opacity: 0;
+	/* transition: opacity 0.2s, left 0.2s; */
+}
+
+.profile-image:hover img:nth-child(2) {
+    left: 40%;
+    opacity: 0.6;
 }
 
 .profile-details {
