@@ -977,33 +977,21 @@ function findComment(profile, commentIndexStr) {
 }
 
 function processComment(comment, refs = []) {
-	let commentArr = [];
-	let added = false;
 	for (let ref of refs) {
 		let refText = ref.substring(0, ref.indexOf('}') + 1);
 		let refLink = ref.replace(refText, '');
 		if (config.data.find(n => config.profile.include(n) && n.id == refLink)) {
 			// existing profile
-			let replaced = comment.replace(refText, '<a target="_blank" onclick="generateProfileFromJSON(this)" data-name="' + refLink + '">' + refText + '</a>');
+			comment = comment.replace(refText, '<a target="_blank" onclick="generateProfileFromJSON(this)" data-name="' + refLink + '">' + refText.replace('{', '').replace('}', '') + '</a>');
 			if (config.debug) console.log('processComment profileId', replaced, comment);
-			if (replaced != comment) {
-				commentArr.push(replaced.replace('{', '').replace('}', ''));
-				added = true;
-			}
 		}
 		else if (refLink) {
 			// url
-			let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
+			comment = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText.replace('{', '').replace('}', '') + '</a>');
 			if (config.debug) console.log('processComment link', replaced, comment);
-			if (replaced != comment) {
-				commentArr.push(replaced.replace('{', '').replace('}', ''));
-				added = true;
-			}
 		}
 	}
-	if (!added)
-		commentArr.push(comment);
-	return commentArr.join('<br/>');
+	return comment;
 }
 
 ////PRIMITIVE HELPERS////
