@@ -987,7 +987,7 @@ function processComment(comment, refs = []) {
 			let replaced = comment.replace(refText, '<a target="_blank" onclick="generateProfileFromJSON(this)" data-name="' + refLink + '">' + refText + '</a>');
 			if (config.debug) console.log('processComment profileId', replaced, comment);
 			if (replaced != comment) {
-				commentArr.push(replaced.replace(/\{/g, '').replace(/\}/g, ''));
+				commentArr.push(replaced.replace('{', '').replace('}', ''));
 				added = true;
 			}
 		}
