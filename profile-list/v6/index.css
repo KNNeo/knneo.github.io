@@ -87,7 +87,7 @@ input {
 
 .bi {
 	font-size: 1.5em;
-	padding: 5px;
+    padding: 4px 6px;
 }
 
 .box {
@@ -245,6 +245,7 @@ input {
 }
 
 .profile-image img:nth-child(2) {
+	cursor: pointer;
     position: absolute;
     z-index: 0;
     left: 33%;
@@ -356,8 +357,8 @@ input {
 	font-size: 1rem;
 	color: var(--foreground);
 	background-color: var(--accent);
-	border-radius: 28px;
-	padding: 4px 12px;
+    border-radius: 99px;
+    padding: 2px 16px;
 }
 
 .button:hover {
