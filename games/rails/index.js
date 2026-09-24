@@ -240,7 +240,7 @@ function toggleSettings() {
 			key: 'Auto Leave Station',
 			desc: 'Train automatically leaves station on countdown end to (marked, or) random destination',
 			value: window.data.game.travel.auto,
-			onchange: function() {
+			onchange: function () {
 				window.data.game.travel.auto = this.checked;
 				save();
 			}
@@ -249,7 +249,7 @@ function toggleSettings() {
 			key: 'Auto Assign & Complete Missions',
 			desc: 'Missions are assigned and/or completed when train arrives at origin/destination station',
 			value: window.data.game.mission.auto,
-			onchange: function() {
+			onchange: function () {
 				window.data.game.mission.auto = this.checked;
 				save();
 			}
@@ -271,7 +271,7 @@ function toggleSettings() {
 		}
 		container.appendChild(settingDiv);
 	}
-	
+
 	popupContent(container);
 }
 
@@ -360,7 +360,7 @@ function updateDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	if(!input) return;
+	if (!input) return;
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
 	logDiv.style.setProperty('--message', '"' + input + '"');
 	if (!logListDiv.classList.contains('hidden'))
@@ -549,7 +549,7 @@ function renderMissions(list) {
 		action.classList.add('status');
 		let actionType = 'Accept';
 		action.innerText = actionType;
-		if(window.data.game.mission.list.includes(mission.id)) {
+		if (window.data.game.mission.list.includes(mission.id)) {
 			actionType = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
 			action.innerText = actionType;
 		}
@@ -815,10 +815,11 @@ function chartProgress() {
 					station = window.data.map.stations.find(s => s.id == nextStation);
 				}
 				// update new station
-				if(station) {
+				if (station) {
+					if (window.data.last.id != station.id)
+						removeDialog();
 					window.data.last.id = station.id;
 					updateDestination();
-					removeDialog();
 					log("Train destination set: " + station.name);
 				}
 				else { // do not accumulate time
@@ -831,7 +832,7 @@ function chartProgress() {
 				setTimeout(updateMissions, 0);
 				// wait at station, do not reduce time, skip all processing until cover wait time
 				if (window.data.game.focus) focus(document.querySelector('#train'));
-				return log("Train waiting at " + station.name + " (leaving in " + (-1 * waitDiff) + "s)");
+				return log("Train waiting at " + station.name + (window.data.game.travel.auto ? "leaving in " + (-1 * waitDiff) + "s" : ""));
 			}
 		}
 		// can reach station
@@ -891,13 +892,13 @@ function chartProgress() {
 		idle();
 	else {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
-		if(window.data.debug) console.log(window.data.game.time);
+		if (window.data.debug) console.log(window.data.game.time);
 	}
 }
 
 function updateMissions() {
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
-	if(!station) return;
+	if (!station) return;
 	// auto accept missions at station
 	if (window.data.game.mission.auto && station.goods) {
 		let goods = station.goods.filter(s => !window.data.game.mission.list.includes(s.id));
@@ -920,7 +921,7 @@ function updateMissions() {
 
 function updateMissionCount() {
 	let button = document.querySelector('.missions');
-	if(button)
+	if (button)
 		button.dataset.count = window.data.game.mission.list.length || '';
 }
 
@@ -1113,7 +1114,7 @@ function clear() {
 function idle() {
 	// record time in order to calculate time passed when load in
 	window.data.game.time = new Date();
-	if(window.data.debug) console.log(window.data.game.time);
+	if (window.data.debug) console.log(window.data.game.time);
 	save();
 }
 
