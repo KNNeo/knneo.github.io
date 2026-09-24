@@ -1,6 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
-	debug: true,
+	debug: false,
 	id: 'idle-on-rails',
 	date: '20260320_4',
 	diagram: {
@@ -184,6 +184,10 @@ const config = {
 			}
 		]
 	},
+	log: {
+		level: 'info',
+		history: 20
+	},
 	game: {
 		focus: true,
 		refresh: 1000,
@@ -361,8 +365,14 @@ function updateDestination() {
 //--FUNCTIONS--//
 function log(input) {
 	if (!input) return;
+	// limit size
+	if(logListDiv.innerHTML.split('<br>').length > (window.data.log.history || 20))
+		logListDiv.innerHTML = logListDiv.innerHTML.slice(logListDiv.innerHTML.indexOf('<br>') + 4);
+	// add new line with timestamp
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
+	// latest message, on log collapse
 	logDiv.style.setProperty('--message', '"' + input + '"');
+	// scroll only on log expanded
 	if (!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
