@@ -58,7 +58,7 @@ label {
 	font-size: 0.8em;
 }
 
-input[type="range"] {
+input[type=range] {
 	width: 100%;
 }
 
@@ -164,6 +164,13 @@ ul {
 
 .game-settings input[type=checkbox] {
 	all: revert;
+    margin-inline: 8px;
+}
+
+.game-settings input[type=number] {
+	all: revert;
+    margin-inline: 8px;
+    width: 5ch;
 }
 
 .missions {
