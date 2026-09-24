@@ -233,7 +233,7 @@ function toggleProgress() {
 	else {
 		// reset time and run interval
 		idle();
-		config.interval = setInterval(chartProgress, window.data.game.refresh);
+		config.interval = setInterval(chartProgress, window.data.game.refresh || 1000);
 		log('Train resume');
 	}
 }
@@ -257,6 +257,15 @@ function toggleSettings() {
 				window.data.game.mission.auto = this.checked;
 				save();
 			}
+		},
+		{
+			key: 'Log Size',
+			desc: 'Sets how far back into log messages that can be read',
+			value: window.data.log.history,
+			onchange: function () {
+				window.data.log.history = this.value;
+				save();
+			}
 		}
 	];
 	let container = document.createElement('div');
@@ -265,6 +274,14 @@ function toggleSettings() {
 		let settingDiv = document.createElement('label');
 		settingDiv.innerText = setting.key;
 		settingDiv.title = setting.desc;
+
+		if (typeof setting.value == 'number') {
+			let valueDiv = document.createElement('input');
+			valueDiv.type = 'number';
+			valueDiv.value = setting.value;
+			valueDiv.onchange = setting.onchange;
+			settingDiv.appendChild(valueDiv);
+		}
 
 		if (typeof setting.value == 'boolean') {
 			let valueDiv = document.createElement('input');
