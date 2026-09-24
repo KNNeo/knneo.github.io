@@ -982,12 +982,12 @@ function processComment(comment, refs = []) {
 	for (let ref of refs) {
 		let refText = ref.substring(0, ref.indexOf('}') + 1);
 		let refLink = ref.replace(refText, '');
-		if (config.data.find(n => !(n.inactive === true) && config.profile.include(n) && n.id == refLink)) {
+		if (config.data.find(n => config.profile.include(n) && n.id == refLink)) {
 			// existing profile
 			let replaced = comment.replace(refText, '<a target="_blank" onclick="generateProfileFromJSON(this)" data-name="' + refLink + '">' + refText + '</a>');
 			if (config.debug) console.log('processComment profileId', replaced, comment);
 			if (replaced != comment) {
-				commentArr.push(replaced.replace('{', '').replace('}', ''));
+				commentArr.push(replaced.replace(/\{/g, '').replace(/\}/g, ''));
 				added = true;
 			}
 		}
