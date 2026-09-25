@@ -603,8 +603,11 @@ function renderMissions(list) {
 		let actionType = 'Accept';
 		action.innerText = actionType;
 		if (window.data.game.mission.list.includes(mission.id)) {
-			actionType = window.data.last.id == mission.dest ? 'Complete' : 'Cancel';
+			let canComplete = window.data.last.id == mission.dest;
+			actionType = canComplete ? 'Complete' : 'Cancel';
 			action.innerText = actionType;
+			if (!canComplete && mission.penalty)
+				action.innerText += (mission.price ? ('\n' + mission.penalty + '💵') : '');
 		}
 		else
 			action.innerText += (mission.price ? ('\n' + mission.price + '💵') : '');

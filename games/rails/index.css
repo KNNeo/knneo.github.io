@@ -285,6 +285,7 @@ ul {
 	cursor: pointer;
     padding-inline: 4px;
     width: 5em;
+	height: 2lh;
 }
 
 .status:hover {
