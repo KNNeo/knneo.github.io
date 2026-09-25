@@ -626,8 +626,6 @@ function renderMissions(list) {
 }
 
 function onMissionActionClick() {
-	// prevent multi-click
-	event.target.disabled = true;
 	// add to missions list
 	if (!window.data.game.mission.list)
 		window.data.game.mission.list = [];
