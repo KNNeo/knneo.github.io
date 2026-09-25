@@ -392,7 +392,8 @@ function onSelectDestination() {
 	else {
 		window.data.next = { id: event.target.getAttribute('data-id') };
 		log('Set as destination: ' + event.target.getAttribute('data-name'));
-		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + 1000);
+		if (!window.data.game.travel.auto)
+			window.data.game.time = new Date(new Date(window.data.game.time).getTime() + 1000);
 	}
 	save();
 	removeDialog();
