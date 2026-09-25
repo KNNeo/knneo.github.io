@@ -610,13 +610,14 @@ function onMissionActionClick() {
 	// add to missions list
 	if (!window.data.game.mission.list)
 		window.data.game.mission.list = [];
+	let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
 	switch (event.target.getAttribute('data-type')) {
 		case 'Accept':
 			window.data.game.mission.list.push(event.target.getAttribute('data-id'));
 			log("Mission [" + event.target.getAttribute('data-name') + "] added");
 			updateMissionCount();
-			let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
 			if (mission) window.data.wallet.money -= mission.price || 0;
+			updateInventoryCount();
 			removeDialog();
 			break;
 		case 'Cancel':
@@ -626,7 +627,6 @@ function onMissionActionClick() {
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
 			updateMissionCount();
-			let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
 			if (mission) window.data.wallet.money -= mission.penalty || 0;
 			updateInventoryCount();
 			removeDialog();
@@ -634,7 +634,6 @@ function onMissionActionClick() {
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
 			updateMissionCount();
-			let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
 			if (mission) window.data.wallet.money -= mission.price || 0;
 			updateInventoryCount();
 			removeDialog();
