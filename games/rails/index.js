@@ -263,7 +263,7 @@ function toggleSettings() {
 			desc: 'Sets how far back into log messages that can be read',
 			value: window.data.log.history,
 			onchange: function () {
-				window.data.log.history = this.value;
+				window.data.log.history = parseInt(this.value);
 				save();
 			}
 		}
