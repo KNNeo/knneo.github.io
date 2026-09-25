@@ -104,6 +104,24 @@ ul {
 	resize: vertical;
 }
 
+.inventory {
+	position: fixed;
+	right: 0;
+	top: 3em;
+	text-decoration: none;
+	font-weight: bold;
+	text-align: end;
+	background-color: rgb(var(--background));
+}
+
+.inventory span {
+    font-size: 1.5em;
+}
+
+.inventory .bi::before {
+    padding-right: 8px;
+}
+
 .settings {
 	position: fixed;
 	right: 0;
@@ -112,6 +130,7 @@ ul {
 	font-weight: bold;
 	text-align: end;
 	background-color: rgb(var(--background));
+	z-index: 1;
 }
 
 .nav {

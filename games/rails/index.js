@@ -615,20 +615,28 @@ function onMissionActionClick() {
 			window.data.game.mission.list.push(event.target.getAttribute('data-id'));
 			log("Mission [" + event.target.getAttribute('data-name') + "] added");
 			updateMissionCount();
+			let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
+			if (mission) window.data.wallet.money -= mission.price || 0;
 			removeDialog();
 			break;
 		case 'Cancel':
 			event.target.innerText = 'Confirm';
 			break;
-		case 'Confirm':
+		case 'Confirm': // for cancel
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
 			updateMissionCount();
+			let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
+			if (mission) window.data.wallet.money -= mission.penalty || 0;
+			updateInventoryCount();
 			removeDialog();
 		case 'Complete':
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
 			updateMissionCount();
+			let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
+			if (mission) window.data.wallet.money -= mission.price || 0;
+			updateInventoryCount();
 			removeDialog();
 			break;
 	}
@@ -930,7 +938,7 @@ function chartProgress() {
 	}
 }
 
-function updateInventory() {
+function updateInventoryCount() {
 	for (let currency of Object.keys(window.data.game.wallet)) {
 		let currencyDiv = inventoryDiv.querySelector('.' + currency);
 		if (currencyDiv)
@@ -960,6 +968,7 @@ function updateMissions() {
 			log("Mission [" + mission.name + "] completed");
 		}
 	}
+	updateInventoryCount();
 	updateMissionCount();
 }
 
