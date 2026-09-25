@@ -653,7 +653,8 @@ function onMissionActionClick() {
 			}, 3000);
 			break;
 		case 'Confirm': // for cancel
-			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
+			let missionIndex = window.data.game.mission.list.indexOf(event.target.getAttribute('data-id'));
+			window.data.game.mission.list.splice(missionIndex, 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
 			updateMissionCount();
 			if (mission) window.data.game.wallet.money -= mission.penalty || 0;
@@ -661,7 +662,8 @@ function onMissionActionClick() {
 			removeDialog();
 			break;
 		case 'Complete':
-			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
+			let missionIndex = window.data.game.mission.list.indexOf(event.target.getAttribute('data-id'));
+			window.data.game.mission.list.splice(missionIndex, 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
 			updateMissionCount();
 			if (mission) window.data.game.wallet.money += mission.reward || 0;
@@ -1003,7 +1005,7 @@ function updateMissions() {
 
 function updateMissionCount() {
 	let button = document.querySelector('.missions');
-	if (button) button.dataset.count = window.data.game.mission.list.length || '';
+	if (button) button.setAttribute('data-count', window.data.game.mission.list.length || '');
 }
 
 function moveCamera() {
