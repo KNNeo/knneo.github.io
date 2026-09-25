@@ -287,11 +287,18 @@ ul {
 	border-radius: 8px;
 	border: 2px solid rgb(var(--foreground));
 	cursor: pointer;
+    padding-inline: 4px;
+    width: 4em;
 }
 
 .status:hover {
 	background-color: rgb(var(--foreground));
 	color: rgb(var(--background));
+}
+
+.status[data-type=Confirm] {
+	background-color: red;
+	color: rgb(var(--foreground));
 }
 
 .viewer {
