@@ -2,7 +2,7 @@
 const config = {
 	debug: false,
 	id: 'idle-on-rails',
-	date: '20260925',
+	date: '20260925_1',
 	diagram: {
 		// width: 1400,
 		// height: 840,
