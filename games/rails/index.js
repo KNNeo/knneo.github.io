@@ -613,7 +613,8 @@ function onMissionActionClick() {
 	let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
 	switch (event.target.getAttribute('data-type')) {
 		case 'Accept':
-			window.data.game.mission.list.push(event.target.getAttribute('data-id'));
+			if(!window.data.game.mission.list.includes(event.target.getAttribute('data-id')))
+				window.data.game.mission.list.push(event.target.getAttribute('data-id'));
 			log("Mission [" + event.target.getAttribute('data-name') + "] added");
 			updateMissionCount();
 			if (mission) window.data.game.wallet.money -= mission.price || 0;
