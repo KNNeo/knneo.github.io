@@ -637,7 +637,7 @@ function onMissionActionClick() {
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
 			updateMissionCount();
-			if (mission) window.data.game.wallet.money -= mission.price || 0;
+			if (mission) window.data.game.wallet.money += mission.reward || 0;
 			updateInventoryCount();
 			removeDialog();
 			break;
