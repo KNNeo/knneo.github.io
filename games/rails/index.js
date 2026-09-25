@@ -633,6 +633,7 @@ function onMissionActionClick() {
 			if (mission) window.data.game.wallet.money -= mission.penalty || 0;
 			updateInventoryCount();
 			removeDialog();
+			break;
 		case 'Complete':
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
