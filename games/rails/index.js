@@ -1179,6 +1179,7 @@ function save() {
 }
 
 function clear() {
+	resetProgress();
 	localStorage.removeItem(window.data.id);
 	window.location.reload();
 }

@@ -277,6 +277,7 @@ ul {
 }
 
 .status {
+	all: unset;
 	/* row-start, col-start, row-end, col-end */
 	grid-area: 2 / 3 / auto / auto;
 	border-radius: 8px;
