@@ -645,6 +645,10 @@ function onMissionActionClick() {
 		case 'Cancel':
 			event.target.innerText = 'Confirm';
 			event.target.setAttribute('data-type', 'Confirm');
+			setTimeout(function() {
+				event.target.innerText = 'Cancel';
+				event.target.setAttribute('data-type', 'Cancel');
+			}, 3000);
 			break;
 		case 'Confirm': // for cancel
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
