@@ -616,25 +616,26 @@ function onMissionActionClick() {
 			window.data.game.mission.list.push(event.target.getAttribute('data-id'));
 			log("Mission [" + event.target.getAttribute('data-name') + "] added");
 			updateMissionCount();
-			if (mission) window.data.wallet.money -= mission.price || 0;
+			if (mission) window.data.game.wallet.money -= mission.price || 0;
 			updateInventoryCount();
 			removeDialog();
 			break;
 		case 'Cancel':
 			event.target.innerText = 'Confirm';
+			event.target.setAttribute('data-type') = 'Confirm';
 			break;
 		case 'Confirm': // for cancel
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] cancelled");
 			updateMissionCount();
-			if (mission) window.data.wallet.money -= mission.penalty || 0;
+			if (mission) window.data.game.wallet.money -= mission.penalty || 0;
 			updateInventoryCount();
 			removeDialog();
 		case 'Complete':
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
 			log("Mission [" + event.target.getAttribute('data-name') + "] completed");
 			updateMissionCount();
-			if (mission) window.data.wallet.money -= mission.price || 0;
+			if (mission) window.data.game.wallet.money -= mission.price || 0;
 			updateInventoryCount();
 			removeDialog();
 			break;
@@ -953,7 +954,7 @@ function updateMissions() {
 		let missions = station.missions.filter(s => !window.data.game.mission.list.includes(s.id));
 		for (let mission of missions) {
 			window.data.game.mission.list.push(mission.id);
-			window.data.wallet.money -= mission.price || 0;
+			window.data.game.wallet.money -= mission.price || 0;
 			log("Mission [" + mission.name + "] automatically added");
 		}
 	}
@@ -963,7 +964,7 @@ function updateMissions() {
 		removeDialog();
 		for (let mission of missions) {
 			window.data.game.mission.list.splice(mission.id, 1);
-			window.data.wallet.money += mission.reward || 0;
+			window.data.game.wallet.money += mission.reward || 0;
 			log("Mission [" + mission.name + "] completed");
 		}
 	}
