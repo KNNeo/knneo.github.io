@@ -272,6 +272,15 @@ function toggleSettings() {
 				window.data.log.history = parseInt(this.value);
 				save();
 			}
+		},
+		{
+			key: 'Clear Data',
+			desc: 'Resets all data, missions, inventory and settings',
+			value: 'Clear',
+			onclick: function () {
+				if(prompt('This action cannot be undone! Do you want to proceed?'))
+					clear();
+			}
 		}
 	];
 	let container = document.createElement('div');
@@ -280,6 +289,13 @@ function toggleSettings() {
 		let settingDiv = document.createElement('label');
 		settingDiv.innerText = setting.key;
 		settingDiv.title = setting.desc;
+
+		if (typeof setting.onclick == 'function') {
+			let valueDiv = document.createElement('button');
+			valueDiv.innerText = setting.value;
+			valueDiv.onclick = setting.onclick;
+			settingDiv.appendChild(valueDiv);
+		}
 
 		if (typeof setting.value == 'number') {
 			let valueDiv = document.createElement('input');
@@ -1180,6 +1196,8 @@ function startup() {
 	load();
 	sizeDiagram();
 	updateConfig();
+	updateMissionCount();
+	updateInventoryCount();
 	drawBoard();
 	config.interval = setInterval(chartProgress, window.data.game.refresh || 1000);
 }
