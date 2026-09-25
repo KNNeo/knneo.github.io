@@ -38,11 +38,6 @@ body {
 	overflow: hidden;
 }
 
-button,
-input {
-	all: unset;
-}
-
 a {
 	color: rgb(var(--foreground));
 	text-decoration: none;

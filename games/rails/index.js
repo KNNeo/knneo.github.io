@@ -278,7 +278,7 @@ function toggleSettings() {
 			desc: 'Resets all data, missions, inventory and settings',
 			value: 'Clear',
 			onclick: function () {
-				if(prompt('This action cannot be undone! Do you want to proceed?'))
+				if(confirm('This action cannot be undone! Do you want to proceed?'))
 					clear();
 			}
 		}
@@ -962,7 +962,7 @@ function chartProgress() {
 function updateInventoryCount() {
 	for (let currency of Object.keys(window.data.game.wallet)) {
 		let currencyDiv = inventoryDiv.querySelector('.' + currency);
-		if (currencyDiv)
+		if (currencyDiv && typeof window.data.game.wallet[currency] == 'number')
 			currencyDiv.innerText = window.data.game.wallet[currency];
 	}
 }
@@ -995,8 +995,7 @@ function updateMissions() {
 
 function updateMissionCount() {
 	let button = document.querySelector('.missions');
-	if (button)
-		button.dataset.count = window.data.game.mission.list.length || '';
+	if (button) button.dataset.count = window.data.game.mission.list.length || '';
 }
 
 function moveCamera() {
