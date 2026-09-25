@@ -623,7 +623,7 @@ function onMissionActionClick() {
 			break;
 		case 'Cancel':
 			event.target.innerText = 'Confirm';
-			event.target.setAttribute('data-type') = 'Confirm';
+			event.target.setAttribute('data-type', 'Confirm');
 			break;
 		case 'Confirm': // for cancel
 			window.data.game.mission.list.splice(event.target.getAttribute('data-id'), 1);
