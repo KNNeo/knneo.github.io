@@ -288,7 +288,7 @@ ul {
 	border: 2px solid rgb(var(--foreground));
 	cursor: pointer;
     padding-inline: 4px;
-    width: 4em;
+    width: 5em;
 }
 
 .status:hover {
