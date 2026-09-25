@@ -192,6 +192,11 @@ const config = {
 		focus: true,
 		refresh: 1000,
 		time: new Date(),
+		wallet: {
+			money: 0
+		},
+		inventory: [
+		],
 		mission: {
 			auto: false,
 			list: []
