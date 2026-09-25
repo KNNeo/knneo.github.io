@@ -215,6 +215,7 @@ const config = {
 const logDiv = document.querySelector("div.log");
 const logListDiv = document.querySelector("div.log-list");
 const diagramSvg = document.querySelector("svg.diagram");
+const inventoryDiv = document.querySelector("div.inventory");
 const settingsDiv = document.querySelector("div.settings");
 const settingsMenuQuickDiv = settingsDiv.querySelector("div.menu.quick");
 
@@ -926,6 +927,14 @@ function chartProgress() {
 	else {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
 		if (window.data.debug) console.log(window.data.game.time);
+	}
+}
+
+function updateInventory() {
+	for (let currency of Object.keys(window.data.game.wallet)) {
+		let currencyDiv = inventoryDiv.querySelector('.' + currency);
+		if (currencyDiv)
+			currencyDiv.innerText = window.data.game.wallet[currency];
 	}
 }
 
