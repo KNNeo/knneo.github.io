@@ -643,11 +643,12 @@ function onMissionActionClick() {
 			removeDialog();
 			break;
 		case 'Cancel':
-			event.target.innerText = 'Confirm';
-			event.target.setAttribute('data-type', 'Confirm');
+			let btn = event.target;
+			btn.innerText = 'Confirm';
+			btn.setAttribute('data-type', 'Confirm');
 			setTimeout(function() {
-				event.target.innerText = 'Cancel';
-				event.target.setAttribute('data-type', 'Cancel');
+				btn.innerText = 'Cancel';
+				btn.setAttribute('data-type', 'Cancel');
 			}, 3000);
 			break;
 		case 'Confirm': // for cancel
