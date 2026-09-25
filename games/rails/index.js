@@ -221,7 +221,9 @@ const settingsMenuQuickDiv = settingsDiv.querySelector("div.menu.quick");
 
 //--EVENT HANDLERS--//
 function resetProgress() {
-	window.data.last = { x: 0, y: 0, id: window.data.map.stations[0].id };
+	// assume first station is origin
+	let defaultStation = window.data.map.stations[0];
+	window.data.last = { x: defaultStation.x, y: defaultStation.y, id: defaultStation.id };
 	log('Train reset to origin');
 }
 
@@ -810,12 +812,12 @@ function drawLines() {
 }
 
 function drawTrain() {
-	let lastPos = window.data.last || { x: 0, y: 0, id: window.data.map.stations[0].id };
+	if (!window.data.last) resetProgress();
 	let train = {
 		id: window.data.map.train.id,
 		image: window.data.map.train.image,
-		x: lastPos.x,
-		y: lastPos.y,
+		x: window.data.last.x,
+		y: window.data.last.y,
 	};
 	let trainSize = Math.min(window.data.map.train.width, window.data.map.train.height);
 	let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
@@ -847,7 +849,7 @@ function drawTrain() {
 
 function chartProgress() {
 	if (window.data.debug) console.log('chartProgress');
-	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: window.data.map.stations[0].id };
+	if (!window.data.last?.id) resetProgress();
 	if (window.data.debug) console.log("at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let trainMoved = false;
