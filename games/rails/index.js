@@ -1053,7 +1053,7 @@ function updateInventoryStations() {
 		let inventoryDiv = elem.querySelector('.inventory');
 		if (station && inventoryDiv) {
 			if (station.accept) {
-				if (!station.inventory) = station.inventory = {};
+				if (!station.inventory) station.inventory = {};
 				for (let item of station.accept) {
 					station.inventory[item.id] += item.rate || 0;
 				}
