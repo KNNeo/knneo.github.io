@@ -620,7 +620,7 @@ function renderInventoryList(list) {
 		let itemSpan = document.createElement('span');
 		itemSpan.className = icon.className;
 		// store decimals, but keep display whole number
-		itemSpan.innerText = Math.floor(parseDouble(list[item]));
+		itemSpan.innerText = Math.floor(parseFloat(list[item]));
 		output.appendChild(itemSpan);
 	}
 	return output;
