@@ -202,9 +202,9 @@ const config = {
 		wallet: {
 			money: 0
 		},
-		inventory: [
+		inventory: {
 			mail: 0
-		],
+		},
 		mission: {
 			auto: false,
 			list: []
