@@ -635,20 +635,20 @@ function renderInventoryList(list) {
 function renderInventory(list, produce, accept) {
 	let container = document.createElement('div');
 	container.classList.add('station-inventory');
-	let produces = document.createElement('div');
-	let accepts = document.createElement('div');
+	if (list)
+		container.appendChild(renderInventoryList(list));
 	for (let p of produce) {
 		let pDiv = document.createElement('div');
 		pDiv.className = 'bi bi-arrow-up-circle';
 		pDiv.innerText = p.rate + '/min';
-		produces.appendChild(pDiv);
+		container.appendChild(pDiv);
 	}
 	for (let a of accept) {
 		let icon = document.querySelector('.inventory .money');
 		let aDiv = document.createElement('div');
 		aDiv.className = icon.className;
 		aDiv.innerText = a.price + '/item';
-		accepts.appendChild(aDiv);
+		container.appendChild(aDiv);
 
 		let actDiv = document.createElement('div');
 		actDiv.classList.add('status');
@@ -658,12 +658,8 @@ function renderInventory(list, produce, accept) {
 			actDiv.disabled = true;
 			actDiv.innerText = 'Sell';
 		}
-		accepts.appendChild(actDiv);
+		container.appendChild(actDiv);
 	}
-	if (list)
-		container.appendChild(renderInventoryList(list));
-	container.appendChild(produces);
-	container.appendChild(accepts);
 	popupContent(container);
 }
 
