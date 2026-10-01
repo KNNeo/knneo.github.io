@@ -1183,7 +1183,7 @@ function load() {
 		window.data = {
 			...JSON.parse(storage)
 		};
-	else if (window.data.game.tutorial)
+	if (window.data.game.tutorial)
 		startTutorial();
 }
 
