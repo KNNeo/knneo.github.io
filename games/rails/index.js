@@ -645,11 +645,10 @@ function renderInventory(list, produce, accept) {
 		produces.appendChild(pDiv);
 	}
 	for (let a of accept) {
-		// steal icon from global
-		let icon = document.querySelector('.inventory .' + a.id);
+		let icon = document.querySelector('.inventory .money');
 		let aDiv = document.createElement('div');
 		aDiv.className = icon.className;
-		aDiv.innerText = '-' + a.price + '/item';
+		aDiv.innerText = a.price + '/item';
 		accepts.appendChild(aDiv);
 	}
 	if (list)
