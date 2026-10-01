@@ -985,6 +985,11 @@ function updateInventoryCount() {
 		if (currencyDiv && typeof window.data.game.wallet[currency] == 'number')
 			currencyDiv.innerText = window.data.game.wallet[currency];
 	}
+	for (let item of Object.keys(window.data.game.inventory)) {
+		let itemDiv = inventoryDiv.querySelector('.' + item);
+		if (itemDiv && typeof window.data.game.inventory[item] == 'number')
+			itemDiv.innerText = window.data.game.inventory[item];
+	}
 }
 
 function updateMissions() {
