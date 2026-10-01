@@ -652,7 +652,7 @@ function renderInventory(list, produce, accept) {
 
 		let actDiv = document.createElement('div');
 		actDiv.classList.add('status');
-		actDiv.innerText = 'Sell\n💵' + (Math.floor(parseDouble(window.data.game.inventory[a.id] || 0)) * a.price);
+		actDiv.innerText = 'Sell\n💵' + (Math.floor(parseFloat(window.data.game.inventory[a.id] || 0)) * a.price);
 		actDiv.setAttribute('onclick', 'onInventorySell()');
 		if (!window.data?.game?.inventory[a.id]) {
 			actDiv.disabled = true;
