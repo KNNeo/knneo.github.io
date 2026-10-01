@@ -968,8 +968,6 @@ function chartProgress() {
 				}
 				// update new station
 				if (station) {
-					if (window.data.last.id != station.id)
-						removeDialog();
 					window.data.last.id = station.id;
 					updateDestination();
 					log("Train destination set: " + station.name);
