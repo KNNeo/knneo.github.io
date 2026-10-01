@@ -621,6 +621,7 @@ function renderInventoryList(list) {
 	if (!list) return document.createTextNode('No items');
 	let output = document.createElement('div');
 	for (let item of Object.keys(list)) {
+		// steal icon from global
 		let icon = document.querySelector('.inventory .' + item);
 		let itemSpan = document.createElement('span');
 		itemSpan.className = icon.className;
@@ -636,14 +637,16 @@ function renderInventory(list, produce, accept) {
 	let produces = document.createElement('div');
 	let accepts = document.createElement('div');
 	for (let p of produce) {
-		let icon = document.querySelector('.inventory.' + p.id);
+		// steal icon from global
+		let icon = document.querySelector('.inventory .' + p.id);
 		let pDiv = document.createElement('div');
 		pDiv.className = icon.className;
 		pDiv.innerText = '+' + p.rate + '/min';
 		produces.appendChild(pDiv);
 	}
 	for (let a of accept) {
-		let icon = document.querySelector('.inventory.' + a.id);
+		// steal icon from global
+		let icon = document.querySelector('.inventory .' + a.id);
 		let aDiv = document.createElement('div');
 		aDiv.className = icon.className;
 		aDiv.innerText = '-' + a.price + '/item';
