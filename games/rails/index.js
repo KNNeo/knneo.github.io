@@ -257,7 +257,7 @@ function toggleProgress() {
 function toggleSettings() {
 	let settings = [
 		{
-			key: 'Auto Leave Station',
+			key: 'Auto Select Destination',
 			desc: 'Train automatically leaves station on countdown end to (marked, or) random destination',
 			value: window.data.game.travel.auto,
 			onchange: function () {
@@ -643,6 +643,7 @@ function onMissionActionClick() {
 		window.data.game.mission.list = [];
 	let mission = window.data.game.mission.all.find(m => m.id == event.target.getAttribute('data-id'));
 	let missionIndex = window.data.game.mission.list.indexOf(event.target.getAttribute('data-id'));
+	let btn = event.target;
 	switch (event.target.getAttribute('data-type')) {
 		case 'Accept':
 			if(!window.data.game.mission.list.includes(event.target.getAttribute('data-id')))
@@ -655,7 +656,6 @@ function onMissionActionClick() {
 			btn.setAttribute('data-type', 'Cancel');
 			break;
 		case 'Cancel':
-			let btn = event.target;
 			btn.innerText = 'Confirm';
 			btn.setAttribute('data-type', 'Confirm');
 			setTimeout(function() {
@@ -1248,7 +1248,6 @@ function onTutorialDestinationSelected() {
 function endTutorial() {
 	// release defaults
 	window.data.game.tutorial = false;
-	window.data.game.travel.auto = true;
 	save();
 }
 
