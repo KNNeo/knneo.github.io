@@ -938,6 +938,10 @@ function chartProgress() {
 	if (window.data.debug) console.log('chartProgress');
 	if (!window.data.last?.id) resetProgress();
 	if (window.data.debug) console.log("at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+	// refresh overall inventory
+	updateInventoryStations();
+	updateInventoryCount();
+	// count time passed
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let trainMoved = false;
 	let travelRate = window.data.game.travel.cost || 1;
@@ -1044,9 +1048,6 @@ function chartProgress() {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
 		if (window.data.debug) console.log(window.data.game.time);
 	}
-	// refresh overall inventory
-	updateInventoryStations();
-	updateInventoryCount();
 }
 
 function updateInventoryStations() {
