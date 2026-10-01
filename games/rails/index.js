@@ -634,14 +634,13 @@ function renderInventoryList(list) {
 
 function renderInventory(list, produce, accept) {
 	let container = document.createElement('div');
+	container.classList.add('station-inventory');
 	let produces = document.createElement('div');
 	let accepts = document.createElement('div');
 	for (let p of produce) {
-		// steal icon from global
-		let icon = document.querySelector('.inventory .' + p.id);
 		let pDiv = document.createElement('div');
-		pDiv.className = icon.className;
-		pDiv.innerText = '+' + p.rate + '/min';
+		pDiv.className = 'bi bi-arrow-up-circle';
+		pDiv.innerText = p.rate + '/min';
 		produces.appendChild(pDiv);
 	}
 	for (let a of accept) {
@@ -650,6 +649,16 @@ function renderInventory(list, produce, accept) {
 		aDiv.className = icon.className;
 		aDiv.innerText = a.price + '/item';
 		accepts.appendChild(aDiv);
+
+		let actDiv = document.createElement('div');
+		actDiv.classList.add('status');
+		actDiv.innerText = 'Sell\n💵' + (Math.floor(parseDouble(window.data.game.inventory[a.id] || 0)) * a.price);
+		actDiv.setAttribute('onclick', 'onInventorySell()');
+		if (!window.data?.game?.inventory[a.id]) {
+			actDiv.disabled = true;
+			actDiv.innerText = 'Sell';
+		}
+		accepts.appendChild(actDiv);
 	}
 	if (list)
 		container.appendChild(renderInventoryList(list));

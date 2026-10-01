@@ -397,6 +397,16 @@ ul {
 	font-size: 0.8em;
 }
 
+.station-inventory {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+}
+
+.station-inventory .bi {
+	font-size: 1em;
+}
+
 .node+foreignObject object {
 	object-fit: cover;
 }
