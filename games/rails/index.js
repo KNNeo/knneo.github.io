@@ -189,6 +189,7 @@ const config = {
 		history: 20
 	},
 	game: {
+		tutorial: true,
 		focus: true,
 		refresh: 1000,
 		time: new Date(),
@@ -202,7 +203,7 @@ const config = {
 			list: []
 		},
 		travel: {
-			auto: true,
+			auto: false,
 			cost: 5
 		},
 		wait: {
@@ -1182,6 +1183,8 @@ function load() {
 		window.data = {
 			...JSON.parse(storage)
 		};
+	else if (window.data.game.tutorial)
+		startTutorial();
 }
 
 function save() {
@@ -1192,6 +1195,47 @@ function clear() {
 	resetProgress();
 	localStorage.removeItem(window.data.id);
 	window.location.reload();
+}
+
+//--TUTORIAL--//
+function startTutorial() {
+	// assume at depot, not moving
+	let container = document.createElement('div');
+	container.innerHTML = '<h2>Welcome to On Rails!</h2><p>You are now the new owner of a train, let\'s start at the depot!</p><p>Click/tap on this to close, and select the Depot to select your first mission.</p>';
+	popupContent(container);
+	// wait for mission add
+	config.tutorial = setInterval(onTutorialMissionSelected, 1000);
+}
+
+function onTutorialMissionSelected() {
+	if (!window.data.game.mission.list.length || window.data.game.mission.list[0] != 'mission-14')
+		return;
+	// accepted mission
+	let container = document.createElement('div');
+	container.innerHTML = '<p>Now, select Metropolis West as the mission\'s destination.</p>';
+	popupContent(container);
+	// wait for select destination
+	clearInterval(config.tutorial);
+	config.tutorial = setInterval(onTutorialDestinationSelected, 1000);
+}
+
+function onTutorialDestinationSelected() {
+	if (!window.data.next || window.data.next.id != 'metropolis-west')
+		return;
+	// selected destination
+	let container = document.createElement('div');
+	container.innerHTML = '<p>Congrats! Now that you know how the train works, you are on your own!</p>';
+	popupContent(container);
+	// end tutorial
+	clearInterval(config.tutorial);
+	endTutorial();
+}
+
+function endTutorial() {
+	// release defaults
+	window.data.game.tutorial = false;
+	window.data.game.travel.auto = true;
+	save();
 }
 
 //--HTML DOM FUNCTIONS--//
