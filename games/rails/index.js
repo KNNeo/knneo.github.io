@@ -1053,10 +1053,12 @@ function updateInventoryStations() {
 		let station = window.data.map.stations.find(s => s.id == elem.getAttribute('data-id'));
 		let inventoryDiv = elem.querySelector('.inventory');
 		if (station && inventoryDiv) {
-			if (station.accept) {
-				if (!station.inventory) station.inventory = {};
-				for (let item of station.accept) {
+			// station produces items, add
+			if (station.produce) {
+				if (!station.produce) station.produce = {};
+				for (let item of station.produce) {
 					station.inventory[item.id] += item.rate || 0;
+					window.data.game.inventory[item.id] += item.rate || 0;
 				}
 			}
 			inventoryDiv.innerHTML = '';
