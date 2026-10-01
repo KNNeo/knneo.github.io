@@ -1044,9 +1044,8 @@ function chartProgress() {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
 		if (window.data.debug) console.log(window.data.game.time);
 	}
-	// refresh overall inventory
+	// refresh inventory produce
 	updateInventoryStations();
-	updateInventoryCount();
 }
 
 function updateInventoryStations() {
@@ -1060,7 +1059,6 @@ function updateInventoryStations() {
 				for (let item of station.produce) {
 					if (station.inventory[item.id] >= item.max) continue;
 					station.inventory[item.id] += item.rate || 0;
-					window.data.game.inventory[item.id] += item.rate || 0;
 				}
 			}
 			inventoryDiv.innerHTML = '';
