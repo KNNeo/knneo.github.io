@@ -566,7 +566,7 @@ function drawNodes() {
 				let beforeDiv = document.createElement("div");
 				beforeDiv.classList.add('inventory');
 				beforeDiv.title = 'Check Inventory';
-				beforeDiv.innerText = renderInventoryList(item.inventory);
+				beforeDiv.innerHTML = renderInventoryList(item.inventory);
 				beforeDiv.style.color = "rgb(var(--foreground))";
 				beforeDiv.style.background = "rgb(var(--background))";
 				beforeDiv.style.borderRadius =
@@ -609,7 +609,7 @@ function onClickNode() {
 	}
 }
 
-functon renderInventoryList(list) {
+function renderInventoryList(list) {
 	if (!list) return;
 	let output = document.createElement('div');
 	for (let item of Object.keys(list)) {
