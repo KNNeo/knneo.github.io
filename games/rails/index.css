@@ -385,6 +385,11 @@ ul {
 }
 
 .node+foreignObject:has(object)+foreignObject div.inventory {
+	display: none;
+}
+
+.node+foreignObject:has(object)+foreignObject:hover div.inventory {
+	display: flex;
 	position: absolute;
 	left: 0;
 	top: 0;

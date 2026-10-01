@@ -499,6 +499,7 @@ function drawNodes() {
 		rect.setAttribute("stroke-width", window.data.node.border);
 		if (item.id != "RESERVED") diagramSvg.appendChild(rect);
 		if (item.image) {
+			// background image
 			rect.setAttribute("fill-opacity", 0);
 			let textArea = document.createElementNS(
 				"http://www.w3.org/2000/svg",
@@ -530,11 +531,12 @@ function drawNodes() {
 			diagramSvg.appendChild(textArea);
 		}
 		if (item.name) {
-			// draw text box
+			// overlay text boxes
 			let textArea = document.createElementNS(
 				"http://www.w3.org/2000/svg",
 				"foreignObject"
 			);
+			textArea.setAttribute("data-id", item.id);
 			textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
 			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
 			textArea.setAttribute(
@@ -564,7 +566,7 @@ function drawNodes() {
 
 			if (item.produce || item.accept) {
 				let beforeDiv = document.createElement("div");
-				beforeDiv.classList.add('inventory');
+				beforeDiv.classList.add('inventory', item.id);
 				beforeDiv.title = 'Check Inventory';
 				beforeDiv.innerHTML = renderInventoryList(item.inventory);
 				beforeDiv.style.color = "rgb(var(--foreground))";
@@ -616,7 +618,8 @@ function renderInventoryList(list) {
 		let icon = document.querySelector('.inventory.' + p.id);
 		let itemSpan = document.createElement('span');
 		itemSpan.className = icon.className;
-		itemSpan.innerText = list[item];
+		// store decimals, but keep display whole number
+		itemSpan.innerText = Math.floor(parseDouble(list[item]));
 		output.appendChild(itemSpan);
 	}
 	return output;
@@ -1041,6 +1044,22 @@ function chartProgress() {
 	else {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
 		if (window.data.debug) console.log(window.data.game.time);
+	}
+}
+
+function updateInventoryStations() {
+	for (let elem of document.querySelectorAll('.station')) {
+		let station = window.data.map.stations.find(s => s.id == elem.getAttribute('data-id'));
+		let inventoryDiv = elem.querySelector('.inventory');
+		if (station && inventoryDiv) {
+			if (station.accept) {
+				if (!station.inventory) = station.inventory = {};
+				for (let item of station.accept) {
+					station.inventory[item.id] += item.rate || 0;
+				}
+			}
+			inventoryDiv.innerHTML = renderInventoryList(station.inventory);
+		}
 	}
 }
 
