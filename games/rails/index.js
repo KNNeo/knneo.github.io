@@ -613,7 +613,7 @@ function onClickNode() {
 }
 
 function renderInventoryList(list) {
-	if (!list) return 'No items';
+	if (!list) return document.createTextNode('No items');
 	let output = document.createElement('div');
 	for (let item of Object.keys(list)) {
 		let icon = document.querySelector('.inventory .' + item);
