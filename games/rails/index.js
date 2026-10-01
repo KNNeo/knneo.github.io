@@ -569,7 +569,7 @@ function drawNodes() {
 				let beforeDiv = document.createElement("div");
 				beforeDiv.classList.add('inventory', item.id);
 				beforeDiv.title = 'Check Inventory';
-				beforeDiv.innerHTML = renderInventoryList(item.inventory);
+				beforeDiv.appendChild(renderInventoryList(item.inventory));
 				beforeDiv.style.color = "rgb(var(--foreground))";
 				beforeDiv.style.background = "rgb(var(--background))";
 				beforeDiv.style.borderRadius =
@@ -1059,7 +1059,8 @@ function updateInventoryStations() {
 					station.inventory[item.id] += item.rate || 0;
 				}
 			}
-			inventoryDiv.innerHTML = renderInventoryList(station.inventory);
+			inventoryDiv.innerHTML = '';
+			inventoryDiv.appendChild(renderInventoryList(station.inventory));
 		}
 	}
 }
