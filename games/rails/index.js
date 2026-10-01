@@ -938,6 +938,7 @@ function chartProgress() {
 	if (window.data.debug) console.log('chartProgress');
 	if (!window.data.last?.id) resetProgress();
 	if (window.data.debug) console.log("at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+	if (window.data.game.inventory) updateInventoryStations();
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let trainMoved = false;
 	let travelRate = window.data.game.travel.cost || 1;
@@ -982,7 +983,7 @@ function chartProgress() {
 				setTimeout(updateMissions, 0);
 				// wait at station, do not reduce time, skip all processing until cover wait time
 				if (window.data.game.focus) focus(document.querySelector('#train'));
-				log("Train waiting at " + station.name + (window.data.game.travel.auto ? ": leaving in " + (-1 * waitDiff) + "s" : ""));
+				return log("Train waiting at " + station.name + (window.data.game.travel.auto ? ": leaving in " + (-1 * waitDiff) + "s" : ""));
 			}
 		}
 		// can reach station
@@ -1044,8 +1045,6 @@ function chartProgress() {
 		window.data.game.time = new Date(new Date(window.data.game.time).getTime() + timeDiffSec * 1000);
 		if (window.data.debug) console.log(window.data.game.time);
 	}
-	// refresh inventory produce
-	updateInventoryStations();
 }
 
 function updateInventoryStations() {
