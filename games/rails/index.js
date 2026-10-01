@@ -616,7 +616,7 @@ function renderInventoryList(list) {
 	if (!list) return 'No items';
 	let output = document.createElement('div');
 	for (let item of Object.keys(list)) {
-		let icon = document.querySelector('.inventory.' + item);
+		let icon = document.querySelector('.inventory .' + item);
 		let itemSpan = document.createElement('span');
 		itemSpan.className = icon.className;
 		// store decimals, but keep display whole number
