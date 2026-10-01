@@ -637,28 +637,33 @@ function renderInventory(list, produce, accept) {
 	container.classList.add('station-inventory');
 	if (list)
 		container.appendChild(renderInventoryList(list));
-	for (let p of produce) {
-		let pDiv = document.createElement('div');
-		pDiv.className = 'bi bi-arrow-up-circle';
-		pDiv.innerText = p.rate + '/min';
-		container.appendChild(pDiv);
-	}
-	for (let a of accept) {
-		let icon = document.querySelector('.inventory .money');
-		let aDiv = document.createElement('div');
-		aDiv.className = icon.className;
-		aDiv.innerText = a.price + '/item';
-		container.appendChild(aDiv);
-
-		let actDiv = document.createElement('div');
-		actDiv.classList.add('status');
-		actDiv.innerText = 'Sell\n💵' + (Math.floor(parseFloat(window.data.game.inventory[a.id] || 0)) * a.price);
-		actDiv.setAttribute('onclick', 'onInventorySell()');
-		if (!window.data?.game?.inventory[a.id]) {
-			actDiv.disabled = true;
-			actDiv.innerText = 'Sell';
+	for (let item of Object.keys(window.data.game.inventory)) {
+		let pItem = produce.find(p => p.id == item);
+		if (pItem) {
+			let pDiv = document.createElement('div');
+			pDiv.className = 'bi bi-arrow-up-circle';
+			pDiv.innerText = pItem.rate + '/min';
+			container.appendChild(pDiv);
 		}
-		container.appendChild(actDiv);
+		
+		let aItem = produce.find(a => a.id == item);
+		if (aItem) {
+			let icon = document.querySelector('.inventory .money');
+			let aDiv = document.createElement('div');
+			aDiv.className = icon.className;
+			aDiv.innerText = aItem.price + '/item';
+			container.appendChild(aDiv);
+
+			let actDiv = document.createElement('div');
+			actDiv.classList.add('status');
+			actDiv.innerText = 'Sell\n💵' + (Math.floor(parseFloat(window.data.game.inventory[a.id] || 0)) * aItem.price);
+			actDiv.setAttribute('onclick', 'onInventorySell()');
+			if (!window.data?.game?.inventory[aItem.id]) {
+				actDiv.disabled = true;
+				actDiv.innerText = 'Sell';
+			}
+			container.appendChild(actDiv);
+		}
 	}
 	popupContent(container);
 }
