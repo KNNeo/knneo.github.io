@@ -2,7 +2,7 @@
 const config = {
 	debug: false,
 	id: 'idle-on-rails',
-	date: '20260925_1',
+	date: '20261001',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -69,7 +69,7 @@ const config = {
 			{
 				id: 'metropolis-west',
 				name: 'Metropolis West',
-				x: -350,
+				x: -150,
 				y: 100,
 				links: ['depot', 'worlds-end', 'national-museum'],
 				// https://www.svgrepo.com/svg/286332/buildings-cityscape
@@ -101,7 +101,7 @@ const config = {
 			{
 				id: 'worlds-end',
 				name: 'World\'s End',
-				x: -350,
+				x: -150,
 				y: 500,
 				links: ['metropolis-west'],
 				// https://www.svgrepo.com/svg/286324/cementery
@@ -111,7 +111,7 @@ const config = {
 			{
 				id: 'national-museum',
 				name: 'National Museum',
-				x: -500,
+				x: -250,
 				y: 150,
 				links: ['metropolis-west'],
 				// https://www.svgrepo.com/svg/286280/museum-theater
