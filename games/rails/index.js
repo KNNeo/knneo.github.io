@@ -545,22 +545,42 @@ function drawNodes() {
 				"height",
 				(item.height || window.data.node.height) - window.data.node.border
 			);
-			let textDiv = document.createElement("div");
-			textDiv.classList.add('name');
-			textDiv.title = item.missions ? 'Check Missions' : item.name;
-			textDiv.innerText = item.name;
-			textDiv.style.color = "rgn(var(--foreground))";
-			textDiv.style.background = "rgb(var(--background))";
-			textDiv.style.borderRadius =
+			let afterDiv = document.createElement("div");
+			afterDiv.classList.add('name');
+			afterDiv.title = item.missions ? 'Check Missions' : item.name;
+			afterDiv.innerText = item.name;
+			afterDiv.style.color = "rgb(var(--foreground))";
+			afterDiv.style.background = "rgb(var(--background))";
+			afterDiv.style.borderRadius =
 				window.data.curve - 0.5 * window.data.node.border + "px";
 			if (window.data.palette)
-				textDiv.style.background = window.data.palette[0];
+				afterDiv.style.background = window.data.palette[0];
 			if (item.color) {
-				textDiv.style.background = item.color.bg;
-				textDiv.style.color = item.color.text;
+				afterDiv.style.background = item.color.bg;
+				afterDiv.style.color = item.color.text;
 			}
-			textDiv.setAttribute("onclick", "onClickNode()");
-			textArea.appendChild(textDiv);
+			afterDiv.setAttribute("onclick", "onClickNode()");
+			textArea.appendChild(afterDiv);
+
+			if (item.produce || item.accept) {
+				let beforeDiv = document.createElement("div");
+				beforeDiv.classList.add('inventory');
+				beforeDiv.title = 'Check Inventory';
+				beforeDiv.innerText = renderInventoryList(item.inventory);
+				beforeDiv.style.color = "rgb(var(--foreground))";
+				beforeDiv.style.background = "rgb(var(--background))";
+				beforeDiv.style.borderRadius =
+					window.data.curve - 0.5 * window.data.node.border + "px";
+				if (window.data.palette)
+					beforeDiv.style.background = window.data.palette[0];
+				if (item.color) {
+					beforeDiv.style.background = item.color.bg;
+					beforeDiv.style.color = item.color.text;
+				}
+				beforeDiv.setAttribute("onclick", "onClickNode()");
+				textArea.appendChild(beforeDiv);
+			}
+
 			diagramSvg.appendChild(textArea);
 		}
 	}
@@ -575,11 +595,56 @@ function onClickNode() {
 			return log('Train not in station to access missions!');
 		let station = window.data.map.stations.find(s => s.id == id);
 		if (station) {
-			if (!station.missions || !station.missions.length)
-				return popupContent('No missions available');
-			renderMissions(station.missions);
+			if (event.target.classList.contains('inventory')) {
+				if (!station.inventory)
+					return popupContent('No inventory available');
+				renderInventory(station.inventory, station.produce, station.accept);
+			}
+			if (event.target.classList.contains('name')) {
+				if (!station.missions || !station.missions.length)
+					return popupContent('No missions available');
+				renderMissions(station.missions);
+			}
 		}
 	}
+}
+
+functon renderInventoryList(list) {
+	if (!list) return;
+	let output = document.createElement('div');
+	for (let item of Object.keys(list)) {
+		let icon = document.querySelector('.inventory.' + p.id);
+		let itemSpan = document.createElement('span');
+		itemSpan.className = icon.className;
+		itemSpan.innerText = list[item];
+		output.appendChild(itemSpan);
+	}
+	return output;
+}
+
+function renderInventory(list, produce, accept) {
+	let container = document.createElement('div');
+	let produces = document.createElement('div');
+	let accepts = document.createElement('div');
+	for (let p of produce) {
+		let icon = document.querySelector('.inventory.' + p.id);
+		let pDiv = document.createElement('div');
+		pDiv.className = icon.className;
+		pDiv.innerText = '+' + p.rate + '/min';
+		produces.appendChild(pDiv);
+	}
+	for (let a of accept) {
+		let icon = document.querySelector('.inventory.' + a.id);
+		let aDiv = document.createElement('div');
+		aDiv.className = icon.className;
+		aDiv.innerText = '-' + a.price + '/item';
+		accepts.appendChild(aDiv);
+	}
+	if (list)
+		container.appendChild(renderInventoryList(list));
+	container.appendChild(produces);
+	container.appendChild(accepts);
+	popupContent(container);
 }
 
 function renderMissions(list) {

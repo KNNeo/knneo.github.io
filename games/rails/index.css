@@ -104,7 +104,7 @@ ul {
     flex-direction: column;
 	position: fixed;
 	right: 0;
-	top: 3em;
+	top: 2lh;
 	width: 8em;
 	text-decoration: none;
 	font-weight: bold;
@@ -133,6 +133,10 @@ ul {
 	text-align: end;
 	background-color: rgb(var(--background));
 	z-index: 1;
+}
+
+.settings a {
+    font-size: 1.5lh;
 }
 
 .nav {
