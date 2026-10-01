@@ -536,14 +536,14 @@ function drawNodes() {
 				"foreignObject"
 			);
 			textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
-			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border + (item.image ? 20 : 0));
+			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
 			textArea.setAttribute(
 				"width",
 				(item.width || window.data.node.width) - window.data.node.border
 			);
 			textArea.setAttribute(
 				"height",
-				(item.height || window.data.node.height) - window.data.node.border
+				(item.height || window.data.node.height) - window.data.node.border + (item.image ? 20 : 0)
 			);
 			let afterDiv = document.createElement("div");
 			afterDiv.classList.add('name');
@@ -610,7 +610,7 @@ function onClickNode() {
 }
 
 function renderInventoryList(list) {
-	if (!list) return;
+	if (!list) return 'No items';
 	let output = document.createElement('div');
 	for (let item of Object.keys(list)) {
 		let icon = document.querySelector('.inventory.' + p.id);

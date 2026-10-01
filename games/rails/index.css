@@ -374,13 +374,20 @@ ul {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	overflow-x: auto hidden;
 }
 
-.node+foreignObject:has(object)+foreignObject div {
+.node+foreignObject:has(object)+foreignObject div.name {
 	position: absolute;
 	left: 0;
 	bottom: 2px;
+	height: auto;
+	font-size: 0.8em;
+}
+
+.node+foreignObject:has(object)+foreignObject div.inventory {
+	position: absolute;
+	left: 0;
+	top: 0;
 	height: auto;
 	font-size: 0.8em;
 }
