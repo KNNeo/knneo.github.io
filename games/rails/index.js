@@ -704,7 +704,7 @@ function onInventoryActionClick() {
 			}
 			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
 				buyDiv.disabled = true;
-
+			break;
 		case: 'Sell':
 			let itemId = event.target.getAttribute('data-id');
 			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
