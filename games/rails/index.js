@@ -2,7 +2,7 @@
 const config = {
 	debug: false,
 	id: 'idle-on-rails',
-	date: '20261001_2',
+	date: '20261002',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -206,6 +206,7 @@ const config = {
 			money: 0
 		},
 		inventory: {
+			max: 10,
 			mail: 0
 		},
 		mission: {
@@ -665,10 +666,21 @@ function renderInventory(list, produce, accept) {
 			aDiv.innerText = aItem.price + '/item';
 			container.appendChild(aDiv);
 
+			let buyDiv = document.createElement('button');
+			buyDiv.classList.add('status');
+			buyDiv.innerText = 'Load Train';
+			buyDiv.setAttribute('data-type', 'Buy');
+			buyDiv.setAttribute('data-id', aItem.id);
+			buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
+			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
+				buyDiv.disabled = true;
+
 			let sellDiv = document.createElement('button');
 			sellDiv.classList.add('status');
 			sellDiv.innerText = 'Sell\n💵' + (Math.floor(parseFloat(window.data.game.inventory[aItem.id] || 0)) * aItem.price);
-			sellDiv.setAttribute('onclick', 'onInventorySell()');
+			sellDiv.setAttribute('data-type', 'Sell');
+			sellDiv.setAttribute('data-id', aItem.id);
+			sellDiv.setAttribute('onclick', 'onInventoryActionClick()');
 			if (!window.data?.game?.inventory[aItem.id]) {
 				sellDiv.disabled = true;
 				sellDiv.innerText = 'Sell';
@@ -677,6 +689,39 @@ function renderInventory(list, produce, accept) {
 		}
 	}
 	popupContent(container);
+}
+
+function onInventoryActionClick() {
+	switch (event.target.getAttribute('data-type')) {
+		case: 'Buy':
+			let itemId = event.target.getAttribute('data-id');
+			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
+			let item = station.accept.find(a => a.id == itemId);
+			if (window.data?.game?.inventory[aItem.id] < window.data?.game?.inventory.max) {
+				let remainder = window.data.game.inventory.max - window.data.game.inventory[aItem.id];
+				window.data.game.inventory[aItem.id] += remainder;
+				item[aItem.id] -= remainder;
+			}
+			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
+				buyDiv.disabled = true;
+
+		case: 'Sell':
+			let itemId = event.target.getAttribute('data-id');
+			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
+			let item = station.accept.find(a => a.id == itemId);
+			if (window.data?.game?.inventory[id]) {
+				window.data.game.wallet.money += window.data?.game?.inventory[id] * item.price;
+				window.data.game.inventory[id] = 0;
+			}
+			if (!window.data?.game?.inventory[id]) {
+				sellDiv.disabled = true;
+				sellDiv.innerText = 'Sell';
+			}
+			break;
+		default:
+			console.error('Invalid action!');
+			break;
+	}
 }
 
 function renderMissions(list) {
@@ -725,7 +770,6 @@ function renderMissions(list) {
 		grid.appendChild(title);
 		grid.appendChild(reward);
 		grid.appendChild(description);
-		// grid.appendChild(price);
 		grid.appendChild(action);
 		container.appendChild(grid);
 	}
