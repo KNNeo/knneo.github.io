@@ -124,6 +124,10 @@ ul {
     padding-right: 8px;
 }
 
+.inventory-list {
+	cursor: pointer;
+}
+
 .settings {
 	position: fixed;
 	right: 0;

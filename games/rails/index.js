@@ -651,7 +651,7 @@ function renderInventory(list, produce, accept) {
 		let itemSpan = document.createElement('span');
 		itemSpan.className = icon.className;
 		// assume item name is id in camelCase
-		itemSpan.innerText = item.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+		itemSpan.innerText = '\n' + item.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 		container.appendChild(itemSpan);
 
 		let pItem = produce.find(p => p.id == item);
@@ -672,7 +672,7 @@ function renderInventory(list, produce, accept) {
 
 			let buyDiv = document.createElement('button');
 			buyDiv.classList.add('status');
-			buyDiv.innerText = 'Load Train';
+			buyDiv.innerText = 'Load\nTrain';
 			buyDiv.setAttribute('data-type', 'Buy');
 			buyDiv.setAttribute('data-id', aItem.id);
 			buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
