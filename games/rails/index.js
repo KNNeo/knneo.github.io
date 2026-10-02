@@ -692,9 +692,10 @@ function renderInventory(list, produce, accept) {
 }
 
 function onInventoryActionClick() {
-	switch (event.target.getAttribute('data-type')) {
+	let button = event.target;
+	switch (button.getAttribute('data-type')) {
 		case: 'Buy':
-			let itemId = event.target.getAttribute('data-id');
+			let itemId = button.getAttribute('data-id');
 			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 			let item = station.accept.find(a => a.id == itemId);
 			if (window.data?.game?.inventory[aItem.id] < window.data?.game?.inventory.max) {
@@ -703,10 +704,10 @@ function onInventoryActionClick() {
 				item[aItem.id] -= remainder;
 			}
 			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
-				buyDiv.disabled = true;
+				button.disabled = true;
 			break;
 		case: 'Sell':
-			let itemId = event.target.getAttribute('data-id');
+			let itemId = button.getAttribute('data-id');
 			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 			let item = station.accept.find(a => a.id == itemId);
 			if (window.data?.game?.inventory[id]) {
@@ -714,8 +715,8 @@ function onInventoryActionClick() {
 				window.data.game.inventory[id] = 0;
 			}
 			if (!window.data?.game?.inventory[id]) {
-				sellDiv.disabled = true;
-				sellDiv.innerText = 'Sell';
+				button.disabled = true;
+				button.innerText = 'Sell';
 			}
 			break;
 		default:
