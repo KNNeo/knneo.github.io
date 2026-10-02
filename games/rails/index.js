@@ -675,6 +675,7 @@ function renderInventory(list, produce, accept) {
 			buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
 			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
 				buyDiv.disabled = true;
+			container.appendChild(buyDiv);
 
 			let sellDiv = document.createElement('button');
 			sellDiv.classList.add('status');
