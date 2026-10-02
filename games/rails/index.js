@@ -644,6 +644,7 @@ function renderInventory(list, produce, accept) {
 	for (let item of Object.keys(window.data.game.inventory)) {
 		// steal icon from global
 		let icon = document.querySelector('.inventory .' + item);
+		if (!icon) continue;
 		let itemSpan = document.createElement('span');
 		itemSpan.className = icon.className;
 		// assume item name is id in camelCase
