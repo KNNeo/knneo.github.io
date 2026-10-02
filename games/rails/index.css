@@ -422,11 +422,11 @@ ul {
     width: 100%;
 }
 
-.station-inventory .bi {
+.inventory .bi {
 	font-size: 1em;
 }
 
-.station-inventory .bi::before {
+.inventory-list .bi::before {
 	padding: 3px;
 }
 
