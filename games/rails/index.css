@@ -403,6 +403,10 @@ ul {
     align-items: center;
 }
 
+.station-inventory div:first-child {
+    grid-column: 1 / 5;
+}
+
 .station-inventory .bi {
 	font-size: 1em;
 }

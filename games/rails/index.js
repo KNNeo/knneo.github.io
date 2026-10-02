@@ -635,9 +635,19 @@ function renderInventoryList(list) {
 function renderInventory(list, produce, accept) {
 	let container = document.createElement('div');
 	container.classList.add('station-inventory');
-	if (list)
+	if (list) {
 		container.appendChild(renderInventoryList(list));
+		container.appendChild(document.createElement('hr'));
+	}
 	for (let item of Object.keys(window.data.game.inventory)) {
+		// steal icon from global
+		let icon = document.querySelector('.inventory .' + item);
+		let itemSpan = document.createElement('span');
+		itemSpan.className = icon.className;
+		// assume item name is id in camelCase
+		itemSpan.innerText = item.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+		container.appendChild(itemSpan);
+
 		let pItem = produce.find(p => p.id == item);
 		if (pItem) {
 			let pDiv = document.createElement('div');
@@ -646,7 +656,7 @@ function renderInventory(list, produce, accept) {
 			container.appendChild(pDiv);
 		}
 		
-		let aItem = produce.find(a => a.id == item);
+		let aItem = accept.find(a => a.id == item);
 		if (aItem) {
 			let icon = document.querySelector('.inventory .money');
 			let aDiv = document.createElement('div');
