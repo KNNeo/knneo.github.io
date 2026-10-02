@@ -672,7 +672,7 @@ function renderInventory(list, produce, accept) {
 
 			let buyDiv = document.createElement('button');
 			buyDiv.classList.add('status');
-			buyDiv.innerText = 'Load\nTrain';
+			buyDiv.innerText = 'Load Train';
 			buyDiv.setAttribute('data-type', 'Buy');
 			buyDiv.setAttribute('data-id', aItem.id);
 			buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
