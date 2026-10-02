@@ -403,7 +403,8 @@ ul {
     align-items: center;
 }
 
-.station-inventory div:first-child {
+.station-inventory div:first-child,
+.station-inventory hr {
     grid-column: 1 / 5;
 }
 

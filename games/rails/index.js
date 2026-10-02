@@ -620,6 +620,7 @@ function onClickNode() {
 function renderInventoryList(list) {
 	if (!list) return document.createTextNode('No items');
 	let output = document.createElement('div');
+	output.classList.add('inventory-list');
 	for (let item of Object.keys(list)) {
 		// steal icon from global
 		let icon = document.querySelector('.inventory .' + item);
