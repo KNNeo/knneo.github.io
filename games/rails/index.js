@@ -822,8 +822,7 @@ function onMissionActionClick() {
 			updateMissionCount();
 			if (mission) window.data.game.wallet.money -= mission.penalty || 0;
 			updateInventoryCount();
-			btn.innerText = 'Accept';
-			btn.setAttribute('data-type', 'Accept');
+			toggleMissions();
 			break;
 		case 'Complete':
 			if (missionIndex >= 0) window.data.game.mission.list.splice(missionIndex, 1);
