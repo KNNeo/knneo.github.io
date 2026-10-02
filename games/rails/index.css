@@ -289,8 +289,6 @@ ul {
 
 .status {
 	all: unset;
-	/* row-start, col-start, row-end, col-end */
-	grid-area: 2 / 3 / auto / auto;
 	border-radius: 8px;
 	border: 2px solid rgb(var(--foreground));
 	cursor: pointer;
@@ -299,7 +297,7 @@ ul {
 	height: 2lh;
 }
 
-.status:hover {
+.status:not([disabled]):hover {
 	background-color: rgb(var(--foreground));
 	color: rgb(var(--background));
 }
@@ -307,6 +305,17 @@ ul {
 .status[data-type=Confirm] {
 	background-color: red;
 	color: rgb(var(--foreground));
+}
+
+.status[disabled] {
+	color: rgba(var(--foreground), 0.6);
+	border-color: rgba(var(--foreground), 0.6);
+	cursor: not-allowed;
+}
+
+.mission .status {
+	/* row-start, col-start, row-end, col-end */
+	grid-area: 2 / 3 / auto / auto;
 }
 
 .viewer {
@@ -406,10 +415,15 @@ ul {
 .station-inventory div:first-child,
 .station-inventory hr {
     grid-column: 1 / 5;
+    width: 100%;
 }
 
 .station-inventory .bi {
 	font-size: 1em;
+}
+
+.station-inventory .bi::before {
+	padding: 3px;
 }
 
 .node+foreignObject object {

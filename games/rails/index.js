@@ -665,7 +665,7 @@ function renderInventory(list, produce, accept) {
 			aDiv.innerText = aItem.price + '/item';
 			container.appendChild(aDiv);
 
-			let sellDiv = document.createElement('div');
+			let sellDiv = document.createElement('button');
 			sellDiv.classList.add('status');
 			sellDiv.innerText = 'Sell\n💵' + (Math.floor(parseFloat(window.data.game.inventory[aItem.id] || 0)) * aItem.price);
 			sellDiv.setAttribute('onclick', 'onInventorySell()');
@@ -695,9 +695,6 @@ function renderMissions(list) {
 		let title = document.createElement('div');
 		let station = window.data.map.stations.find(s => s.id == mission.dest);
 		title.innerText = (mission.name || '(No title)') + '\n' + '[' + station.name + ']';
-		// let price = document.createElement('em');
-		// price.innerText = '';
-		// price.title = 'Amount to Pay';
 
 		let description = document.createElement('div');
 		description.classList.add('desc');
