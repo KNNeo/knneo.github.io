@@ -671,7 +671,7 @@ function renderInventory(list, produce, accept) {
 		buyDiv.classList.add('status');
 		buyDiv.innerText = 'Load Train';
 		buyDiv.setAttribute('data-type', 'Buy');
-		buyDiv.setAttribute('data-id', aItem.id);
+		buyDiv.setAttribute('data-id', pItem?.id);
 		buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
 		if (!pItem || window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
 			buyDiv.disabled = true;
@@ -679,9 +679,9 @@ function renderInventory(list, produce, accept) {
 
 		let sellDiv = document.createElement('button');
 		sellDiv.classList.add('status');
-		sellDiv.innerText = 'Unload\n💵' + (Math.floor(parseFloat(window.data.game.inventory[aItem.id] || 0)) * aItem.price);
+		sellDiv.innerText = 'Unload\n💵' + (Math.floor(parseFloat(window.data.game.inventory[aItem?.id] || 0)) * aItem?.price);
 		sellDiv.setAttribute('data-type', 'Sell');
-		sellDiv.setAttribute('data-id', aItem.id);
+		sellDiv.setAttribute('data-id', aItem?.id);
 		sellDiv.setAttribute('onclick', 'onInventoryActionClick()');
 		if (!aItem || !window.data?.game?.inventory[aItem.id]) {
 			sellDiv.disabled = true;
