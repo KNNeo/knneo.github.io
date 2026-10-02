@@ -693,28 +693,28 @@ function renderInventory(list, produce, accept) {
 
 function onInventoryActionClick() {
 	let button = event.target;
+	let itemId = button.getAttribute('data-id');
+	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	switch (button.getAttribute('data-type')) {
 		case 'Buy':
-			let itemId = button.getAttribute('data-id');
-			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
-			let item = station.accept.find(a => a.id == itemId);
-			if (window.data?.game?.inventory[aItem.id] < window.data?.game?.inventory.max) {
-				let remainder = window.data.game.inventory.max - window.data.game.inventory[aItem.id];
-				window.data.game.inventory[aItem.id] += remainder;
-				item[aItem.id] -= remainder;
+			let produce = station.produce.find(a => a.id == itemId);
+			if (window.data?.game?.inventory[itemId] < window.data?.game?.inventory.max) {
+				let remainder = window.data.game.inventory.max - window.data.game.inventory[itemId];
+				window.data.game.inventory[itemId] += remainder;
+				station.inventory[itemId] -= remainder;
+				save();
 			}
-			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
+			if (window.data?.game?.inventory[itemId] >= window.data?.game?.inventory.max)
 				button.disabled = true;
 			break;
 		case 'Sell':
-			let itemId = button.getAttribute('data-id');
-			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
-			let item = station.accept.find(a => a.id == itemId);
-			if (window.data?.game?.inventory[id]) {
-				window.data.game.wallet.money += window.data?.game?.inventory[id] * item.price;
-				window.data.game.inventory[id] = 0;
+			let accept = station.accept.find(a => a.id == itemId);
+			if (window.data?.game?.inventory[itemId]) {
+				window.data.game.wallet.money += window.data?.game?.inventory[itemId] * accept.price;
+				window.data.game.inventory[itemId] = 0;
+				save();
 			}
-			if (!window.data?.game?.inventory[id]) {
+			if (!window.data?.game?.inventory[itemId]) {
 				button.disabled = true;
 				button.innerText = 'Sell';
 			}
