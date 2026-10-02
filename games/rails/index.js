@@ -655,43 +655,40 @@ function renderInventory(list, produce, accept) {
 		container.appendChild(itemSpan);
 
 		let pItem = produce.find(p => p.id == item);
-		if (pItem) {
-			let pDiv = document.createElement('div');
-			pDiv.className = 'bi bi-arrow-up-circle';
-			pDiv.innerText = pItem.rate + '/min';
-			container.appendChild(pDiv);
-		}
-		
 		let aItem = accept.find(a => a.id == item);
-		if (aItem) {
-			let icon = document.querySelector('.inventory .money');
-			let aDiv = document.createElement('div');
-			aDiv.className = icon.className;
-			aDiv.innerText = aItem.price + '/item';
-			container.appendChild(aDiv);
 
-			let buyDiv = document.createElement('button');
-			buyDiv.classList.add('status');
-			buyDiv.innerText = 'Load Train';
-			buyDiv.setAttribute('data-type', 'Buy');
-			buyDiv.setAttribute('data-id', aItem.id);
-			buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
-			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
-				buyDiv.disabled = true;
-			container.appendChild(buyDiv);
+		let pDiv = document.createElement('div');
+		pDiv.className = 'bi bi-arrow-up-circle';
+		pDiv.innerText = pItem ? (pItem.rate + '/min') : '';
+		container.appendChild(pDiv);
+		
+		let icon = document.querySelector('.inventory .money');
+		let aDiv = document.createElement('div');
+		aDiv.className = icon.className;
+		aDiv.innerText = aItem ? (aItem.price + '/item') : '';
+		container.appendChild(aDiv);
 
-			let sellDiv = document.createElement('button');
-			sellDiv.classList.add('status');
-			sellDiv.innerText = 'Unload\n💵' + (Math.floor(parseFloat(window.data.game.inventory[aItem.id] || 0)) * aItem.price);
-			sellDiv.setAttribute('data-type', 'Sell');
-			sellDiv.setAttribute('data-id', aItem.id);
-			sellDiv.setAttribute('onclick', 'onInventoryActionClick()');
-			if (!window.data?.game?.inventory[aItem.id]) {
-				sellDiv.disabled = true;
-				sellDiv.innerText = 'Sell';
-			}
-			container.appendChild(sellDiv);
+		let buyDiv = document.createElement('button');
+		buyDiv.classList.add('status');
+		buyDiv.innerText = 'Load Train';
+		buyDiv.setAttribute('data-type', 'Buy');
+		buyDiv.setAttribute('data-id', aItem.id);
+		buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
+		if (!pItem || window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
+			buyDiv.disabled = true;
+		container.appendChild(buyDiv);
+
+		let sellDiv = document.createElement('button');
+		sellDiv.classList.add('status');
+		sellDiv.innerText = 'Unload\n💵' + (Math.floor(parseFloat(window.data.game.inventory[aItem.id] || 0)) * aItem.price);
+		sellDiv.setAttribute('data-type', 'Sell');
+		sellDiv.setAttribute('data-id', aItem.id);
+		sellDiv.setAttribute('onclick', 'onInventoryActionClick()');
+		if (!aItem || !window.data?.game?.inventory[aItem.id]) {
+			sellDiv.disabled = true;
+			sellDiv.innerText = 'Sell';
 		}
+		container.appendChild(sellDiv);
 	}
 	popupContent(container);
 }
