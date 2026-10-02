@@ -664,8 +664,8 @@ function renderInventory(title, list, produce, accept) {
 		itemSpan.innerText = '\n' + item.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 		container.appendChild(itemSpan);
 
-		let pItem = produce.find(p => p.id == item);
-		let aItem = accept.find(a => a.id == item);
+		let pItem = produce?.find(p => p.id == item);
+		let aItem = accept?.find(a => a.id == item);
 
 		let pDiv = document.createElement('div');
 		if (pItem) pDiv.className = 'bi bi-arrow-up-circle';
