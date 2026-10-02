@@ -607,16 +607,18 @@ function onClickNode() {
 	let node = event.target.closest('.station').previousElementSibling.previousElementSibling;
 	if (node && node.classList.contains('node')) {
 		let id = node.getAttribute('data-id');
-		if (window.data.last.id != id)
-			return log('Train not in station to access missions!');
 		let station = window.data.map.stations.find(s => s.id == id);
 		if (station) {
 			if (event.target.closest('.inventory')) {
+				if (window.data.last.id != id)
+					return log('Train not in station to access storage!');
 				if (!station.inventory)
 					return popupContent('No inventory available');
 				renderInventory(station.name, station.inventory, station.produce, station.accept);
 			}
 			if (event.target.closest('.name')) {
+				if (window.data.last.id != id)
+					return log('Train not in station to access missions!');
 				if (!station.missions || !station.missions.length)
 					return popupContent('No missions available');
 				popupContent(renderMissions(station.missions));
