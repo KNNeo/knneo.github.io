@@ -719,7 +719,7 @@ function onInventoryActionClick() {
 			}
 			break;
 		default:
-			console.error('Invalid action!');
+			alert('Invalid action!');
 			break;
 	}
 }
@@ -818,6 +818,9 @@ function onMissionActionClick() {
 			if (mission) window.data.game.wallet.money += mission.reward || 0;
 			updateInventoryCount();
 			toggleMissions();
+			break;
+		default:
+			alert('Invalid action!');
 			break;
 	}
 }
