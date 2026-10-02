@@ -694,7 +694,7 @@ function renderInventory(list, produce, accept) {
 function onInventoryActionClick() {
 	let button = event.target;
 	switch (button.getAttribute('data-type')) {
-		case: 'Buy':
+		case 'Buy':
 			let itemId = button.getAttribute('data-id');
 			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 			let item = station.accept.find(a => a.id == itemId);
@@ -706,7 +706,7 @@ function onInventoryActionClick() {
 			if (window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
 				button.disabled = true;
 			break;
-		case: 'Sell':
+		case 'Sell':
 			let itemId = button.getAttribute('data-id');
 			let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 			let item = station.accept.find(a => a.id == itemId);
