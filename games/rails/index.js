@@ -654,15 +654,15 @@ function renderInventory(list, produce, accept) {
 			aDiv.innerText = aItem.price + '/item';
 			container.appendChild(aDiv);
 
-			let actDiv = document.createElement('div');
-			actDiv.classList.add('status');
-			actDiv.innerText = 'Sell\n💵' + (Math.floor(parseFloat(window.data.game.inventory[a.id] || 0)) * aItem.price);
-			actDiv.setAttribute('onclick', 'onInventorySell()');
+			let sellDiv = document.createElement('div');
+			sellDiv.classList.add('status');
+			sellDiv.innerText = 'Sell\n💵' + (Math.floor(parseFloat(window.data.game.inventory[aItem.id] || 0)) * aItem.price);
+			sellDiv.setAttribute('onclick', 'onInventorySell()');
 			if (!window.data?.game?.inventory[aItem.id]) {
-				actDiv.disabled = true;
-				actDiv.innerText = 'Sell';
+				sellDiv.disabled = true;
+				sellDiv.innerText = 'Sell';
 			}
-			container.appendChild(actDiv);
+			container.appendChild(sellDiv);
 		}
 	}
 	popupContent(container);
