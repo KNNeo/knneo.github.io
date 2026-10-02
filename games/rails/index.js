@@ -626,6 +626,7 @@ function renderInventoryList(list) {
 	for (let item of Object.keys(list)) {
 		// steal icon from global
 		let icon = document.querySelector('.inventory .' + item);
+		if (!icon) continue;
 		let itemSpan = document.createElement('span');
 		itemSpan.className = icon.className;
 		// store decimals, but keep display whole number
