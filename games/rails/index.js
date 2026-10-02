@@ -662,9 +662,8 @@ function renderInventory(list, produce, accept) {
 		pDiv.innerText = pItem ? (pItem.rate + '/min') : '';
 		container.appendChild(pDiv);
 		
-		let icon = document.querySelector('.inventory .money');
 		let aDiv = document.createElement('div');
-		aDiv.className = icon.className;
+		aDiv.className = document.querySelector('.inventory .money')?.className;
 		aDiv.innerText = aItem ? (aItem.price + '/item') : '';
 		container.appendChild(aDiv);
 
