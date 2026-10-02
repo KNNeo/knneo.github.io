@@ -1139,8 +1139,8 @@ function updateInventoryStations() {
 		if (station && inventoryDiv) {
 			// station produces items, add
 			if (station.produce) {
+				if (!station.inventory) station.inventory = {};
 				for (let item of station.produce) {
-					if (!station.inventory) station.inventory = {};
 					if (item.max && station.inventory[item.id] >= item.max) continue;
 					station.inventory[item.id] += item.rate || 0;
 				}
