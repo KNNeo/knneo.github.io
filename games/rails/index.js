@@ -673,7 +673,7 @@ function renderInventory(list, produce, accept) {
 		buyDiv.setAttribute('data-type', 'Buy');
 		buyDiv.setAttribute('data-id', pItem?.id);
 		buyDiv.setAttribute('onclick', 'onInventoryActionClick()');
-		if (!pItem || window.data?.game?.inventory[aItem.id] >= window.data?.game?.inventory.max)
+		if (!pItem || window.data?.game?.inventory[pItem.id] >= window.data?.game?.inventory.max)
 			buyDiv.disabled = true;
 		container.appendChild(buyDiv);
 
