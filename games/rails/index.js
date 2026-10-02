@@ -1137,12 +1137,18 @@ function updateInventoryStations() {
 		let station = window.data.map.stations.find(s => s.id == elem.getAttribute('data-id'));
 		let inventoryDiv = elem.querySelector('.inventory');
 		if (station && inventoryDiv) {
+			if (!station.inventory) station.inventory = {};
 			// station produces items, add
 			if (station.produce) {
-				if (!station.inventory) station.inventory = {};
 				for (let item of station.produce) {
 					if (item.max && station.inventory[item.id] >= item.max) continue;
 					station.inventory[item.id] += item.rate || 0;
+				}
+			}
+			if (station.accept) {
+				for (let item of station.accept) {
+					if (typeof station.inventory[item.id] != 'number')
+						station.inventory[item.id] = 0;
 				}
 			}
 			inventoryDiv.innerHTML = '';
