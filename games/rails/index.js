@@ -658,12 +658,12 @@ function renderInventory(list, produce, accept) {
 		let aItem = accept.find(a => a.id == item);
 
 		let pDiv = document.createElement('div');
-		pDiv.className = 'bi bi-arrow-up-circle';
+		if (pItem) pDiv.className = 'bi bi-arrow-up-circle';
 		pDiv.innerText = pItem ? (pItem.rate + '/min') : '';
 		container.appendChild(pDiv);
 		
 		let aDiv = document.createElement('div');
-		aDiv.className = document.querySelector('.inventory .money')?.className;
+		if (aItem) aDiv.className = document.querySelector('.inventory .money')?.className;
 		aDiv.innerText = aItem ? (aItem.price + '/item') : '';
 		container.appendChild(aDiv);
 
