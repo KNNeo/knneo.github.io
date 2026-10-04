@@ -207,7 +207,7 @@ body .gallery {
 .gallery.overview img {
 	position: relative;
 	top: 20dvh;
-	width: max(50px, 30%);
+	width: min(50px, 30%);
 	cursor: pointer;
 	z-index: 10;
 }
