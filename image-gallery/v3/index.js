@@ -454,6 +454,7 @@ function renderGallery() {
 	}
 
 	// setTimeout(checkComplete, 0);
+	scrollToItem();
 	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 	// galleryDiv.addEventListener('touchstart', onTouchStart);
 	// galleryDiv.addEventListener('touchmove', onTouchMove, false);
@@ -471,7 +472,7 @@ function renderGalleryItems() {
 	for (let [index, value] of window.variables.base.entries()) {
 		if (index <= window.variables.render)
 			continue;
-		if (!--limit)
+		if (!limit--)
 			return console.log('load till index', index);
 		let itemDiv = document.createElement('img');
 		itemDiv.setAttribute('data-id', index);
