@@ -4,7 +4,8 @@
         "subtitle": false,
         "slideshow": false,
         "notice": true,
-        "overview": true
+        "overview": true,
+        "custom": true
     },
     "notice": "Load your own files and view it as a gallery",
     "autoscroll": {
