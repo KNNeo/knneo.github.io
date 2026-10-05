@@ -1,0 +1,330 @@
+/*VARIABLES*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+/*SPECIFIC*/
+a, label {
+	color: var(--foreground);
+	text-decoration: none;
+}
+
+label {
+	cursor: pointer;
+}
+
+a:hover, label:hover {
+	color: var(--primary);	
+}
+
+.bi {
+    font-size: 1.5em;
+    padding: 3px;
+}
+
+.title, 
+.subtitle,
+.details,
+.filters, 
+.settings,
+.message {
+	position: absolute;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.title, 
+.subtitle {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+	left: 1em;
+	top: 0;
+}
+
+.subtitle {
+	left: 0;
+	top: 3em;
+}
+
+.settings {
+	top: 0;
+	right: 1em;
+}
+
+.filters .settings {
+	z-index: 1;
+}
+
+.details,
+.filters {
+	width: 100%;
+	height: 100%;
+	bottom: 0;
+    margin: auto;
+	background-color: var(--background);
+	display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.details div,
+.filters div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	max-width: 80%;
+	max-height: 60%;
+	overflow: auto;
+    gap: 4px;
+}
+
+.details div a,
+.filters div a {
+	cursor: pointer;
+	text-decoration: none;
+	padding: 0.5em;
+	flex: 0 0 auto;
+}
+
+.filters div a.selected {
+	background-color: var(--accent);
+	border-radius: 99px;
+}
+
+.details div h3,
+.filters div h3 {
+	background-color: var(--background);
+	flex: 0 0 99%;
+	padding-top: 1em;
+	position: sticky;
+	margin: 0;
+	top: 0;
+}
+
+.filters .tags:not(:has(a, option)) {
+	display: none;
+}
+
+.filters .search input {
+	font-size: 1em;
+	width: 100%;
+	max-width: 400px;
+}
+
+.message {
+    top: 4em;
+    right: 2em;
+	cursor: pointer;
+}
+
+.message[data-count] {
+    border: 2px solid var(--foreground);
+    border-radius: 8px;
+    padding: 6px;
+}
+
+.home {
+	position: absolute;
+    left: 0;
+    right: 0;
+	bottom: 1em;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.all {
+	transform: scaleX(-1);
+}
+
+body .gallery {
+	display: flex;
+	overflow-y: hidden;
+	position: relative;
+}
+
+.gallery .header,
+.gallery .footer {
+	padding-left: 45dvw;
+	height: 100dvh;
+}
+
+.gallery img {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	object-fit: contain;
+	width: 80dvw;
+	height: 100dvh;
+	transition: filter 0.5s;
+}
+
+.gallery::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.gallery {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.gallery.captions[data-caption]:not(.overview)::before {
+	content: attr(data-caption);
+	position: fixed;
+	bottom: 3em;
+	left: 0;
+	right: 0;
+    width: 100%;
+    max-width: fit-content;
+    padding: 2px 2em;
+    margin: auto;
+    background-color: var(--accent);
+    border: 2px solid var(--foreground);
+}
+
+.gallery img[data-link] {
+	cursor: pointer;
+}
+
+.gallery img[data-effect="blur"] {
+	filter: blur(5em);
+	transform: scale(0.95);
+}
+
+.gallery.overview img {
+	position: relative;
+	top: 20dvh;
+	width: min(50px, 30%);
+	cursor: pointer;
+	z-index: 10;
+}
+
+.gallery.overview img:hover {
+	top: -10dvh;
+	transform: scale(5);
+	z-index: 9;
+}
+
+.progress {
+    position: absolute;
+    top: -10px;
+    height: 10px;
+	background-color: var(--foreground);
+	transition: top 0.3s, width 0.1s;
+}
+
+/*VIEWER*/
+.viewer {
+	z-index: 9;
+	position: fixed;
+	background-color: var(--background);
+	width: 100%;
+	height: 100%;
+	padding-top: 0;
+	text-align: center;
+	transition: opacity 0.3s, visibility 0.3s;
+	top: 0;
+}
+.viewer-prev {
+	cursor: pointer;
+	background-color: transparent;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+.viewer-next {
+	cursor: pointer;
+	background-color: transparent;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+.viewer-next:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to left, var(--background), transparent);
+}
+.viewer-prev:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to right, var(--background), transparent);
+}
+
+.viewer img {
+	transition: transform 0.2s;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/*GENERAL*/
+html {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	margin: 0;
+}
+
+.material-icons {
+	cursor: pointer;
+	padding: 7px;
+}
+
+:has(.gallery.overview) :is(.title, .settings, .message, .home),
+.hidden {
+	display: none;
+}
+
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+
+.shadowed {
+	border: 1px solid lightgray;
+	box-shadow: 3px 3px;
+}
+
+.shadowed:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px, 2px);
+}
+
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
