@@ -413,9 +413,6 @@ function renderDisplay() {
 		if (window.variables?.display[setting] == false &&
 			!document.querySelector('.' + setting)?.classList.contains('hidden'))
 			document.querySelector('.' + setting)?.classList.add('hidden');
-		if (window.variables?.display[setting] == true &&
-			document.querySelector('.' + setting)?.classList.contains('hidden'))
-			document.querySelector('.' + setting)?.classList.remove('hidden');
 	}
 }
 

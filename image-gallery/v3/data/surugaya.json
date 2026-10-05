@@ -4,7 +4,8 @@
         "subtitle": false,
         "slideshow": false,
         "notice": true,
-        "overview": true
+        "overview": true,
+        "custom": false
     },
     "notice": "[画像提供：https://suruga-ya.com/]",
     "autoscroll": {
