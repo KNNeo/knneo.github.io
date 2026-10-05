@@ -191,60 +191,44 @@ function onMouseUp() {
 }
 
 function onTouchStart() {
-	window.variables.touchY = event.touches[0].clientY;
-	window.variables.touchX = event.touches[0].clientX;
-	window.variables.touchdown = new Date();
+	// console.log('onTouchStart', event.changedTouches[0]);
+	window.touchY = event.changedTouches[0].clientY;
+	window.touchX = event.changedTouches[0].clientX;
 }
 
-function onTouchMove() {
-	event.preventDefault();
-	// fast response: normal scroll
-	if (window.variables.touchdown && Math.floor(new Date() - window.variables.touchdown) < 1000) {
-		galleryDiv.scrollLeft += 0.5 * (window.variables.touchX - event.touches[0].clientX);
-		return;
+function onTouchEnd() {
+	// Use functions to declare implementation on separate file
+	// console.log('onTouchEnd', event.changedTouches[0]);
+	let delta = 10; // to ensure swiping in 1 of 4 directions
+	let swipeDown = event.changedTouches[0].clientY - window.touchY;
+	let swipeUp = window.touchY - event.changedTouches[0].clientY;
+	let swipeLeft = window.touchX - event.changedTouches[0].clientX;
+	let swipeRight = event.changedTouches[0].clientX - window.touchX;
+	// Note: SWIPE (direction) SCROLL (opposite direction)
+	console.log('up', 'down', 'left', 'right');
+	console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
+	//--SWIPE REGARDLESS OF DIRECTION--//
+	if (typeof onSwipe == 'function')
+		onSwipe(event);
+	//--SWIPE UP--//
+	if (swipeUp > swipeLeft && swipeUp > swipeRight && swipeUp > delta) {
+		if (typeof onSwipeUp == 'function')
+			return onSwipeUp(event);
 	}
-
-	let swipeDown = event.touches[0].clientY - window.variables.touchY;
-	let swipeUp = window.variables.touchY - event.touches[0].clientY;
-	let swipeLeft = window.variables.touchX - event.touches[0].clientX;
-	let swipeRight = event.touches[0].clientX - window.variables.touchX;
-	// console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
-
-	//--SWIPE LEFT IE. FROM RIGHT OF SCREEN--//
-	if (swipeLeft > swipeUp && swipeLeft > swipeDown) {
-		// console.log('swipeLeft');
-		// if(window.variables.selected >= galleryDiv.childElementCount - 1)
-		// window.variables.selected = galleryDiv.childElementCount - 2;
-		// if(window.variables.selected < galleryDiv.childElementCount - 1) {
-		// document.querySelectorAll('.gallery img')[++window.variables.selected].scrollIntoView({
-		// inline: 'center'
-		// });
-		// window.variables.selected++;
-		// }
-		return;
+	//--SWIPE DOWN--//
+	if (swipeDown > swipeLeft && swipeDown > swipeRight && swipeDown > delta) {
+		if (typeof onSwipeDown == 'function')
+			return onSwipeDown(event);
 	}
-	//--SWIPE RIGHT IE. FROM LEFT OF SCREEN--//
-	if (swipeRight > swipeUp && swipeRight > swipeDown) {
-		// console.log('swipeRight');
-		// if(window.variables.selected <= 0)
-		// window.variables.selected = 1;
-		// if(window.variables.selected > 0) {
-		// document.querySelectorAll('.gallery img')[--window.variables.selected].scrollIntoView({
-		// inline: 'center'
-		// });
-		// window.variables.selected--;
-		// }
-		return;
+	//--SWIPE LEFT--//
+	if (swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > delta) {
+		if (typeof onSwipeLeft == 'function')
+			return onSwipeLeft(event);
 	}
-	//--SWIPE DOWN IE. FROM TOP OF SCREEN--//
-	if (swipeDown > swipeLeft && swipeDown > swipeRight) {
-		// console.log('swipeDown');
-		return;
-	}
-	//--SWIPE UP IE. FROM BOTTOM OF SCREEN--//
-	if (swipeUp > swipeLeft && swipeUp > swipeRight) {
-		// console.log('swipeUp');
-		return;
+	//--SWIPE RIGHT--//
+	if (swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > delta) {
+		if (typeof onSwipeRight == 'function')
+			return onSwipeRight(event);
 	}
 }
 
@@ -455,8 +439,8 @@ function renderGallery() {
 
 	setTimeout(scrollToItem, 0);
 	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
-	// galleryDiv.addEventListener('touchstart', onTouchStart);
-	// galleryDiv.addEventListener('touchmove', onTouchMove, false);
+	galleryDiv.addEventListener('touchstart', onTouchStart);
+	galleryDiv.addEventListener('touchend', onTouchEnd);
 	if (window.variables?.display.overview)
 		galleryDiv.addEventListener('contextmenu', function () {
 			galleryDiv.classList.add('overview');
