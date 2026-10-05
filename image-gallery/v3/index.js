@@ -453,8 +453,7 @@ function renderGallery() {
 		galleryDiv.appendChild(footerDiv);
 	}
 
-	// setTimeout(checkComplete, 0);
-	scrollToItem();
+	setTimeout(scrollToItem, 0);
 	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 	// galleryDiv.addEventListener('touchstart', onTouchStart);
 	// galleryDiv.addEventListener('touchmove', onTouchMove, false);
