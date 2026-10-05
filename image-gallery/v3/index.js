@@ -222,6 +222,7 @@ function onTouchEnd() {
 	}
 	//--SWIPE LEFT--//
 	if (swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > delta) {
+		onFooterInView();
 		if (typeof onSwipeLeft == 'function')
 			return onSwipeLeft(event);
 	}
