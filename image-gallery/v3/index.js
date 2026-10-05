@@ -124,6 +124,7 @@ function onWheel() {
 	let scrollDelta = isFirefox ? -event.detail * 50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 	galleryDiv.removeAttribute('data-caption');
+	onFooterInView();
 }
 
 function onMouseDown() {
@@ -245,6 +246,12 @@ function onTouchMove() {
 		// console.log('swipeUp');
 		return;
 	}
+}
+
+function onFooterInView() {
+	let footer = document.querySelector('.gallery .footer');
+	if (footer && footer.offsetLeft + window.innerWidth < galleryDiv.scrollLeft)
+		renderGalleryItems();
 }
 
 function showDetails() {
@@ -439,59 +446,68 @@ function renderGallery() {
 		headerDiv.classList.add('header');
 		galleryDiv.appendChild(headerDiv);
 		// render items
-		for (let [index, value] of window.variables.base.entries()) {
-			if (index < window.variables.render)
-				continue;
-			let itemDiv = document.createElement('img');
-			itemDiv.setAttribute('data-id', index);
-			if (value.link) itemDiv.setAttribute('data-link', value.link);
-			if (value.blur) itemDiv.setAttribute('data-effect', 'blur');
-			itemDiv.src = value.thumbnail || value.filename;
-			itemDiv.title = value.description || '';
-			itemDiv.alt = value.description || '';
-			itemDiv.draggable = false;
-			itemDiv.addEventListener('load', function () {
-				event.target.classList.add('loaded');
-			});
-			itemDiv.addEventListener('click', function () {
-				let inOverview = galleryDiv.classList.contains('overview');
-				galleryDiv.classList.remove('overview');
-				settingsDiv.classList.remove('hidden');
-				if (window.variables.selected == parseInt(this.getAttribute('data-id'))) {
-					window.variables.selected = 0;
-				}
-				if (window.variables.selected != parseInt(this.getAttribute('data-id'))) {
-					scrollToItem(parseInt(this.getAttribute('data-id')));
-				}
-				else if (!inOverview && this.hasAttribute('data-link')) {
-					window.open(this.getAttribute('data-link'), '_blank');
-				}
-			});
-			itemDiv.addEventListener('dblclick', function () {
-				if (this.hasAttribute('data-effect') && this.getAttribute('data-effect') == 'blur')
-					this.classList.removeAttribute('data-effect');
-			});
-			itemDiv.addEventListener('contextmenu', function () {
-				event.preventDefault();
-			}, false);
-			galleryDiv.appendChild(itemDiv);
-		}
+		renderGalleryItems();
 		// render footer padding
 		let footerDiv = document.createElement('div');
 		footerDiv.classList.add('footer');
 		galleryDiv.appendChild(footerDiv);
 	}
 
-	setTimeout(checkComplete, 0);
+	// setTimeout(checkComplete, 0);
 	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 	// galleryDiv.addEventListener('touchstart', onTouchStart);
 	// galleryDiv.addEventListener('touchmove', onTouchMove, false);
 	if (window.variables?.display.overview)
 		galleryDiv.addEventListener('contextmenu', function () {
 			galleryDiv.classList.add('overview');
+			onFooterInView();
 			if (window.variables.selected)
 				document.querySelectorAll('.gallery img')[parseInt(window.variables.selected)].scrollIntoView({ inline: 'center' });
 		});
+}
+
+function renderGalleryItems() {
+	let limit = 5;
+	for (let [index, value] of window.variables.base.entries()) {
+		if (index < window.variables.render)
+			continue;
+		if (!--limit)
+			return console.log('load till index', index);
+		let itemDiv = document.createElement('img');
+		itemDiv.setAttribute('data-id', index);
+		if (value.link) itemDiv.setAttribute('data-link', value.link);
+		if (value.blur) itemDiv.setAttribute('data-effect', 'blur');
+		itemDiv.src = value.thumbnail || value.filename;
+		itemDiv.title = value.description || '';
+		itemDiv.alt = value.description || '';
+		itemDiv.draggable = false;
+		itemDiv.addEventListener('load', function () {
+			event.target.classList.add('loaded');
+		});
+		itemDiv.addEventListener('click', function () {
+			let inOverview = galleryDiv.classList.contains('overview');
+			galleryDiv.classList.remove('overview');
+			settingsDiv.classList.remove('hidden');
+			if (window.variables.selected == parseInt(this.getAttribute('data-id'))) {
+				window.variables.selected = 0;
+			}
+			if (window.variables.selected != parseInt(this.getAttribute('data-id'))) {
+				scrollToItem(parseInt(this.getAttribute('data-id')));
+			}
+			else if (!inOverview && this.hasAttribute('data-link')) {
+				window.open(this.getAttribute('data-link'), '_blank');
+			}
+		});
+		itemDiv.addEventListener('dblclick', function () {
+			if (this.hasAttribute('data-effect') && this.getAttribute('data-effect') == 'blur')
+				this.classList.removeAttribute('data-effect');
+		});
+		itemDiv.addEventListener('contextmenu', function () {
+			event.preventDefault();
+		}, false);
+		galleryDiv.appendChild(itemDiv);
+		window.variables.render = index;
+	}
 }
 
 function checkComplete() {
