@@ -600,7 +600,7 @@ function startup() {
 
 function startLoad(content) {
 	window.variables = content;
-	window.variables.render = 0;
+	window.variables.render = -1;
 	document.title = window.variables?.title;
 	titleDiv.innerText = window.variables?.title;
 	subtitleDiv.innerText = window.variables?.subtitle;
