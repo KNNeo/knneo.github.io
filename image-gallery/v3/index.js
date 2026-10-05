@@ -564,11 +564,11 @@ function createSource() {
 			});
 			// init all images complete
 			if (i >= list.length) {
-				saveLoad();
 				hideFilters();
 				window.variables.items = window.variables.items
 					.sort(function (a, b) { return a.tags.localeCompare(b.tags) })
 					.map(function (item, index) { return { ...item, order: 1 + index } });
+				saveLoad();
 				startLoad(content);
 			}
 		};
