@@ -562,7 +562,9 @@ function createSource() {
 				"filename": event.target.result,
 				"tags": window.variables.custom?.showTagsAsFilename ? name.substring(0, name.lastIndexOf('.')) : undefined,
 			});
+			// init all images complete
 			if (i >= list.length) {
+				saveLoad();
 				hideFilters();
 				window.variables.items = window.variables.items
 					.sort(function (a, b) { return a.tags.localeCompare(b.tags) })
@@ -585,6 +587,8 @@ function startup() {
 
 function startLoad(content) {
 	window.variables = content;
+	if (window.variables.custom && localStorage.getItem('image_gallery_v3'))
+		window.variables.items = JSON.parse(localStorage.getItem('image_gallery_v3'));
 	window.variables.render = -1;
 	document.title = window.variables?.title;
 	titleDiv.innerText = window.variables?.title;
@@ -602,6 +606,11 @@ function startLoad(content) {
 	setBase();
 	renderDisplay();
 	renderGallery();
+}
+
+function saveLoad(content) {
+	if(window.variables.items?.length)
+		localStorage.getItem('image_gallery_v3', JSON.stringify(window.variables.items));
 }
 
 function setBase(baseData) {

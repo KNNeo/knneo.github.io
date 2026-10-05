@@ -16,11 +16,6 @@
         "portrait": "縦向き",
         "landscape": "横向き"
     },
-    "custom": {
-        "showTagsAsFilename": true,
-        "maxFileSizeBytes": 9999999,
-        "maxFileAmount": 100
-    },
     "items": [
         {
             "tags": "高橋李依",

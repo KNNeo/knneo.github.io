@@ -1,0 +1,25 @@
+{
+    "title": "Image Gallery",
+    "display": {
+        "subtitle": false,
+        "slideshow": false,
+        "notice": true,
+        "overview": true
+    },
+    "notice": "Load your own files and view it as a gallery",
+    "autoscroll": {
+        "direction": "next",
+        "delta": 1,
+        "timeout": 3000
+    },
+    "orientation": {
+        "portrait": "縦向き",
+        "landscape": "横向き"
+    },
+    "custom": {
+        "showTagsAsFilename": false,
+        "maxFileSizeBytes": 999999,
+        "maxFileAmount": 200
+    },
+    "items": []
+}
