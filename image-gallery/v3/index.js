@@ -124,7 +124,7 @@ function onWheel() {
 	let scrollDelta = isFirefox ? -event.detail * 50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 	galleryDiv.removeAttribute('data-caption');
-	onFooterInView();
+	if (scrollDelta < 0) onFooterInView();
 }
 
 function onMouseDown() {
@@ -469,7 +469,7 @@ function renderGallery() {
 function renderGalleryItems() {
 	let limit = 5;
 	for (let [index, value] of window.variables.base.entries()) {
-		if (index < window.variables.render)
+		if (index <= window.variables.render)
 			continue;
 		if (!--limit)
 			return console.log('load till index', index);
@@ -505,7 +505,7 @@ function renderGalleryItems() {
 		itemDiv.addEventListener('contextmenu', function () {
 			event.preventDefault();
 		}, false);
-		galleryDiv.appendChild(itemDiv);
+		galleryDiv.insertBefore(itemDiv, galleryDiv.querySelector('.footer'));
 		window.variables.render = index;
 	}
 }
