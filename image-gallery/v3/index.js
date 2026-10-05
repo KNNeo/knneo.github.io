@@ -235,7 +235,7 @@ function onTouchEnd() {
 
 function onFooterInView() {
 	let footer = document.querySelector('.gallery .footer');
-	if (footer && footer.offsetLeft < galleryDiv.scrollLeft + (0.5*window.innerWidth))
+	if (footer && footer.offsetLeft < galleryDiv.scrollLeft + (0.75*window.innerWidth))
 		renderGalleryItems();
 }
 
