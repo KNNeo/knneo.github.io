@@ -19,7 +19,7 @@
     },
     "custom": {
         "showTagsAsFilename": true,
-        "maxFileSizeBytes": 999999,
+        "maxFileSizeBytes": 5000000,
         "maxFileAmount": 200
     },
     "items": []
