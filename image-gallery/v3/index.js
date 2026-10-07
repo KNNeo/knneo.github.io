@@ -27,6 +27,7 @@ function scrollToItem(itemNo) {
 		window.variables.selected = selectItem;
 		if (window.variables.prompter && allItems[selectItem][window.variables.prompter])
 			galleryDiv.setAttribute('data-caption', allItems[selectItem][window.variables.prompter]);
+		onFooterInView();
 	}
 }
 
