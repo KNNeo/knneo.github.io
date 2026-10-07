@@ -18,7 +18,7 @@
         "landscape": "横向き"
     },
     "custom": {
-        "showTagsAsFilename": false,
+        "showTagsAsFilename": true,
         "maxFileSizeBytes": 999999,
         "maxFileAmount": 200
     },
