@@ -19,9 +19,11 @@ function scrollToItem(itemNo) {
 	let allItems = document.querySelectorAll('.gallery img');
 	for (let item of allItems)
 		item.classList.remove('selected');
+	// first item dependent on direction
 	let selectItem = itemNo || 0;
+	// console.log('scroll to', selectItem);
 	if (allItems.length) {
-		allItems[selectItem].scrollIntoView({
+		document.querySelector('.gallery img[data-id="' + selectItem + '"]')?.scrollIntoView({
 			inline: 'center', behavior: 'smooth'
 		});
 		window.variables.selected = selectItem;
@@ -125,7 +127,8 @@ function onWheel() {
 	let scrollDelta = isFirefox ? -event.detail * 50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 	galleryDiv.removeAttribute('data-caption');
-	if (scrollDelta < 0) onFooterInView();
+	if ((scrollDelta > 0 && window.variables?.direction == 'rtl') || scrollDelta < 0 && window.variables?.direction == 'ltr')
+		onFooterInView();
 }
 
 function onMouseDown() {
@@ -236,8 +239,19 @@ function onTouchEnd() {
 
 function onFooterInView() {
 	let footer = document.querySelector('.gallery .footer');
-	if (footer && footer.offsetLeft < galleryDiv.scrollLeft + (0.75 * window.innerWidth))
-		renderGalleryItems();
+	if (window.variables?.direction == 'rtl') {
+		if (footer && footer.getBoundingClientRect().left > -0.2 * window.innerWidth && footer.getBoundingClientRect().left < 0.2 * window.innerWidth) {
+			renderGalleryItems();
+			// layout shift due to render to left of last image, will have flickering
+			setTimeout(function () {
+				scrollToItem(window.variables.render - 5);
+			}, 0);
+		}
+	}
+	else {
+		if (footer && footer.offsetLeft < galleryDiv.scrollLeft + (0.75 * window.innerWidth))
+			renderGalleryItems();
+	}
 }
 
 function showDetails() {
@@ -436,7 +450,10 @@ function renderGallery() {
 		// render footer padding
 		let footerDiv = document.createElement('div');
 		footerDiv.classList.add('footer');
-		galleryDiv.appendChild(footerDiv);
+		if (window.variables?.direction == 'rtl')
+			galleryDiv.insertBefore(footerDiv, galleryDiv.firstElementChild);
+		else
+			galleryDiv.appendChild(footerDiv);
 	}
 
 	setTimeout(scrollToItem, 0);
@@ -491,7 +508,10 @@ function renderGalleryItems() {
 		itemDiv.addEventListener('contextmenu', function () {
 			event.preventDefault();
 		}, false);
-		galleryDiv.insertBefore(itemDiv, galleryDiv.querySelector('.footer'));
+		if (window.variables?.direction == 'rtl')
+			galleryDiv.insertBefore(itemDiv, galleryDiv.querySelector('img') || galleryDiv.firstElementChild);
+		else
+			galleryDiv.insertBefore(itemDiv, galleryDiv.querySelector('.footer'));
 		window.variables.render = index;
 	}
 }
@@ -594,7 +614,7 @@ function startup() {
 
 function startLoad(content) {
 	window.variables = content;
-	if (window.variables.custom && localStorage.getItem('image_gallery_v3'))
+	if (window.variables?.custom && localStorage.getItem('image_gallery_v3'))
 		window.variables.items = JSON.parse(localStorage.getItem('image_gallery_v3'));
 	window.variables.render = -1;
 	document.title = window.variables?.title;
