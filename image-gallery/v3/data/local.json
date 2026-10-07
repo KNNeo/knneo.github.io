@@ -22,5 +22,6 @@
         "maxFileSizeBytes": 5000000,
         "maxFileAmount": 200
     },
+    "direction": "rtl",
     "items": []
 }
