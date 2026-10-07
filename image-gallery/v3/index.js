@@ -235,7 +235,7 @@ function onTouchEnd() {
 
 function onFooterInView() {
 	let footer = document.querySelector('.gallery .footer');
-	if (footer && footer.offsetLeft < galleryDiv.scrollLeft + (0.75*window.innerWidth))
+	if (footer && footer.offsetLeft < galleryDiv.scrollLeft + (0.75 * window.innerWidth))
 		renderGalleryItems();
 }
 
@@ -542,33 +542,39 @@ function createSource() {
 	// console.log('onSelectFiles', list);
 
 	// checks for limits
-	if (Array.from(list).find(f => window.variables.custom?.maxFileSizeBytes && f.size > window.variables.custom.maxFileSizeBytes))
-		alert('Some files selected too large: Slow loading times expected');
-	if (window.variables.custom?.maxFileAmount && list.length > window.variables.custom?.maxFileAmount)
+	window.variables.size = Array.from(list).reduce((total, current) => total + current.size, 0);
+	// localStorage assume is UTF-16 encoding
+	if (window.variables.size * 2 > window.variables.custom?.maxFileSizeBytes) {
+		console.warn('size', window.variables.size * 2, 'maxFileSizeBytes', window.variables.custom?.maxFileSizeBytes);
+		alert('Total files in gallery too large: Gallery will be unable to save');
+	}
+	if (window.variables.custom?.maxFileAmount && list.length > window.variables.custom?.maxFileAmount) {
+		console.warn('files', list.length, 'maxFileAmount', window.variables.custom?.maxFileAmount);
 		alert('File count selected too large: Slow loading times expected');
-
+	}
 	// reset variables
 	let content = window.variables;
 	window.variables.items = [];
-
 	// load as blob and render
 	for (i = 0; i < list.length; i++) {
 		let name = list[i].name;
+		let filename = window.variables.custom?.showTagsAsFilename ? name.substring(0, name.lastIndexOf('.')) : undefined;
 		let reader = new FileReader();
 		reader.readAsDataURL(list[i]);
 		reader.onload = function (event) {
 			window.variables.items.push({
 				"order": i,
 				"filename": event.target.result,
-				"tags": window.variables.custom?.showTagsAsFilename ? name.substring(0, name.lastIndexOf('.')) : undefined,
+				"description": filename,
+				"tags": filename
 			});
 			// init all images complete
 			if (i >= list.length) {
 				hideFilters();
 				window.variables.items = window.variables.items
-					.sort(function (a, b) { return a.tags.localeCompare(b.tags) })
-					.map(function (item, index) { return { ...item, order: 1 + index } });
-				saveLoad(list);
+					.sort(function (a, b) { return (a.tags || '').localeCompare(b.tags || '') })
+					.map(function (item, index) { return { order: 1 + index, ...item } });
+				saveLoad();
 				startLoad(content);
 			}
 		};
@@ -608,9 +614,9 @@ function startLoad(content) {
 	renderGallery();
 }
 
-function saveLoad(content) {
-	if(window.variables.items?.length)
-		localStorage.getItem('image_gallery_v3', JSON.stringify(window.variables.items));
+function saveLoad() {
+	if (window.variables.items?.length && window.variables.size <= window.variables.custom?.maxFileSizeBytes)
+		localStorage.setItem('image_gallery_v3', JSON.stringify(window.variables.items));
 }
 
 function setBase(baseData) {
