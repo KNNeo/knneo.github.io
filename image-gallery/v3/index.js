@@ -436,7 +436,7 @@ function renderGallery() {
 	galleryDiv.innerHTML = '';
 	galleryDiv.removeAttribute('prompt');
 	if (window.variables?.base < 1) {
-		galleryDiv.innerHTML = '<p>No items found' + (window.variables.custom ? '; Use filters on top right to add from local' : '') + '</p>';
+		galleryDiv.innerHTML = '<p style="margin:auto;">No items found' + (window.variables.custom ? '; Use filters on top right to add from local' : '') + '</p>';
 		return;
 	}
 	// render all items
@@ -470,7 +470,7 @@ function renderGallery() {
 }
 
 function renderGalleryItems() {
-	let limit = 5;
+	let limit = window.variables.custom ? window.variables.custom?.maxFileAmount : 5;
 	for (let [index, value] of window.variables.base.entries()) {
 		if (index <= window.variables.render)
 			continue;
@@ -600,6 +600,11 @@ function createSource() {
 			}
 		};
 	}
+}
+
+function clearCreateSource() {
+	localStorage.removeItem('image_gallery_v3');
+	window.location.reload();
 }
 
 //--INITIAL--//
