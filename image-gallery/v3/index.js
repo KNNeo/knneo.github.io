@@ -436,7 +436,7 @@ function renderGallery() {
 	galleryDiv.innerHTML = '';
 	galleryDiv.removeAttribute('prompt');
 	if (window.variables?.base < 1) {
-		galleryDiv.innerHTML = '<p>No items found</p>';
+		galleryDiv.innerHTML = '<p>No items found' + (window.variables.custom ? '; Use filters on top right to add from local' : '') + '</p>';
 		return;
 	}
 	// render all items
