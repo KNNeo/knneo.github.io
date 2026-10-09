@@ -243,9 +243,9 @@ function onFooterInView() {
 		if (footer && footer.getBoundingClientRect().left > -0.2 * window.innerWidth && footer.getBoundingClientRect().left < 0.2 * window.innerWidth) {
 			renderGalleryItems();
 			// layout shift due to render to left of last image, will have flickering
-			setTimeout(function () {
-				scrollToItem(window.variables.render - 5);
-			}, 0);
+			// setTimeout(function () {
+			// 	scrollToItem(window.variables.render - 5);
+			// }, 0);
 		}
 	}
 	else {
@@ -470,6 +470,8 @@ function renderGallery() {
 }
 
 function renderGalleryItems() {
+	if (window.variables.render >= window.variables.base.length - 1)
+		return console.log('end reached');
 	let limit = window.variables.custom ? window.variables.custom?.maxFileAmount : 5;
 	for (let [index, value] of window.variables.base.entries()) {
 		if (index <= window.variables.render)
