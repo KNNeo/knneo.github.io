@@ -640,9 +640,9 @@ function startLoad(content) {
 	if (window.variables?.custom && localStorage.getItem('image_gallery_v3'))
 		window.variables.items = JSON.parse(localStorage.getItem('image_gallery_v3'));
 	window.variables.render = -1;
-	document.title = window.variables?.title;
-	titleDiv.innerText = window.variables?.title;
-	subtitleDiv.innerText = window.variables?.subtitle;
+	document.title = window.variables?.title || 'Image Gallery';
+	titleDiv.innerText = window.variables?.title || '';
+	subtitleDiv.innerText = window.variables?.subtitle || '';
 	if (window.variables?.display.subtitle) {
 		subtitleDiv.classList.remove('hidden');
 		if (subtitleDiv.innerText.startsWith('http')) {
@@ -650,7 +650,9 @@ function startLoad(content) {
 			subtitleDiv.setAttribute('onclick', "window.open(this.innerText, '_blank').focus()");
 		}
 	}
-	noticeDiv.innerText = window.variables?.notice;
+	noticeDiv.innerText = window.variables?.notice || '';
+	if(!noticeDiv.innerText)
+		noticeDiv.classList.add('hidden');
 	localStorage.setItem('image_gallery_data_id', document.getElementById('data-id').src);
 
 	setBase();

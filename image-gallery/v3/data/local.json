@@ -1,13 +1,11 @@
 {
-    "title": "Image Gallery",
     "display": {
         "subtitle": false,
         "slideshow": false,
-        "notice": true,
+        "notice": false,
         "overview": true,
         "custom": true
     },
-    "notice": "Load your own files and view it as a gallery",
     "autoscroll": {
         "direction": "next",
         "delta": 1,
