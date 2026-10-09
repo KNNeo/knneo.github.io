@@ -237,6 +237,21 @@ function onTouchEnd() {
 	}
 }
 
+function renameTitle() {
+	let newTitle = prompt('Enter new title', window.variables.title);
+	if (newTitle && newTitle != window.variables.title) {
+		window.variables.title = newTitle;
+		titleDiv.innerText = window.variables.title;
+	}
+	if (window.variables.display?.notice) {
+		let newDescription = prompt('Enter new title', window.variables.notice);
+		if (newDescription && newDescription != window.variables.notice) {
+			window.variables.notice = newDescription;
+			detailsDiv.querySelector('.info').innerText = window.variables.notice;
+		}
+	}
+}
+
 function onFooterInView() {
 	let footer = document.querySelector('.gallery .footer');
 	if (window.variables?.direction == 'rtl') {
