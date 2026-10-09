@@ -595,6 +595,7 @@ function createSource() {
 				window.variables.items = window.variables.items
 					.sort(function (a, b) { return (a.tags || '').localeCompare(b.tags || '') })
 					.map(function (item, index) { return { order: 1 + index, ...item } });
+				generateOrientationValues();
 				saveLoad();
 				startLoad(content);
 			}

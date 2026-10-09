@@ -14,8 +14,8 @@
         "timeout": 3000
     },
     "orientation": {
-        "portrait": "縦向き",
-        "landscape": "横向き"
+        "portrait": "Portrait",
+        "landscape": "Landscape"
     },
     "custom": {
         "showTagsAsFilename": true,
