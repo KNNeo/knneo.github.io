@@ -480,7 +480,7 @@ function renderGallery() {
 			galleryDiv.classList.add('overview');
 			onFooterInView();
 			if (window.variables.selected)
-				document.querySelectorAll('.gallery img')[parseInt(window.variables.selected)].scrollIntoView({ inline: 'center' });
+				scrollToItem(window.variables.selected);
 		});
 }
 
