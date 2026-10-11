@@ -177,11 +177,9 @@ function generateSidebar() {
 
 	document.title = window.data.title ? window.data.title + ' - Image Collage' : 'Image Collage';
 
-	if (window.data.title && window.data.title.length > 0)
-		titleElem.innerText = window.data.title;
+	titleElem.innerText = window.data.title || '';
 
-	if (window.data.description && window.data.description.length > 0)
-		descriptionElem.innerHTML = window.data.description.startsWith('http') ? '<a href="' + window.data.description + '" target="_blank">' + window.data.description.substring(window.data.description.indexOf('://') + 3) + '</a>' : window.data.description;
+	descriptionElem.innerHTML = window.data.description.startsWith('http') ? '<a href="' + window.data.description + '" target="_blank">' + window.data.description.substring(window.data.description.indexOf('://') + 3) + '</a>' : window.data.description || '';
 
 	if (typeof window.data.setting.filter == 'boolean' && window.data.setting.filter) {
 		includeElem.classList.add('filter');
