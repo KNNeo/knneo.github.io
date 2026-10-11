@@ -127,7 +127,7 @@ function onWheel() {
 	let scrollDelta = isFirefox ? -event.detail * 50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 	galleryDiv.removeAttribute('data-caption');
-	if ((scrollDelta > 0 && window.variables?.direction == 'rtl') || scrollDelta < 0 && window.variables?.direction == 'ltr')
+	if ((scrollDelta > 0 && window.variables?.direction == 'rtl') || (scrollDelta < 0 && window.variables?.direction == 'ltr'))
 		onFooterInView();
 }
 
@@ -471,7 +471,7 @@ function renderGallery() {
 			galleryDiv.appendChild(footerDiv);
 	}
 
-	setTimeout(scrollToItem, 0);
+	setTimeout(scrollToItem, 50);
 	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 	galleryDiv.addEventListener('touchstart', onTouchStart);
 	galleryDiv.addEventListener('touchend', onTouchEnd);
@@ -637,6 +637,8 @@ function startup() {
 
 function startLoad(content) {
 	window.variables = content;
+	if (!window.variables?.direction)
+		window.variables.direction = 'ltr';
 	if (window.variables?.custom && localStorage.getItem('image_gallery_v3'))
 		window.variables.items = JSON.parse(localStorage.getItem('image_gallery_v3'));
 	window.variables.render = -1;
@@ -651,7 +653,7 @@ function startLoad(content) {
 		}
 	}
 	noticeDiv.innerText = window.variables?.notice || '';
-	if(!noticeDiv.innerText)
+	if (!noticeDiv.innerText)
 		noticeDiv.classList.add('hidden');
 	localStorage.setItem('image_gallery_data_id', document.getElementById('data-id').src);
 
