@@ -632,7 +632,7 @@ function startup() {
 	else if (document.getElementById('data-id').textContent)
 		startLoad(JSON.parse(document.getElementById('data-id').textContent));
 	else
-		changeDataFile(localStorage.getItem('image_gallery_data_id') || '');
+		changeDataFile(localStorage.getItem('image_gallery_data_id') || 'local');
 }
 
 function startLoad(content) {
