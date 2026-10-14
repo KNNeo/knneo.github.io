@@ -79,7 +79,10 @@ a:hover {
 
 .thumbnail {
     cursor: pointer;
-    height: 90px;
+}
+
+.yt-video {
+    border: 0;
 }
 
 .material-icons {
@@ -100,6 +103,13 @@ a:hover {
     touch-action: manipulation;
 }
 
+.box:has(.thumbnail:not(.hidden))[data-status=missing]::before {
+    position: absolute;
+    content: "⚙️";
+    right: 0;
+    top: 0;
+}
+
 .mapping {
     display: none;
     position: absolute;
@@ -114,20 +124,23 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    flex-direction: row;
+    align-content: center;
+    width: 100%;
+    border-bottom: 1px solid var(--foreground);
 }
 
 .overlay .mapping label {
-    flex: 0 0 50%;
+    flex: 0 0 100%;
 }
 
 .overlay .mapping input {
-    font-size: 1.5em;
+    font-size: 1em;
     width: 90%;
 }
 
 .overlay .mapping button {
     margin: auto;
+    font-size: 1em;
 }
 
 .tile {
@@ -184,13 +197,6 @@ a:hover {
 .settings a {
     color: var(--foreground);
     text-decoration: none;
-}
-
-.box[data-status=missing]::before {
-    position: absolute;
-    content: "⚙️";
-    right: 0;
-    top: 0;
 }
 
 @media only screen and (max-width : 1040px) {

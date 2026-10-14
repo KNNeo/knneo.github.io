@@ -3,7 +3,8 @@ const config = {
 	version: '20250429',
 	title: 'Video Playlist',
 	playlist: {
-		id: 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB'
+		id: 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB',
+		thumbnail: 'medium' //default|highres|maximum|medium|standard
     },
 	api: {
 		url: 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50'
@@ -38,12 +39,12 @@ const config = {
 		sort: 'Sort by Date Added',
 		random: 'Play Random Video',
 		playback: {
-			video: 'Playing Video Only',
-			playlist: 'Playing Video with Playlist'
+			video: 'Link PLays Video Only',
+			playlist: 'Link Plays Video with Playlist'
 		},
 		mapping: {
-			show: 'Showing Mapping Data (Double-click to Edit)',
-			hide: 'Showing Original Title & Channel'
+			show: 'Showing Mapping Metadata (Double-click to Edit)',
+			hide: 'Showing Original Metadata'
 		}
 	},
     icon: {
@@ -248,7 +249,7 @@ function onLoadJson(response) {
 					video: {
 						id: res.snippet.resourceId.videoId,
 						title: res.snippet.title,
-						thumbnail: res.snippet.thumbnails.default.url,
+						thumbnail: res.snippet.thumbnails[config.playlist.thumbnail].url,
 						date: res.snippet.publishedAt,
 						url: 'https://www.youtube.com/watch?v='
 						+ res.snippet.resourceId.videoId,
@@ -389,7 +390,7 @@ function renderList() {
 
             let songLabel = document.createElement('label');
             songLabel.classList.add('song');
-            songLabel.textContent = "Song Title";
+            // songLabel.textContent = "Song Title";
             let songInput = document.createElement('input');
             songInput.value = v.mapping?.song || v.video.title;
             songInput.addEventListener('input', function() {
@@ -417,7 +418,7 @@ function renderList() {
 
             let artistLabel = document.createElement('label');
             artistLabel.classList.add('artist');
-            artistLabel.textContent = "Artist Title";
+            // artistLabel.textContent = "Artist Title";
             let artistInput = document.createElement('input');
             artistInput.value = v.mapping?.artist || v.channel.title;
             artistInput.addEventListener('input', function() {
@@ -431,7 +432,7 @@ function renderList() {
 
 
             let closeMapping = document.createElement('button');
-            closeMapping.innerText = 'Close';
+            closeMapping.innerText = 'Save';
             closeMapping.addEventListener('click', function() {
                 event.stopPropagation();
                 video.classList.remove('overlay');
