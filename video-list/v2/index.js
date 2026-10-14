@@ -555,9 +555,9 @@ function importMappingData() {
 		let reader = new FileReader();
 		reader.readAsText(file);
 		reader.onload = function (event) {
-			if(!config.list.temp) config.list.temp = [];
+			config.list.temp = [];
 			let header = ['video.id','video.date','video.title','channel.title','video.thumbnail','video.url','mapping.song','mapping.artist'];
-			let output = event.target.result.replace(header, '');
+			let output = event.target.result.replace(header, '').split('\n');
 			for(let o of output) {
 				let sections = o.split(',');
 				let entry = {};
