@@ -571,7 +571,7 @@ function importMappingData() {
 					if(!val) continue;
 					let idx = sections.indexOf(s);
 					let key = header[idx].split('.');
-					entry[key[0]][key[1]] = s;
+					entry[key[0]][key[1]] = val;
 				}
 				config.list.temp.push(entry);
 			}
