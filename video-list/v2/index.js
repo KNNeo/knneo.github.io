@@ -454,7 +454,10 @@ function renderList() {
 					frame.allow = "encrypted-media; fullscreen";
 					frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
 					let parentElem = event.target.closest('.player');
-					parentElem.replaceChild(event.target, frame);
+					if(parentElem) {
+						parentElem.appendChild(frame);
+						parentElem.querySelector('.thumbnail').classList.add('hidden');
+					}
 				});
 				playerDiv.appendChild(thumbnail);
 				
