@@ -453,7 +453,8 @@ function renderList() {
 					frame.classList.add('yt-video');
 					frame.allow = "encrypted-media; fullscreen";
 					frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
-					event.target.closest('.player').replaceChild(event.target, frame);
+					let parentElem = event.target.closest('.player');
+					parentElem.replaceChild(event.target, frame);
 				});
 				playerDiv.appendChild(thumbnail);
 				
