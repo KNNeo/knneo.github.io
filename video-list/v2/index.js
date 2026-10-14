@@ -216,7 +216,7 @@ function onLoadJson(response) {
 				//prevent confirm check
 				config.refresh = true;
 				//archive old info for ref use
-				config.list.archive = JSON.parse(localStorage.getItem(config.storage.list)) || [];
+				config.list.archive = load();
 				//set tag, load response, get next response via token
 				if(!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
@@ -231,7 +231,7 @@ function onLoadJson(response) {
 			else 
 			{
 				console.log('no change to playlist: load from storage');
-				config.list.active = JSON.parse(localStorage.getItem(config.storage.list));
+				config.list.active = load();
 				config.list.inactive = JSON.parse(localStorage.getItem(config.storage.deleted));
 				startup();
 			}
@@ -267,8 +267,8 @@ function onLoadJson(response) {
 				return newData;
 			});
 			// console.log('done', config.list.active, config.list.inactive);
-			localStorage.setItem(config.storage.list, JSON.stringify(config.list.active));
-			localStorage.setItem(config.storage.deleted, JSON.stringify(config.list.inactive));
+			localStorage.setItem(config.storage.list + config.playlist.id, JSON.stringify(config.list.active));
+			localStorage.setItem(config.storage.deleted + config.playlist.id, JSON.stringify(config.list.inactive));
 			config.list.archive = [];
 			startup();
 		}
@@ -498,8 +498,12 @@ function fadeIn() {
     }
 }
 
+function load() {
+	return JSON.parse(localStorage.getItem(config.storage.list + config.playlist.id)) || [];
+}
+
 function save() {
-    localStorage.setItem(config.storage.list, 
+    localStorage.setItem(config.storage.list + config.playlist.id, 
         JSON.stringify(config.list.temp.sort(function(a,b) {
             return a.index - b.index;
         })
