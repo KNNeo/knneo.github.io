@@ -444,7 +444,7 @@ function renderList() {
 			thumbnail.setAttribute('data-image', v.video.thumbnail);
 			thumbnail.title = v.video.title;
 			thumbnail.addEventListener('click', function() {
-				let url = v.video.url;
+				let content = v.video.url;
 				// process youtube embed
 				let id = content.substring(content.indexOf('?v=') + 3);
 				let container = document.createElement('div');
