@@ -558,9 +558,13 @@ function importMappingData() {
 			config.list.temp = [];
 			let header = ['video.id','video.date','video.title','channel.title','video.thumbnail','video.url','mapping.song','mapping.artist'];
 			let output = event.target.result.replace(header, '').split('\n');
-			for(let o of output) {
+			for(let o of output.slice(1)) {
 				let sections = o.split(',');
-				let entry = {};
+				let entry = {
+					video: {},
+					channel: {},
+					mapping: {}
+				};
 				for(let s of sections) {
 					// assume string only values
 					let val = s.slice(1, -1);
