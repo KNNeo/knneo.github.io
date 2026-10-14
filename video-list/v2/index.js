@@ -75,7 +75,7 @@ window.addEventListener('scroll', fadeIn);
 
 //--EVENT HANDLERS--//
 function toggleSort() {
-	switch(document.querySelector('.sort')?.innerText || 'default') {
+	switch (document.querySelector('.sort')?.innerText || 'default') {
         case config.icon.sort.asc:
             document.querySelector('.sort').innerText = config.icon.sort.desc;
             break;
@@ -93,7 +93,7 @@ function toggleSort() {
 
 function sortList(a, b) {
     let val = document.querySelector('.sort')?.innerText || 'default';
-	switch(val) {
+	switch (val) {
         case config.icon.sort.asc:
             return a.video.date.localeCompare(b.video.date);
         case config.icon.sort.desc:
@@ -105,7 +105,7 @@ function sortList(a, b) {
 }
 
 function toggleSearch(event) {	
-	switch(event.target.innerText) {
+	switch (event.target.innerText) {
 		case 'search':
 			let input = prompt(config.locale.search.prompt);
 			if (input != null) {
@@ -126,7 +126,7 @@ function toggleSearch(event) {
 }
 
 function toggleWithPlaylist(event) {
-	switch(event.target.innerText) {
+	switch (event.target.innerText) {
 		case 'queue_music':
 			event.target.innerText = 'music_note';
 			event.target.title = config.locale.playback.video;
@@ -144,7 +144,7 @@ function toggleWithPlaylist(event) {
 }
 
 function toggleShowMapping(event) {
-	switch(event.target.innerText) {
+	switch (event.target.innerText) {
 		case 'hdr_strong':
 			event.target.innerText = 'nat';
 			event.target.title = config.locale.mapping.show;
@@ -167,7 +167,7 @@ function randomVideo() {
 }
 
 function videoOnKeyUp() {
-    switch(event.key) {
+    switch (event.key) {
         case 'e':
             event.preventDefault();
             event.target.classList.add('overlay');
@@ -185,8 +185,7 @@ function openRequest() {
 
 function checkVer(override) {
 	//for any changes to local storage, can wipe remotely if number not tally
-	if(override || localStorage.getItem(config.storage.version) != config.version)
-	{
+	if (override || localStorage.getItem(config.storage.version) != config.version) {
 		localStorage.removeItem(config.storage.deleted);
 		localStorage.removeItem(config.storage.search);
 		localStorage.removeItem(config.storage.playback);
@@ -202,24 +201,21 @@ function isPlaylistUpdated(newTag) {
 }
 
 function onLoadJson(response) {
-	if(response != null) 
-	{
+	if (response != null) {
 		// console.log('response available', response);
 		//process the rest
 		let items = response.items.filter(l => l.snippet.thumbnails.default != null);
-		if(response.nextPageToken)
-		{
+		if (response.nextPageToken) {
 			// console.log('next token available', response.nextPageToken);
 			//if fetch same tag, then take from storage, skip load response
-			if(isPlaylistUpdated(response.etag))
-			{
+			if (isPlaylistUpdated(response.etag)) {
 				console.log('change detected: get from response');
 				//prevent confirm check
 				config.refresh = true;
 				//archive old info for ref use
 				config.list.archive = load();
 				//set tag, load response, get next response via token
-				if(!config.connected)
+				if (!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
 
 				// console.log(items);
@@ -229,16 +225,14 @@ function onLoadJson(response) {
 				getJson(config.api.url + '&pageToken=' + response.nextPageToken +  
 					'&playlistId=' + playlistId() + '&key=' + apiKey(), onLoadJson);
 			}
-			else 
-			{
+			else {
 				console.log('no change to playlist: load from storage');
 				config.list.active = load();
 				config.list.inactive = JSON.parse(localStorage.getItem(config.storage.deleted));
 				startup();
 			}
 		}
-		else //load last response, start render
-		{
+		else { //load last response, start render
 			// console.log(items);
 			config.list.active = config.list.active.concat(items);
 			config.list.inactive = config.list.inactive.concat(response.items.filter(l => l.snippet.thumbnails.default == null));
@@ -263,7 +257,7 @@ function onLoadJson(response) {
 				};
 				
 				let oldData = config.list.archive.find(x => x.video && x.video.id == res.snippet.resourceId.videoId);
-				if(oldData && oldData.mapping)
+				if (oldData && oldData.mapping)
 					newData.mapping = oldData.mapping;
 				return newData;
 			});
@@ -274,8 +268,7 @@ function onLoadJson(response) {
 			startup();
 		}
 	}
-	else
-	{
+	else {
 		stopLoader();
 		keyA.innerText = 'key_off';
 	}
@@ -292,7 +285,7 @@ function startup() {
 	stopLoader();
 	renderList();
 	window.scrollTo(0,0);
-	if(config.list.inactive.length > 0)
+	if (config.list.inactive.length > 0)
 		console.log(config.list.inactive.length + ' deleted video(s) detected');
 }
 
@@ -325,7 +318,7 @@ function renderMenu() {
 	search.classList.add('material-icons');
 	search.title = config.locale.search.icon;
 	search.innerText = 'search';
-	if(localStorage.getItem(config.storage.search)?.length > 0) {
+	if (localStorage.getItem(config.storage.search)?.length > 0) {
 		search.innerText = 'saved_search';
 		search.style.color = 'var(--foreground)';
 	}
@@ -370,8 +363,7 @@ function renderList() {
 		l.channel.title.toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
 		(l.mapping?.song || '').toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
 		(l.mapping?.artist || '').toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase())
-		).sort(sortList))
-	{
+		).sort(sortList)) {
 		let video = document.createElement('div');
 		video.id = v.video.id;
 		video.classList.add('box');
@@ -395,23 +387,22 @@ function renderList() {
             songInput.value = v.mapping?.song || v.video.title;
             songInput.addEventListener('input', function() {
                 let vid = config.list.temp.find(l => l.video.id == v.video.id);
-                if(!vid.mapping) vid.mapping = {};
+                if (!vid.mapping) vid.mapping = {};
                 vid.mapping.song = this.value;
                 save();
             });
             songInput.addEventListener("paste", (event) => {
                 event.preventDefault();              
                 let textVal = (event.clipboardData || window.clipboardData).getData("text");
-                if(!textVal.includes('\t')) return event.target.value = textVal;
+                if (!textVal.includes('\t')) return event.target.value = textVal;
                 let artsitField = event.target.closest('.box').querySelector('.artist input');
                 let [songVal, artistVal] = textVal.split('\t');
                 event.target.value = songVal;
                 event.target.dispatchEvent(new Event('input'));
-                if(artsitField) {
+                if (artsitField) {
                     artsitField.value = artistVal;
                     artsitField.dispatchEvent(new Event('input'));
                 }
-                
               });
 			songLabel.appendChild(songInput);
 			mapping.appendChild(songLabel);
@@ -423,7 +414,7 @@ function renderList() {
             artistInput.value = v.mapping?.artist || v.channel.title;
             artistInput.addEventListener('input', function() {
                 let vid = config.list.temp.find(l => l.video.id == v.video.id);
-                if(!vid.mapping) vid.mapping = {};
+                if (!vid.mapping) vid.mapping = {};
                 vid.mapping.artist = this.value;
                 save();
             });
@@ -455,7 +446,7 @@ function renderList() {
 					frame.allow = "encrypted-media; fullscreen";
 					frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
 					let parentElem = event.target.closest('.player');
-					if(parentElem) {
+					if (parentElem) {
 						parentElem.appendChild(frame);
 						parentElem.querySelector('.thumbnail').classList.add('hidden');
 					}
@@ -468,7 +459,7 @@ function renderList() {
 			
 				let titleLink = document.createElement('a');
 				titleLink.classList.add('video-link');
-                if(localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.song)
+                if (localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.song)
 				    video.setAttribute('data-status', 'missing');
 				titleLink.href = v.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + playlistId() + '&index=' + (1+v.index) : '');
 				titleLink.innerText = localStorage.getItem(config.storage.mapping) == 'true' ? (v.mapping?.song || v.video.title) : v.video.title;
@@ -476,14 +467,14 @@ function renderList() {
 			
 				title.appendChild(titleLink);
 								
-			video.appendChild(title);	
+			video.appendChild(title);
 			
 			let channel = document.createElement('div');
 
 				let channelLink = document.createElement('a');
 				channelLink.classList.add('channel-link');
 				channelLink.href = v.channel.url;
-                if(localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.artist)
+                if (localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.artist)
 				    video.setAttribute('data-status', 'missing');
 				channelLink.innerText = localStorage.getItem(config.storage.mapping) == 'true' ? (v.mapping?.artist || v.channel.title) : v.channel.title;
 				channelLink.setAttribute('target','_blank');
@@ -532,8 +523,7 @@ function save() {
 
 //--LOADER--//
 function runLoader() {
-	switch(loaderDiv.innerText)
-	{
+	switch (loaderDiv.innerText) {
 		case 'hourglass_full': 
 			loaderDiv.innerText = 'hourglass_empty';
 			break;
@@ -547,7 +537,7 @@ function runLoader() {
 			loaderDiv.innerText = 'hourglass_empty';
 			break;
 	}
-	if(config.loading) setTimeout(runLoader, 500);
+	if (config.loading) setTimeout(runLoader, 500);
 }
 
 function stopLoader() {
@@ -558,7 +548,6 @@ function stopLoader() {
 //--INPUT--//
 function setInput(id) {
 	let input = prompt('Enter ' + id);
-
 	if (input != null) {
 		localStorage.setItem(config.storage[id], input);
 		location.reload();
@@ -567,7 +556,7 @@ function setInput(id) {
 
 function importMappingData() {
 	let file = event.target.files[0];
-	if(file) {
+	if (file) {
 		let reader = new FileReader();
 		reader.readAsText(file);
 		reader.onload = function (event) {
@@ -584,7 +573,7 @@ function importMappingData() {
 				for(let s of sections) {
 					// assume string only values
 					let val = s.slice(1, -1);
-					if(!val) continue;
+					if (!val) continue;
 					let idx = sections.indexOf(s);
 					let key = header[idx].split('.');
 					entry[key[0]][key[1]] = val;
