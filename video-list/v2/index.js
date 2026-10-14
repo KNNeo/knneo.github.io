@@ -280,6 +280,10 @@ function onLoadJson(response) {
 	}
 }
 
+function onImportClick() {
+	document.querySelector('#selector').click();
+}
+
 //--RENDER--//
 function startup() {
 	config.refresh = false;
@@ -545,16 +549,42 @@ function setInput(id) {
 	}
 }
 
+function importMappingData() {
+	let file = event.target.files[0];
+	if(file) {
+		let reader = new FileReader();
+		reader.readAsText(file);
+		reader.onload = function (event) {
+			if(!config.list.temp) config.list.temp = [];
+			let header = ['video.id','video.date','video.title','channel.title','video.thumbnail','video.url','mapping.song','mapping.artist'];
+			let output = event.target.result.replace(header, '');
+			for(let o of output) {
+				let sections = o.split(',');
+				let entry = {};
+				for(let s of sections) {
+					// assume string only values
+					let val = s.slice(1, -1);
+					if(!val) continue;
+					let idx = sections.indexOf(s);
+					let key = header[idx].split('.');
+					entry[key[0]][key[1]] = s;
+				}
+				config.list.temp.push(entry);
+			}
+			save();
+			alert('Import complete, continue to refresh page');
+			location.reload();
+		};
+	}
+}
+
 function exportMappingData() {
 	let textOutput = '"Id","Date Added","Title","Channel","Thumbnail","Url","Song Title","Artist Title"';
-	for(let v of config.list.temp)
-	{
+	//add by line
+	for(let v of config.list.temp) {
 		textOutput += '\n';
-
-		let line = '"' + v.video.id + '","' + v.video.date + '","' + v.video.title + '","' + v.channel.title + '","' + v.video.thumbnail + '","' + v.video.url + '","' + (v.mapping?.song || '') +  '","' + (v.mapping?.artist || '') + '"';
-		textOutput += line;
-	}
-	
+		textOutput += '"' + v.video.id + '","' + v.video.date + '","' + v.video.title + '","' + v.channel.title + '","' + v.video.thumbnail + '","' + v.video.url + '","' + (v.mapping?.song || '') +  '","' + (v.mapping?.artist || '') + '"';
+	}	
 	//create download file
 	let downloadLink = document.createElement('a');
 	downloadLink.href = 'data:text/plain;charset=utf-16,' + encodeURIComponent(textOutput);
@@ -563,6 +593,5 @@ function exportMappingData() {
 	document.body.appendChild(downloadLink);
 	downloadLink.click();
 	document.body.removeChild(downloadLink);
-	
 	console.log('Export done');
 }
