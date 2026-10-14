@@ -445,15 +445,14 @@ function renderList() {
 			thumbnail.title = v.video.title;
 			thumbnail.addEventListener('click', function() {
 				let content = v.video.url;
-				// process youtube embed
 				let id = content.substring(content.indexOf('?v=') + 3);
 				let container = document.createElement('div');
 				let frame = document.createElement('iframe');
 				frame.allow = "encrypted-media; fullscreen";
 				frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
-				if (isShorts) frame.classList.add('yt-shorts');
-				else frame.classList.add('yt-video');
-				video.replaceChild(this, frame);
+				frame.classList.add('yt-video');
+				container.appendChild(frame);
+				video.replaceChild(this, container);
 			});
 			video.appendChild(thumbnail);
 			
