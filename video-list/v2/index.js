@@ -438,23 +438,26 @@ function renderList() {
 				renderList();
             });
             mapping.appendChild(closeMapping);
-		
-			let thumbnail = document.createElement('img');
-			thumbnail.classList.add('thumbnail');
-			thumbnail.setAttribute('data-image', v.video.thumbnail);
-			thumbnail.title = v.video.title;
-			thumbnail.addEventListener('click', function() {
-				let content = v.video.url;
-				let id = content.substring(content.indexOf('?v=') + 3);
-				let container = document.createElement('div');
-				let frame = document.createElement('iframe');
-				frame.allow = "encrypted-media; fullscreen";
-				frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
-				frame.classList.add('yt-video');
-				container.appendChild(frame);
-				video.replaceChild(this, container);
-			});
-			video.appendChild(thumbnail);
+			
+			let playerDiv = document.createElement('div');
+			playerDiv.classList.add('player');
+
+				let thumbnail = document.createElement('img');
+				thumbnail.classList.add('thumbnail');
+				thumbnail.setAttribute('data-image', v.video.thumbnail);
+				thumbnail.title = v.video.title;
+				thumbnail.addEventListener('click', function() {
+					let content = v.video.url;
+					let id = content.substring(content.indexOf('?v=') + 3);
+					let frame = document.createElement('iframe');
+					frame.classList.add('yt-video');
+					frame.allow = "encrypted-media; fullscreen";
+					frame.src = 'https://www.youtube-nocookie.com/embed/' + id + '?enablejsapi=1';
+					event.target.closest('.player').replaceChild(event.target, frame);
+				});
+				playerDiv.appendChild(thumbnail);
+				
+			video.appendChild(playerDiv);
 			
 			let title = document.createElement('div');
 			
