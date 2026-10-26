@@ -83,6 +83,8 @@ a:hover {
 
 .yt-video {
     border: 0;
+    width: 320px;
+    height: 180px;
 }
 
 .material-icons {
