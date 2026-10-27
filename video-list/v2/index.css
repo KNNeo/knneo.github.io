@@ -13,6 +13,7 @@
     --background: #000;
     --foreground: #fff;
     --accent: gray;
+    color-scheme: dark;
 }
 
 html {
@@ -128,7 +129,8 @@ a:hover {
     align-items: center;
     align-content: center;
     width: 100%;
-    border-bottom: 1px solid var(--foreground);
+    border-bottom: 2px solid var(--foreground);
+    border-radius: 8px 8px 0 0;
 }
 
 .overlay .mapping label {
@@ -169,13 +171,12 @@ a:hover {
 }
 
 .shadowed {
-    border: 1px solid var(--foreground);
-    box-shadow: 3px 3px;
+    border: 2px solid var(--foreground);
+    border-radius: 8px;
 }
 
 .shadowed:active {
-    box-shadow: 1px 1px;
-    transform: translate(2px, 2px);
+    scale: 97%;
 }
 
 .unshadowed {
