@@ -23,8 +23,11 @@ html {
     color: var(--foreground);
 }
 
+body {
+    margin: 0;
+}
+
 body>* {
-    max-width: 480px;
     margin: auto;
     text-align: center;
     overflow-x: hidden;
@@ -46,6 +49,11 @@ a:hover {
     text-decoration: none;
 }
 
+.material-icons {
+    cursor: pointer;
+    padding: 10px;
+}
+
 .menu {
     margin: auto;
     position: fixed;
@@ -54,6 +62,8 @@ a:hover {
     right: 0;
     z-index: 2;
     background-color: var(--background);
+    height: 6em;
+    overflow-y: hidden;
 }
 
 .settings {
@@ -64,6 +74,8 @@ a:hover {
     right: 0;
     z-index: 2;
     background-color: var(--background);
+    height: 6em;
+    overflow-y: hidden;
 }
 
 .settings h3 {
@@ -75,7 +87,44 @@ a:hover {
 }
 
 .list {
-    padding: 95px 1em 110px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 6em 0;
+}
+
+.box {
+    width: 100%;
+    max-width: var(--width, 420px);
+    position: relative;
+    margin: 4px;
+    padding: 4px;
+    vertical-align: top;
+    scroll-snap-align: center;
+    white-space: normal;
+    touch-action: manipulation;
+}
+
+.box:has(.thumbnail:not(.hidden))[data-status=missing]::before {
+    position: absolute;
+    content: "⚙️";
+    right: 0;
+    top: 0;
+}
+
+.title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+}
+
+.title:hover {
+    white-space: normal;
+}
+
+.box:has(.title:hover) .channel a {
+    display: none;
 }
 
 .thumbnail {
@@ -88,29 +137,8 @@ a:hover {
     height: 180px;
 }
 
-.material-icons {
-    cursor: pointer;
-    padding: 10px;
-}
-
 .closed {
     display: none;
-}
-
-.box {
-    position: relative;
-    margin: 5px;
-    vertical-align: top;
-    scroll-snap-align: center;
-    white-space: normal;
-    touch-action: manipulation;
-}
-
-.box:has(.thumbnail:not(.hidden))[data-status=missing]::before {
-    position: absolute;
-    content: "⚙️";
-    right: 0;
-    top: 0;
 }
 
 .mapping {
@@ -171,7 +199,7 @@ a:hover {
 }
 
 .shadowed {
-    border: 2px solid var(--foreground);
+    border: 2px solid var(--accent);
     border-radius: 8px;
 }
 

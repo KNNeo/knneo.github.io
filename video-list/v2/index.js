@@ -456,6 +456,7 @@ function renderList() {
 			video.appendChild(playerDiv);
 			
 			let title = document.createElement('div');
+			title.classList.add('title');
 			
 				let titleLink = document.createElement('a');
 				titleLink.classList.add('video-link');
@@ -470,6 +471,7 @@ function renderList() {
 			video.appendChild(title);
 			
 			let channel = document.createElement('div');
+			channel.classList.add('channel');
 
 				let channelLink = document.createElement('a');
 				channelLink.classList.add('channel-link');
