@@ -73,13 +73,24 @@ a:focus-within {
 	position: relative;
 }
 
-.tags>div .category-title::after {
+.tags>div .category-title::before {
 	content: attr(data-icon);
+	font-family: "Material Icons";
+    vertical-align: top;
+	padding-left: 4px;
+    font-size: 1.25em;
+	font-weight: initial;
+}
+
+.tags>div .category-title::after {
+	content: attr(data-expand);
 	font-family: "Material Icons";
 	vertical-align: text-top;
 	padding-left: 4px;
 	font-size: 1.5em;
 	font-weight: initial;
+    position: absolute;
+    right: 0;
 }
 
 .tags>div::-webkit-scrollbar {
@@ -576,8 +587,8 @@ a:focus-within {
 	font-size: 0.9em;
 	position: fixed;
 	white-space: nowrap;
-	background-color: var(--background);
-	box-shadow: 0px 4px 3px 3px var(--background);
+	background-color: var(--accent);
+	box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 	border-radius: 8px;
 	z-index: 9;
 }
@@ -596,6 +607,7 @@ a:focus-within {
 
 .context .menu-options button {
 	width: calc(100% - 20px);
+    min-width: 120px;
 	display: flex;
 	align-items: center;
     margin: 4px;
@@ -617,14 +629,11 @@ a:focus-within {
 
 .context .menu-options button[data-selected] {
 	background-color: var(--secondary);
+	color: var(--background);
 }
 
 .context .menu-options button:hover {
-	background-color: var(--accent);
-}
-
-.context .menu-options button:hover {
-	background-color: var(--accent);
+	background-color: var(--background);
 }
 
 @media (orientation: landscape) {
@@ -714,6 +723,10 @@ a:focus-within {
 	.tags .category-title {
 		display: inline;
 		padding: 4px;
+	}
+
+	.tags>div .category-title::before {
+		content: "";
 	}
 
 	.viewer.captions .caption {

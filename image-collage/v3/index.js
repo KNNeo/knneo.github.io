@@ -240,6 +240,8 @@ function generateTagsList() {
 			title.classList.add('category-title');
 			title.title = 'Click to clear all tags in category';
 			title.innerText = current;
+			if (window.data.tag.category.icon && window.data.tag.category.icon.length > index)
+				title.setAttribute('data-icon', window.data.tag.category.icon[index]);
 			title.setAttribute('onclick', 'onClickCategoryHeader()');
 			tag.appendChild(title);
 
@@ -331,9 +333,9 @@ function generateTagsList() {
 			let category = header.closest('.tags-category');
 			let firstTag = header.nextElementSibling;
 			if (category && category.getBoundingClientRect().height > firstTag.getBoundingClientRect().height + 8)
-				header.setAttribute('data-icon', 'open_in_full');
+				header.setAttribute('data-expand', 'open_in_full');
 			else
-				header.removeAttribute('data-icon');
+				header.removeAttribute('data-expand');
 		}
 	}
 }
@@ -842,9 +844,9 @@ function resize() {
 			let category = header.closest('.tags-category');
 			let firstTag = header.nextElementSibling;
 			if (config.isLandscape() && category && category.getBoundingClientRect().height > header.getBoundingClientRect().height + firstTag.getBoundingClientRect().height + 8)
-				header.setAttribute('data-icon', 'open_in_full');
+				header.setAttribute('data-expand', 'open_in_full');
 			else
-				header.removeAttribute('data-icon');
+				header.removeAttribute('data-expand');
 		}
 	}, 200);
 	setTimeout(setMenuHeight, 300);
@@ -898,7 +900,7 @@ function onScrollSidebar() {
 }
 
 function onClickCategoryHeader() {
-	if (!event.target.getAttribute('data-icon')) return;
+	if (!event.target.getAttribute('data-expand')) return;
 	let container = event.target.closest('.tags-category');
 	if (container.querySelector('.tag[filter]')) {
 		// remove filter
@@ -1573,9 +1575,10 @@ function showContextMenu() {
 	submenu.appendChild(tagHeader);
 	let tags = Array.from(event.target.title.split('\n'));
 	if (tags.length) {
+		let index = 0;
 		for (let tag of tags) {
 			let menuItem = document.createElement('button');
-			menuItem.setAttribute('data-icon', 'label');
+			menuItem.setAttribute('data-icon', window.data.tag?.category?.icon ? window.data.tag.category.icon[index++] : 'label');
 			menuItem.setAttribute('data-id', tag);
 			if (window.include.includes(tag))
 				menuItem.setAttribute('data-selected', 'Filter by: ' + tag);
