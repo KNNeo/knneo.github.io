@@ -130,8 +130,9 @@ function createAgenda(input) {
     temp.innerHTML = input;
     let output = document.createElement('div');
     output.className = 'agenda';
-    let counter = 0;
-    for (let table of temp.querySelectorAll('table, a, img')) {
+    let items = temp.querySelectorAll('table:has(img)');
+    if (!items.length) writeMessage('No items detected');
+    for (let table of items) {
         let item = document.createElement('div');
         item.className = 'agenda-item';
         for (let link of table.querySelectorAll('a')) {
